@@ -155,9 +155,6 @@ body {
  */
 
 /* Resizable Panel System */
-.resizable-panel {
-    position: relative;
-}
 
 .panel-splitter {
     background-color: var(--octane-border, #3a3a3a);
@@ -326,6 +323,7 @@ body.resizing .panel-splitter {
         margin-bottom: 20px;
         break-inside: avoid;
     }
+}
 
 /* Ensure ReactFlow edges are clickable and interactive */
 .react-flow__edge {
@@ -507,44 +505,10 @@ body.resizing .react-flow__edge-interaction {
 }
 
 /* Drop Indicator for File Manager */
-.drop-indicator {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--octane-overlay-dark);
-    z-index: var(--z-search-dialog);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-}
 
-.drop-indicator-content {
-    background-color: var(--octane-bg-secondary);
-    border: 2px dashed var(--octane-accent-blue);
-    border-radius: var(--border-radius-large);
-    padding: 40px;
-    text-align: center;
-    color: var(--octane-text-primary);
-}
 
-.drop-indicator-icon {
-    font-size: var(--font-size-huge);
-    margin-bottom: 16px;
-}
 
-.drop-indicator-text {
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-bold);
-    margin-bottom: 8px;
-}
 
-.drop-indicator-formats {
-    font-size: var(--font-size-small);
-    color: var(--octane-text-muted);
-}
 
 /* Drag Over State */
 body.drag-over {
@@ -555,9 +519,6 @@ body.drag-over * {
     pointer-events: none;
 }
 
-body.drag-over .drop-indicator {
-    pointer-events: auto;
-}
 
 /* Modal Dialog Components */
 .modal-overlay {

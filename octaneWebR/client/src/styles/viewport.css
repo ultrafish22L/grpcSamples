@@ -3,32 +3,8 @@
  * Part of octaneWebR CSS reorganization
  */
 
-.preview-btn, .render-toggle-btn {
-    background: var(--octane-bg-primary);
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-secondary);
-    cursor: pointer;
-    padding: 3px 4px;
-    border-radius: var(--border-radius-sm);
-    font-size: var(--font-size-small);
-    width: 22px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s ease;
-}
 
-.preview-btn:hover, .render-toggle-btn:hover {
-    background: var(--octane-bg-hover);
-    color: var(--octane-text-primary);
-    border-color: var(--octane-accent-blue);
-}
 
-.preview-btn:active, .render-toggle-btn:active {
-    background: var(--octane-accent-blue);
-    color: white;
-}
 
 .preview-btn.active {
     background: var(--octane-success);
@@ -36,11 +12,6 @@
     border-color: var(--octane-success);
 }
 
-.render-toggle-btn.active {
-    background: var(--octane-warning);
-    color: white;
-    border-color: var(--octane-warning);
-}
 
 /* Material Preview Component - Official OTOY Preview Functionality */
 .material-preview {
@@ -88,33 +59,8 @@
     gap: var(--spacing-xs);
 }
 
-.preview-mode-btn {
-    background: var(--octane-bg-primary);
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-secondary);
-    cursor: pointer;
-    padding: 2px 4px;
-    border-radius: var(--border-radius-sm);
-    font-size: var(--font-size-small);
-    width: 18px;
-    height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s ease;
-}
 
-.preview-mode-btn:hover {
-    background: var(--octane-bg-hover);
-    color: var(--octane-text-primary);
-    border-color: var(--octane-accent-blue);
-}
 
-.preview-mode-btn.active {
-    background: var(--octane-accent-blue);
-    color: white;
-    border-color: var(--octane-accent-blue);
-}
 
  * BATCH RENDERING DIALOG
  * ======================================== */

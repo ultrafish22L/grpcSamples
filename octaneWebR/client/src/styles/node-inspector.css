@@ -273,154 +273,33 @@
     border-bottom: 1px solid var(--octane-border);
 }
 
-.parameter-section-header {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
-    padding: 6px 12px;
-    background-color: var(--octane-bg-secondary);
-    cursor: pointer;
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-bold);
-    color: var(--octane-text-primary);
-}
 
-.parameter-section-icon {
-    font-size: var(--font-size-small);
-    color: var(--octane-text-muted);
-}
 
-.parameter-section-title {
-    flex: 1;
-}
 
 /* Parameter Subsections */
 .parameter-subsection {
     padding: 0;
 }
 
-.parameter-subsection-header {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xl);
-    padding: 6px 20px;
-    background-color: var(--octane-bg-primary);
-    border-bottom: 1px solid var(--octane-border);
-    font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
-}
 
-.parameter-subsection-icon {
-    font-size: var(--font-size-small);
-}
 
-.parameter-subsection-title {
-    flex: 1;
-    font-weight: var(--font-weight-normal);
-}
 
-.parameter-subsection-dropdown {
-    margin-left: auto;
-}
 
 /* Octane Parameter Rows (matching reference screenshot exactly) */
-.octane-parameter-row {
-    display: flex;
-    align-items: center;
-    padding: 1px 6px;
-    min-height: 16px;
-    max-height: 16px;
-    font-size: var(--font-size-xxs);
-    color: var(--octane-text-primary);
-    border-bottom: 1px solid transparent;
-    line-height: var(--line-height-none);
-}
 
-.octane-parameter-row:hover {
-    background-color: var(--octane-highlight-barely);
-}
 
-.octane-parameter-icon {
-    width: 12px;
-    height: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 6px;
-    flex-shrink: 0;
-    position: relative;
-}
 
 /* CSS-based parameter icon (small blue circle with gear symbol) */
-.octane-parameter-icon::before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    background: var(--octane-accent-blue);
-    border-radius: var(--border-radius-circle);
-    display: block;
-    position: relative;
-}
 
-.octane-parameter-icon::after {
-    content: '⚙';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: var(--font-size-tiny);
-    color: white;
-    line-height: var(--line-height-none);
-}
 
 /* Color parameter icon (palette icon instead of gear) */
-.octane-parameter-icon.color-param::after {
-    content: '🎨';
-    font-size: var(--font-size-micro);
-}
 
-.octane-parameter-label {
-    flex: 1;
-    font-weight: normal;
-    color: var(--octane-text-primary);
-    margin-right: 6px;
-    min-width: 80px;
-    max-width: 120px;
-}
 
-.octane-parameter-name {
-    font-size: var(--font-size-xxs);
-    color: var(--octane-text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: var(--line-height-none);
-}
 
-.octane-parameter-control {
-    display: flex;
-    align-items: center;
-    min-width: 100px;
-    max-width: 140px;
-    justify-content: flex-end;
-    flex-shrink: 0;
-}
 
 /* Parameter Input Containers */
-.parameter-input-container {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
-    min-width: 120px;
-}
 
-.parameter-input-container.dual-input {
-    gap: var(--spacing-xs);
-}
 
-.parameter-input-container.dual-input .parameter-number-input {
-    width: 50px;
-}
 
 /* Parameter Control Wrappers (matching reference screenshot) */
 .parameter-control-wrapper {
@@ -433,10 +312,6 @@
     gap: var(--spacing-xxs);
 }
 
-.parameter-control-wrapper.parameter-vector3 .parameter-vector-component {
-    width: 38px;
-    margin-right: 1px;
-}
 
 /* Parameter Number Inputs (matching reference screenshot exactly) */
 .parameter-number-input {
@@ -460,18 +335,7 @@
 }
 
 /* Parameter Color Bars (matching reference screenshot) */
-.parameter-color-bar {
-    width: 100px;
-    height: 12px;
-    border: 1px solid var(--octane-node-bg);
-    border-radius: var(--border-radius-xs);
-    cursor: pointer;
-    display: block;
-}
 
-.parameter-color-bar:hover {
-    border-color: var(--octane-accent-blue);
-}
 
 /* Parameter Checkboxes (matching reference screenshot) */
 .parameter-checkbox {
@@ -535,10 +399,6 @@
 }
 
 /* Parameter Sliders */
-.parameter-slider-container {
-    flex: 1;
-    min-width: 40px;
-}
 
 .parameter-slider {
     position: relative;
@@ -548,32 +408,8 @@
     cursor: pointer;
 }
 
-.parameter-slider-track {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    background-color: var(--octane-accent-blue);
-    border-radius: var(--border-radius-sm);
-    width: 50%;
-}
 
-.parameter-slider-thumb {
-    position: absolute;
-    top: -2px;
-    width: 8px;
-    height: 8px;
-    background-color: var(--octane-accent-blue);
-    border-radius: var(--border-radius-circle);
-    cursor: grab;
-    left: 50%;
-    transform: translateX(-50%);
-}
 
-.parameter-slider-thumb:active {
-    cursor: grabbing;
-    /* Note: layout.css:318 has scale(1.2) but this version needs translateX to maintain centering */
-}
 
 /* Parameter Checkboxes (matching octaneWeb exactly) */
 .parameter-checkbox-container {
@@ -602,44 +438,10 @@
 }
 
 /* Color Parameter Controls (matching reference screenshot) */
-.parameter-color-container {
-    display: flex;
-    align-items: center;
-    width: 140px;
-    height: 16px;
-    position: relative;
-}
 
-.parameter-color-preview {
-    width: 100%;
-    height: 16px;
-    border: 1px solid var(--octane-bg-header);
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    position: relative;
-}
 
-.parameter-color-picker {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: var(--opacity-invisible);
-    cursor: pointer;
-    border: none;
-    background: none;
-}
 
-.parameter-color-picker::-webkit-color-swatch-wrapper {
-    padding: 0;
-    border: none;
-}
 
-.parameter-color-picker::-webkit-color-swatch {
-    border: none;
-    border-radius: var(--border-radius-none);
-}
 
 /* Node Inspector Layout - Official OTOY Design with Vertical Quick Access Buttons */
 .node-inspector-layout {
@@ -781,131 +583,21 @@
     padding: 2px 0;
 }
 
-.param-row {
-    display: flex;
-    align-items: center;
-    padding: 2px 8px;
-    min-height: 20px;
-    gap: var(--spacing-lg);
-}
 
-.param-row:hover {
-    background: var(--octane-bg-hover);
-}
 
-.param-icon {
-    font-size: var(--font-size-small);
-    width: 14px;
-    text-align: center;
-    flex-shrink: 0;
-}
 
-.param-label {
-    font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
-    min-width: 80px;
-    flex-shrink: 0;
-}
 
-.param-dropdown {
-    background: var(--octane-bg-primary);
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-primary);
-    font-size: var(--font-size-small);
-    padding: 1px 4px;
-    border-radius: var(--border-radius-sm);
-    flex: 1;
-    min-width: 0;
-}
 
-.param-control {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-    flex: 1;
-}
 
-.param-slider {
-    flex: 1;
-    height: 4px;
-    background: var(--octane-bg-secondary);
-    border-radius: var(--border-radius-sm);
-    outline: none;
-    -webkit-appearance: none;
-}
 
-.param-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    background: var(--octane-accent);
-    border-radius: var(--border-radius-circle);
-    cursor: pointer;
-}
 
-.param-slider::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    background: var(--octane-accent);
-    border-radius: var(--border-radius-circle);
-    cursor: pointer;
-    border: none;
-}
 
-.param-number {
-    background: var(--octane-bg-primary);
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-primary);
-    font-size: var(--font-size-small);
-    padding: 1px 4px;
-    border-radius: var(--border-radius-sm);
-    width: 50px;
-    text-align: right;
-}
 
-.param-number-small {
-    background: var(--octane-bg-primary);
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-primary);
-    font-size: var(--font-size-small);
-    padding: 1px 4px;
-    border-radius: var(--border-radius-sm);
-    width: 40px;
-    text-align: right;
-}
 
-.param-dual-input {
-    display: flex;
-    gap: var(--spacing-md);
-    flex: 1;
-}
 
-.param-checkbox {
-    width: 14px;
-    height: 14px;
-    accent-color: var(--octane-accent);
-}
 
-.param-color-picker {
-    width: 20px;
-    height: 14px;
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    flex-shrink: 0;
-}
 
-.param-color-picker:hover {
-    border-color: var(--octane-accent);
-}
 
-.param-grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: var(--spacing-xxs);
-    flex: 1;
-    max-width: 200px;
-}
 
 .grid-button {
     background: var(--octane-bg-secondary);
@@ -1049,20 +741,7 @@
 }
 
 /* Numeric Slider Controls */
-.parameter-numeric-slider-container {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xl);
-    width: 100%;
-}
 
-.parameter-slider-wrapper {
-    position: relative;
-    flex: 1;
-    height: 20px;
-    display: flex;
-    align-items: center;
-}
 
 .parameter-slider {
     width: 100%;
@@ -1093,44 +772,10 @@
     border: 1px solid var(--octane-border);
 }
 
-.parameter-slider-track {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--octane-bg-secondary);
-    border-radius: var(--border-radius-sm);
-    transform: translateY(-50%);
-    pointer-events: none;
-}
 
-.parameter-slider-fill {
-    height: 100%;
-    background: var(--octane-accent);
-    border-radius: var(--border-radius-sm);
-    transition: width 0.1s ease;
-}
 
-.parameter-slider-thumb {
-    position: absolute;
-    top: 50%;
-    width: 12px;
-    height: 12px;
-    background: var(--octane-accent);
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-circle);
-    transform: translate(-50%, -50%);
-    transition: left 0.1s ease;
-    pointer-events: none;
-}
 
 /* Numeric Input Controls */
-.parameter-numeric-input-container {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-}
 
 /* Removed duplicate - consolidated in Numeric Input Controls section at line ~3588 */
 
@@ -1141,40 +786,12 @@
 }
 
 .param-increment,
-.param-decrement {
-    width: 14px;
-    height: 9px;
-    background: var(--octane-bg-secondary);
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-secondary);
-    cursor: pointer;
-    font-size: var(--font-size-tiny);
-    line-height: var(--line-height-none);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-}
 
-.param-increment {
-    border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
-}
 
-.param-decrement {
-    border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
-}
 
 .param-increment:hover,
-.param-decrement:hover {
-    background: var(--octane-bg-hover);
-    color: var(--octane-text-primary);
-}
 
 .param-increment:active,
-.param-decrement:active {
-    background: var(--octane-accent);
-    color: white;
-}
 
 /* CONSOLIDATED: Merged 3 duplicate definitions */
 .parameter-unit {
@@ -1188,10 +805,6 @@
 /* Removed duplicate - consolidated at line ~3570 */
 
 /* Dropdown Controls */
-.parameter-dropdown-container {
-    position: relative;
-    width: 100%;
-}
 
 .parameter-dropdown {
     width: 100%;
@@ -1212,100 +825,17 @@
     background: var(--octane-bg-primary);
 }
 
-.parameter-dropdown-arrow {
-    position: absolute;
-    right: 6px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: var(--font-size-tiny);
-    color: var(--octane-text-secondary);
-    pointer-events: none;
-}
 
 /* Color Picker Controls */
-.parameter-color-container {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
-}
 
-.parameter-color-preview {
-    width: 20px;
-    height: 20px;
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-md);
-    cursor: pointer;
-}
 
-.parameter-color-picker {
-    width: 0;
-    height: 0;
-    opacity: var(--opacity-invisible);
-    position: absolute;
-    pointer-events: none;
-}
 
-.parameter-color-hex {
-    width: 60px;
-    height: 20px;
-    background: var(--octane-bg-secondary);
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-md);
-    color: var(--octane-text-primary);
-    font-size: var(--font-size-small);
-    padding: 0 4px;
-    font-family: var(--font-family-mono);
-    text-transform: uppercase;
-}
 
-.parameter-color-hex:focus {
-    outline: none;
-    border-color: var(--octane-accent);
-    background: var(--octane-bg-primary);
-}
 
 /* Vector Input Controls */
-.parameter-vector2-container,
-.parameter-vector3-container {
-    display: flex;
-    gap: var(--spacing-lg);
-    align-items: center;
-}
 
-.parameter-vector-input {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-}
-
-.parameter-vector-input label {
-    font-size: var(--font-size-small);
-    color: var(--octane-text-secondary);
-    min-width: 12px;
-}
-
-.parameter-vector-component {
-    width: 45px;
-    height: 20px;
-    background: var(--octane-bg-secondary);
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-md);
-    color: var(--octane-text-primary);
-    font-size: var(--font-size-small);
-    padding: 0 4px;
-    text-align: right;
-}
-
-.parameter-vector-component:focus {
-    outline: none;
-    border-color: var(--octane-accent);
-    background: var(--octane-bg-primary);
-}
 
 /* Text Input Controls */
-.parameter-text-container {
-    width: 100%;
-}
 
 /* Removed duplicate - overridden by multi-selector at line ~3605 in Numeric Input Controls section */
 
@@ -1574,56 +1104,11 @@
 
 /* ===== OCTANE PARAMETER ROW STYLES ===== */
 /* New parameter control styles for GenericNodeRenderer */
-.octane-parameter-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 2px 8px;
-    min-height: 20px;
-    background: transparent;
-    border-radius: var(--border-radius-sm);
-    transition: background-color 0.15s ease;
-    gap: var(--spacing-3xl);
-}
 
-.octane-parameter-row:hover {
-    background: var(--octane-highlight-soft);
-}
 
-.octane-parameter-label {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
-    flex: 0 0 auto;
-    min-width: 120px;
-    max-width: 180px;
-}
 
-.octane-parameter-icon {
-    font-size: var(--font-size-large);
-    width: 16px;
-    text-align: center;
-    flex-shrink: 0;
-}
 
-.octane-parameter-name {
-    font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
-    font-weight: var(--font-weight-normal);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: grid;
-}
 
-.octane-parameter-control {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: var(--spacing-md);
-    flex-shrink: 0;
-    max-width: 200px;
-}
 
 /* Individual control styles - Match Octane Studio with 3D recessed effect */
 .octane-checkbox {
@@ -1809,41 +1294,9 @@
 }
 
 /* Vector control styles */
-.octane-vector-control {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: var(--spacing-xs);
-    flex-direction: row;
-}
 
-.octane-vector-input {
-    width: 45px;
-    height: 18px;
-    background: var(--octane-bg-primary);
-    border: 1px solid var(--octane-bg-header);
-    border-radius: var(--border-radius-sm);
-    color: var(--octane-bg-header);
-    font-size: var(--font-size-small);
-    padding: 1px 3px;
-    text-align: right;
-    font-family: var(--font-family-mono);
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
 
-.octane-vector-input:focus {
-    outline: none;
-    border-color: var(--octane-accent);
-    background: var(--octane-border-dark);
-}
 
-.vector-separator {
-    color: var(--octane-text-secondary);
-    font-size: var(--font-size-small);
-    margin: 0 1px;
-}
 
 /* Parameter rows within nodes - ONLY for Node Inspector */
 .node-inspector .node-parameter-row {
@@ -1881,14 +1334,7 @@
 }
 
 /* Pin group specific styles */
-.pin-group {
-    background: var(--octane-bg-tertiary);
-}
 
-.pin-group .node-title {
-    font-weight: var(--font-weight-bold);
-    color: var(--octane-text-primary);
-}
 
 /* Parameter specific styles */
 .parameter {
@@ -1970,82 +1416,18 @@
 
 /* Numeric Input Controls */
 .parameter-number-input,
-.parameter-text-input {
-    width: 60px;
-    height: 20px;
-    padding: 2px 4px;
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-md);
-    background: var(--octane-bg-primary);
-    color: var(--octane-text-primary);
-    font-size: var(--font-size-small);
-    font-family: var(--font-family);
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-}
 
 .parameter-number-input:focus,
-.parameter-text-input:focus {
-    outline: none;
-    border-color: var(--octane-accent);
-    box-shadow: 0 0 0 1px var(--octane-accent);
-}
 
 /* Vector Controls */
-.parameter-vector-container {
-    gap: var(--spacing-xs);
-}
 
-.parameter-vector-input {
-    width: 40px;
-    height: 20px;
-    padding: 2px 4px;
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-md);
-    background: var(--octane-bg-primary);
-    color: var(--octane-text-primary);
-    font-size: var(--font-size-xxs);
-    font-family: var(--font-family);
-    text-align: center;
-}
 
-.parameter-vector-input:focus {
-    outline: none;
-    border-color: var(--octane-accent);
-    box-shadow: 0 0 0 1px var(--octane-accent);
-}
 
 /* Color Controls */
-.parameter-color-container {
-    align-items: center;
-    gap: var(--spacing-md);
-}
 
-.parameter-color-preview {
-    width: 16px;
-    height: 16px;
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-md);
-    cursor: pointer;
-}
 
-.parameter-color-picker {
-    width: 20px;
-    height: 20px;
-    border: none;
-    border-radius: var(--border-radius-md);
-    cursor: pointer;
-    padding: 0;
-    background: none;
-}
 
-.parameter-color-picker::-webkit-color-swatch-wrapper {
-    padding: 0;
-}
 
-.parameter-color-picker::-webkit-color-swatch {
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-md);
-}
 
  * Styled exactly like Node Inspector Controls (.quick-btn)
  * Docked on left side matching Octane SE

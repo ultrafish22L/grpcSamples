@@ -240,12 +240,6 @@ html, body {
     margin-bottom: 20px;
 }
 
-.octane-gear-logo {
-    width: 80px;
-    height: 80px;
-    color: var(--octane-accent-orange);
-    animation: spin 3s linear infinite;
-}
 
 @keyframes spin {
     from { transform: rotate(0deg); }
@@ -626,13 +620,6 @@ html, body {
 
 
 
-.tree-node-content {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 1px 3px;
-    gap: var(--spacing-sm);
-}
 
 .tree-toggle {
     width: 10px;
@@ -649,37 +636,9 @@ html, body {
     color: var(--octane-text-primary);
 }
 
-.tree-node-icon {
-    width: 14px;
-    height: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--font-size-small);
-}
 
-.tree-node-name {
-    flex: 1;
-    font-size: var(--font-size-small);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
-.tree-node-visibility {
-    width: 14px;
-    height: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--font-size-small);
-    cursor: pointer;
-    opacity: var(--opacity-strong);
-}
 
-.tree-node-visibility:hover {
-    opacity: var(--opacity-full);
-}
 
 /* Center Panel - 3D Canvas/Viewport */
 .center-panel {
@@ -847,9 +806,6 @@ html, body {
     color: var(--octane-text-secondary);
 }
 
-.viewport-status .frame-count {
-    margin-left: auto;
-}
 
 .viewport-overlay {
     position: absolute;
@@ -1131,10 +1087,6 @@ html, body {
     height: 32px;
 }
 
-.playback-controls {
-    display: flex;
-    gap: var(--spacing-xs);
-}
 
 .control-btn {
     background: none;
@@ -1256,11 +1208,6 @@ html, body {
     /* Width controlled by grid layout - no explicit width needed */
 }
 
-.node-selector-container {
-    padding: 8px;
-    border-bottom: 1px solid var(--octane-border);
-    background-color: var(--octane-bg-secondary);
-}
 
 .node-selector {
     background-color: var(--octane-bg-darker);
@@ -1278,46 +1225,15 @@ html, body {
     margin-bottom: 4px;
 }
 
-.octane-section-header {
-    background-color: var(--octane-bg-header);
-    border: 1px solid var(--octane-border);
-    padding: 4px 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
-    font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
-}
 
-.octane-section-header:hover {
-    background-color: var(--octane-bg-hover);
-}
 
-.octane-section-icon {
-    font-size: var(--font-size-xs);
-    color: var(--octane-text-secondary);
-}
 
-.octane-section-content {
-    background-color: var(--octane-bg-secondary);
-    border-left: 1px solid var(--octane-border);
-    border-right: 1px solid var(--octane-border);
-    border-bottom: 1px solid var(--octane-border);
-}
 
 .octane-subsection {
     padding: 8px;
     border-bottom: 1px solid var(--octane-border);
 }
 
-.octane-subsection-header {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
-    font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
-}
 
 .octane-node-icon {
     font-size: var(--font-size-normal);
@@ -1583,20 +1499,8 @@ html, body {
 }
 
 /* Node Palette Instructions */
-.palette-instructions {
-    padding: 12px;
-    color: var(--octane-text-secondary);
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-snug);
-}
 
-.palette-instructions p {
-    margin: 0 0 8px 0;
-}
 
-.palette-instructions p:last-child {
-    margin-bottom: 0;
-}
 
 /* Professional Input Controls - Matching Octane Reference */
 input[type="number"], 
