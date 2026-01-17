@@ -47,33 +47,6 @@
     color: var(--octane-text-primary);
 }
 
-.scene-search-container {
-    padding: 4px 6px;
-    border-bottom: 1px solid var(--octane-border);
-    background: var(--octane-bg-primary);
-}
-
-.scene-search-box {
-    width: 100%;
-    background: var(--octane-bg-secondary);
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius-sm);
-    padding: 3px 6px;
-    font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
-    outline: none;
-}
-
-.scene-search-box:focus {
-    border-color: var(--octane-accent-red);
-    box-shadow: 0 0 0 1px var(--octane-accent-red);
-}
-
-.scene-search-box::placeholder {
-    color: var(--octane-text-secondary);
-    font-style: italic;
-}
-
 .scene-outliner-content {
     flex: 1;
     overflow-y: auto;
@@ -94,131 +67,11 @@
 /* .scene-node.selected */
 /* .scene-node-indent */
 
-.scene-node-expand {
-    width: 12px;
-    text-align: center;
-    cursor: pointer;
-    color: var(--octane-text-secondary);
-    font-size: var(--font-size-xs);
-    font-family: var(--font-family-mono);
-    line-height: var(--line-height-none);
-    flex-shrink: 0;
-}
-
-.scene-node-expand:hover {
-    color: var(--octane-text-primary);
-}
-
 /* Disable pseudo-element symbols for database tree nodes (they have HTML symbols) */
 .scene-tab-content .node-toggle::before,
 .scene-tab-content .node-toggle::after {
     content: "" !important;
     display: none !important;
-}
-
-/* Keep pseudo-element symbols only for main scene tree */
-.scene-tree .scene-node-expand.expanded::before {
-    content: "▼";
-}
-
-.scene-tree .scene-node-expand.collapsed::before {
-    content: "▶";
-}
-
-.scene-tree .scene-node-expand.leaf::before {
-    content: "";
-}
-
-.scene-node-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--font-size-small);
-    flex-shrink: 0;
-}
-
-.scene-node-name {
-    flex: 1;
-    color: var(--octane-text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: var(--font-weight-normal);
-    font-size: var(--font-size-small);
-}
-
-.scene-node-handle {
-    color: var(--octane-text-secondary);
-    font-size: var(--font-size-xs);
-    margin-left: 4px;
-    font-family: var(--font-family-mono);
-    flex-shrink: 0;
-}
-
-.scene-node.selected .scene-node-handle {
-    color: var(--octane-highlight-strong);
-}
-
-/* .scene-node-visibility - see layout.css:379 */
-/* .scene-node-visibility:hover - see layout.css:392 */
-
-/* Node type specific icons */
-.scene-node-icon.scene { color: inherit; }
-.scene-node-icon.scene::before { content: "🌍"; }
-.scene-node-icon.render-target::before { content: "🎯"; color: var(--octane-accent-red); }
-.scene-node-icon.camera::before { content: "📷"; }
-.scene-node-icon.light::before { content: "💡"; color: var(--octane-text-primary)f44; }
-.scene-node-icon.geometry::before { content: "🔷"; }
-.scene-node-icon.material::before { content: "🎨"; }
-.scene-node-icon.texture::before { content: "🖼️"; }
-.scene-node-icon.group::before { content: "📂"; }
-.scene-node-icon.mesh::before { content: "▲"; }
-.scene-node-icon.transform::before { content: "🔄"; color: var(--octane-accent-green); }
-.scene-node-icon.environment::before { content: "🌅"; color: var(--octane-accent-blue); }
-.scene-node-icon.object::before { content: "⬜"; }
-.scene-node-icon.node::before { content: "⚪"; }
-.scene-node-icon.unknown::before { content: "❓"; }
-
-/* Hide any text content inside icon spans when using CSS icons */
-.scene-node-icon.scene,
-.scene-node-icon.render-target,
-.scene-node-icon.camera,
-.scene-node-icon.light,
-.scene-node-icon.geometry,
-.scene-node-icon.material,
-.scene-node-icon.texture,
-.scene-node-icon.group,
-.scene-node-icon.mesh,
-.scene-node-icon.transform,
-.scene-node-icon.environment,
-.scene-node-icon.object,
-.scene-node-icon.node,
-.scene-node-icon.unknown {
-    font-size: 0; /* Hide text content */
-}
-
-.scene-node-icon.scene::before,
-.scene-node-icon.render-target::before,
-.scene-node-icon.camera::before,
-.scene-node-icon.light::before,
-.scene-node-icon.geometry::before,
-.scene-node-icon.material::before,
-.scene-node-icon.texture::before,
-.scene-node-icon.group::before,
-.scene-node-icon.mesh::before,
-.scene-node-icon.transform::before,
-.scene-node-icon.environment::before,
-.scene-node-icon.object::before,
-.scene-node-icon.node::before,
-.scene-node-icon.unknown::before {
-    font-size: var(--font-size-small); /* Restore font size for pseudo-element */
-}
-
-.scene-node-children {
-    margin-left: 0;
 }
 
 /* Node Inspector Styling */
