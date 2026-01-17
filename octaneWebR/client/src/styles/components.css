@@ -818,61 +818,7 @@ input:checked + .slider:before {
     border-radius: var(--border-radius-none);
 }
 
-/* Viewport Components */
-.viewport-navigation {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    background-color: var(--octane-overlay-dark);
-    border-radius: var(--border-radius);
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-}
-
-.viewport-nav-btn {
-    width: 32px;
-    height: 32px;
-    background: none;
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-secondary);
-    cursor: pointer;
-    border-radius: var(--border-radius);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--font-size-large);
-    transition: all 0.15s ease;
-}
-
-.viewport-nav-btn:hover {
-    background-color: var(--octane-bg-hover);
-    color: var(--octane-text-primary);
-    border-color: var(--octane-accent-blue);
-}
-
-.viewport-gizmo {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 80px;
-    height: 80px;
-    pointer-events: none;
-}
-
 /* Node Graph Components */
-.node-graph-minimap {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    width: 150px;
-    height: 100px;
-    background-color: var(--octane-overlay-dark);
-    border: 1px solid var(--octane-border);
-    border-radius: var(--border-radius);
-}
-
 /* Node graph toolbar - consolidated from octane-theme.css and components.css duplicates */
 .node-graph-toolbar {
     position: absolute;
@@ -910,50 +856,6 @@ input:checked + .slider:before {
     background-color: var(--octane-accent-blue);
     color: white;
     border-color: var(--octane-accent-blue);
-}
-
-/* Node Socket Styles */
-.node-socket {
-    width: 12px;
-    height: 12px;
-    border-radius: var(--border-radius-circle);
-    border: 2px solid var(--octane-border);
-    background-color: var(--octane-bg-secondary);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    position: relative;
-}
-
-.node-socket:hover {
-    border-color: var(--octane-accent-blue);
-    transform: scale(1.2);
-}
-
-.node-socket.connected {
-    background-color: var(--octane-accent-blue);
-    border-color: var(--octane-accent-blue);
-}
-
-.node-socket.input {
-    margin-right: 8px;
-}
-
-.node-socket.output {
-    margin-left: 8px;
-}
-
-.node-socket-label {
-    font-size: var(--font-size-small);
-    color: var(--octane-text-secondary);
-    white-space: nowrap;
-}
-
-.node-socket.input .node-socket-label {
-    margin-left: 4px;
-}
-
-.node-socket.output .node-socket-label {
-    margin-right: 4px;
 }
 
 /* Context Menu Components */
