@@ -7,6 +7,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* Added from octane-theme.css: */
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
 }
 
 body {
@@ -253,7 +257,10 @@ body.resizing .panel-splitter {
 @media (max-width: 1400px) {
     .app-layout {
         grid-template-columns: 180px 1fr 280px;
-    }
+        /* Added from octane-theme.css: */
+        grid-template-columns: 150px 1fr 200px;
+        grid-template-rows: 1fr 200px;
+}
 }
 
 @media (max-width: 1200px) {
@@ -307,7 +314,15 @@ body.resizing .panel-splitter {
 @media print {
     .app-container {
         display: block;
-    }
+        /* Added from octane-theme.css: */
+        background-color: var(--octane-bg-primary);
+        grid-template-rows: var(--menu-height) 1fr var(--status-bar-height);
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+        width: 100vw;
+}
     
     .menu-bar, .status-bar {
         display: none;
@@ -322,7 +337,11 @@ body.resizing .panel-splitter {
         border: 1px solid var(--octane-text-primary);
         margin-bottom: 20px;
         break-inside: avoid;
-    }
+        /* Added from octane-theme.css: */
+        background-color: var(--octane-bg-secondary);
+        display: flex;
+        flex-direction: column;
+}
 }
 
 /* Ensure ReactFlow edges are clickable and interactive */

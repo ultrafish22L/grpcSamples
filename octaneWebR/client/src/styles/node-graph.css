@@ -624,6 +624,9 @@
   height: 4px;
   border-top: 1px solid var(--octane-border);
   margin: 2px 0;
+  /* Added from octane-theme.css: */
+  background-color: var(--octane-border);
+  flex-shrink: 0;
 }
 
 

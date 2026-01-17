@@ -22,6 +22,10 @@
     background-color: var(--octane-bg-primary);
     color: var(--octane-text-primary);
     font-size: var(--font-size-small);
+    /* Added from octane-theme.css: */
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    cursor: pointer;
 }
 
 .parameter-icon {
