@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
-import { SceneNode } from '../services/OctaneClient';
+import { SceneNode, NodeAddedEvent } from '../services/OctaneClient';
 import { OctaneIconMapper } from '../utils/OctaneIconMapper';
 
 const getNodeIcon = (node: SceneNode): string => {
@@ -537,6 +537,35 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, client]);
+
+  // Listen for incremental node additions
+  useEffect(() => {
+    if (!client) return;
+
+    const handleNodeAdded = (event: NodeAddedEvent) => {
+      console.log('🌲 SceneOutliner: Adding node incrementally:', event.node.name);
+      setSceneTree(prev => {
+        const updated = [...prev, event.node];
+        onSceneTreeChange?.(updated);
+        return updated;
+      });
+    };
+
+    const handleSceneTreeUpdated = (scene: any) => {
+      console.log('🌲 SceneOutliner: Full scene tree update');
+      const tree = scene.tree || [];
+      setSceneTree(tree);
+      onSceneTreeChange?.(tree);
+    };
+
+    client.on('nodeAdded', handleNodeAdded);
+    client.on('sceneTreeUpdated', handleSceneTreeUpdated);
+
+    return () => {
+      client.off('nodeAdded', handleNodeAdded);
+      client.off('sceneTreeUpdated', handleSceneTreeUpdated);
+    };
+  }, [client, onSceneTreeChange]);
 
   const handleExpandAll = () => {
     setExpandAllSignal(prev => prev + 1);

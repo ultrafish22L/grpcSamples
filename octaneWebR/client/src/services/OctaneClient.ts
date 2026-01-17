@@ -38,6 +38,11 @@ export interface Scene {
   connections: Map<number, any>;
 }
 
+export interface NodeAddedEvent {
+  node: SceneNode;
+  handle: number;
+}
+
 export class OctaneClient extends EventEmitter {
   private serverUrl: string;
   private ws: WebSocket | null = null;
@@ -390,9 +395,7 @@ export class OctaneClient extends EventEmitter {
                     
           console.log('✅ New node added to scene tree:', newNode.name);
           console.log('✅ Scene tree now has', this.scene.tree.length, 'top-level items');
-          console.log('🔍 Emitting sceneTreeUpdated event...');
-          this.emit('sceneTreeUpdated', this.scene);
-          console.log('✅ SceneTreeUpdated event emitted');
+          // Note: Event emission handled by caller (createNode emits 'nodeAdded')
         } else {
           console.error('❌ Failed to create new scene node');
         }
@@ -1355,10 +1358,18 @@ export class OctaneClient extends EventEmitter {
       const createdNodeHandle = Number(createResponse.result.handle);
       console.log('✅ Node created with handle:', createdNodeHandle);
       
-      // Step 3: Refresh scene tree
-      console.log('🔄 Refreshing scene tree...');
-      this.scene.tree = await this.buildSceneTree(createdNodeHandle);
-      this.emit('sceneUpdated', this.scene);
+      // Step 3: Add node to scene tree (incremental update)
+      console.log('➕ Adding node to scene tree...');
+      await this.buildSceneTree(createdNodeHandle);
+      
+      // Get the newly added node from the scene map
+      const newNode = this.scene.map.get(createdNodeHandle);
+      if (newNode) {
+        console.log('✅ Node added incrementally - emitting nodeAdded event');
+        this.emit('nodeAdded', { node: newNode, handle: createdNodeHandle });
+      } else {
+        console.error('❌ Failed to find newly created node in scene map');
+      }
       
       return createdNodeHandle;
     } catch (error: any) {

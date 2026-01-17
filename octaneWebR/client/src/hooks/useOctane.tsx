@@ -3,7 +3,7 @@
  */
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { OctaneClient, getOctaneClient, RenderState, Scene } from '../services/OctaneClient';
+import { OctaneClient, getOctaneClient, RenderState, Scene, NodeAddedEvent } from '../services/OctaneClient';
 
 interface OctaneContextValue {
   client: OctaneClient;
@@ -44,6 +44,16 @@ export function OctaneProvider({ children }: { children: React.ReactNode }) {
       console.log('🎯 useOctane: handleSceneTreeUpdated called with', newScene.tree.length, 'items');
       setScene(newScene);
     };
+    const handleNodeAdded = (event: NodeAddedEvent) => {
+      console.log('🎯 useOctane: handleNodeAdded called for node:', event.node.name, 'handle:', event.handle);
+      // Incremental update - just update the scene reference to trigger re-render
+      // The scene object itself was already mutated by OctaneClient.buildSceneTree
+      setScene(prevScene => {
+        if (!prevScene) return prevScene;
+        // Create a shallow copy to trigger React re-render
+        return { ...prevScene, tree: [...prevScene.tree] };
+      });
+    };
     const handleRenderStateChanged = (newState: RenderState) => {
       console.log('🎯 useOctane: handleRenderStateChanged called');
       setRenderState(newState);
@@ -52,6 +62,7 @@ export function OctaneProvider({ children }: { children: React.ReactNode }) {
     client.on('connected', handleConnected);
     client.on('disconnected', handleDisconnected);
     client.on('sceneTreeUpdated', handleSceneTreeUpdated);
+    client.on('nodeAdded', handleNodeAdded);
     client.on('renderStateChanged', handleRenderStateChanged);
 
     console.log('🎯 useOctane: Event listeners registered');
@@ -61,6 +72,7 @@ export function OctaneProvider({ children }: { children: React.ReactNode }) {
       client.off('connected', handleConnected);
       client.off('disconnected', handleDisconnected);
       client.off('sceneTreeUpdated', handleSceneTreeUpdated);
+      client.off('nodeAdded', handleNodeAdded);
       client.off('renderStateChanged', handleRenderStateChanged);
     };
   }, [client]);

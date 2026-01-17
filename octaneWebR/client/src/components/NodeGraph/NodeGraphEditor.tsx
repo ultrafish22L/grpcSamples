@@ -28,7 +28,7 @@ import {
 import { OnReconnectEnd } from '@xyflow/system';
 import '@xyflow/react/dist/style.css';
 
-import { SceneNode } from '../../services/OctaneClient';
+import { SceneNode, NodeAddedEvent } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
 import { OctaneNode, OctaneNodeData } from './OctaneNode';
 import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
@@ -244,6 +244,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
   /**
    * Load scene graph when sceneTree changes
+   * Optimization: Skip full rebuild if this is just an incremental addition
    */
   useEffect(() => {
     if (!sceneTree || sceneTree.length === 0) {
@@ -252,11 +253,79 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       return;
     }
 
-    const { nodes: graphNodes, edges: graphEdges } = convertSceneToGraph(sceneTree);
-    
-    setNodes(graphNodes);
-    setEdges(graphEdges);
-  }, [sceneTree, convertSceneToGraph, setNodes, setEdges]);
+    // Check if we're just adding nodes incrementally (nodes.length < sceneTree.length)
+    // If so, skip full rebuild - the nodeAdded event handler will add them
+    setNodes((currentNodes) => {
+      // If current graph has fewer nodes than scene tree, it means nodeAdded is handling it
+      if (currentNodes.length < sceneTree.length && currentNodes.length > 0) {
+        console.log('📊 NodeGraphEditor: Skipping full rebuild - incremental add in progress');
+        return currentNodes; // Don't rebuild
+      }
+      
+      // Full rebuild needed (deletions, initial load, or other changes)
+      console.log('📊 NodeGraphEditor: Full graph rebuild');
+      const { nodes: graphNodes, edges: graphEdges } = convertSceneToGraph(sceneTree);
+      setEdges(graphEdges);
+      return graphNodes;
+    });
+  }, [sceneTree, convertSceneToGraph, setEdges]);
+
+  /**
+   * Handle incremental node additions (no full graph rebuild)
+   */
+  useEffect(() => {
+    if (!connected || !client) return;
+
+    const handleNodeAdded = (event: NodeAddedEvent) => {
+      console.log('📊 NodeGraphEditor: Adding node incrementally:', event.node.name);
+      
+      // Convert just the new node to a ReactFlow node
+      const nodeIndex = sceneTree.length - 1; // New node position
+      const nodeSpacing = 250;
+      const yCenter = 300;
+      const handleStr = String(event.node.handle || 0);
+      
+      // Extract input pins from item.children
+      const inputs = event.node.children || [];
+      
+      const inputHandles = inputs.map((input: any, inputIndex: number) => {
+        const isConnectedNodeAtTopLevel = input.handle && sceneTree.some((topNode: SceneNode) => topNode.handle === input.handle);
+        const connectedNode = input.handle ? sceneTree.find((n: SceneNode) => n.handle === input.handle) : null;
+        const connectedNodeName = connectedNode ? (connectedNode.name || connectedNode.type) : null;
+        
+        return {
+          id: `input-${inputIndex}`,
+          label: input.staticLabel || input.name,
+          pinInfo: input.pinInfo,
+          handle: input.handle,
+          isAtTopLevel: isConnectedNodeAtTopLevel,
+          connectedNodeName,
+        };
+      });
+
+      const newReactFlowNode: Node<OctaneNodeData> = {
+        id: handleStr,
+        type: 'octane',
+        position: { x: nodeIndex * nodeSpacing, y: yCenter },
+        data: {
+          sceneNode: event.node,
+          inputs: inputHandles,
+        },
+        selected: false,
+      };
+
+      // Add node to graph without rebuilding everything
+      setNodes((nds) => [...nds, newReactFlowNode]);
+      
+      console.log('✅ NodeGraphEditor: Node added to canvas');
+    };
+
+    client.on('nodeAdded', handleNodeAdded);
+
+    return () => {
+      client.off('nodeAdded', handleNodeAdded);
+    };
+  }, [client, connected, sceneTree, setNodes]);
 
   /**
    * Synchronize node selection when selectedNode changes externally (e.g., from SceneOutliner)
