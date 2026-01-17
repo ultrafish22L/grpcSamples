@@ -375,14 +375,16 @@ export class OctaneClient extends EventEmitter {
 
   // Scene API - Port of octaneWeb syncScene() implementation
   async buildSceneTree(newNodeHandle?: number): Promise<SceneNode[]> {
-    // Optimized update: if a specific node handle is provided, only add that new node
+    // Optimized update: if a specific node handle is provided, only build node metadata
+    // Don't push to client.scene.tree - let event handlers update their own trees
     if (newNodeHandle !== undefined) {
-      console.log('➕ Adding new node to scene tree:', newNodeHandle);
+      console.log('➕ Building new node metadata:', newNodeHandle);
       
       try {
-          // Add the new node at level 1 (top-level)
+          // Create a temporary array to build the node (don't mutate client.scene.tree)
+          const tempArray: SceneNode[] = [];
           const newNode = await this.addSceneItem(
-          this.scene.tree, 
+          tempArray, 
           { handle: newNodeHandle }, 
           null, 
           1
@@ -393,16 +395,16 @@ export class OctaneClient extends EventEmitter {
           console.log(`🔄 Building children for new node: ${newNode.name}`);
           await this.addItemChildren(newNode);
                     
-          console.log('✅ New node added to scene tree:', newNode.name);
-          console.log('✅ Scene tree now has', this.scene.tree.length, 'top-level items');
-          // Note: Event emission handled by caller (createNode emits 'nodeAdded')
+          console.log('✅ Node metadata built:', newNode.name);
+          // Note: Node is in map but NOT in client.scene.tree yet
+          // Event handlers will add it to their own tree copies
         } else {
           console.error('❌ Failed to create new scene node');
         }
         
         return this.scene.tree;
       } catch (error: any) {
-        console.error('❌ Failed to add new node to scene tree:', error.message);
+        console.error('❌ Failed to build new node metadata:', error.message);
         throw error;
       }
     }
