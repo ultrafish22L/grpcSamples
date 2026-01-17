@@ -1,17 +1,21 @@
 /**
  * Octane Render Studio Standalone Edition - Official Dark Theme
+ * 
  * Pixel-perfect recreation of Octane Render Studio SE interface
  * Reference: https://docs.otoy.com/standaloneSE/
+ * 
  * THEME SCOPE:
  * - Dark theme only (Octane SE has no light mode)
  * - All colors matched to official Octane SE screenshots
  * - CSS variables provide single source of truth for theme
+ * 
  * STRUCTURE:
  * 1. Color palette (backgrounds, text, accents, borders)
  * 2. Spacing & sizing variables (padding, margins, dimensions)
  * 3. Typography (font-size, font-weight, line-height)
  * 4. Visual effects (opacity, shadows, transitions, z-index)
  * 5. Component-specific styles (global scope)
+ * 
  * MAINTENANCE:
  * - Do NOT add light theme variants
  * - All color changes must reference Octane SE screenshots
@@ -194,6 +198,12 @@
 }
 
 /* Global Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html, body {
     height: 100%;
     overflow: hidden;
@@ -264,6 +274,17 @@ html, body {
 }
 
 /* Application Container */
+.app-container {
+    display: grid;
+    grid-template-rows: var(--menu-height) 1fr var(--status-bar-height);
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--octane-bg-primary);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
 /* Menu Bar */
 .menu-bar {
     background-color: var(--octane-bg-header);
@@ -298,6 +319,12 @@ html, body {
 }
 
 /* Connection Status */
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4xl);
+}
+
 .status-indicator {
     display: flex;
     align-items: center;
@@ -329,10 +356,30 @@ html, body {
 }
 
 /* Main Layout */
+.app-layout {
+    display: grid;
+    grid-template-columns: 200px 4px 1fr 4px 320px; /* Will be overridden by inline styles */
+    grid-template-rows: 770px 4px 1fr; /* Will be overridden by inline styles: top-height, splitter, bottom */
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%; 
+    background-color: var(--octane-bg-primary);
+    overflow: hidden; /* Prevent layout overflow */
+    gap: var(--spacing-none); /* No gaps between grid areas */
+    margin: 0;
+    padding: 0;
+}
+
 /* Panel Base Styles 
     border-right: 1px solid var(--octane-border);
 
 */
+.panel {
+    background-color: var(--octane-bg-secondary);
+    display: flex;
+    flex-direction: column;
+}
 .panel-horz {
     background-color: var(--octane-bg-secondary);
     border-right: 1px solid var(--octane-border);
@@ -429,6 +476,19 @@ html, body {
 .scene-outliner-search:focus {
     outline: none;
     border-color: var(--octane-accent);
+}
+
+.scene-tree {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: var(--octane-bg-primary);
+    min-height: 0; /* Allow flex item to shrink below content size */
+    max-height: 100%; /* Prevent tree from exceeding container */
+    position: relative; /* Establish positioning context */
+    contain: layout style; /* CSS containment for performance and boundaries */
+    display: flex;
+    flex-direction: column; /* Stack tree nodes vertically */
 }
 
 .tree-node {
@@ -891,6 +951,14 @@ html, body {
     border-color: var(--octane-accent-blue);
 }
 
+.toolbar-separator {
+    width: 1px;
+    height: 18px;
+    background-color: var(--octane-border);
+    margin: 0 3px;
+    flex-shrink: 0;
+}
+
 /* Camera Presets Menu */
 .camera-presets-menu {
     position: absolute;
@@ -1100,6 +1168,17 @@ html, body {
     left: 0;
 }
 
+.node-palette {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    width: 60px;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    padding: 4px;
+}
+
 /* Right Panel - Node Inspector */
 .right-panel {
     background-color: var(--octane-bg-secondary); /* Professional dark background */
@@ -1115,6 +1194,17 @@ html, body {
     /* Width controlled by grid layout - no explicit width needed */
 }
 
+
+.node-selector {
+    background-color: var(--octane-bg-darker);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    width: 100%;
+}
 
 /* Octane-style sections and parameter groups */
 .octane-section {
@@ -1217,9 +1307,18 @@ html, body {
 
 /* Responsive Design */
 @media (max-width: 1200px) {
+    .app-layout {
+        grid-template-columns: 220px 1fr 250px;
+        grid-template-rows: 1fr 250px; /* Smaller node graph on smaller screens */
+    }
 }
 
 @media (max-width: 900px) {
+    .app-layout {
+        grid-template-columns: 150px 1fr 200px;
+        grid-template-rows: 1fr 200px; /* Even smaller node graph */
+    }
+    
     .render-info {
         display: none;
     }
@@ -1227,6 +1326,11 @@ html, body {
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 /* High Contrast Mode */
@@ -1347,6 +1451,12 @@ html, body {
 }
 
 /* Context menu separator */
+.context-menu-separator {
+    height: 1px;
+    background-color: var(--octane-border);
+    margin: 2px 0;
+}
+
 /* Scrollbar styling for context menu and submenus */
 .node-context-menu::-webkit-scrollbar,
 .context-submenu::-webkit-scrollbar,
