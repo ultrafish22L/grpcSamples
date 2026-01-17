@@ -264,10 +264,6 @@ body {
   padding: 8px;
 }
 
-.scene-tree-item {
-  margin: 2px 0;
-}
-
 .tree-node {
   display: flex;
   align-items: center;
