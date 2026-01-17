@@ -451,12 +451,7 @@ html, body {
     position: relative; /* Establish positioning context */
 }
 
-.scene-loading {
-    padding: 20px;
-    text-align: center;
-    color: var(--octane-text-muted);
-    font-style: italic;
-}
+/* .scene-loading - removed duplicate, see scene-outliner.css line 384 (superset with font-size) */
 
 /* Scene Outliner Tree Styles */
 .scene-outliner-toolbar {
@@ -1162,18 +1157,7 @@ html, body {
     color: var(--octane-text-primary);
 }
 
-.node-graph-container {
-    flex: 1; /* Take remaining space in the node graph section */
-    display: flex; /* Horizontal layout: toolbar on left, editor on right */
-    flex-direction: row; /* Toolbar left, editor right */
-    position: relative;
-    background-color: var(--octane-bg-darker);
-    overflow: hidden; /* Prevent scrollbars and contain canvas */
-    contain: layout style paint; /* CSS containment for better performance */
-    width: 100%; /* Explicit width for ReactFlow */
-    height: 100%; /* Explicit height for ReactFlow */
-    min-height: 150px; /* Minimum height for ReactFlow */
-}
+/* .node-graph-container - removed duplicate, see node-graph.css line 548 (exact match) */
 
 .node-graph {
     flex: 1;
