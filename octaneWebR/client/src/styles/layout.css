@@ -229,6 +229,7 @@ body.resizing .panel-splitter {
     border-radius: var(--border-radius-md);
     min-height: 24px;
     gap: var(--spacing-xl); /* Keep gap from grid version */
+    transition: background-color 0.2s ease; /* Consolidated from components.css:2838 */
 }
 
 .parameter-row:hover {

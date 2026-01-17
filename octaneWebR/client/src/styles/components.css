@@ -1022,6 +1022,7 @@ input:checked + .slider:before {
 
 .parameter-slider-thumb:active {
     cursor: grabbing;
+    /* Note: layout.css:318 has scale(1.2) but this version needs translateX to maintain centering */
 }
 
 /* Parameter Checkboxes (matching octaneWeb exactly) */
@@ -2835,9 +2836,7 @@ body.drag-over .drop-indicator {
 /* Removed duplicate - overridden by multi-selector at line ~3605 in Numeric Input Controls section */
 
 /* Parameter Animation Effects */
-.parameter-row {
-    transition: background-color 0.2s ease;
-}
+/* .parameter-row consolidated in layout.css:223 */
 
 .parameter-number-input,
 .parameter-dropdown {
