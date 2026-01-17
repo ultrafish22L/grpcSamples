@@ -43,6 +43,11 @@ export interface NodeAddedEvent {
   handle: number;
 }
 
+export interface NodeDeletedEvent {
+  handle: number;
+  collapsedChildren: number[];
+}
+
 export class OctaneClient extends EventEmitter {
   private serverUrl: string;
   private ws: WebSocket | null = null;
@@ -1471,7 +1476,9 @@ export class OctaneClient extends EventEmitter {
       this.scene.tree = this.scene.tree.filter(n => n.handle !== nodeHandle);
       
       console.log('✅ Scene map and tree updated (optimized)');
-      this.emit('sceneUpdated', this.scene);
+      
+      // Emit incremental delete event (no full rebuild needed)
+      this.emit('nodeDeleted', { handle: nodeHandle, collapsedChildren });
       
       return true;
     } catch (error: any) {

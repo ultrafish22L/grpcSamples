@@ -28,7 +28,7 @@ import { NodeGraphToolbar } from './components/NodeGraph/NodeGraphToolbar';
 import { MaterialDatabase } from './components/MaterialDatabase';
 import { SaveRenderDialog } from './components/SaveRenderDialog';
 import { ExportPassesDialog } from './components/ExportPassesDialog';
-import { SceneNode } from './services/OctaneClient';
+import { SceneNode, NodeDeletedEvent } from './services/OctaneClient';
 
 function AppContent() {
   const { client, connect, connected } = useOctane();
@@ -197,23 +197,16 @@ function AppContent() {
     });
   }, [connect]);
 
-  // Listen for scene updates (node deletions, additions, etc.)
+  // Listen for node deletion events
   useEffect(() => {
     if (!client) return;
 
-    const handleSceneUpdated = (scene: any) => {
-      console.log('🔄 Scene updated - refreshing UI components');
-      
-      // Update scene tree from client's internal state
-      const updatedTree = scene.tree || [];
-      setSceneTree(updatedTree);
-      
-      // Trigger SceneOutliner refresh (force re-mount to sync its internal state)
-      setSceneRefreshTrigger(prev => prev + 1);
+    const handleNodeDeleted = (event: NodeDeletedEvent) => {
+      console.log('🗑️ App: Node deleted event received:', event.handle);
       
       // If selected node was deleted, clear selection (Node Inspector behavior)
       setSelectedNode(current => {
-        if (current && !scene.map?.has(current.handle)) {
+        if (current && current.handle === event.handle) {
           console.log('⚠️ Selected node was deleted - clearing selection');
           return null;
         }
@@ -221,16 +214,16 @@ function AppContent() {
       });
     };
 
-    // Listen for scene updates (emitted by deleteNodeOptimized, etc.)
+    // Listen for node deletion (emitted by deleteNodeOptimized)
     // NOTE: nodeAdded is handled by SceneOutliner, which propagates via onSceneTreeChange
-    client.on('sceneUpdated', handleSceneUpdated);
+    client.on('nodeDeleted', handleNodeDeleted);
     
-    console.log('✅ Listening for sceneUpdated event');
+    console.log('✅ Listening for nodeDeleted event');
 
     // Cleanup listener on unmount
     return () => {
-      client.off('sceneUpdated', handleSceneUpdated);
-      console.log('🔇 Stopped listening for sceneUpdated event');
+      client.off('nodeDeleted', handleNodeDeleted);
+      console.log('🔇 Stopped listening for nodeDeleted event');
     };
   }, [client]); // Only re-register when client changes, not on every selection
 

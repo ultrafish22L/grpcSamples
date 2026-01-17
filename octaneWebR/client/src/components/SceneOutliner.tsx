@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
-import { SceneNode, NodeAddedEvent } from '../services/OctaneClient';
+import { SceneNode, NodeAddedEvent, NodeDeletedEvent } from '../services/OctaneClient';
 import { OctaneIconMapper } from '../utils/OctaneIconMapper';
 
 const getNodeIcon = (node: SceneNode): string => {
@@ -551,6 +551,25 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
       });
     };
 
+    const handleNodeDeleted = (event: NodeDeletedEvent) => {
+      console.log('🌲 SceneOutliner: Removing node incrementally:', event.handle);
+      setSceneTree(prev => {
+        // Recursively filter out deleted node and its children from tree
+        const filterDeleted = (nodes: SceneNode[]): SceneNode[] => {
+          return nodes
+            .filter(n => n.handle !== event.handle)
+            .map(n => ({
+              ...n,
+              children: n.children ? filterDeleted(n.children) : []
+            }));
+        };
+        
+        const updated = filterDeleted(prev);
+        onSceneTreeChange?.(updated);
+        return updated;
+      });
+    };
+
     const handleSceneTreeUpdated = (scene: any) => {
       console.log('🌲 SceneOutliner: Full scene tree update');
       const tree = scene.tree || [];
@@ -559,10 +578,12 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     };
 
     client.on('nodeAdded', handleNodeAdded);
+    client.on('nodeDeleted', handleNodeDeleted);
     client.on('sceneTreeUpdated', handleSceneTreeUpdated);
 
     return () => {
       client.off('nodeAdded', handleNodeAdded);
+      client.off('nodeDeleted', handleNodeDeleted);
       client.off('sceneTreeUpdated', handleSceneTreeUpdated);
     };
   }, [client, onSceneTreeChange]);
