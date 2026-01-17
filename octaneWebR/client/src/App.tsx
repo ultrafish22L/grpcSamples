@@ -28,7 +28,7 @@ import { NodeGraphToolbar } from './components/NodeGraph/NodeGraphToolbar';
 import { MaterialDatabase } from './components/MaterialDatabase';
 import { SaveRenderDialog } from './components/SaveRenderDialog';
 import { ExportPassesDialog } from './components/ExportPassesDialog';
-import { SceneNode, NodeAddedEvent } from './services/OctaneClient';
+import { SceneNode } from './services/OctaneClient';
 
 function AppContent() {
   const { client, connect, connected } = useOctane();
@@ -221,27 +221,16 @@ function AppContent() {
       });
     };
 
-    const handleNodeAdded = (event: NodeAddedEvent) => {
-      console.log('➕ Node added - updating UI incrementally:', event.node.name);
-      
-      // Update scene tree incrementally (no forced re-mount)
-      setSceneTree(prev => [...prev, event.node]);
-      
-      // NO setSceneRefreshTrigger call - this prevents the flash!
-      // Selection unchanged - new nodes don't change selection
-    };
-
     // Listen for scene updates (emitted by deleteNodeOptimized, etc.)
+    // NOTE: nodeAdded is handled by SceneOutliner, which propagates via onSceneTreeChange
     client.on('sceneUpdated', handleSceneUpdated);
-    client.on('nodeAdded', handleNodeAdded);
     
-    console.log('✅ Listening for sceneUpdated and nodeAdded events');
+    console.log('✅ Listening for sceneUpdated event');
 
     // Cleanup listener on unmount
     return () => {
       client.off('sceneUpdated', handleSceneUpdated);
-      client.off('nodeAdded', handleNodeAdded);
-      console.log('🔇 Stopped listening for sceneUpdated and nodeAdded events');
+      console.log('🔇 Stopped listening for sceneUpdated event');
     };
   }, [client]); // Only re-register when client changes, not on every selection
 
