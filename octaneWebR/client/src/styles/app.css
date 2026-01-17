@@ -390,29 +390,20 @@ body.resizing .react-flow__edge-interaction {
     cursor: pointer !important;
 }
 
-/* ReactFlow Handle (Pin) Styling - Solid appearance like Octane */
+/* ReactFlow Handle (Pin) Styling - Vibrant colors like Octane */
 .react-flow__handle {
     /* Minimal shadow for depth - no inset shadows to keep solid appearance */
     box-shadow: 0 1px 2px var(--octane-overlay-subtle);
-    
-    /* Moderate desaturation - original darker look */
-    filter: saturate(0.5) brightness(0.7);
     
     /* Ensure smooth rendering */
     transition: all 0.15s ease;
 }
 
-/* Hover state - slightly brighter but still muted */
+/* Hover state - subtle glow */
 .react-flow__handle:hover {
-    filter: saturate(0.6) brightness(0.8);
     box-shadow: 
         0 1px 2px var(--octane-shadow-medium),
         0 0 4px var(--octane-highlight-medium); /* Subtle outer glow */
-}
-
-/* Connected handles - maintain muted appearance */
-.react-flow__handle.connected {
-    filter: saturate(0.6) brightness(0.75);
 }
   /*
           background: linear-gradient(to bottom, #4CAF50 0%, #45a049 100%), 
@@ -420,8 +411,8 @@ body.resizing .react-flow__edge-interaction {
         */
 /* Octane Node Body Styling - Match Reference 3D Button Effect */
 .octane-node {
-    /* Much darker gradient - half as bright to match Octane reference */
-    background: linear-gradient(180deg, 
+    /* 3D gradient overlay - use background-image to layer over inline backgroundColor */
+    background-image: linear-gradient(180deg, 
         var(--octane-highlight-ultra-subtle) 0%,  /* 0.084 / 2 = 0.042 */
         var(--octane-shadow-ultra-subtle) 100%    /* 0.105 / 2 = 0.053 */
     );
@@ -431,9 +422,6 @@ body.resizing .react-flow__edge-interaction {
         inset 0 2px 1px var(--octane-highlight-subtle),   /* 0.105 / 2 = 0.053 */
         inset 0 -2px 1px var(--octane-overlay-light),         
         0 2px 3px var(--octane-shadow-heavy);                
-    
-    /* Only desaturation - NO brightness filter to keep text bright */
-    filter: saturate(1.0);
     
     /* Smooth transitions */
     transition: all 0.15s ease;
@@ -448,10 +436,9 @@ body.resizing .react-flow__edge-interaction {
         0 2px 4px var(--octane-shadow-heavy);
 }
 
-/* ReactFlow Edge (Connection Line) Styling - Muted Colors */
+/* ReactFlow Edge (Connection Line) Styling - Vibrant Colors */
 .react-flow__edge path {
-    /* Moderate desaturation - original darker look */
-    filter: saturate(0.5) brightness(0.7);
+    /* No filter - use vibrant colors like Octane */
 }
 
 

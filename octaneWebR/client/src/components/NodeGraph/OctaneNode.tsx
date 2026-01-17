@@ -88,11 +88,8 @@ function _desaturateColor(hex: string, amount: number = 0.5): string {
 
 /**
  * Fully saturate a color (make it vibrant)
- * Currently unused but kept for future use
  */
-// @ts-ignore - Kept for future use
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _saturateColor(hex: string): string {
+function saturateColor(hex: string): string {
   const hsl = hexToHsl(hex);
   return hslToHex(hsl.h, 100, hsl.l);
 }
@@ -201,12 +198,10 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
       
       {/* Input handles on top */}
       {inputs.map((input: any, index: number) => {
-        // @ts-ignore - Kept for future use with saturateColor
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const _rawSocketColor = input.pinInfo?.pinColor !== undefined
+        const rawSocketColor = input.pinInfo?.pinColor !== undefined
           ? OctaneIconMapper.formatColorValue(input.pinInfo.pinColor)
           : '#f3dcde';
-        const socketColor = rawNodeColor; // saturateColor(_rawSocketColor); // Fully saturated for vibrant pins
+        const socketColor = saturateColor(rawSocketColor); // Fully saturated for vibrant pins
         
         const inputSpacing = calculatedWidth / (inputs.length + 1);
         const socketX = inputSpacing * (index + 1) - calculatedWidth / 2;
@@ -303,12 +298,10 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
 
       {/* Output handle on bottom */}
       {output && (() => {
-        // @ts-ignore - Kept for future use with saturateColor
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const _rawOutputColor = sceneNode.nodeInfo?.nodeColor !== undefined
+        const rawOutputColor = sceneNode.nodeInfo?.nodeColor !== undefined
           ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
           : '#f3dcde';
-        const outputColor = rawNodeColor; //saturateColor(_rawOutputColor); // Fully saturated for vibrant pins
+        const outputColor = saturateColor(rawOutputColor); // Fully saturated for vibrant pins
         
         // Build enhanced output tooltip
         // Using all available data from Octane's ApiNodeInfo
