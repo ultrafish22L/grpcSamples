@@ -379,29 +379,6 @@ input:checked + .slider:before {
     background-color: var(--octane-bg-primary);
 }
 
-.octane-inspector-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 8px;
-    background-color: var(--octane-bg-primary);
-    border-bottom: 1px solid var(--octane-bg-header);
-    font-size: var(--font-size-small);
-    color: var(--octane-text-primary);
-    flex-shrink: 0;
-}
-
-.octane-inspector-title {
-    display: flex;
-    align-items: center;
-    font-weight: normal;
-}
-
-.octane-inspector-icon {
-    margin-right: 4px;
-    font-size: var(--font-size-normal);
-}
-
 .octane-inspector-dropdown {
     display: flex;
     align-items: center;
@@ -1927,10 +1904,6 @@ body.drag-over .drop-indicator {
     min-width: 120px;
 }
 
-.inspector-section {
-    border-bottom: 1px solid var(--octane-border);
-}
-
 .section-header {
     padding: 4px 8px;
     background: var(--octane-bg-secondary);
@@ -2648,12 +2621,6 @@ body.drag-over .drop-indicator {
     padding: 0 0 0 4px;
 }
 
-.panel-content-inspector {
-    flex: 1;
-    overflow: auto;
-    padding: 0 0 0 4px;
-}
-
 /* Node content area with improved spacing - ONLY for Node Inspector */
 .node-inspector .node-content,
 .octane-node-inspector .node-content {
@@ -3096,15 +3063,6 @@ body.drag-over .drop-indicator {
 
 /* Selected state */
 
-
-/* Empty state */
-.node-inspector-empty {
-    padding: 20px;
-    text-align: center;
-    color: var(--octane-text-secondary);
-    font-size: var(--font-size-small);
-    font-style: italic;
-}
 
 .empty-message
 {
