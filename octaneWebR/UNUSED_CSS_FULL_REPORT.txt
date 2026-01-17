@@ -1,0 +1,494 @@
+COMPREHENSIVE UNUSED CSS SELECTOR REPORT
+================================================================================
+
+Total unique selectors analyzed: 485
+Used selectors: 369
+UNUSED selectors: 116
+Total unused occurrences: 605
+
+================================================================================
+UNUSED SELECTORS BY FILE
+================================================================================
+
+
+app.css (28 unused selectors)
+--------------------------------------------------------------------------------
+  Line  158: .resizable-panel                          (1 occurrence(s))
+  Line  166: .2s                                       (1 occurrence(s))
+  Line  341: .react-flow__edge-path                    (2 occurrence(s))
+  Line  347: .react-flow__edge-interaction             (2 occurrence(s))
+  Line  370: .react-flow__edge-path                    (2 occurrence(s))
+  Line  371: .react-flow__edge-interaction             (2 occurrence(s))
+  Line  385: .15s                                      (6 occurrence(s))
+  Line  405: .042                                      (1 occurrence(s))
+  Line  405: .084                                      (1 occurrence(s))
+  Line  406: .053                                      (2 occurrence(s))
+  Line  406: .105                                      (2 occurrence(s))
+  Line  411: .053                                      (2 occurrence(s))
+  Line  411: .105                                      (2 occurrence(s))
+  Line  419: .15s                                      (6 occurrence(s))
+  Line  485: .15s                                      (6 occurrence(s))
+  Line  508: .drop-indicator                           (2 occurrence(s))
+  Line  522: .drop-indicator-content                   (1 occurrence(s))
+  Line  531: .drop-indicator-icon                      (1 occurrence(s))
+  Line  536: .drop-indicator-text                      (1 occurrence(s))
+  Line  542: .drop-indicator-formats                   (1 occurrence(s))
+  Line  556: .drop-indicator                           (2 occurrence(s))
+  Line  603: .15s                                      (6 occurrence(s))
+  Line  628: .15s                                      (6 occurrence(s))
+  Line  686: .progress-bar                             (1 occurrence(s))
+  Line  694: .progress-bar-fill                        (1 occurrence(s))
+  Line  698: .3s                                       (1 occurrence(s))
+  Line  701: .progress-text                            (1 occurrence(s))
+  Line  723: .15s                                      (6 occurrence(s))
+
+node-graph.css (10 unused selectors)
+--------------------------------------------------------------------------------
+  Line  202: .2s                                       (8 occurrence(s))
+  Line  341: .2s                                       (8 occurrence(s))
+  Line  374: .2s                                       (8 occurrence(s))
+  Line  540: .2s                                       (8 occurrence(s))
+  Line  584: .node-graph-toolbar-vertical              (1 occurrence(s))
+  Line  599: .15s                                      (1 occurrence(s))
+  Line  701: .2s                                       (8 occurrence(s))
+  Line  701: .2s                                       (8 occurrence(s))
+  Line  920: .2s                                       (8 occurrence(s))
+  Line 1019: .2s                                       (8 occurrence(s))
+
+node-inspector.css (108 unused selectors)
+--------------------------------------------------------------------------------
+  Line   99: .15s                                      (4 occurrence(s))
+  Line  276: .parameter-section-header                 (1 occurrence(s))
+  Line  288: .parameter-section-icon                   (1 occurrence(s))
+  Line  293: .parameter-section-title                  (1 occurrence(s))
+  Line  302: .parameter-subsection-header              (1 occurrence(s))
+  Line  313: .parameter-subsection-icon                (1 occurrence(s))
+  Line  317: .parameter-subsection-title               (1 occurrence(s))
+  Line  322: .parameter-subsection-dropdown            (1 occurrence(s))
+  Line  327: .octane-parameter-row                     (2 occurrence(s))
+  Line  343: .octane-parameter-icon                    (3 occurrence(s))
+  Line  377: .octane-parameter-icon                    (3 occurrence(s))
+  Line  382: .octane-parameter-label                   (2 occurrence(s))
+  Line  391: .octane-parameter-name                    (2 occurrence(s))
+  Line  400: .octane-parameter-control                 (2 occurrence(s))
+  Line  410: .parameter-input-container                (3 occurrence(s))
+  Line  417: .dual-input                               (2 occurrence(s))
+  Line  417: .parameter-input-container                (3 occurrence(s))
+  Line  421: .dual-input                               (2 occurrence(s))
+  Line  421: .parameter-input-container                (3 occurrence(s))
+  Line  436: .parameter-vector-component               (2 occurrence(s))
+  Line  463: .parameter-color-bar                      (1 occurrence(s))
+  Line  538: .parameter-slider-container               (1 occurrence(s))
+  Line  551: .parameter-slider-track                   (2 occurrence(s))
+  Line  561: .parameter-slider-thumb                   (2 occurrence(s))
+  Line  605: .parameter-color-container                (3 occurrence(s))
+  Line  613: .parameter-color-preview                  (3 occurrence(s))
+  Line  622: .parameter-color-picker                   (3 occurrence(s))
+  Line  685: .15s                                      (4 occurrence(s))
+  Line  754: .section-header                           (1 occurrence(s))
+  Line  770: .section-toggle                           (1 occurrence(s))
+  Line  776: .section-title                            (1 occurrence(s))
+  Line  780: .section-content                          (1 occurrence(s))
+  Line  784: .param-row                                (1 occurrence(s))
+  Line  796: .param-icon                               (1 occurrence(s))
+  Line  803: .param-label                              (1 occurrence(s))
+  Line  810: .param-dropdown                           (1 occurrence(s))
+  Line  821: .param-control                            (1 occurrence(s))
+  Line  828: .param-slider                             (1 occurrence(s))
+  Line  855: .param-number                             (1 occurrence(s))
+  Line  866: .param-number-small                       (1 occurrence(s))
+  Line  877: .param-dual-input                         (1 occurrence(s))
+  Line  883: .param-checkbox                           (1 occurrence(s))
+  Line  889: .param-color-picker                       (1 occurrence(s))
+  Line  902: .param-grid                               (1 occurrence(s))
+  Line  910: .grid-button                              (2 occurrence(s))
+  Line  930: .grid-button                              (2 occurrence(s))
+  Line  936: .file-path                                (1 occurrence(s))
+  Line  942: .file-info                                (1 occurrence(s))
+  Line  949: .file-path-text                           (1 occurrence(s))
+  Line  955: .file-stats                               (1 occurrence(s))
+  Line  966: .loading-parameters                       (1 occurrence(s))
+  Line  975: .loading-spinner                          (1 occurrence(s))
+  Line 1004: .retry-button                             (1 occurrence(s))
+  Line 1052: .parameter-numeric-slider-container       (1 occurrence(s))
+  Line 1059: .parameter-slider-wrapper                 (1 occurrence(s))
+  Line 1096: .parameter-slider-track                   (2 occurrence(s))
+  Line 1108: .parameter-slider-fill                    (1 occurrence(s))
+  Line 1112: .1s                                       (2 occurrence(s))
+  Line 1115: .parameter-slider-thumb                   (2 occurrence(s))
+  Line 1124: .1s                                       (2 occurrence(s))
+  Line 1129: .parameter-numeric-input-container        (1 occurrence(s))
+  Line 1143: .param-increment                          (2 occurrence(s))
+  Line 1144: .param-decrement                          (2 occurrence(s))
+  Line 1159: .param-increment                          (2 occurrence(s))
+  Line 1163: .param-decrement                          (2 occurrence(s))
+  Line 1191: .parameter-dropdown-container             (1 occurrence(s))
+  Line 1215: .parameter-dropdown-arrow                 (1 occurrence(s))
+  Line 1226: .parameter-color-container                (3 occurrence(s))
+  Line 1232: .parameter-color-preview                  (3 occurrence(s))
+  Line 1240: .parameter-color-picker                   (3 occurrence(s))
+  Line 1248: .parameter-color-hex                      (1 occurrence(s))
+  Line 1268: .parameter-vector2-container              (1 occurrence(s))
+  Line 1269: .parameter-vector3-container              (1 occurrence(s))
+  Line 1275: .parameter-vector-input                   (3 occurrence(s))
+  Line 1281: .parameter-vector-input                   (3 occurrence(s))
+  Line 1287: .parameter-vector-component               (2 occurrence(s))
+  Line 1306: .parameter-text-container                 (1 occurrence(s))
+  Line 1317: .2s                                       (11 occurrence(s))
+  Line 1317: .2s                                       (11 occurrence(s))
+  Line 1363: .2s                                       (11 occurrence(s))
+  Line 1387: .2s                                       (11 occurrence(s))
+  Line 1396: .2s                                       (11 occurrence(s))
+  Line 1509: .node-collapse-icon                       (2 occurrence(s))
+  Line 1510: .node-collapse-icon                       (2 occurrence(s))
+  Line 1513: .2s                                       (11 occurrence(s))
+  Line 1555: .2s                                       (11 occurrence(s))
+  Line 1577: .octane-parameter-row                     (2 occurrence(s))
+  Line 1585: .15s                                      (4 occurrence(s))
+  Line 1593: .octane-parameter-label                   (2 occurrence(s))
+  Line 1602: .octane-parameter-icon                    (3 occurrence(s))
+  Line 1609: .octane-parameter-name                    (2 occurrence(s))
+  Line 1619: .octane-parameter-control                 (2 occurrence(s))
+  Line 1719: .15s                                      (4 occurrence(s))
+  Line 1812: .octane-vector-control                    (1 occurrence(s))
+  Line 1820: .octane-vector-input                      (1 occurrence(s))
+  Line 1842: .vector-separator                         (1 occurrence(s))
+  Line 1863: .2s                                       (11 occurrence(s))
+  Line 1884: .pin-group                                (2 occurrence(s))
+  Line 1888: .pin-group                                (2 occurrence(s))
+  Line 1944: .2s                                       (11 occurrence(s))
+  Line 1973: .parameter-text-input                     (1 occurrence(s))
+  Line 1983: .2s                                       (11 occurrence(s))
+  Line 1983: .2s                                       (11 occurrence(s))
+  Line 1994: .parameter-vector-container               (1 occurrence(s))
+  Line 1998: .parameter-vector-input                   (3 occurrence(s))
+  Line 2018: .parameter-color-container                (3 occurrence(s))
+  Line 2023: .parameter-color-preview                  (3 occurrence(s))
+  Line 2031: .parameter-color-picker                   (3 occurrence(s))
+
+octane-theme.css (41 unused selectors)
+--------------------------------------------------------------------------------
+  Line   87: .053                                      (2 occurrence(s))
+  Line   93: .053                                      (2 occurrence(s))
+  Line   94: .042                                      (1 occurrence(s))
+  Line   95: .03                                       (1 occurrence(s))
+  Line  221: .loading-screen                           (1 occurrence(s))
+  Line  234: .loading-content                          (3 occurrence(s))
+  Line  243: .octane-gear-logo                         (1 occurrence(s))
+  Line  255: .loading-content                          (3 occurrence(s))
+  Line  261: .loading-content                          (3 occurrence(s))
+  Line  267: .loading-spinner                          (1 occurrence(s))
+  Line  277: .loading-status                           (1 occurrence(s))
+  Line  316: .15s                                      (9 occurrence(s))
+  Line  347: .3s                                       (1 occurrence(s))
+  Line  425: .15s                                      (9 occurrence(s))
+  Line  629: .tree-node-content                        (1 occurrence(s))
+  Line  652: .tree-node-icon                           (1 occurrence(s))
+  Line  661: .tree-node-name                           (1 occurrence(s))
+  Line  669: .tree-node-visibility                     (1 occurrence(s))
+  Line  730: .5rem                                     (2 occurrence(s))
+  Line  732: .5rem                                     (2 occurrence(s))
+  Line  771: .15s                                      (9 occurrence(s))
+  Line  850: .frame-count                              (1 occurrence(s))
+  Line  972: .15s                                      (9 occurrence(s))
+  Line 1047: .15s                                      (9 occurrence(s))
+  Line 1096: .15s                                      (9 occurrence(s))
+  Line 1134: .playback-controls                        (1 occurrence(s))
+  Line 1147: .15s                                      (9 occurrence(s))
+  Line 1205: .15s                                      (9 occurrence(s))
+  Line 1259: .node-selector-container                  (1 occurrence(s))
+  Line 1281: .octane-section-header                    (1 occurrence(s))
+  Line 1297: .octane-section-icon                      (1 occurrence(s))
+  Line 1302: .octane-section-content                   (1 occurrence(s))
+  Line 1314: .octane-subsection-header                 (1 occurrence(s))
+  Line 1428: .01ms                                     (2 occurrence(s))
+  Line 1430: .01ms                                     (2 occurrence(s))
+  Line 1586: .palette-instructions                     (3 occurrence(s))
+  Line 1593: .palette-instructions                     (3 occurrence(s))
+  Line 1597: .palette-instructions                     (3 occurrence(s))
+  Line 1613: .15s                                      (9 occurrence(s))
+  Line 1639: .w3                                       (1 occurrence(s))
+  Line 1662: .2s                                       (1 occurrence(s))
+
+scene-outliner.css (16 unused selectors)
+--------------------------------------------------------------------------------
+  Line   18: .scene-node-indent                        (1 occurrence(s))
+  Line   47: .success-icon                             (1 occurrence(s))
+  Line   52: .success-title                            (1 occurrence(s))
+  Line   58: .success-message                          (1 occurrence(s))
+  Line   78: .retry-btn                                (1 occurrence(s))
+  Line   86: .2s                                       (3 occurrence(s))
+  Line  120: .switch-container                         (1 occurrence(s))
+  Line  126: .switch-label                             (1 occurrence(s))
+  Line  155: .3s                                       (2 occurrence(s))
+  Line  167: .3s                                       (2 occurrence(s))
+  Line  209: .15s                                      (3 occurrence(s))
+  Line  263: .15s                                      (3 occurrence(s))
+  Line  299: .15s                                      (3 occurrence(s))
+  Line  445: .palette-header                           (1 occurrence(s))
+  Line  498: .2s                                       (3 occurrence(s))
+  Line  510: .2s                                       (3 occurrence(s))
+
+viewport.css (8 unused selectors)
+--------------------------------------------------------------------------------
+  Line    6: .render-toggle-btn                        (2 occurrence(s))
+  Line   19: .15s                                      (2 occurrence(s))
+  Line   39: .render-toggle-btn                        (2 occurrence(s))
+  Line   91: .preview-mode-btn                         (2 occurrence(s))
+  Line  104: .15s                                      (2 occurrence(s))
+  Line  113: .preview-mode-btn                         (2 occurrence(s))
+  Line  257: .2s                                       (2 occurrence(s))
+  Line  482: .2s                                       (2 occurrence(s))
+
+
+================================================================================
+ALPHABETICAL LIST OF UNUSED SELECTORS
+================================================================================
+
+.01ms
+  octane-theme.css: lines 1428, 1430
+.03
+  octane-theme.css: lines 95
+.042
+  app.css: lines 405
+  octane-theme.css: lines 94
+.053
+  app.css: lines 406, 411
+  octane-theme.css: lines 87, 93
+.084
+  app.css: lines 405
+.105
+  app.css: lines 406, 411
+.15s
+  app.css: lines 385, 419, 485, 603, 628, 723
+  node-graph.css: lines 599
+  node-inspector.css: lines 99, 685, 1585, 1719
+  octane-theme.css: lines 316, 425, 771, 972, 1047, 1096, 1147, 1205, 1613
+  scene-outliner.css: lines 209, 263, 299
+  viewport.css: lines 19, 104
+.1s
+  node-inspector.css: lines 1112, 1124
+.2s
+  app.css: lines 166
+  node-graph.css: lines 202, 341, 374, 540, 701, 701, 920, 1019
+  node-inspector.css: lines 1317, 1317, 1363, 1387, 1396, 1513, 1555, 1863, 1944, 1983, 1983
+  octane-theme.css: lines 1662
+  scene-outliner.css: lines 86, 498, 510
+  viewport.css: lines 257, 482
+.3s
+  app.css: lines 698
+  octane-theme.css: lines 347
+  scene-outliner.css: lines 155, 167
+.5rem
+  octane-theme.css: lines 730, 732
+.drop-indicator
+  app.css: lines 508, 556
+.drop-indicator-content
+  app.css: lines 522
+.drop-indicator-formats
+  app.css: lines 542
+.drop-indicator-icon
+  app.css: lines 531
+.drop-indicator-text
+  app.css: lines 536
+.dual-input
+  node-inspector.css: lines 417, 421
+.file-info
+  node-inspector.css: lines 942
+.file-path
+  node-inspector.css: lines 936
+.file-path-text
+  node-inspector.css: lines 949
+.file-stats
+  node-inspector.css: lines 955
+.frame-count
+  octane-theme.css: lines 850
+.grid-button
+  node-inspector.css: lines 910, 930
+.loading-content
+  octane-theme.css: lines 234, 255, 261
+.loading-parameters
+  node-inspector.css: lines 966
+.loading-screen
+  octane-theme.css: lines 221
+.loading-spinner
+  node-inspector.css: lines 975
+  octane-theme.css: lines 267
+.loading-status
+  octane-theme.css: lines 277
+.node-collapse-icon
+  node-inspector.css: lines 1509, 1510
+.node-graph-toolbar-vertical
+  node-graph.css: lines 584
+.node-selector-container
+  octane-theme.css: lines 1259
+.octane-gear-logo
+  octane-theme.css: lines 243
+.octane-parameter-control
+  node-inspector.css: lines 400, 1619
+.octane-parameter-icon
+  node-inspector.css: lines 343, 377, 1602
+.octane-parameter-label
+  node-inspector.css: lines 382, 1593
+.octane-parameter-name
+  node-inspector.css: lines 391, 1609
+.octane-parameter-row
+  node-inspector.css: lines 327, 1577
+.octane-section-content
+  octane-theme.css: lines 1302
+.octane-section-header
+  octane-theme.css: lines 1281
+.octane-section-icon
+  octane-theme.css: lines 1297
+.octane-subsection-header
+  octane-theme.css: lines 1314
+.octane-vector-control
+  node-inspector.css: lines 1812
+.octane-vector-input
+  node-inspector.css: lines 1820
+.palette-header
+  scene-outliner.css: lines 445
+.palette-instructions
+  octane-theme.css: lines 1586, 1593, 1597
+.param-checkbox
+  node-inspector.css: lines 883
+.param-color-picker
+  node-inspector.css: lines 889
+.param-control
+  node-inspector.css: lines 821
+.param-decrement
+  node-inspector.css: lines 1144, 1163
+.param-dropdown
+  node-inspector.css: lines 810
+.param-dual-input
+  node-inspector.css: lines 877
+.param-grid
+  node-inspector.css: lines 902
+.param-icon
+  node-inspector.css: lines 796
+.param-increment
+  node-inspector.css: lines 1143, 1159
+.param-label
+  node-inspector.css: lines 803
+.param-number
+  node-inspector.css: lines 855
+.param-number-small
+  node-inspector.css: lines 866
+.param-row
+  node-inspector.css: lines 784
+.param-slider
+  node-inspector.css: lines 828
+.parameter-color-bar
+  node-inspector.css: lines 463
+.parameter-color-container
+  node-inspector.css: lines 605, 1226, 2018
+.parameter-color-hex
+  node-inspector.css: lines 1248
+.parameter-color-picker
+  node-inspector.css: lines 622, 1240, 2031
+.parameter-color-preview
+  node-inspector.css: lines 613, 1232, 2023
+.parameter-dropdown-arrow
+  node-inspector.css: lines 1215
+.parameter-dropdown-container
+  node-inspector.css: lines 1191
+.parameter-input-container
+  node-inspector.css: lines 410, 417, 421
+.parameter-numeric-input-container
+  node-inspector.css: lines 1129
+.parameter-numeric-slider-container
+  node-inspector.css: lines 1052
+.parameter-section-header
+  node-inspector.css: lines 276
+.parameter-section-icon
+  node-inspector.css: lines 288
+.parameter-section-title
+  node-inspector.css: lines 293
+.parameter-slider-container
+  node-inspector.css: lines 538
+.parameter-slider-fill
+  node-inspector.css: lines 1108
+.parameter-slider-thumb
+  node-inspector.css: lines 561, 1115
+.parameter-slider-track
+  node-inspector.css: lines 551, 1096
+.parameter-slider-wrapper
+  node-inspector.css: lines 1059
+.parameter-subsection-dropdown
+  node-inspector.css: lines 322
+.parameter-subsection-header
+  node-inspector.css: lines 302
+.parameter-subsection-icon
+  node-inspector.css: lines 313
+.parameter-subsection-title
+  node-inspector.css: lines 317
+.parameter-text-container
+  node-inspector.css: lines 1306
+.parameter-text-input
+  node-inspector.css: lines 1973
+.parameter-vector-component
+  node-inspector.css: lines 436, 1287
+.parameter-vector-container
+  node-inspector.css: lines 1994
+.parameter-vector-input
+  node-inspector.css: lines 1275, 1281, 1998
+.parameter-vector2-container
+  node-inspector.css: lines 1268
+.parameter-vector3-container
+  node-inspector.css: lines 1269
+.pin-group
+  node-inspector.css: lines 1884, 1888
+.playback-controls
+  octane-theme.css: lines 1134
+.preview-mode-btn
+  viewport.css: lines 91, 113
+.progress-bar
+  app.css: lines 686
+.progress-bar-fill
+  app.css: lines 694
+.progress-text
+  app.css: lines 701
+.react-flow__edge-interaction
+  app.css: lines 347, 371
+.react-flow__edge-path
+  app.css: lines 341, 370
+.render-toggle-btn
+  viewport.css: lines 6, 39
+.resizable-panel
+  app.css: lines 158
+.retry-btn
+  scene-outliner.css: lines 78
+.retry-button
+  node-inspector.css: lines 1004
+.scene-node-indent
+  scene-outliner.css: lines 18
+.section-content
+  node-inspector.css: lines 780
+.section-header
+  node-inspector.css: lines 754
+.section-title
+  node-inspector.css: lines 776
+.section-toggle
+  node-inspector.css: lines 770
+.success-icon
+  scene-outliner.css: lines 47
+.success-message
+  scene-outliner.css: lines 58
+.success-title
+  scene-outliner.css: lines 52
+.switch-container
+  scene-outliner.css: lines 120
+.switch-label
+  scene-outliner.css: lines 126
+.tree-node-content
+  octane-theme.css: lines 629
+.tree-node-icon
+  octane-theme.css: lines 652
+.tree-node-name
+  octane-theme.css: lines 661
+.tree-node-visibility
+  octane-theme.css: lines 669
+.vector-separator
+  node-inspector.css: lines 1842
+.w3
+  octane-theme.css: lines 1639

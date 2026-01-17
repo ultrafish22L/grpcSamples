@@ -442,6 +442,8 @@ body.resizing .react-flow__edge-interaction {
 /**
  * OctaneWeb Component Styles
  * Specific styling for individual UI components
+ */
+
 /* Context Menu Components */
 .context-menu {
     position: absolute;
