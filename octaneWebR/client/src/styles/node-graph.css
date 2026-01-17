@@ -6,15 +6,13 @@
 /* Node Graph Components */
 /* Node graph toolbar - consolidated from octane-theme.css and components.css duplicates */
 .node-graph-toolbar {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    display: flex;
-    gap: var(--spacing-md);
-    background-color: var(--octane-overlay-dark);
-    padding: 4px;
-    border-radius: var(--border-radius);
-    z-index: var(--z-dropdown); /* Added from octane-theme.css */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+  background: var(--octane-bg-darker);
+  padding: 2px 2px 2px 2px;
+  width: 26px;
+  min-width: 26px;
 }
 
 /* Node Graph Editor Styles */
@@ -33,10 +31,6 @@
     margin: 0;
     font-size: var(--font-size-large);
 }
-
-/* Note: .context-menu-item styles are defined in octane-theme.css to ensure consistent styling */
-
-/* Duplicate .node-graph-toolbar deleted (was override at line 3884) */
 
 /* ========================================
    MODAL DIALOGS
@@ -552,11 +546,14 @@
  * Node Graph Editor Toolbar Styles
 /* Node Graph Container - contains toolbar + editor */
 .node-graph-container {
+  flex: 1; /* Take remaining space in the node graph section */
   position: relative;
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-  background: #4a4a4a; /* Lighter gray matching Octane SE */
+  background-color: var(--octane-bg-darker);
+  overflow: hidden; /* Prevent scrollbars and contain canvas */
+  contain: layout style paint; /* CSS containment for better performance */
+  width: 100%; /* Explicit width for ReactFlow */
+  height: 100%; /* Explicit height for ReactFlow */
+  min-height: 150px; /* Minimum height for ReactFlow */
 }
 
 /* ReactFlow background override - lighter gray like Octane SE */
@@ -579,9 +576,6 @@
   flex: 1;
   position: relative;
 }
-
-/* Duplicate .node-graph-toolbar deleted (was vertical variant at line 4907)
-   NOTE: If vertical toolbar is needed, create new class .node-graph-toolbar-vertical */
 
 .toolbar-button {
   background: var(--octane-bg-primary);

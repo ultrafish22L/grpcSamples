@@ -1549,8 +1549,6 @@ select {
 
 /* ==================== Node Graph Toolbar ==================== */
 
-/* .node-graph-toolbar moved to components.css (consolidated) */
-
 .node-graph-tool {
     width: 28px;
     height: 28px;
