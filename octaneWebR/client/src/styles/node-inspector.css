@@ -3,9 +3,6 @@
  * Part of octaneWebR CSS reorganization
  */
 
- * Enhanced with professional parameter controls matching Octane UI
- */
-
 /* Node Inspector Styling */
 .node-inspector-header {
     padding: 8px 12px;
@@ -1424,11 +1421,3 @@
 
 
 /* Color Controls */
-
-
-
-
-
- * Styled exactly like Node Inspector Controls (.quick-btn)
- * Docked on left side matching Octane SE
- */
