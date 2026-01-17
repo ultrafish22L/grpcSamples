@@ -15,6 +15,7 @@ interface SceneOutlinerContextMenuProps {
   onCut: () => void;
   onCopy: () => void;
   onPaste: () => void;
+  onFillEmptyPins: () => void;
   onDelete: () => void;
   onShowInGraphEditor: () => void;
   onShowInLuaBrowser: () => void;
@@ -29,6 +30,7 @@ export function SceneOutlinerContextMenu({
   onCut,
   onCopy,
   onPaste,
+  onFillEmptyPins,
   onDelete,
   onShowInGraphEditor,
   onShowInLuaBrowser,
@@ -126,6 +128,14 @@ export function SceneOutlinerContextMenu({
         onClick={() => handleMenuItemClick(onPaste, true)}
       >
         Paste
+      </div>
+
+      {/* Fill empty node pins */}
+      <div
+        className="context-menu-item"
+        onClick={() => handleMenuItemClick(onFillEmptyPins)}
+      >
+        Fill empty node pins
       </div>
 
       {/* Separator */}

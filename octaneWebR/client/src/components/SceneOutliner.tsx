@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { useOctane } from '../hooks/useOctane';
 import { SceneNode, NodeAddedEvent, NodeDeletedEvent } from '../services/OctaneClient';
 import { OctaneIconMapper } from '../utils/OctaneIconMapper';
+import { SceneOutlinerContextMenu } from './SceneOutliner/SceneOutlinerContextMenu';
 
 const getNodeIcon = (node: SceneNode): string => {
   // Special case: Scene root
@@ -23,12 +24,13 @@ interface SceneTreeItemProps {
   node: SceneNode;
   depth: number;
   onSelect: (node: SceneNode) => void;
+  onContextMenu: (node: SceneNode, event: React.MouseEvent) => void;
   selectedHandle: number | null;
   expandAllSignal?: number;
   collapseAllSignal?: number;
 }
 
-function SceneTreeItem({ node, depth, onSelect, selectedHandle, expandAllSignal, collapseAllSignal }: SceneTreeItemProps) {
+function SceneTreeItem({ node, depth, onSelect, onContextMenu, selectedHandle, expandAllSignal, collapseAllSignal }: SceneTreeItemProps) {
     // Scene root and Render target start expanded by default
   const [expanded, setExpanded] = useState(
     node.type === 'SceneRoot' || node.type === 'PT_RENDERTARGET'
@@ -63,6 +65,12 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle, expandAllSignal,
             onSelect(node);
           }
         }}
+        onContextMenu={(e) => {
+          // Don't show context menu for synthetic Scene root
+          if (node.type !== 'SceneRoot') {
+            onContextMenu(node, e);
+          }
+        }}
       >
         <div className="node-content">
           {hasChildren ? (
@@ -95,6 +103,7 @@ function SceneTreeItem({ node, depth, onSelect, selectedHandle, expandAllSignal,
             node={child}
             depth={depth + 1}
             onSelect={onSelect}
+            onContextMenu={onContextMenu}
             selectedHandle={selectedHandle}
             expandAllSignal={expandAllSignal}
             collapseAllSignal={collapseAllSignal}
@@ -288,9 +297,81 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
   const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
   const [expandAllSignal, setExpandAllSignal] = useState(0);
   const [collapseAllSignal, setCollapseAllSignal] = useState(0);
+  
+  // Context menu state
+  const [contextMenuVisible, setContextMenuVisible] = useState(false);
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  const [contextMenuNode, setContextMenuNode] = useState<SceneNode | null>(null);
 
   const handleNodeSelect = (node: SceneNode) => {
     onNodeSelect?.(node);
+  };
+  
+  // Context menu handler
+  const handleNodeContextMenu = (node: SceneNode, event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setContextMenuPosition({ x: event.clientX, y: event.clientY });
+    setContextMenuNode(node);
+    setContextMenuVisible(true);
+  };
+  
+  // Context menu action handlers
+  const handleContextMenuClose = () => {
+    setContextMenuVisible(false);
+    setContextMenuNode(null);
+  };
+  
+  const handleRender = () => {
+    console.log('🎬 Render action for node:', contextMenuNode?.name);
+    // TODO: Implement render action
+  };
+  
+  const handleSave = () => {
+    console.log('💾 Save action for node:', contextMenuNode?.name);
+    // TODO: Implement save action
+  };
+  
+  const handleCut = () => {
+    console.log('✂️ Cut action for node:', contextMenuNode?.name);
+    // TODO: Implement cut action
+  };
+  
+  const handleCopy = () => {
+    console.log('📋 Copy action for node:', contextMenuNode?.name);
+    // TODO: Implement copy action
+  };
+  
+  const handlePaste = () => {
+    console.log('📌 Paste action for node:', contextMenuNode?.name);
+    // TODO: Implement paste action
+  };
+  
+  const handleFillEmptyPins = () => {
+    console.log('📌 Fill empty pins for node:', contextMenuNode?.name);
+    // TODO: Implement fill empty pins action
+  };
+  
+  const handleDelete = async () => {
+    if (!contextMenuNode || !client) return;
+    console.log('🗑️ Delete action for node:', contextMenuNode.name);
+    try {
+      await client.deleteNode(String(contextMenuNode.handle));
+      // Scene tree will be updated via event listener
+    } catch (error) {
+      console.error('❌ Failed to delete node:', error);
+    }
+  };
+  
+  const handleShowInGraphEditor = () => {
+    console.log('🔍 Show in Graph Editor:', contextMenuNode?.name);
+    // The node is already selected, the graph editor should show it
+    // TODO: Add explicit navigation to graph editor tab if needed
+  };
+  
+  const handleShowInLuaBrowser = () => {
+    console.log('🔍 Show in Lua Browser:', contextMenuNode?.name);
+    // TODO: Implement Lua browser navigation
   };
 
   const loadSceneTree = async () => {
@@ -680,6 +761,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
                 }}
                 depth={0}
                 onSelect={handleNodeSelect}
+                onContextMenu={handleNodeContextMenu}
                 selectedHandle={selectedNode?.handle || null}
                 expandAllSignal={expandAllSignal}
                 collapseAllSignal={collapseAllSignal}
@@ -749,6 +831,24 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
           )}
         </div>
       </div>
+      
+      {/* Context Menu */}
+      {contextMenuVisible && (
+        <SceneOutlinerContextMenu
+          x={contextMenuPosition.x}
+          y={contextMenuPosition.y}
+          onRender={handleRender}
+          onSave={handleSave}
+          onCut={handleCut}
+          onCopy={handleCopy}
+          onPaste={handlePaste}
+          onFillEmptyPins={handleFillEmptyPins}
+          onDelete={handleDelete}
+          onShowInGraphEditor={handleShowInGraphEditor}
+          onShowInLuaBrowser={handleShowInLuaBrowser}
+          onClose={handleContextMenuClose}
+        />
+      )}
     </div>
   );
 });

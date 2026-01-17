@@ -16,6 +16,7 @@ import { SceneNode } from '../services/OctaneClient';
 import { useOctane } from '../hooks/useOctane';
 import { AttributeId, AttrType } from '../constants/OctaneTypes';
 import { OctaneIconMapper } from '../utils/OctaneIconMapper';
+import { NodeInspectorContextMenu } from './NodeInspector/NodeInspectorContextMenu';
 
 /**
  * Format float value to maximum 6 decimal places
@@ -1019,9 +1020,83 @@ function groupChildren(children: SceneNode[]): Array<{ groupName: string | null;
 }
 
 export const NodeInspector = React.memo(function NodeInspector({ node }: NodeInspectorProps) {
+  const { client } = useOctane();
+  
+  // Context menu state
+  const [contextMenuVisible, setContextMenuVisible] = useState(false);
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  
   // NOTE: Node expansion state is managed internally by NodeParameter component
   const handleToggle = (_nodeId: string) => {
     // Placeholder for future centralized expansion state management
+  };
+  
+  // Context menu handler
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setContextMenuPosition({ x: event.clientX, y: event.clientY });
+    setContextMenuVisible(true);
+  };
+  
+  // Context menu action handlers
+  const handleContextMenuClose = () => {
+    setContextMenuVisible(false);
+  };
+  
+  const handleSave = () => {
+    console.log('💾 Save action for node:', node?.name);
+    // TODO: Implement save action
+  };
+  
+  const handleCut = () => {
+    console.log('✂️ Cut action for node:', node?.name);
+    // TODO: Implement cut action
+  };
+  
+  const handleCopy = () => {
+    console.log('📋 Copy action for node:', node?.name);
+    // TODO: Implement copy action
+  };
+  
+  const handlePaste = () => {
+    console.log('📌 Paste action for node:', node?.name);
+    // TODO: Implement paste action
+  };
+  
+  const handleFillEmptyPins = () => {
+    console.log('📌 Fill empty pins for node:', node?.name);
+    // TODO: Implement fill empty pins action
+  };
+  
+  const handleDelete = async () => {
+    if (!node || !client) return;
+    console.log('🗑️ Delete action for node:', node.name);
+    try {
+      await client.deleteNode(String(node.handle));
+    } catch (error) {
+      console.error('❌ Failed to delete node:', error);
+    }
+  };
+  
+  const handleExpand = () => {
+    console.log('📂 Expand action for node:', node?.name);
+    // TODO: Implement expand all children action
+  };
+  
+  const handleShowInOutliner = () => {
+    console.log('🔍 Show in Outliner:', node?.name);
+    // TODO: Implement outliner navigation
+  };
+  
+  const handleShowInGraphEditor = () => {
+    console.log('🔍 Show in Graph Editor:', node?.name);
+    // TODO: Implement graph editor navigation
+  };
+  
+  const handleShowInLuaBrowser = () => {
+    console.log('🔍 Show in Lua Browser:', node?.name);
+    // TODO: Implement Lua browser navigation
   };
 
   if (!node) {
@@ -1046,7 +1121,7 @@ export const NodeInspector = React.memo(function NodeInspector({ node }: NodeIns
   buildHasGroupMap(node, 0, hasGroupMap);
 
   return (
-    <div className="octane-node-inspector">
+    <div className="octane-node-inspector" onContextMenu={handleContextMenu}>
       {/* Content */}
       <div className="octane-inspector-content">
         <NodeParameter 
@@ -1058,6 +1133,25 @@ export const NodeInspector = React.memo(function NodeInspector({ node }: NodeIns
           dropdownValue={node.name}
         />
       </div>
+      
+      {/* Context Menu */}
+      {contextMenuVisible && (
+        <NodeInspectorContextMenu
+          x={contextMenuPosition.x}
+          y={contextMenuPosition.y}
+          onSave={handleSave}
+          onCut={handleCut}
+          onCopy={handleCopy}
+          onPaste={handlePaste}
+          onFillEmptyPins={handleFillEmptyPins}
+          onDelete={handleDelete}
+          onExpand={handleExpand}
+          onShowInOutliner={handleShowInOutliner}
+          onShowInGraphEditor={handleShowInGraphEditor}
+          onShowInLuaBrowser={handleShowInLuaBrowser}
+          onClose={handleContextMenuClose}
+        />
+      )}
     </div>
   );
 });

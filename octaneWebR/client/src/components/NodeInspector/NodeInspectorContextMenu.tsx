@@ -14,6 +14,7 @@ interface NodeInspectorContextMenuProps {
   onCut: () => void;
   onCopy: () => void;
   onPaste: () => void;
+  onFillEmptyPins: () => void;
   onDelete: () => void;
   onExpand: () => void;
   onShowInOutliner: () => void;
@@ -29,6 +30,7 @@ export function NodeInspectorContextMenu({
   onCut,
   onCopy,
   onPaste,
+  onFillEmptyPins,
   onDelete,
   onExpand,
   onShowInOutliner,
@@ -120,6 +122,14 @@ export function NodeInspectorContextMenu({
         onClick={() => handleMenuItemClick(onPaste, true)}
       >
         Paste
+      </div>
+
+      {/* Fill empty node pins */}
+      <div
+        className="context-menu-item"
+        onClick={() => handleMenuItemClick(onFillEmptyPins)}
+      >
+        Fill empty node pins
       </div>
 
       {/* Separator */}
