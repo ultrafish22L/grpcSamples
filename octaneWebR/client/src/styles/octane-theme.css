@@ -53,12 +53,7 @@
     
     /* Panel Resize Variables */
     --splitter-size: 4px;              /* Resize handle thickness */
-    --left-panel-width: 180px;         /* Scene outliner width */
     --left-panel-min-width: 140px;         /* Scene outliner width */
-    --right-panel-width: 260px;        /* Node inspector width */
-    --right-panel-min-width: 200px;        /* Node inspector width */
-    --bottom-panel-height: 300px;      /* Node graph height */
-    --bottom-panel-min-height: 200px;      /* Node graph height */
     --octane-border-light: #666666;    /* Light borders */
     --octane-border-dark: #333333;     /* Dark borders */
     --octane-border-darker: #1a1a1a;   /* Darker borders/backgrounds */
@@ -89,12 +84,9 @@
     --octane-shadow-heavy: rgba(0, 0, 0, 0.6);      /* Heavy inset/drop shadows */
     --octane-shadow-medium: rgba(0, 0, 0, 0.4);     /* Medium shadows */
     --octane-shadow-light: rgba(0, 0, 0, 0.25);     /* Light drop shadows */
-    --octane-shadow-subtle: rgba(0, 0, 0, 0.15);    /* Very light shadows */
     --octane-shadow-ultra-subtle: rgba(0, 0, 0, 0.053); /* Ultra-subtle shadows */
     
     /* White Highlights & Glows */
-    --octane-highlight-bright: rgba(255, 255, 255, 0.9);  /* Very bright highlights */
-    --octane-highlight-strong: rgba(255, 255, 255, 0.8);  /* Strong highlights */
     --octane-highlight-medium: rgba(255, 255, 255, 0.2);  /* Medium highlights */
     --octane-highlight: rgba(255, 255, 255, 0.15);        /* Standard highlights */
     --octane-highlight-soft: rgba(255, 255, 255, 0.05);   /* Soft highlights */
@@ -110,8 +102,6 @@
     --octane-success-bg-alpha: rgba(40, 167, 69, 0.1);   /* Success background overlay */
     --octane-success-border-alpha: rgba(40, 167, 69, 0.3); /* Success border overlay */
     
-    --octane-info-bg-alpha: rgba(64, 128, 255, 0.1);     /* Info background overlay */
-    --octane-info-bg-alpha-medium: rgba(64, 128, 255, 0.15); /* Medium info overlay */
     --octane-info-border-alpha: rgba(64, 128, 255, 0.2); /* Info border overlay */
     --octane-info-border-alpha-alt: rgba(74, 158, 255, 0.2); /* Alternate info border */
     
@@ -127,12 +117,9 @@
     --status-bar-height: 22px;
     --border-radius: var(--border-radius-sm);
 
-    --param-max-weight: 288px;
-    
     /* Typography */
     --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     --font-family-mono: 'Segoe UI Symbol', 'Segoe UI', monospace;
-    --font-family-monoC: 'Consolas', 'Monaco', 'Courier New', monospace;
     --font-size-nano: 6px;     /* Ultra-small text/icons */
     --font-size-micro: 7px;    /* Micro text */
     --font-size-tiny: 8px;     /* Tiny text */
@@ -176,7 +163,6 @@
     
     /* Opacity System */
     --opacity-invisible: 0;    /* Completely invisible */
-    --opacity-faint: 0.1;      /* Barely visible */
     --opacity-light: 0.4;      /* Light transparency */
     --opacity-medium: 0.5;     /* Half transparent */
     --opacity-moderate: 0.6;   /* Moderate visibility */
@@ -197,8 +183,6 @@
     --z-context-menu: 10000;   /* Context menus and tooltips */
     --z-dropdown-content: 10001; /* Dropdown content above context menus */
     --z-search-dialog: 15000;  /* Search dialog above standard dialogs */
-    --z-notification: 20000;   /* Notifications and toasts (highest layer) */
-
     /* Border Radius System */
     --border-radius-none: 0;     /* No rounding */
     --border-radius-xs: 1px;     /* Extra small radius (subtle) */
@@ -211,11 +195,6 @@
     --border-radius-3xl: 20px;   /* Huge radius (rare usage) */
     --border-radius-circle: 50%; /* Perfect circle */
 
-    /* Border Width System */
-    --border-width-none: 0;      /* No border */
-    --border-width-thin: 1px;    /* Thin border (default) */
-    --border-width-medium: 2px;  /* Medium border (emphasis) */
-    --border-width-thick: 3px;   /* Thick border (strong emphasis) */
 }
 
 /* Global Reset and Base Styles */
