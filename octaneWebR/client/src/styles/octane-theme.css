@@ -1164,6 +1164,8 @@ html, body {
 
 .node-graph-container {
     flex: 1; /* Take remaining space in the node graph section */
+    display: flex; /* Horizontal layout: toolbar on left, editor on right */
+    flex-direction: row; /* Toolbar left, editor right */
     position: relative;
     background-color: var(--octane-bg-darker);
     overflow: hidden; /* Prevent scrollbars and contain canvas */
