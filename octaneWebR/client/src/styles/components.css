@@ -696,11 +696,7 @@ input:checked + .slider:before {
     color: var(--octane-text-primary);
 }
 
-.inspector-dropdown {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
+/* Removed duplicate - see line ~598 for .inspector-dropdown container styles */
 
 .inspector-target-select {
     background-color: var(--octane-bg-secondary);
@@ -1463,14 +1459,7 @@ body.drag-over .drop-indicator {
     flex-direction: column;
 }
 
-.modal-header {
-    background-color: var(--octane-bg-header);
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--octane-border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+/* Removed duplicate - consolidated .modal-header at line ~3762 (later definition applies due to CSS cascade) */
 
 .modal-title {
     font-size: var(--font-size-small);
@@ -1501,13 +1490,7 @@ body.drag-over .drop-indicator {
     color: var(--octane-text-primary);
 }
 
-.modal-footer {
-    padding: 12px 16px;
-    border-top: 1px solid var(--octane-border);
-    display: flex;
-    gap: var(--spacing-xl);
-    justify-content: flex-end;
-}
+/* Removed duplicate - consolidated .modal-footer at line ~3808 (later definition applies due to CSS cascade) */
 
 .modal-button {
     background-color: var(--octane-bg-header);
