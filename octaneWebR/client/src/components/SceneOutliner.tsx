@@ -546,7 +546,8 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
       console.log('🌲 SceneOutliner: Adding node incrementally:', event.node.name);
       setSceneTree(prev => {
         const updated = [...prev, event.node];
-        onSceneTreeChange?.(updated);
+        // Schedule parent callback after state update completes
+        setTimeout(() => onSceneTreeChange?.(updated), 0);
         return updated;
       });
     };
@@ -565,7 +566,8 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
         };
         
         const updated = filterDeleted(prev);
-        onSceneTreeChange?.(updated);
+        // Schedule parent callback after state update completes
+        setTimeout(() => onSceneTreeChange?.(updated), 0);
         return updated;
       });
     };
@@ -574,7 +576,8 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
       console.log('🌲 SceneOutliner: Full scene tree update');
       const tree = scene.tree || [];
       setSceneTree(tree);
-      onSceneTreeChange?.(tree);
+      // Schedule parent callback after state update completes
+      setTimeout(() => onSceneTreeChange?.(tree), 0);
     };
 
     client.on('nodeAdded', handleNodeAdded);
