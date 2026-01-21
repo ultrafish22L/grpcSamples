@@ -1,0 +1,8 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- OTOY Logo: Red diamond with ring and center dot -->
+  <g transform="translate(12, 12) rotate(45)">
+    <rect x="-17" y="-17" width="34" height="34" fill="#e63946" rx="2"/>
+    <circle cx="0" cy="0" r="12.5" fill="transparent"/>
+    <circle cx="0" cy="0" r="5.5" fill="#e63946"/>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+Analyzing OTOY logo from beta.otoy.ai:
+
+Visual observations:
+- Diamond (rotated square) is the outer shape
+- Large circular ring cutout in the middle
+- Small red dot in the very center
+- Proportions appear to be approximately:
+  * Diamond: fills the viewbox with small margin
+  * Ring hole: about 65-70% of diamond width
+  * Center dot: about 30-35% of ring radius
+
+Target: Create clean SVG with these exact proportions

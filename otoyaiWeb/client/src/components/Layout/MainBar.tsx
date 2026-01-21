@@ -103,12 +103,16 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
           className={styles.otoyLogo}
           title="Open beta.otoy.ai"
         >
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-            {/* OTOY Logo - Red diamond with circular ring and center dot (cropped tight) */}
-            <g transform="translate(20, 20) rotate(45)">
-              <rect x="-18" y="-18" width="36" height="36" fill="#e63946" rx="3" />
-              <circle cx="0" cy="0" r="13" fill="#1a1a1a" />
-              <circle cx="0" cy="0" r="6" fill="#e63946" />
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* OTOY Logo - Exact match to beta.otoy.ai */}
+            <g transform="translate(12, 12)">
+              {/* Rotated diamond with ring cutout */}
+              <g transform="rotate(45)">
+                <rect x="-10" y="-10" width="20" height="20" fill="#e63946" rx="1.5"/>
+                <circle cx="0" cy="0" r="7.5" fill="#1a1a1a"/>
+              </g>
+              {/* Center dot */}
+              <circle cx="0" cy="0" r="2.8" fill="#e63946"/>
             </g>
           </svg>
         </a>
