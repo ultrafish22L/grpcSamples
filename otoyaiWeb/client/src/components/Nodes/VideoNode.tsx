@@ -261,10 +261,10 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className={styles.contextMenuItem}>
+          <div className={styles.contextMenuItem} onClick={handleDuplicate}>
             📋 Duplicate
           </div>
-          <div className={styles.contextMenuItem}>
+          <div className={styles.contextMenuItem} onClick={handleDelete}>
             🗑️ Delete
           </div>
         </div>,
