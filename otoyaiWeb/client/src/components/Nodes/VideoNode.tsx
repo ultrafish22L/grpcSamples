@@ -154,20 +154,27 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
         </div>
 
         {/* Output handles - Bottom */}
-        {typedData.items.map((item: MediaItem, index: number) => (
-          <Handle
-            key={item.id}
-            type="source"
-            position={Position.Bottom}
-            id={item.id}
-            className={styles.handleOpen}
-            style={{
-              left: `${20 + index * 24}px`,
-              bottom: 0,
-            }}
-            title={item.name || 'Video output'}
-          />
-        ))}
+        {typedData.items.map((item: MediaItem, index: number) => {
+          const nodeWidth = 220; // Match the min-width in CSS
+          const numOutputs = typedData.items.length;
+          const spacing = nodeWidth / (numOutputs + 1);
+          const handleLeft = spacing * (index + 1);
+          
+          return (
+            <Handle
+              key={item.id}
+              type="source"
+              position={Position.Bottom}
+              id={item.id}
+              className={styles.handleOpen}
+              style={{
+                left: handleLeft,
+                bottom: -6,
+              }}
+              title={item.name || 'Video output'}
+            />
+          );
+        })}
       </div>
 
       {contextMenu && (

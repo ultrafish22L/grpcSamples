@@ -46,7 +46,7 @@ function TextInputNodeComponent({ data, selected }: NodeProps) {
           position={Position.Bottom} 
           id="output"
           className={styles.handleOpen}
-          style={{ left: '50%', bottom: 0 }}
+          style={{ left: '50%', bottom: -6 }}
         />
       </div>
 
