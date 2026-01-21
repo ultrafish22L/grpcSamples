@@ -109,6 +109,15 @@
 .endpointItemTitle {
   font-weight: 500;
   color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.endpointCost {
+  font-size: 10px;
+  opacity: 0.6;
+  flex-shrink: 0;
 }
 
 .utilitySection {

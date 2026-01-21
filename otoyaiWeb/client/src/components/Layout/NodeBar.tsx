@@ -5,6 +5,15 @@ import { getDefaultParameters } from '../../utils/endpointSchema';
 import { logger } from '../../services/logger';
 import styles from './Layout.module.css';
 
+// Map category to output type color
+const getCategoryColor = (category: string): string => {
+  if (category.includes('image')) return '#44ff44'; // Green - image output
+  if (category.includes('video')) return '#ff44ff'; // Magenta - video output
+  if (category.includes('audio') || category.includes('speech')) return '#4499ff'; // Blue - audio output
+  if (category === 'llm' || category === 'vision') return '#ffaa44'; // Orange - text/string output
+  return '#aaaaaa'; // Gray - generic/any
+};
+
 export const NodeBar = memo(() => {
   const { 
     endpoints, 
@@ -61,8 +70,20 @@ export const NodeBar = memo(() => {
 
   const handleAddEndpoint = (endpoint: Endpoint) => {
     const id = `${endpoint.endpoint_id}-${Date.now()}`;
-    const x = Math.random() * 500 + 100;
-    const y = Math.random() * 500 + 100;
+    
+    // Calculate position in center of current viewport
+    const state = useStore.getState();
+    const viewport = state.viewport;
+    
+    // Get viewport center (assuming typical viewport size)
+    const viewportWidth = window.innerWidth - 400; // Minus sidebars
+    const viewportHeight = window.innerHeight;
+    const centerX = (-viewport.x + viewportWidth / 2) / viewport.zoom;
+    const centerY = (-viewport.y + viewportHeight / 2) / viewport.zoom;
+    
+    // Add small random offset to avoid stacking
+    const x = centerX + (Math.random() - 0.5) * 100;
+    const y = centerY + (Math.random() - 0.5) * 100;
 
     // Get default parameter values from schema
     const defaultParams = getDefaultParameters(endpoint);
@@ -114,8 +135,20 @@ export const NodeBar = memo(() => {
 
   const handleAddUtilityNode = (type: 'image' | 'video' | 'textInput') => {
     const id = `${type}-${Date.now()}`;
-    const x = Math.random() * 500 + 100;
-    const y = Math.random() * 500 + 100;
+    
+    // Calculate position in center of current viewport
+    const state = useStore.getState();
+    const viewport = state.viewport;
+    
+    // Get viewport center
+    const viewportWidth = window.innerWidth - 400; // Minus sidebars
+    const viewportHeight = window.innerHeight;
+    const centerX = (-viewport.x + viewportWidth / 2) / viewport.zoom;
+    const centerY = (-viewport.y + viewportHeight / 2) / viewport.zoom;
+    
+    // Add small random offset to avoid stacking
+    const x = centerX + (Math.random() - 0.5) * 100;
+    const y = centerY + (Math.random() - 0.5) * 100;
 
     logger.info('Adding utility node', { type });
 
@@ -145,6 +178,7 @@ export const NodeBar = memo(() => {
           <div
             className={`${styles.categoryTitle} ${isUtilityExpanded ? styles.active : ''}`}
             onClick={() => toggleCategory('utility')}
+            style={{ color: getCategoryColor('utility') }}
           >
             <span>utility</span>
             <span>{isUtilityExpanded ? '▼' : '▶'}</span>
@@ -184,12 +218,14 @@ export const NodeBar = memo(() => {
             e.category.includes(category)
           );
           const isExpanded = expandedCategories.has(category);
+          const categoryColor = getCategoryColor(category);
 
           return (
             <div key={category} className={styles.categorySection}>
               <div
                 className={`${styles.categoryTitle} ${isExpanded ? styles.active : ''}`}
                 onClick={() => toggleCategory(category)}
+                style={{ color: categoryColor }}
               >
                 <span>{category}</span>
                 <span>{isExpanded ? '▼' : '▶'}</span>
@@ -205,7 +241,10 @@ export const NodeBar = memo(() => {
                       onContextMenu={(e) => handleContextMenu(e, endpoint.endpoint_id)}
                       title={endpoint.description}
                     >
-                      <div className={styles.endpointItemTitle}>{endpoint.title}</div>
+                      <div className={styles.endpointItemTitle}>
+                        <span className={styles.endpointCost}>💎</span>
+                        {endpoint.title}
+                      </div>
                     </div>
                   ))}
                 </div>

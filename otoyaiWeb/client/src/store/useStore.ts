@@ -30,6 +30,11 @@ export interface Project {
 
 export interface Workflow {
   visibleEndpoints: string[];
+  viewport?: {
+    x: number;
+    y: number;
+    zoom: number;
+  };
 }
 
 interface AppState {
@@ -42,6 +47,7 @@ interface AppState {
   visibleEndpoints: string[];
   projects: Project[];
   currentProject: Project | null;
+  viewport: { x: number; y: number; zoom: number };
 
   fetchEndpoints: () => Promise<void>;
   setSelectedCategory: (category: string | null) => void;
@@ -61,7 +67,10 @@ interface AppState {
   setVisibleEndpoints: (endpointIds: string[]) => void;
   resetVisibleEndpoints: () => void;
   
+  setViewport: (viewport: { x: number; y: number; zoom: number }) => void;
+  
   saveProject: (name: string) => void;
+  saveProjectAs: (name: string) => void;
   loadProject: (projectId: string) => void;
   deleteProject: (projectId: string) => void;
   newProject: () => void;
@@ -82,6 +91,7 @@ export const useStore = create<AppState>()(
       visibleEndpoints: DEFAULT_VISIBLE_ENDPOINTS,
       projects: [],
       currentProject: null,
+      viewport: { x: 0, y: 0, zoom: 1 },
 
       fetchEndpoints: async () => {
         set({ loadingEndpoints: true });
@@ -246,7 +256,55 @@ export const useStore = create<AppState>()(
         set({ visibleEndpoints: DEFAULT_VISIBLE_ENDPOINTS });
       },
 
+      setViewport: (viewport) => {
+        set({ viewport });
+      },
+
       saveProject: (name) => {
+        const state = get();
+        const existingProject = state.currentProject;
+        
+        if (existingProject) {
+          // Update existing project
+          const updatedProject: Project = {
+            ...existingProject,
+            name,
+            modified: Date.now(),
+            nodes: state.nodes,
+            edges: state.edges,
+            workflow: { 
+              visibleEndpoints: state.visibleEndpoints,
+              viewport: state.viewport,
+            },
+          };
+          set((state) => ({
+            projects: state.projects.map(p => p.id === updatedProject.id ? updatedProject : p),
+            currentProject: updatedProject,
+          }));
+          logger.info('Project saved (updated)', { name, nodeCount: updatedProject.nodes.length });
+        } else {
+          // Create new project
+          const project: Project = {
+            id: `project-${Date.now()}`,
+            name,
+            created: Date.now(),
+            modified: Date.now(),
+            nodes: state.nodes,
+            edges: state.edges,
+            workflow: { 
+              visibleEndpoints: state.visibleEndpoints,
+              viewport: state.viewport,
+            },
+          };
+          set((state) => ({
+            projects: [...state.projects, project],
+            currentProject: project,
+          }));
+          logger.info('Project saved (new)', { name, nodeCount: project.nodes.length });
+        }
+      },
+
+      saveProjectAs: (name) => {
         const state = get();
         const project: Project = {
           id: `project-${Date.now()}`,
@@ -255,13 +313,16 @@ export const useStore = create<AppState>()(
           modified: Date.now(),
           nodes: state.nodes,
           edges: state.edges,
-          workflow: { visibleEndpoints: state.visibleEndpoints },
+          workflow: { 
+            visibleEndpoints: state.visibleEndpoints,
+            viewport: state.viewport,
+          },
         };
         set((state) => ({
           projects: [...state.projects, project],
           currentProject: project,
         }));
-        logger.info('Project saved', { name, nodeCount: project.nodes.length });
+        logger.info('Project saved as', { name, nodeCount: project.nodes.length });
       },
 
       loadProject: (projectId) => {
@@ -272,6 +333,7 @@ export const useStore = create<AppState>()(
             nodes: project.nodes,
             edges: project.edges,
             visibleEndpoints: project.workflow.visibleEndpoints,
+            viewport: project.workflow.viewport || { x: 0, y: 0, zoom: 1 },
             currentProject: project,
           });
           logger.info('Project loaded', { name: project.name });

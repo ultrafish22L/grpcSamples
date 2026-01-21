@@ -4,7 +4,21 @@ import { logger } from '../../services/logger';
 import styles from './Layout.module.css';
 
 export const Toolbar = memo(() => {
-  const clearGraph = useStore((state) => state.clearGraph);
+  const { clearGraph, saveProject, saveProjectAs, currentProject } = useStore();
+
+  const handleSave = () => {
+    const projectName = currentProject?.name || prompt('Enter project name:');
+    if (projectName) {
+      saveProject(projectName);
+    }
+  };
+
+  const handleSaveAs = () => {
+    const projectName = prompt('Enter new project name:');
+    if (projectName) {
+      saveProjectAs(projectName);
+    }
+  };
 
   const handleClear = () => {
     if (confirm('Clear the entire graph?')) {
@@ -26,6 +40,23 @@ export const Toolbar = memo(() => {
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </div>
+
+      <div className={styles.toolbarButton} onClick={handleSave} title="Save Project">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"></path>
+          <polyline points="17 21 17 13 7 13 7 21"></polyline>
+          <polyline points="7 3 7 8 15 8"></polyline>
+        </svg>
+      </div>
+
+      <div className={styles.toolbarButton} onClick={handleSaveAs} title="Save As...">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"></path>
+          <polyline points="17 21 17 13 7 13 7 21"></polyline>
+          <polyline points="7 3 7 8 15 8"></polyline>
+          <line x1="14" y1="3" x2="14" y2="8"></line>
         </svg>
       </div>
 

@@ -25,11 +25,18 @@ const nodeTypes: NodeTypes = {
 };
 
 export const NodeGraph = memo(() => {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onReconnect, removeEdge } = useStore();
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onReconnect, removeEdge, setViewport, viewport } = useStore();
 
   const handleNodesChange = useCallback(
     (changes: any) => onNodesChange(changes),
     [onNodesChange]
+  );
+
+  const handleViewportChange = useCallback(
+    (newViewport: { x: number; y: number; zoom: number }) => {
+      setViewport(newViewport);
+    },
+    [setViewport]
   );
 
   const handleEdgesChange = useCallback(
@@ -115,6 +122,8 @@ export const NodeGraph = memo(() => {
         onReconnect={handleReconnect}
         onReconnectStart={handleReconnectStart}
         onReconnectEnd={handleReconnectEnd}
+        onViewportChange={handleViewportChange}
+        defaultViewport={viewport}
         isValidConnection={handleIsValidConnection}
         nodeTypes={nodeTypes}
         reconnectRadius={20}
