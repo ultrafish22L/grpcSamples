@@ -463,6 +463,13 @@
   overflow: hidden;
 }
 
+/* Preview Area for Text Node - fits content tightly */
+.textNodePreview {
+  height: auto;
+  padding: var(--spacing-sm);
+  background: var(--color-bg-primary);
+}
+
 .previewImage {
   width: 100%;
   height: 100%;

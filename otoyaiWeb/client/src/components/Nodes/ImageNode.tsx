@@ -8,7 +8,7 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
   const { updateNodeData } = useReactFlow();
   const [, forceUpdate] = useState({});
   const typedData = data as unknown as ImageNodeData;
-  const previewCollapsed = typedData.previewCollapsed ?? false;
+  const previewCollapsed = typedData.previewCollapsed ?? true;
 
   // Initialize items if empty
   if (!typedData.items || typedData.items.length === 0) {

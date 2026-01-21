@@ -7,7 +7,7 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as TextInputNodeData;
   const { updateNodeData } = useReactFlow();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
-  const previewCollapsed = typedData.previewCollapsed ?? false;
+  const previewCollapsed = typedData.previewCollapsed ?? true;
 
   const handleTextChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateNodeData(id, { value: e.target.value });
@@ -56,13 +56,14 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
 
         {/* Collapsible Preview Area */}
         {!previewCollapsed && (
-          <div className={styles.previewArea}>
+          <div className={styles.textNodePreview}>
             <textarea
               className={`${styles.nodeInput} ${styles.nodeTextarea}`}
               placeholder="Enter text..."
               value={typedData.value}
               onChange={handleTextChange}
               onClick={(e) => e.stopPropagation()}
+              style={{ marginTop: 0 }}
             />
           </div>
         )}

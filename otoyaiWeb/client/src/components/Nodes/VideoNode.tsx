@@ -9,7 +9,7 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
   const [, forceUpdate] = useState({});
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const typedData = data as unknown as VideoNodeData;
-  const previewCollapsed = typedData.previewCollapsed ?? false;
+  const previewCollapsed = typedData.previewCollapsed ?? true;
 
   // Initialize items if empty
   if (!typedData.items || typedData.items.length === 0) {
