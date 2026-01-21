@@ -30,7 +30,7 @@ export function NodeInspector() {
 
       <div className={styles.inspectorContent}>
         {selectedNode.type === 'aiEndpoint' && (
-          <AIEndpointInspector node={selectedNode} updateNode={updateNode} />
+          <AIEndpointInspector node={selectedNode} updateNode={updateNode} nodes={nodes} edges={edges} />
         )}
         {selectedNode.type === 'image' && (
           <MediaInspector node={selectedNode} updateNode={updateNode} type="image" nodes={nodes} edges={edges} />
@@ -52,12 +52,65 @@ interface AIEndpointInspectorProps {
     data: unknown;
   };
   updateNode: (id: string, data: Partial<unknown>) => void;
+  nodes: AppNode[];
+  edges: any[];
 }
 
-function AIEndpointInspector({ node, updateNode }: AIEndpointInspectorProps) {
+function AIEndpointInspector({ node, updateNode, nodes, edges }: AIEndpointInspectorProps) {
   const data = node.data as AIEndpointNodeData;
   const { endpoint, parameters = {}, isExecuting = false } = data;
   const schema = useMemo(() => inferEndpointSchema(endpoint), [endpoint]);
+
+  // Find connected inputs for each parameter
+  const connectedInputs = useMemo(() => {
+    const connections: Record<string, any> = {};
+    
+    // Find all edges targeting this node
+    const incomingEdges = edges.filter((edge) => edge.target === node.id);
+    
+    for (const edge of incomingEdges) {
+      const sourceNode = nodes.find((n) => n.id === edge.source);
+      if (!sourceNode) continue;
+      
+      const targetHandle = edge.targetHandle; // This is the input parameter name
+      if (!targetHandle) continue;
+      
+      // Get the source data based on node type
+      let sourceData: any = null;
+      
+      if (sourceNode.type === 'textInput') {
+        sourceData = {
+          type: 'text',
+          value: (sourceNode.data as TextInputNodeData).value || '',
+          nodeType: 'textInput',
+        };
+      } else if (sourceNode.type === 'image') {
+        const imageData = sourceNode.data as ImageNodeData;
+        const handleIndex = parseInt(edge.sourceHandle?.replace('output-', '') || '0');
+        const item = imageData.items[handleIndex];
+        sourceData = {
+          type: 'image',
+          item: item,
+          nodeType: 'image',
+        };
+      } else if (sourceNode.type === 'video') {
+        const videoData = sourceNode.data as VideoNodeData;
+        const handleIndex = parseInt(edge.sourceHandle?.replace('output-', '') || '0');
+        const item = videoData.items[handleIndex];
+        sourceData = {
+          type: 'video',
+          item: item,
+          nodeType: 'video',
+        };
+      }
+      
+      if (sourceData) {
+        connections[targetHandle] = sourceData;
+      }
+    }
+    
+    return connections;
+  }, [edges, node.id, nodes]);
 
   const handleParameterChange = (paramName: string, value: unknown) => {
     const newParams = { ...parameters, [paramName]: value };
@@ -96,8 +149,11 @@ function AIEndpointInspector({ node, updateNode }: AIEndpointInspectorProps) {
                 {input.label}
                 {input.required && <span className={styles.required}>*</span>}
               </label>
-              {renderControl(input, parameters[input.name], (value) =>
-                handleParameterChange(input.name, value)
+              {renderControl(
+                input,
+                parameters[input.name],
+                (value) => handleParameterChange(input.name, value),
+                connectedInputs[input.name]
               )}
               {input.description && (
                 <div className={styles.parameterHint}>{input.description}</div>
@@ -345,10 +401,28 @@ function TextInputInspector({ node, updateNode }: TextInputInspectorProps) {
 function renderControl(
   input: InputParameter,
   value: unknown,
-  onChange: (value: unknown) => void
+  onChange: (value: unknown) => void,
+  connectedInput?: any
 ) {
   switch (input.type) {
     case 'text':
+      // Show connected text if available
+      if (connectedInput?.type === 'text') {
+        return (
+          <div className={styles.connectedTextDisplay}>
+            <div className={styles.connectedBadge}>
+              ✓ Connected from text node
+            </div>
+            <textarea
+              className={styles.textInput}
+              value={connectedInput.value}
+              readOnly
+              rows={3}
+              style={{ opacity: 0.8, cursor: 'not-allowed' }}
+            />
+          </div>
+        );
+      }
       return (
         <textarea
           className={styles.textInput}
@@ -416,11 +490,66 @@ function renderControl(
       );
 
     case 'image':
+      // Show connected image if available
+      if (connectedInput?.type === 'image' && connectedInput.item) {
+        const item = connectedInput.item;
+        return (
+          <div className={styles.connectedMediaDisplay}>
+            <div className={styles.connectedBadge}>
+              ✓ Connected from image node
+            </div>
+            {(item.preview || item.url) && (
+              <img
+                src={item.preview || item.url}
+                alt={item.name || 'Connected image'}
+                className={styles.connectedMediaPreview}
+              />
+            )}
+            <div className={styles.connectedMediaName}>
+              {item.name || 'Untitled image'}
+            </div>
+          </div>
+        );
+      }
+      return (
+        <div className={styles.mediaPlaceholder}>
+          Connect via input pin
+        </div>
+      );
+
     case 'video':
+      // Show connected video if available
+      if (connectedInput?.type === 'video' && connectedInput.item) {
+        const item = connectedInput.item;
+        return (
+          <div className={styles.connectedMediaDisplay}>
+            <div className={styles.connectedBadge}>
+              ✓ Connected from video node
+            </div>
+            {(item.preview || item.url) && (
+              <video
+                src={item.preview || item.url}
+                className={styles.connectedMediaPreview}
+                controls
+                muted
+              />
+            )}
+            <div className={styles.connectedMediaName}>
+              {item.name || 'Untitled video'}
+            </div>
+          </div>
+        );
+      }
+      return (
+        <div className={styles.mediaPlaceholder}>
+          Connect via input pin
+        </div>
+      );
+
     case 'audio':
       return (
         <div className={styles.mediaPlaceholder}>
-          {value ? '✓ Connected via pin' : 'Connect via input pin'}
+          {connectedInput ? '✓ Connected via pin' : 'Connect via input pin'}
         </div>
       );
 
