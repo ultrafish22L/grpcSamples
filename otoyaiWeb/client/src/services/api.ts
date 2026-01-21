@@ -2,7 +2,7 @@ import axios from 'axios';
 import { EndpointsResponse } from '../types';
 import { logger } from './logger';
 
-const OTOY_API_BASE = 'https://play.otoy.ai/api';
+const OTOY_API_BASE = '/otoy-api';
 
 class OtoyAPI {
   async fetchEndpoints(): Promise<EndpointsResponse> {
