@@ -9,7 +9,7 @@ export default defineConfig({
     cors: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: 'http://localhost:5001',
         changeOrigin: true,
       },
       '/otoy-api': {

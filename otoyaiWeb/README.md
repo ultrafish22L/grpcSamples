@@ -48,7 +48,7 @@ npm run dev
 
 This will start:
 - **Client**: http://localhost:60023 (React app, or port from $WORKER_1 env var, defaults to 5173)
-- **Server**: http://localhost:3001 (Express logger server)
+- **Server**: http://localhost:5001 (Express logger server, or port from $PORT env var)
 
 ### Individual Commands
 

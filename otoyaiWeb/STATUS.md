@@ -4,7 +4,7 @@
 
 **Status:** Fully functional and operational  
 **Live URL:** http://localhost:60023  
-**Backend:** http://localhost:3001
+**Backend:** http://localhost:5001
 
 ---
 
@@ -43,7 +43,7 @@ npm run dev
 
 This starts:
 - **Frontend:** http://localhost:60023 (Vite + React)
-- **Backend:** http://localhost:3001 (Express logger)
+- **Backend:** http://localhost:5001 (Express logger)
 
 ### Or Start Individually
 ```bash
@@ -147,7 +147,7 @@ otoyaiWeb/
 │   │   └── styles/       # CSS
 │   └── vite.config.ts
 │
-├── server/              # Express (Port 3001)
+├── server/              # Express (Port 5001)
 │   ├── src/index.ts
 │   └── logs/app.log
 │

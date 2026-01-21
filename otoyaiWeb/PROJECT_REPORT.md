@@ -98,7 +98,7 @@ otoyaiWeb/
 │   ├── tsconfig.json
 │   └── vite.config.ts                    # Vite + proxy configuration
 │
-├── server/                          # Express backend (Port 3001)
+├── server/                          # Express backend (Port 5001)
 │   ├── src/
 │   │   └── index.ts                      # Logger API endpoints
 │   ├── logs/
@@ -280,7 +280,7 @@ npm run dev
 
 # Or individually:
 npm run dev:client  # Frontend only (port 60023)
-npm run dev:server  # Backend only (port 3001)
+npm run dev:server  # Backend only (port 5001)
 ```
 
 ### Production Build
