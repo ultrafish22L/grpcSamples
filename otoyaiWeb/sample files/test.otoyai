@@ -1,0 +1,121 @@
+{
+  "name": "Untitled",
+  "created": 1768988215281,
+  "modified": 1768988396865,
+  "nodes": [
+    {
+      "id": "image-1768986167012",
+      "type": "image",
+      "position": {
+        "x": 609.5309775492524,
+        "y": 351.8105906038211
+      },
+      "data": {
+        "items": [
+          {
+            "id": "1768986231504-0.26266404517463404",
+            "collapsed": false,
+            "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Madagascar_giant_day_gecko_%28Phelsuma_grandis%29_Nosy_Komba.jpg",
+            "name": "Madagascar_giant_day_gecko_%28Phelsuma_grandis%29_Nosy_Komba.jpg"
+          }
+        ],
+        "previewCollapsed": true
+      },
+      "selected": false,
+      "measured": {
+        "width": 220,
+        "height": 46
+      },
+      "dragging": false
+    },
+    {
+      "id": "fal-ai/kling-video/o1/standard/image-to-video-1768986215522",
+      "type": "aiEndpoint",
+      "position": {
+        "x": 466.7727271214924,
+        "y": 519.2430507685438
+      },
+      "data": {
+        "endpoint": {
+          "_id": "694039e330ac55b2f293cc7e",
+          "endpoint_id": "fal-ai/kling-video/o1/standard/image-to-video",
+          "category": [
+            "image-to-video"
+          ],
+          "vendor": "fal-ai",
+          "model_path": "kling-video/o1/standard/image-to-video",
+          "title": "Kling Video o1 [Standard]",
+          "description": "Generates dynamic motion sequences directly from static imagery"
+        },
+        "parameters": {
+          "style": "natural",
+          "duration": "5"
+        },
+        "isExecuting": false,
+        "selectedPin": "output"
+      },
+      "selected": true,
+      "measured": {
+        "width": 220,
+        "height": 48
+      },
+      "dragging": false
+    },
+    {
+      "id": "textInput-1768988235798",
+      "type": "textInput",
+      "position": {
+        "x": 469.11874644353134,
+        "y": 301.27173493837444
+      },
+      "data": {
+        "value": "A Madagascar day gecko sitting on a toadstool smoking a hookah",
+        "label": "Text Input"
+      },
+      "selected": false,
+      "measured": {
+        "width": 220,
+        "height": 34
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "image-1768986167012",
+      "sourceHandle": "output-1768986231504-0.26266404517463404",
+      "target": "fal-ai/kling-video/o1/standard/image-to-video-1768986215522",
+      "targetHandle": "image",
+      "style": {
+        "stroke": "#44ff44",
+        "strokeWidth": 2
+      },
+      "animated": false,
+      "id": "xy-edge__image-1768986167012output-1768986231504-0.26266404517463404-fal-ai/kling-video/o1/standard/image-to-video-1768986215522image"
+    },
+    {
+      "source": "textInput-1768988235798",
+      "sourceHandle": "output",
+      "target": "fal-ai/kling-video/o1/standard/image-to-video-1768986215522",
+      "targetHandle": "prompt",
+      "style": {
+        "stroke": "#ffaa44",
+        "strokeWidth": 2
+      },
+      "animated": false,
+      "id": "xy-edge__textInput-1768988235798output-fal-ai/kling-video/o1/standard/image-to-video-1768986215522prompt"
+    }
+  ],
+  "visibleEndpoints": [
+    "fal-ai/flux-1/dev",
+    "fal-ai/flux-1/schnell",
+    "fal-ai/stable-diffusion-v3",
+    "fal-ai/aura-flow",
+    "fal-ai/flux-1/dev/image-to-image",
+    "fal-ai/hunyuan-video/image-to-video",
+    "fal-ai/cogvideox-5b/image-to-video",
+    "openai/whisper-large-v3",
+    "fal-ai/kling-video/o1/standard/image-to-video",
+    "fal-ai/bytedance/seed3d/image-to-3d"
+  ]
+}
