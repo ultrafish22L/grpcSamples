@@ -7,7 +7,7 @@ import styles from './nodes.module.css';
 
 function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as AIEndpointNodeData;
-  const { endpoint, selectedPin = 'output', result } = typedData;
+  const { endpoint, selectedPin = 'output', result, previewCollapsed = false } = typedData;
   const { updateNodeData } = useReactFlow();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
 
@@ -17,6 +17,10 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
     updateNodeData(id, { selectedPin: pinName });
     logger.debug('Pin selected', { node: id, pin: pinName });
   }, [id, updateNodeData]);
+
+  const togglePreview = useCallback(() => {
+    updateNodeData(id, { previewCollapsed: !previewCollapsed });
+  }, [id, previewCollapsed, updateNodeData]);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -48,8 +52,8 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   }, [id, closeContextMenu]);
 
   // Calculate handle positions
-  const handleSpacing = 30;
-  const headerHeight = 50;
+  const handleSpacing = 24;
+  const handleStartOffset = 12;
 
   // Determine what to show in preview
   const previewContent = useMemo(() => {
@@ -88,39 +92,9 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
         onContextMenu={handleContextMenu}
         title={endpoint.description}
       >
-        {/* Header with title and buttons */}
-        <div className={styles.nodeHeader}>
-          <div className={styles.nodeTitleArea}>
-            <h3 className={styles.nodeTitle}>
-              {endpoint.title}
-            </h3>
-          </div>
-          <div className={styles.nodeHeaderButtons}>
-            <button 
-              className={styles.nodeHeaderButton}
-              onClick={handleDuplicate}
-              title="Duplicate node"
-            >
-              📋
-            </button>
-            <button 
-              className={styles.nodeHeaderButton}
-              onClick={handleDelete}
-              title="Delete node"
-            >
-              🗑️
-            </button>
-          </div>
-        </div>
-
-        {/* Preview Area */}
-        <div className={styles.previewArea}>
-          {previewContent}
-        </div>
-
-        {/* Input Handles */}
+        {/* Input Handles - Top */}
         {schema.inputs.map((input, index) => {
-          const handleTop = headerHeight + index * handleSpacing;
+          const handleLeft = handleStartOffset + index * handleSpacing;
           const isMedia = isMediaInput(input.type);
           const isSelected = selectedPin === input.name;
           
@@ -128,25 +102,47 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
             <Handle
               key={input.name}
               type="target"
-              position={Position.Left}
+              position={Position.Top}
               id={input.name}
               className={`${isMedia ? styles.handleOpen : styles.handleFilled} ${isSelected ? styles.handleSelected : ''}`}
-              style={{ top: handleTop }}
+              style={{ left: handleLeft, top: 0 }}
               title={`${input.label}${input.required ? ' (required)' : ''}\n${input.description || ''}`}
               onClick={() => handlePinClick(input.name)}
             />
           );
         })}
 
-        {/* Output Handle */}
-        <Handle
-          type="source"
-          position={Position.Right}
-          id="output"
-          className={`${styles.handleOpen} ${selectedPin === 'output' ? styles.handleSelected : ''}`}
-          title={`Output: ${schema.outputs[0]?.type || 'result'}`}
-          onClick={() => handlePinClick('output')}
-        />
+        {/* Title Bar */}
+        <div className={styles.nodeHeader} onClick={togglePreview}>
+          <h3 className={styles.nodeTitle}>{endpoint.title}</h3>
+          <span className={styles.collapseIndicator}>{previewCollapsed ? '▶' : '▼'}</span>
+        </div>
+
+        {/* Collapsible Preview Area */}
+        {!previewCollapsed && (
+          <div className={styles.previewArea}>
+            {previewContent}
+          </div>
+        )}
+
+        {/* Output Handles - Bottom */}
+        {schema.outputs.map((output, index) => {
+          const handleLeft = handleStartOffset + index * handleSpacing;
+          const isSelected = selectedPin === 'output';
+          
+          return (
+            <Handle
+              key={output.name}
+              type="source"
+              position={Position.Bottom}
+              id={output.name}
+              className={`${styles.handleOpen} ${isSelected ? styles.handleSelected : ''}`}
+              style={{ left: handleLeft, bottom: 0 }}
+              title={`Output: ${output.type || 'result'}`}
+              onClick={() => handlePinClick('output')}
+            />
+          );
+        })}
       </div>
 
       {/* Context Menu */}

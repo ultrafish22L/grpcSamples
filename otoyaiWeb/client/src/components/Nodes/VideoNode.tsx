@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useState, useCallback, useEffect } from 'react';
 import { Handle, Position, NodeProps, useUpdateNodeInternals } from '@xyflow/react';
 import { VideoNodeData, MediaItem } from '../../types';
 import styles from './nodes.module.css';
@@ -6,6 +6,7 @@ import styles from './nodes.module.css';
 function VideoNodeComponent({ id, data, selected }: NodeProps) {
   const updateNodeInternals = useUpdateNodeInternals();
   const [, forceUpdate] = useState({});
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const typedData = data as unknown as VideoNodeData;
 
   // Initialize items if empty
@@ -68,90 +69,122 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
 
   const hasMultipleItems = typedData.items.length > 1;
 
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setContextMenu({ x: e.clientX, y: e.clientY });
+  }, []);
+
+  const closeContextMenu = useCallback(() => {
+    setContextMenu(null);
+  }, []);
+
+  useEffect(() => {
+    if (contextMenu) {
+      const handleClick = () => closeContextMenu();
+      document.addEventListener('click', handleClick);
+      return () => document.removeEventListener('click', handleClick);
+    }
+  }, [contextMenu, closeContextMenu]);
+
   return (
-    <div className={`${styles.baseNode} ${selected ? styles.selected : ''}`}>
-      <div className={styles.nodeHeader}>
-        <h3 className={styles.nodeTitle}>Video</h3>
-        <div className={styles.headerButtons}>
-          <button
-            className={styles.iconButton}
-            onClick={() => addItem('url')}
-            title="Add URL"
-          >
-            +🔗
-          </button>
-          <button
-            className={styles.iconButton}
-            onClick={() => addItem('file')}
-            title="Add File"
-          >
-            +📁
-          </button>
+    <>
+      <div 
+        className={`${styles.baseNode} ${selected ? styles.selected : ''}`}
+        onContextMenu={handleContextMenu}
+      >
+        <div className={styles.nodeHeader}>
+          <h3 className={styles.nodeTitle}>Video</h3>
+          <div className={styles.headerButtons}>
+            <button
+              className={styles.iconButton}
+              onClick={() => addItem('url')}
+              title="Add URL"
+            >
+              +🔗
+            </button>
+            <button
+              className={styles.iconButton}
+              onClick={() => addItem('file')}
+              title="Add File"
+            >
+              +📁
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className={styles.mediaItems}>
-        {typedData.items.map((item: MediaItem) => (
-          <div key={item.id} className={styles.mediaItem}>
-            <div className={styles.mediaItemHeader}>
-              <button
-                className={styles.collapseButton}
-                onClick={() => toggleCollapse(item.id)}
-              >
-                {item.collapsed ? '▶' : '▼'}
-              </button>
-              <span className={styles.mediaItemName}>
-                {item.name || item.url || 'New Video'}
-              </span>
-              <button
-                className={styles.deleteButton}
-                onClick={() => deleteItem(item.id)}
-                title="Delete"
-              >
-                ×
-              </button>
-            </div>
-
-            {!item.collapsed && (item.preview || item.url) && (
-              <div className={styles.mediaItemContent}>
-                <video
-                  src={item.preview || item.url}
-                  controls
-                  className={styles.nodePreview}
-                />
+        <div className={styles.mediaItems}>
+          {typedData.items.map((item: MediaItem) => (
+            <div key={item.id} className={styles.mediaItem}>
+              <div className={styles.mediaItemHeader}>
+                <button
+                  className={styles.collapseButton}
+                  onClick={() => toggleCollapse(item.id)}
+                >
+                  {item.collapsed ? '▶' : '▼'}
+                </button>
+                <span className={styles.mediaItemName}>
+                  {item.name || item.url || 'New Video'}
+                </span>
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => deleteItem(item.id)}
+                  title="Delete"
+                >
+                  ×
+                </button>
               </div>
-            )}
-          </div>
-        ))}
 
-        {typedData.items.length === 0 && (
-          <div className={styles.emptyState}>
-            Click + buttons above to add videos
-          </div>
-        )}
+              {!item.collapsed && (item.preview || item.url) && (
+                <div className={styles.mediaItemContent}>
+                  <video
+                    src={item.preview || item.url}
+                    controls
+                    className={styles.nodePreview}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+
+          {typedData.items.length === 0 && (
+            <div className={styles.emptyState}>
+              Click + buttons above to add videos
+            </div>
+          )}
+        </div>
+
+        {/* Output handles - Bottom */}
+        {typedData.items.map((item: MediaItem, index: number) => (
+          <Handle
+            key={item.id}
+            type="source"
+            position={Position.Bottom}
+            id={item.id}
+            className={styles.handleOpen}
+            style={{
+              left: `${20 + index * 24}px`,
+              bottom: 0,
+            }}
+            title={item.name || 'Video output'}
+          />
+        ))}
       </div>
 
-      {/* Output handles */}
-      {hasMultipleItems && (
-        <Handle
-          type="source"
-          position={Position.Right}
-          id="composite"
-          style={{ top: '20px' }}
-        />
+      {contextMenu && (
+        <div
+          className={styles.nodeContextMenu}
+          style={{ position: 'fixed', left: contextMenu.x, top: contextMenu.y }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className={styles.contextMenuItem}>
+            📋 Duplicate
+          </div>
+          <div className={styles.contextMenuItem}>
+            🗑️ Delete
+          </div>
+        </div>
       )}
-      {typedData.items.map((item: MediaItem, index: number) => (
-        <Handle
-          key={item.id}
-          type="source"
-          position={Position.Right}
-          id={item.id}
-          style={{
-            top: hasMultipleItems ? `${40 + index * 20}px` : '50%',
-          }}
-        />
-      ))}
-    </div>
+    </>
   );
 }
 
