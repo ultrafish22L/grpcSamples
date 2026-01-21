@@ -150,3 +150,25 @@
   color: var(--color-text-secondary);
   padding: var(--spacing-lg);
 }
+
+.contextMenuOverlay {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  min-width: 200px;
+}
+
+.contextMenuItem {
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 14px;
+}
+
+.contextMenuItem:hover {
+  background: var(--color-bg-tertiary);
+  color: var(--color-accent);
+}

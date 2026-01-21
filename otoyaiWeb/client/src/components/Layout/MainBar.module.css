@@ -1,0 +1,159 @@
+.mainBar {
+  width: 60px;
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 4px;
+  border-right: 1px solid #2a2a2a;
+}
+
+.mainBarButton {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+  color: #888;
+}
+
+.mainBarButton:hover {
+  background: #2a2a2a;
+  color: #00d4ff;
+}
+
+.mainBarButton svg {
+  width: 24px;
+  height: 24px;
+}
+
+.separator {
+  height: 1px;
+  background: #2a2a2a;
+  margin: 4px 8px;
+}
+
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 400px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.dialog h3 {
+  margin: 0 0 16px 0;
+  color: #00d4ff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.dialog input {
+  width: 100%;
+  padding: 12px;
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 16px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.dialog input:focus {
+  border-color: #00d4ff;
+}
+
+.dialogButtons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.dialogButtons button {
+  padding: 8px 16px;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.dialogButtons button:hover {
+  background: #3a3a3a;
+  border-color: #00d4ff;
+}
+
+.dialogButtons button:first-child {
+  background: #00d4ff;
+  border-color: #00d4ff;
+  color: #000;
+}
+
+.dialogButtons button:first-child:hover {
+  background: #00bbee;
+}
+
+.projectList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.projectItem {
+  padding: 12px;
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.projectItem:hover {
+  border-color: #00d4ff;
+  background: #1a1a1a;
+}
+
+.projectName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.projectInfo {
+  font-size: 12px;
+  color: #888;
+}
+
+.emptyMessage {
+  padding: 24px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}

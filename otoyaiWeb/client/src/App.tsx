@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
-import { Toolbar } from './components/Layout/Toolbar';
-import { ContextMenu } from './components/Layout/ContextMenu';
+import { useEffect, useState } from 'react';
+import { MainBar } from './components/Layout/MainBar';
+import { NodeBar } from './components/Layout/NodeBar';
+import { AddNodeDialog } from './components/Layout/AddNodeDialog';
 import { NodeGraph } from './components/NodeGraph/NodeGraph';
 import { logger } from './services/logger';
 import './styles/global.css';
 
 function App() {
+  const [showAddNodeDialog, setShowAddNodeDialog] = useState(false);
+
   useEffect(() => {
     logger.info('OtoyaiWeb application started');
 
@@ -15,11 +18,17 @@ function App() {
   }, []);
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
-      <Toolbar />
-      <ContextMenu />
-      <NodeGraph />
-    </div>
+    <>
+      <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
+        <MainBar onAddNodeClick={() => setShowAddNodeDialog(true)} />
+        <NodeBar />
+        <NodeGraph />
+      </div>
+      
+      {showAddNodeDialog && (
+        <AddNodeDialog onClose={() => setShowAddNodeDialog(false)} />
+      )}
+    </>
   );
 }
 
