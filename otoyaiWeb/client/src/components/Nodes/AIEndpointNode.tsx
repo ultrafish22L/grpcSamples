@@ -3,8 +3,9 @@ import { Handle, Position, NodeProps } from '@xyflow/react';
 import { AIEndpointNodeData } from '../../types';
 import styles from './nodes.module.css';
 
-export const AIEndpointNode = memo(({ data, selected }: NodeProps<AIEndpointNodeData>) => {
-  const { endpoint } = data;
+function AIEndpointNodeComponent({ data, selected }: NodeProps) {
+  const typedData = data as unknown as AIEndpointNodeData;
+  const { endpoint } = typedData;
 
   return (
     <div className={`${styles.baseNode} ${selected ? styles.selected : ''}`}>
@@ -17,7 +18,7 @@ export const AIEndpointNode = memo(({ data, selected }: NodeProps<AIEndpointNode
         </div>
       </div>
 
-      {endpoint.category.map((cat, i) => (
+      {endpoint.category.map((cat: string, i: number) => (
         <span key={i} className={styles.nodeCategory}>
           {cat}
         </span>
@@ -28,6 +29,7 @@ export const AIEndpointNode = memo(({ data, selected }: NodeProps<AIEndpointNode
       <Handle type="source" position={Position.Right} id="output" />
     </div>
   );
-});
+}
 
+export const AIEndpointNode = memo(AIEndpointNodeComponent);
 AIEndpointNode.displayName = 'AIEndpointNode';

@@ -43,5 +43,5 @@ export type NodeData =
   | TextInputNodeData
   | OutputNodeData;
 
-export type AppNode = ReactFlowNode<NodeData>;
+export type AppNode = ReactFlowNode<NodeData & Record<string, unknown>>;
 export type AppEdge = ReactFlowEdge;

@@ -23,7 +23,7 @@ interface AppState {
   clearGraph: () => void;
 }
 
-export const useStore = create<AppState>((set, get) => ({
+export const useStore = create<AppState>((set, _get) => ({
   endpoints: [],
   loadingEndpoints: false,
   nodes: [],

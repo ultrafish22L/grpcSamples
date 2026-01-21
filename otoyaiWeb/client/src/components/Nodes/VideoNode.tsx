@@ -3,13 +3,14 @@ import { Handle, Position, NodeProps, useUpdateNodeInternals } from '@xyflow/rea
 import { VideoNodeData, MediaItem } from '../../types';
 import styles from './nodes.module.css';
 
-export const VideoNode = memo(({ id, data, selected }: NodeProps<VideoNodeData>) => {
+function VideoNodeComponent({ id, data, selected }: NodeProps) {
   const updateNodeInternals = useUpdateNodeInternals();
   const [, forceUpdate] = useState({});
+  const typedData = data as unknown as VideoNodeData;
 
   // Initialize items if empty
-  if (!data.items || data.items.length === 0) {
-    data.items = [];
+  if (!typedData.items || typedData.items.length === 0) {
+    typedData.items = [];
   }
 
   const addItem = (type: 'url' | 'file') => {
@@ -20,7 +21,7 @@ export const VideoNode = memo(({ id, data, selected }: NodeProps<VideoNodeData>)
 
     if (type === 'url') {
       // Add URL item
-      data.items.push(newItem);
+      typedData.items.push(newItem);
     } else {
       // Trigger file picker
       const input = document.createElement('input');
@@ -33,7 +34,7 @@ export const VideoNode = memo(({ id, data, selected }: NodeProps<VideoNodeData>)
           newItem.preview = url;
           newItem.file = file;
           newItem.name = file.name;
-          data.items.push(newItem);
+          typedData.items.push(newItem);
           updateNodeInternals(id);
           forceUpdate({});
         }
@@ -47,13 +48,13 @@ export const VideoNode = memo(({ id, data, selected }: NodeProps<VideoNodeData>)
   };
 
   const deleteItem = (itemId: string) => {
-    data.items = data.items.filter((item) => item.id !== itemId);
+    typedData.items = typedData.items.filter((item: MediaItem) => item.id !== itemId);
     updateNodeInternals(id);
     forceUpdate({});
   };
 
   const toggleCollapse = (itemId: string) => {
-    const item = data.items.find((i) => i.id === itemId);
+    const item = typedData.items.find((i: MediaItem) => i.id === itemId);
     if (item) {
       item.collapsed = !item.collapsed;
       forceUpdate({});
@@ -61,7 +62,7 @@ export const VideoNode = memo(({ id, data, selected }: NodeProps<VideoNodeData>)
   };
 
   const updateItemUrl = (itemId: string, url: string) => {
-    const item = data.items.find((i) => i.id === itemId);
+    const item = typedData.items.find((i: MediaItem) => i.id === itemId);
     if (item) {
       item.url = url;
       item.name = url.split('/').pop() || url;
@@ -69,7 +70,7 @@ export const VideoNode = memo(({ id, data, selected }: NodeProps<VideoNodeData>)
     }
   };
 
-  const hasMultipleItems = data.items.length > 1;
+  const hasMultipleItems = typedData.items.length > 1;
 
   return (
     <div className={`${styles.baseNode} ${selected ? styles.selected : ''}`}>
@@ -94,7 +95,7 @@ export const VideoNode = memo(({ id, data, selected }: NodeProps<VideoNodeData>)
       </div>
 
       <div className={styles.mediaItems}>
-        {data.items.map((item) => (
+        {typedData.items.map((item: MediaItem) => (
           <div key={item.id} className={styles.mediaItem}>
             <div className={styles.mediaItemHeader}>
               <button
@@ -139,7 +140,7 @@ export const VideoNode = memo(({ id, data, selected }: NodeProps<VideoNodeData>)
           </div>
         ))}
 
-        {data.items.length === 0 && (
+        {typedData.items.length === 0 && (
           <div className={styles.emptyState}>
             Click + buttons above to add videos
           </div>
@@ -155,7 +156,7 @@ export const VideoNode = memo(({ id, data, selected }: NodeProps<VideoNodeData>)
           style={{ top: '20px' }}
         />
       )}
-      {data.items.map((item, index) => (
+      {typedData.items.map((item: MediaItem, index: number) => (
         <Handle
           key={item.id}
           type="source"
@@ -168,6 +169,7 @@ export const VideoNode = memo(({ id, data, selected }: NodeProps<VideoNodeData>)
       ))}
     </div>
   );
-});
+}
 
+export const VideoNode = memo(VideoNodeComponent);
 VideoNode.displayName = 'VideoNode';

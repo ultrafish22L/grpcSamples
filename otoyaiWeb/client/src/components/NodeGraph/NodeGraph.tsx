@@ -13,10 +13,10 @@ import { AIEndpointNode, ImageNode, VideoNode, TextInputNode } from '../Nodes';
 import styles from './NodeGraph.module.css';
 
 const nodeTypes: NodeTypes = {
-  aiEndpoint: AIEndpointNode,
-  image: ImageNode,
-  video: VideoNode,
-  textInput: TextInputNode,
+  aiEndpoint: AIEndpointNode as any,
+  image: ImageNode as any,
+  video: VideoNode as any,
+  textInput: TextInputNode as any,
 };
 
 export const NodeGraph = memo(() => {
