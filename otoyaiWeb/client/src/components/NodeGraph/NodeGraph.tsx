@@ -24,7 +24,7 @@ const nodeTypes: NodeTypes = {
 };
 
 export const NodeGraph = memo(() => {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore();
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onReconnect } = useStore();
 
   const handleNodesChange = useCallback(
     (changes: any) => onNodesChange(changes),
@@ -65,8 +65,32 @@ export const NodeGraph = memo(() => {
     [nodes]
   );
 
+  const handleReconnect = useCallback(
+    (oldEdge: Edge, newConnection: Connection) => {
+      onReconnect(oldEdge, newConnection);
+    },
+    [onReconnect]
+  );
+
+  const handleReconnectStart = useCallback(
+    (_event: React.MouseEvent, edge: Edge) => {
+      logger.debug('Edge reconnect started', { edge: edge.id });
+    },
+    []
+  );
+
+  const handleReconnectEnd = useCallback(
+    (_event: MouseEvent | TouchEvent, edge: Edge) => {
+      // If the reconnect ends without a new connection, the edge is automatically removed
+      logger.debug('Edge reconnect ended', { edge: edge.id });
+    },
+    []
+  );
+
   const handleEdgeClick = useCallback(
     (_event: React.MouseEvent, edge: Edge) => {
+      // Only delete when clicking the middle of the edge (not near pins)
+      // Edge reconnection handles dragging when clicking near pins
       logger.info('Edge clicked for deletion', { edge: edge.id });
       onEdgesChange([{ type: 'remove', id: edge.id }]);
     },
@@ -82,8 +106,12 @@ export const NodeGraph = memo(() => {
         onEdgesChange={handleEdgesChange}
         onConnect={handleConnect}
         onEdgeClick={handleEdgeClick}
+        onReconnect={handleReconnect}
+        onReconnectStart={handleReconnectStart}
+        onReconnectEnd={handleReconnectEnd}
         isValidConnection={handleIsValidConnection}
         nodeTypes={nodeTypes}
+        reconnectRadius={20}
         fitView
         className={styles.reactFlowWrapper}
       >

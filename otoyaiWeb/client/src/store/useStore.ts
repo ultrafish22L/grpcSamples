@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { addEdge, applyNodeChanges, applyEdgeChanges, Connection, NodeChange, EdgeChange } from '@xyflow/react';
+import { addEdge, applyNodeChanges, applyEdgeChanges, reconnectEdge, Connection, NodeChange, EdgeChange } from '@xyflow/react';
 import { Endpoint, AppNode, AppEdge } from '../types';
 import { getHandleType, getHandleColorStyle } from '../utils/connectionValidator';
 import { otoyAPI } from '../services/api';
@@ -52,6 +52,7 @@ interface AppState {
   onNodesChange: (changes: NodeChange[]) => void;
   onEdgesChange: (changes: EdgeChange[]) => void;
   onConnect: (connection: Connection) => void;
+  onReconnect: (oldEdge: AppEdge, newConnection: Connection) => void;
   clearGraph: () => void;
   
   addVisibleEndpoint: (endpointId: string) => void;
@@ -159,6 +160,44 @@ export const useStore = create<AppState>()(
         set({
           edges: addEdge(newEdge, existingEdges),
         });
+      },
+
+      onReconnect: (oldEdge, newConnection) => {
+        const state = get();
+        
+        // Use reconnectEdge utility to handle the edge update
+        // This removes the old edge and creates a new one
+        let updatedEdges = reconnectEdge(oldEdge, newConnection, state.edges);
+        
+        // Remove any existing connection to the new target handle (inputs can only have one connection)
+        updatedEdges = updatedEdges.filter(
+          (edge) => edge.id === oldEdge.id || 
+                   !(edge.target === newConnection.target && edge.targetHandle === newConnection.targetHandle)
+        );
+        
+        // Determine the edge color based on the new connection type
+        const sourceNode = state.nodes.find((n) => n.id === newConnection.source);
+        const handleType = getHandleType(sourceNode, newConnection.sourceHandle, true);
+        const edgeColor = getHandleColorStyle(handleType);
+        
+        logger.info('Edge reconnected', {
+          oldEdge: oldEdge.id,
+          oldSource: oldEdge.source,
+          oldTarget: oldEdge.target,
+          newSource: newConnection.source,
+          newTarget: newConnection.target,
+          handleType,
+          color: edgeColor,
+        });
+        
+        // Update the edge style with the correct color
+        updatedEdges = updatedEdges.map(edge => 
+          edge.id === oldEdge.id
+            ? { ...edge, style: { stroke: edgeColor, strokeWidth: 2 }, animated: false }
+            : edge
+        );
+        
+        set({ edges: updatedEdges });
       },
 
       clearGraph: () => {
