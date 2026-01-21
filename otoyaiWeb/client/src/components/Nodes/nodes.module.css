@@ -478,6 +478,16 @@
   border-color: #4499ff;
 }
 
+/* JSON handles - Teal (structured data) */
+.handleJson.handleOpen {
+  border-color: #44ffdd;
+}
+
+.handleJson.handleFilled {
+  background: #44ffdd;
+  border-color: #44ffdd;
+}
+
 /* Any handles - Gray (generic data) */
 .handleAny.handleOpen {
   border-color: #aaaaaa;

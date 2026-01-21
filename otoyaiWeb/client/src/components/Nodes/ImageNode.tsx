@@ -179,30 +179,47 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
         )}
 
         {/* Output handles - Bottom */}
-        {typedData.items.map((item: MediaItem, index: number) => {
-          const nodeWidth = 220; // Match the min-width in CSS
-          const numOutputs = typedData.items.length;
-          const spacing = nodeWidth / (numOutputs + 1);
-          const handleLeft = spacing * (index + 1);
-          const hasImage = item.url || item.file;
-          
-          return (
-            <Handle
-              key={item.id}
-              type="source"
-              position={Position.Bottom}
-              id={item.id}
-              className={`${hasImage ? styles.handleFilled : styles.handleOpen} ${styles[getHandleColorClass('image')]}`}
-              style={{
-                left: handleLeft,
-                bottom: 0,
-                transform: 'translate(-50%, 50%)',
-              }}
-              title={item.name || 'Image output'}
-              onClick={(e) => e.stopPropagation()}
-            />
-          );
-        })}
+        {typedData.items.length === 0 ? (
+          // Always show one empty output handle when no items
+          <Handle
+            type="source"
+            position={Position.Bottom}
+            id="output"
+            className={`${styles.handleOpen} ${styles[getHandleColorClass('image')]}`}
+            style={{
+              left: '50%',
+              bottom: 0,
+              transform: 'translate(-50%, 50%)',
+            }}
+            title="Image output"
+            onClick={(e) => e.stopPropagation()}
+          />
+        ) : (
+          typedData.items.map((item: MediaItem, index: number) => {
+            const nodeWidth = 220; // Match the min-width in CSS
+            const numOutputs = typedData.items.length;
+            const spacing = nodeWidth / (numOutputs + 1);
+            const handleLeft = spacing * (index + 1);
+            const hasImage = item.url || item.file;
+            
+            return (
+              <Handle
+                key={item.id}
+                type="source"
+                position={Position.Bottom}
+                id={item.id}
+                className={`${hasImage ? styles.handleFilled : styles.handleOpen} ${styles[getHandleColorClass('image')]}`}
+                style={{
+                  left: handleLeft,
+                  bottom: 0,
+                  transform: 'translate(-50%, 50%)',
+                }}
+                title={item.name || 'Image output'}
+                onClick={(e) => e.stopPropagation()}
+              />
+            );
+          })
+        )}
       </div>
 
       {contextMenu && (

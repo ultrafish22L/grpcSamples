@@ -11,11 +11,23 @@ type ExecutionStatus = 'idle' | 'executing' | 'completed' | 'error';
 function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as AIEndpointNodeData;
   const { endpoint, selectedPin = 'output', result, previewCollapsed = true } = typedData;
-  const { updateNodeData } = useReactFlow();
+  const { updateNodeData, getEdges } = useReactFlow();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [executionStatus, setExecutionStatus] = useState<ExecutionStatus>('idle');
 
   const schema = useMemo(() => inferEndpointSchema(endpoint), [endpoint]);
+  
+  // Helper to check if a handle is connected
+  const isHandleConnected = useCallback((handleId: string, handleType: 'source' | 'target') => {
+    const edges = getEdges();
+    return edges.some(edge => {
+      if (handleType === 'target') {
+        return edge.target === id && edge.targetHandle === handleId;
+      } else {
+        return edge.source === id && edge.sourceHandle === handleId;
+      }
+    });
+  }, [id, getEdges]);
 
   const handlePinClick = useCallback((pinName: string) => {
     updateNodeData(id, { selectedPin: pinName });
@@ -152,8 +164,9 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
           const handleLeft = spacing * (index + 1);
           
           const isSelected = selectedPin === input.name;
-          const isConnected = false; // TODO: Check if handle is connected
+          const isConnected = isHandleConnected(input.name, 'target');
           const hasValue = typedData.parameters?.[input.name] != null && typedData.parameters[input.name] !== '';
+          // Input pins: filled if (has value AND not connected), unfilled if (empty OR connected)
           const isFilled = hasValue && !isConnected;
           
           // Map input type to handle type for color coding
@@ -202,9 +215,9 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
           const handleLeft = spacing * (index + 1);
           
           const isSelected = selectedPin === 'output';
-          const isConnected = false; // TODO: Check if handle is connected
           const hasResult = result != null;
-          const isFilled = hasResult && !isConnected;
+          // Output pins: always visible, filled if has value, unfilled if empty
+          const isFilled = hasResult;
           
           const outputId = index === 0 ? 'output' : `output-${index}`;
           
