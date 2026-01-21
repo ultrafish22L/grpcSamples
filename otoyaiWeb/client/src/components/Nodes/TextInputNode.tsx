@@ -63,7 +63,12 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
               value={typedData.value}
               onChange={handleTextChange}
               onClick={(e) => e.stopPropagation()}
-              style={{ marginTop: 0 }}
+              style={{ 
+                margin: 0, 
+                padding: '8px', 
+                border: 'none', 
+                borderRadius: 0
+              }}
             />
           </div>
         )}

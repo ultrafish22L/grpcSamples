@@ -466,7 +466,7 @@
 /* Preview Area for Text Node - fits content tightly */
 .textNodePreview {
   height: auto;
-  padding: var(--spacing-sm);
+  padding: 0;
   background: var(--color-bg-primary);
 }
 
