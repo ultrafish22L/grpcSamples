@@ -7,10 +7,20 @@ interface MainBarProps {
 }
 
 export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
-  const { newProject, saveProject, projects, loadProject, currentProject } = useStore();
+  const { 
+    newProject, 
+    saveProject, 
+    projects, 
+    loadProject, 
+    currentProject,
+    visibleEndpoints,
+    setVisibleEndpoints 
+  } = useStore();
   const [showProjectDialog, setShowProjectDialog] = useState(false);
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const [projectName, setProjectName] = useState('');
+  const [showWorkspaceDialog, setShowWorkspaceDialog] = useState(false);
+  const [workspaceName, setWorkspaceName] = useState('');
 
   const handleNewProject = () => {
     if (confirm('Create new project? Current work will be cleared.')) {
@@ -45,9 +55,66 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     setShowLoadDialog(false);
   };
 
+  const handleSaveWorkspace = () => {
+    setShowWorkspaceDialog(true);
+  };
+
+  const handleSaveWorkspaceConfirm = () => {
+    if (workspaceName.trim()) {
+      const workspace = {
+        name: workspaceName.trim(),
+        visibleEndpoints,
+        saved: Date.now(),
+      };
+      const savedWorkspaces = JSON.parse(localStorage.getItem('otoyai-workspaces') || '[]');
+      savedWorkspaces.push(workspace);
+      localStorage.setItem('otoyai-workspaces', JSON.stringify(savedWorkspaces));
+      setWorkspaceName('');
+      setShowWorkspaceDialog(false);
+    }
+  };
+
+  const handleLoadWorkspace = () => {
+    const savedWorkspaces = JSON.parse(localStorage.getItem('otoyai-workspaces') || '[]');
+    if (savedWorkspaces.length === 0) {
+      alert('No saved workspaces found');
+      return;
+    }
+    const workspaceNames = savedWorkspaces.map((w: { name: string; saved: number }, i: number) => 
+      `${i + 1}. ${w.name} (${new Date(w.saved).toLocaleDateString()})`
+    ).join('\n');
+    const choice = prompt(`Select workspace (enter number):\n\n${workspaceNames}`);
+    if (choice) {
+      const index = parseInt(choice) - 1;
+      if (index >= 0 && index < savedWorkspaces.length) {
+        setVisibleEndpoints(savedWorkspaces[index].visibleEndpoints);
+      }
+    }
+  };
+
   return (
     <>
       <div className={styles.mainBar}>
+        {/* OTOY Logo - Links to beta.otoy.ai */}
+        <a 
+          href="https://beta.otoy.ai" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className={styles.otoyLogo}
+          title="Open beta.otoy.ai"
+        >
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            {/* OTOY Logo - Red diamond with circular cutout */}
+            <g transform="translate(20, 20) rotate(45)">
+              <rect x="-12" y="-12" width="24" height="24" fill="#ff3333" rx="2" />
+              <circle cx="0" cy="0" r="7" fill="#1a1a1a" />
+            </g>
+          </svg>
+        </a>
+
+        <div className={styles.separator} />
+
+        {/* Project Management */}
         <div className={styles.mainBarButton} onClick={handleNewProject} title="New Project">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
@@ -66,6 +133,28 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
             <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
             <polyline points="17 21 17 13 7 13 7 21" />
             <polyline points="7 3 7 8 15 8" />
+          </svg>
+        </div>
+
+        <div className={styles.separator} />
+
+        {/* Workspace Management - NodeBar State */}
+        <div className={styles.mainBarButton} onClick={handleLoadWorkspace} title="Load Workspace (NodeBar)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="3" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="14" width="7" height="7" rx="1" />
+            <rect x="3" y="14" width="7" height="7" rx="1" />
+          </svg>
+        </div>
+
+        <div className={styles.mainBarButton} onClick={handleSaveWorkspace} title="Save Workspace (NodeBar)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="3" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="14" width="7" height="7" rx="1" />
+            <rect x="3" y="14" width="7" height="7" rx="1" />
+            <path d="M12 8v8M8 12h8" strokeWidth="1.5" />
           </svg>
         </div>
 
@@ -123,6 +212,29 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
             </div>
             <div className={styles.dialogButtons}>
               <button onClick={() => setShowLoadDialog(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showWorkspaceDialog && (
+        <div className={styles.dialogOverlay} onClick={() => setShowWorkspaceDialog(false)}>
+          <div className={styles.dialog} onClick={(e) => e.stopPropagation()}>
+            <h3>Save Workspace</h3>
+            <p className={styles.dialogDescription}>
+              Save the current NodeBar configuration ({visibleEndpoints.length} endpoints)
+            </p>
+            <input
+              type="text"
+              placeholder="Workspace name"
+              value={workspaceName}
+              onChange={(e) => setWorkspaceName(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSaveWorkspaceConfirm()}
+              autoFocus
+            />
+            <div className={styles.dialogButtons}>
+              <button onClick={handleSaveWorkspaceConfirm}>Save</button>
+              <button onClick={() => setShowWorkspaceDialog(false)}>Cancel</button>
             </div>
           </div>
         </div>
