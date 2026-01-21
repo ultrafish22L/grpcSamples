@@ -372,9 +372,6 @@ function renderControl(
       if (connectedInput?.type === 'text') {
         return (
           <div className={styles.connectedTextDisplay}>
-            <div className={styles.connectedBadge}>
-              ✓ Connected from text node
-            </div>
             <textarea
               className={styles.textInput}
               value={connectedInput.value}
@@ -457,9 +454,6 @@ function renderControl(
         const item = connectedInput.item;
         return (
           <div className={styles.connectedMediaDisplay}>
-            <div className={styles.connectedBadge}>
-              ✓ Connected from image node
-            </div>
             {(item.preview || item.url) && (
               <img
                 src={item.preview || item.url}
@@ -485,9 +479,6 @@ function renderControl(
         const item = connectedInput.item;
         return (
           <div className={styles.connectedMediaDisplay}>
-            <div className={styles.connectedBadge}>
-              ✓ Connected from video node
-            </div>
             {(item.preview || item.url) && (
               <video
                 src={item.preview || item.url}
