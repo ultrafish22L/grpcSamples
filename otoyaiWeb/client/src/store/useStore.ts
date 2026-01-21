@@ -6,7 +6,7 @@ import { getHandleType, getHandleColorStyle } from '../utils/connectionValidator
 import { otoyAPI } from '../services/api';
 import { logger } from '../services/logger';
 
-// Default popular AI models to show in NodeBar
+// Default popular AI models to show in Node Palette
 // Based on most-used models by public (Jan 2025)
 const DEFAULT_VISIBLE_ENDPOINTS = [
   // === TEXT-TO-IMAGE (Most Popular) ===
@@ -318,7 +318,7 @@ export const useStore = create<AppState>()(
       addVisibleEndpoint: (endpointId) => {
         set((state) => {
           if (!state.visibleEndpoints.includes(endpointId)) {
-            logger.info('Added endpoint to NodeBar', { endpointId });
+            logger.info('Added endpoint to Node Palette', { endpointId });
             return { visibleEndpoints: [...state.visibleEndpoints, endpointId] };
           }
           return state;
@@ -327,7 +327,7 @@ export const useStore = create<AppState>()(
 
       removeVisibleEndpoint: (endpointId) => {
         set((state) => {
-          logger.info('Removed endpoint from NodeBar', { endpointId });
+          logger.info('Removed endpoint from Node Palette', { endpointId });
           return {
             visibleEndpoints: state.visibleEndpoints.filter((id) => id !== endpointId),
           };

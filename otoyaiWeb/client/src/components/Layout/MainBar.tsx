@@ -334,8 +334,8 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
 
         <div className={styles.separator} />
 
-        {/* Workspace Management - NodeBar State */}
-        <div className={styles.mainBarButton} onClick={handleLoadWorkspace} title="Load Workspace (NodeBar)">
+        {/* Workspace Management - Node Palette State */}
+        <div className={styles.mainBarButton} onClick={handleLoadWorkspace} title="Load Node Palette">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="3" y="3" width="7" height="7" rx="1" />
             <rect x="14" y="3" width="7" height="7" rx="1" />
@@ -344,7 +344,7 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
           </svg>
         </div>
 
-        <div className={styles.mainBarButton} onClick={handleSaveWorkspace} title="Save Workspace (NodeBar)">
+        <div className={styles.mainBarButton} onClick={handleSaveWorkspace} title="Save Node Palette">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="3" y="3" width="7" height="7" rx="1" />
             <rect x="14" y="3" width="7" height="7" rx="1" />
@@ -354,7 +354,7 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
           </svg>
         </div>
 
-        <div className={styles.mainBarButton} onClick={handleResetWorkspace} title="Reset Workspace to Default (62 Popular Models)">
+        <div className={styles.mainBarButton} onClick={handleResetWorkspace} title="Reset Node Palette to Default">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
             <path d="M21 3v5h-5" />
@@ -365,7 +365,7 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
 
         <div className={styles.separator} />
 
-        <div className={styles.mainBarButton} onClick={onAddNodeClick} title="Add AI Node to NodeBar">
+        <div className={styles.mainBarButton} onClick={onAddNodeClick} title="Add AI Endpoint to Node Palette">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="12" y1="5" x2="12" y2="19" />
             <line x1="5" y1="12" x2="19" y2="12" />

@@ -332,7 +332,7 @@ export const NodeBar = memo(() => {
           }}
         >
           <div className={styles.contextMenuItem} onClick={handleRemoveEndpoint}>
-            Remove from NodeBar
+            Remove from Node Palette
           </div>
         </div>
       )}

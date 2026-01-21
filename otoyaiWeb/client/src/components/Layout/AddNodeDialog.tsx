@@ -50,7 +50,7 @@ export const AddNodeDialog = memo(({ onClose }: AddNodeDialogProps) => {
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.dialog} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
-          <h3>Add AI Node to NodeBar</h3>
+          <h3>Add AI Model to Node Palette</h3>
           <button className={styles.closeButton} onClick={onClose}>
             ×
           </button>
@@ -118,7 +118,7 @@ export const AddNodeDialog = memo(({ onClose }: AddNodeDialogProps) => {
 
         <div className={styles.footer}>
           <div className={styles.stats}>
-            {visibleEndpoints.length} nodes in NodeBar
+            {visibleEndpoints.length} nodes in Node Palette
           </div>
           <button onClick={onClose}>Done</button>
         </div>
