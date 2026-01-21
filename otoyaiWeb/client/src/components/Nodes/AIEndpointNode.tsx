@@ -1,4 +1,4 @@
-import { memo, useState, useCallback, useMemo, useEffect } from 'react';
+import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { AIEndpointNodeData } from '../../types';
 import { inferEndpointSchema, isMediaInput } from '../../utils/endpointSchema';
@@ -13,6 +13,7 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   const { endpoint, selectedPin = 'output', result, previewCollapsed = true } = typedData;
   const { updateNodeData, getEdges } = useReactFlow();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+  const contextMenuRef = useRef<HTMLDivElement>(null);
   const [executionStatus, setExecutionStatus] = useState<ExecutionStatus>('idle');
 
   const schema = useMemo(() => inferEndpointSchema(endpoint), [endpoint]);
@@ -81,6 +82,35 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   const closeContextMenu = useCallback(() => {
     setContextMenu(null);
   }, []);
+
+  // Calculate adjusted position to keep menu in viewport
+  const contextMenuPosition = useMemo(() => {
+    if (!contextMenu) return { left: 0, top: 0 };
+    
+    const menuWidth = 150; // Approximate width from CSS
+    const menuHeight = 80; // Approximate height for 2 items
+    const padding = 8; // Padding from viewport edge
+    
+    let { x, y } = contextMenu;
+    
+    // Adjust horizontal position
+    if (x + menuWidth > window.innerWidth - padding) {
+      x = window.innerWidth - menuWidth - padding;
+    }
+    if (x < padding) {
+      x = padding;
+    }
+    
+    // Adjust vertical position
+    if (y + menuHeight > window.innerHeight - padding) {
+      y = window.innerHeight - menuHeight - padding;
+    }
+    if (y < padding) {
+      y = padding;
+    }
+    
+    return { left: x, top: y };
+  }, [contextMenu]);
 
   useEffect(() => {
     if (contextMenu) {
@@ -248,8 +278,13 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
       {/* Context Menu */}
       {contextMenu && (
         <div
+          ref={contextMenuRef}
           className={styles.nodeContextMenu}
-          style={{ position: 'fixed', left: contextMenu.x, top: contextMenu.y }}
+          style={{ 
+            position: 'fixed', 
+            left: `${contextMenuPosition.left}px`, 
+            top: `${contextMenuPosition.top}px` 
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className={styles.contextMenuItem} onClick={handleDuplicate}>

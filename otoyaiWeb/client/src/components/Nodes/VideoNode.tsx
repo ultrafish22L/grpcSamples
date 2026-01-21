@@ -1,4 +1,4 @@
-import { memo, useState, useCallback, useEffect, useMemo } from 'react';
+import { memo, useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { Handle, Position, NodeProps, useUpdateNodeInternals, useReactFlow } from '@xyflow/react';
 import { VideoNodeData, MediaItem } from '../../types';
 import { getHandleColorClass } from '../../utils/connectionValidator';
@@ -9,6 +9,7 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
   const { updateNodeData } = useReactFlow();
   const [, forceUpdate] = useState({});
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+  const contextMenuRef = useRef<HTMLDivElement>(null);
   const typedData = data as unknown as VideoNodeData;
   const previewCollapsed = typedData.previewCollapsed ?? true;
 
@@ -86,6 +87,35 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
   const closeContextMenu = useCallback(() => {
     setContextMenu(null);
   }, []);
+
+  // Calculate adjusted position to keep menu in viewport
+  const contextMenuPosition = useMemo(() => {
+    if (!contextMenu) return { left: 0, top: 0 };
+    
+    const menuWidth = 150; // Approximate width from CSS
+    const menuHeight = 80; // Approximate height for 2 items
+    const padding = 8; // Padding from viewport edge
+    
+    let { x, y } = contextMenu;
+    
+    // Adjust horizontal position
+    if (x + menuWidth > window.innerWidth - padding) {
+      x = window.innerWidth - menuWidth - padding;
+    }
+    if (x < padding) {
+      x = padding;
+    }
+    
+    // Adjust vertical position
+    if (y + menuHeight > window.innerHeight - padding) {
+      y = window.innerHeight - menuHeight - padding;
+    }
+    if (y < padding) {
+      y = padding;
+    }
+    
+    return { left: x, top: y };
+  }, [contextMenu]);
 
   useEffect(() => {
     if (contextMenu) {
@@ -208,8 +238,13 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
 
       {contextMenu && (
         <div
+          ref={contextMenuRef}
           className={styles.nodeContextMenu}
-          style={{ position: 'fixed', left: contextMenu.x, top: contextMenu.y }}
+          style={{ 
+            position: 'fixed', 
+            left: `${contextMenuPosition.left}px`, 
+            top: `${contextMenuPosition.top}px` 
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className={styles.contextMenuItem}>
