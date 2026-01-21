@@ -1,6 +1,7 @@
 import { memo, useState, useCallback, useEffect, useMemo } from 'react';
 import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { TextInputNodeData } from '../../types';
+import { getHandleColorClass } from '../../utils/connectionValidator';
 import styles from './nodes.module.css';
 
 function TextInputNodeComponent({ data, selected, id }: NodeProps) {
@@ -77,7 +78,7 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
           type="source" 
           position={Position.Bottom} 
           id="output"
-          className={typedData.value ? styles.handleFilled : styles.handleOpen}
+          className={`${typedData.value ? styles.handleFilled : styles.handleOpen} ${styles[getHandleColorClass('string')]}`}
           style={{ left: '50%', bottom: 0, transform: 'translate(-50%, 50%)' }}
           title="Text output"
           onClick={(e) => e.stopPropagation()}

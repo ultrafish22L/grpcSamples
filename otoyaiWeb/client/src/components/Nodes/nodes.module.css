@@ -377,13 +377,14 @@
   text-align: center;
 }
 
-/* Handle Styles */
+/* Handle Styles - Base */
 .handleOpen {
   width: 12px;
   height: 12px;
   background: var(--color-bg-primary);
   border: 2px solid var(--color-accent);
   border-radius: 50%;
+  transition: all var(--transition-fast);
 }
 
 .handleFilled {
@@ -392,6 +393,106 @@
   background: var(--color-accent);
   border: 2px solid var(--color-accent);
   border-radius: 50%;
+  transition: all var(--transition-fast);
+}
+
+/* Handle Type Colors - Fine-grained Octane-inspired scheme */
+
+/* String handles - Orange (text/prompts) */
+.handleString.handleOpen {
+  border-color: #ffaa44;
+}
+
+.handleString.handleFilled {
+  background: #ffaa44;
+  border-color: #ffaa44;
+}
+
+/* Integer handles - Yellow (whole numbers: steps, seed) */
+.handleInteger.handleOpen {
+  border-color: #ffdd44;
+}
+
+.handleInteger.handleFilled {
+  background: #ffdd44;
+  border-color: #ffdd44;
+}
+
+/* Float handles - Cyan (decimals: guidance_scale, temperature) */
+.handleFloat.handleOpen {
+  border-color: #00ddff;
+}
+
+.handleFloat.handleFilled {
+  background: #00ddff;
+  border-color: #00ddff;
+}
+
+/* Boolean handles - Red (true/false) */
+.handleBoolean.handleOpen {
+  border-color: #ff4444;
+}
+
+.handleBoolean.handleFilled {
+  background: #ff4444;
+  border-color: #ff4444;
+}
+
+/* Enum handles - Purple (selections: scheduler, sampler) */
+.handleEnum.handleOpen {
+  border-color: #cc44ff;
+}
+
+.handleEnum.handleFilled {
+  background: #cc44ff;
+  border-color: #cc44ff;
+}
+
+/* Image handles - Green (image input & output) */
+.handleImage.handleOpen {
+  border-color: #44ff44;
+}
+
+.handleImage.handleFilled {
+  background: #44ff44;
+  border-color: #44ff44;
+}
+
+/* Video handles - Magenta (video input & output) */
+.handleVideo.handleOpen {
+  border-color: #ff44ff;
+}
+
+.handleVideo.handleFilled {
+  background: #ff44ff;
+  border-color: #ff44ff;
+}
+
+/* Audio handles - Blue (audio input & output) */
+.handleAudio.handleOpen {
+  border-color: #4499ff;
+}
+
+.handleAudio.handleFilled {
+  background: #4499ff;
+  border-color: #4499ff;
+}
+
+/* Any handles - Gray (generic data) */
+.handleAny.handleOpen {
+  border-color: #aaaaaa;
+}
+
+.handleAny.handleFilled {
+  background: #aaaaaa;
+  border-color: #aaaaaa;
+}
+
+/* Handle hover effects */
+.handleOpen:hover,
+.handleFilled:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 8px currentColor;
 }
 
 /* Create Button */

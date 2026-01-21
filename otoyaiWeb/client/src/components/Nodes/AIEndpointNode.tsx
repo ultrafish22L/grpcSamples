@@ -2,6 +2,7 @@ import { memo, useState, useCallback, useMemo, useEffect } from 'react';
 import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { AIEndpointNodeData } from '../../types';
 import { inferEndpointSchema, isMediaInput } from '../../utils/endpointSchema';
+import { getHandleColorClass, mapOutputTypeToHandleType, mapInputTypeToHandleType } from '../../utils/connectionValidator';
 import { logger } from '../../services/logger';
 import styles from './nodes.module.css';
 
@@ -155,13 +156,16 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
           const hasValue = typedData.parameters?.[input.name] != null && typedData.parameters[input.name] !== '';
           const isFilled = hasValue && !isConnected;
           
+          // Map input type to handle type for color coding
+          const handleType = mapInputTypeToHandleType(input.type);
+          
           return (
             <Handle
               key={input.name}
               type="target"
               position={Position.Top}
               id={input.name}
-              className={`${isFilled ? styles.handleFilled : styles.handleOpen} ${isSelected ? styles.handleSelected : ''}`}
+              className={`${isFilled ? styles.handleFilled : styles.handleOpen} ${isSelected ? styles.handleSelected : ''} ${styles[getHandleColorClass(handleType)]}`}
               style={{ left: handleLeft, top: 0, transform: 'translate(-50%, -50%)' }}
               title={`${input.label}${input.required ? ' (required)' : ''}\n${input.description || ''}`}
               onClick={(e) => { e.stopPropagation(); handlePinClick(input.name); }}
@@ -202,13 +206,18 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
           const hasResult = result != null;
           const isFilled = hasResult && !isConnected;
           
+          const outputId = index === 0 ? 'output' : `output-${index}`;
+          
+          // Convert output type to HandleType for color mapping
+          const handleType = mapOutputTypeToHandleType(output.type);
+          
           return (
             <Handle
-              key={output.name}
+              key={outputId}
               type="source"
               position={Position.Bottom}
-              id={output.name}
-              className={`${isFilled ? styles.handleFilled : styles.handleOpen} ${isSelected ? styles.handleSelected : ''}`}
+              id={outputId}
+              className={`${isFilled ? styles.handleFilled : styles.handleOpen} ${isSelected ? styles.handleSelected : ''} ${styles[getHandleColorClass(handleType)]}`}
               style={{ left: handleLeft, bottom: 0, transform: 'translate(-50%, 50%)' }}
               title={`Output: ${output.type || 'result'}`}
               onClick={(e) => { e.stopPropagation(); handlePinClick('output'); }}

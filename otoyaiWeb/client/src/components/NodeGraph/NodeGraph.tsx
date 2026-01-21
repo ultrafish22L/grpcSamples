@@ -42,12 +42,22 @@ export const NodeGraph = memo(() => {
   );
 
   const handleIsValidConnection = useCallback(
-    (connection: Connection) => {
-      const valid = isValidConnection(connection, nodes);
+    (connection: Connection | Edge) => {
+      // Convert Edge to Connection format if needed
+      const conn: Connection = 'id' in connection 
+        ? {
+            source: connection.source,
+            target: connection.target,
+            sourceHandle: connection.sourceHandle ?? null,
+            targetHandle: connection.targetHandle ?? null,
+          }
+        : connection;
+      
+      const valid = isValidConnection(conn, nodes);
       if (!valid) {
         logger.warn('Invalid connection attempted', {
-          source: connection.source,
-          target: connection.target,
+          source: conn.source,
+          target: conn.target,
         });
       }
       return valid;

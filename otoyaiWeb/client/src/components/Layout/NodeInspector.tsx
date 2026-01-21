@@ -182,7 +182,21 @@ function renderControl(
         />
       );
 
-    case 'number':
+    case 'integer':
+      return (
+        <input
+          type="number"
+          className={styles.numberInput}
+          value={(value as number) ?? (input.default as number) ?? ''}
+          onChange={(e) => onChange(parseInt(e.target.value) || 0)}
+          min={input.min}
+          max={input.max}
+          step={1}
+          placeholder={input.description}
+        />
+      );
+
+    case 'float':
       return (
         <input
           type="number"
@@ -191,7 +205,7 @@ function renderControl(
           onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
           min={input.min}
           max={input.max}
-          step={input.step || 1}
+          step={input.step || 0.1}
           placeholder={input.description}
         />
       );

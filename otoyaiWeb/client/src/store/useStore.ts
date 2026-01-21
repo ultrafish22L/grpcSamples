@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { addEdge, applyNodeChanges, applyEdgeChanges, Connection, NodeChange, EdgeChange } from '@xyflow/react';
 import { Endpoint, AppNode, AppEdge } from '../types';
+import { getHandleType } from '../utils/connectionValidator';
 import { otoyAPI } from '../services/api';
 import { logger } from '../services/logger';
 
@@ -135,14 +136,38 @@ export const useStore = create<AppState>()(
           (edge) => !(edge.target === connection.target && edge.targetHandle === connection.targetHandle)
         );
         
+        // Determine the edge color based on the connection type
+        const sourceNode = state.nodes.find((n) => n.id === connection.source);
+        const handleType = getHandleType(sourceNode, connection.sourceHandle, true);
+        
+        // Map handle type to color
+        const colorMap: Record<string, string> = {
+          text: '#ffaa44',
+          image: '#44ff44',
+          video: '#ff44ff',
+          audio: '#00d4ff',
+          json: '#aaaaaa',
+          any: '#aaaaaa',
+        };
+        
+        const edgeColor = colorMap[handleType] || colorMap.any;
+        
         logger.info('Nodes connected', { 
           source: connection.source, 
           target: connection.target,
+          type: handleType,
           removedOldConnection: existingEdges.length < state.edges.length
         });
         
+        // Create the edge with custom styling
+        const newEdge = {
+          ...connection,
+          style: { stroke: edgeColor, strokeWidth: 2 },
+          animated: false,
+        };
+        
         set({
-          edges: addEdge(connection, existingEdges),
+          edges: addEdge(newEdge, existingEdges),
         });
       },
 

@@ -1,6 +1,7 @@
 import { memo, useState, useCallback, useEffect, useMemo } from 'react';
 import { Handle, Position, NodeProps, useUpdateNodeInternals, useReactFlow } from '@xyflow/react';
 import { ImageNodeData, MediaItem } from '../../types';
+import { getHandleColorClass } from '../../utils/connectionValidator';
 import styles from './nodes.module.css';
 
 function ImageNodeComponent({ id, data, selected }: NodeProps) {
@@ -83,16 +84,17 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
     forceUpdate({});
   }, [id, typedData.items, updateNodeInternals]);
 
-  const toggleCollapse = useCallback((e: React.MouseEvent, itemId: string) => {
-    e.stopPropagation();
-    const item = typedData.items.find((i) => i.id === itemId);
-    if (item) {
-      item.collapsed = !item.collapsed;
-      forceUpdate({});
-    }
-  }, [typedData.items]);
+  // TODO: Implement collapse functionality for gallery view
+  // const toggleCollapse = useCallback((e: React.MouseEvent, itemId: string) => {
+  //   e.stopPropagation();
+  //   const item = typedData.items.find((i) => i.id === itemId);
+  //   if (item) {
+  //     item.collapsed = !item.collapsed;
+  //     forceUpdate({});
+  //   }
+  // }, [typedData.items]);
 
-  const hasMultipleItems = typedData.items.length > 1;
+  // const hasMultipleItems = typedData.items.length > 1;
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
@@ -190,7 +192,7 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
               type="source"
               position={Position.Bottom}
               id={item.id}
-              className={hasImage ? styles.handleFilled : styles.handleOpen}
+              className={`${hasImage ? styles.handleFilled : styles.handleOpen} ${styles[getHandleColorClass('image')]}`}
               style={{
                 left: handleLeft,
                 bottom: 0,

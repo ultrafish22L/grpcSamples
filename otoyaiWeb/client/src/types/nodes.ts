@@ -9,6 +9,7 @@ export interface AIEndpointNodeData {
   result?: unknown;
   isExecuting?: boolean;
   selectedPin?: string; // 'output' or input pin name
+  previewCollapsed?: boolean;
 }
 
 export interface MediaItem {
@@ -22,15 +23,18 @@ export interface MediaItem {
 
 export interface ImageNodeData {
   items: MediaItem[];
+  previewCollapsed?: boolean;
 }
 
 export interface VideoNodeData {
   items: MediaItem[];
+  previewCollapsed?: boolean;
 }
 
 export interface TextInputNodeData {
   value: string;
   label?: string;
+  previewCollapsed?: boolean;
 }
 
 export interface OutputNodeData {

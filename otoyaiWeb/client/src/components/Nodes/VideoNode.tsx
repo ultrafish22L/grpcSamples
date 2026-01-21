@@ -1,6 +1,7 @@
 import { memo, useState, useCallback, useEffect, useMemo } from 'react';
 import { Handle, Position, NodeProps, useUpdateNodeInternals, useReactFlow } from '@xyflow/react';
 import { VideoNodeData, MediaItem } from '../../types';
+import { getHandleColorClass } from '../../utils/connectionValidator';
 import styles from './nodes.module.css';
 
 function VideoNodeComponent({ id, data, selected }: NodeProps) {
@@ -170,7 +171,7 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
               type="source"
               position={Position.Bottom}
               id={item.id}
-              className={hasVideo ? styles.handleFilled : styles.handleOpen}
+              className={`${hasVideo ? styles.handleFilled : styles.handleOpen} ${styles[getHandleColorClass('video')]}`}
               style={{
                 left: handleLeft,
                 bottom: 0,

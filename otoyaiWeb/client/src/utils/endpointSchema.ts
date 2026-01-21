@@ -1,6 +1,6 @@
 import { Endpoint } from '../types';
 
-export type InputType = 'text' | 'number' | 'image' | 'video' | 'audio' | 'select' | 'boolean';
+export type InputType = 'text' | 'integer' | 'float' | 'image' | 'video' | 'audio' | 'select' | 'boolean';
 
 export interface InputParameter {
   name: string;
@@ -135,7 +135,7 @@ export function inferEndpointSchema(endpoint: Endpoint): EndpointSchema {
     inputs.push({
       name: 'seed',
       label: 'Seed',
-      type: 'number',
+      type: 'integer',
       description: 'Random seed for reproducibility',
       required: false,
       min: 0,
@@ -145,7 +145,7 @@ export function inferEndpointSchema(endpoint: Endpoint): EndpointSchema {
     inputs.push({
       name: 'num_inference_steps',
       label: 'Steps',
-      type: 'number',
+      type: 'integer',
       description: 'Number of inference steps',
       required: false,
       default: 50,
@@ -156,7 +156,7 @@ export function inferEndpointSchema(endpoint: Endpoint): EndpointSchema {
     inputs.push({
       name: 'guidance_scale',
       label: 'Guidance Scale',
-      type: 'number',
+      type: 'float',
       description: 'How closely to follow the prompt',
       required: false,
       default: 7.5,
@@ -181,7 +181,7 @@ export function inferEndpointSchema(endpoint: Endpoint): EndpointSchema {
     inputs.push({
       name: 'temperature',
       label: 'Temperature',
-      type: 'number',
+      type: 'float',
       description: 'Sampling temperature',
       default: 0.7,
       min: 0,
@@ -192,7 +192,7 @@ export function inferEndpointSchema(endpoint: Endpoint): EndpointSchema {
     inputs.push({
       name: 'max_tokens',
       label: 'Max Tokens',
-      type: 'number',
+      type: 'integer',
       description: 'Maximum output length',
       default: 512,
       min: 1,
