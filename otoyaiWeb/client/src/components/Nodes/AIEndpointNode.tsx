@@ -36,7 +36,12 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   const handlePinClick = useCallback((pinName: string) => {
     updateNodeData(id, { selectedPin: pinName });
     logger.debug('Pin selected', { node: id, pin: pinName });
-  }, [id, updateNodeData]);
+    
+    // If clicking output pin, toggle preview
+    if (pinName === 'output') {
+      updateNodeData(id, { previewCollapsed: !previewCollapsed });
+    }
+  }, [id, previewCollapsed, updateNodeData]);
 
   const togglePreview = useCallback(() => {
     updateNodeData(id, { previewCollapsed: !previewCollapsed });
@@ -227,13 +232,6 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
         {/* Title Bar with Play Button */}
         <div className={styles.nodeHeader}>
           <h3 className={styles.nodeTitle}>{endpoint.title}</h3>
-          <button 
-            className={styles.collapseButton}
-            onClick={(e) => { e.stopPropagation(); togglePreview(); }}
-            title={previewCollapsed ? "Expand preview" : "Collapse preview"}
-          >
-            {previewCollapsed ? '▶' : '▼'}
-          </button>
           <button 
             className={`${styles.playButton} ${styles[`playButton${executionStatus.charAt(0).toUpperCase() + executionStatus.slice(1)}`]}`}
             onClick={(e) => { e.stopPropagation(); handleExecute(); }}

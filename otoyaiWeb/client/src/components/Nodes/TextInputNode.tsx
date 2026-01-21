@@ -104,16 +104,6 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
       >
         <div className={styles.nodeHeader}>
           <h3 className={styles.nodeTitle}>{nodeTitle}</h3>
-          <button 
-            className={styles.collapseButton}
-            onClick={(e) => {
-              e.stopPropagation();
-              togglePreview();
-            }}
-            title={previewCollapsed ? "Expand" : "Collapse"}
-          >
-            {previewCollapsed ? '▶' : '▼'}
-          </button>
         </div>
 
         {/* Collapsible Preview Area */}
@@ -142,7 +132,7 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
           className={`${typedData.value ? styles.handleFilled : styles.handleOpen} ${styles[getHandleColorClass('string')]}`}
           style={{ left: '50%', bottom: 0, transform: 'translate(-50%, 50%)' }}
           title="Text output"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => { e.stopPropagation(); togglePreview(); }}
         />
       </div>
 
