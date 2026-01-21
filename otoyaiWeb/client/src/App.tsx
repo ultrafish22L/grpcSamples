@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MainBar } from './components/Layout/MainBar';
 import { NodeBar } from './components/Layout/NodeBar';
+import { NodeInspector } from './components/Layout/NodeInspector';
 import { AddNodeDialog } from './components/Layout/AddNodeDialog';
 import { NodeGraph } from './components/NodeGraph/NodeGraph';
 import { logger } from './services/logger';
@@ -23,6 +24,7 @@ function App() {
         <MainBar onAddNodeClick={() => setShowAddNodeDialog(true)} />
         <NodeBar />
         <NodeGraph />
+        <NodeInspector />
       </div>
       
       {showAddNodeDialog && (

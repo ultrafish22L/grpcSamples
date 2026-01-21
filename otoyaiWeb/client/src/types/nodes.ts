@@ -8,6 +8,7 @@ export interface AIEndpointNodeData {
   parameters: Record<string, unknown>;
   result?: unknown;
   isExecuting?: boolean;
+  selectedPin?: string; // 'output' or input pin name
 }
 
 export interface MediaItem {

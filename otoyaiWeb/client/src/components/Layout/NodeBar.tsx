@@ -58,6 +58,7 @@ export const NodeBar = memo(() => {
         endpoint,
         parameters: {},
         isExecuting: false,
+        selectedPin: 'output', // Default to showing output preview
       },
     });
   };

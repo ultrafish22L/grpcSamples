@@ -47,6 +47,7 @@ interface AppState {
   setShowSettings: (show: boolean) => void;
   
   addNode: (node: AppNode) => void;
+  updateNode: (nodeId: string, data: Partial<unknown>) => void;
   onNodesChange: (changes: NodeChange[]) => void;
   onEdgesChange: (changes: EdgeChange[]) => void;
   onConnect: (connection: Connection) => void;
@@ -103,6 +104,14 @@ export const useStore = create<AppState>()(
         logger.info('Node added', { type: node.type, id: node.id });
         set((state) => ({
           nodes: [...state.nodes, node],
+        }));
+      },
+
+      updateNode: (nodeId, data) => {
+        set((state) => ({
+          nodes: state.nodes.map((node) =>
+            node.id === nodeId ? { ...node, data: { ...node.data, ...data } } : node
+          ),
         }));
       },
 
