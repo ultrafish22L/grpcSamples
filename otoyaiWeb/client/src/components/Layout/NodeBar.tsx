@@ -7,18 +7,63 @@ import styles from './Layout.module.css';
 
 // Map category to output type color (based on what the endpoint produces)
 const getCategoryColor = (category: string): string => {
-  // Check output type first (what comes after "to-")
-  if (category.includes('to-video')) return '#ff44ff'; // Magenta - video output
-  if (category.includes('to-image')) return '#44ff44'; // Green - image output
-  if (category.includes('to-audio') || category.includes('to-speech')) return '#4499ff'; // Blue - audio output
+  // Image outputs (green)
+  if (category.includes('to-image')) return '#44ff44';
+  if (category === 'upscale' || category === 'edit') return '#44ff44';
+  if (category.includes('image') && !category.includes('to-')) return '#44ff44';
   
-  // Handle categories without "to-" prefix
-  if (category.includes('video')) return '#ff44ff'; // Magenta - video processing
-  if (category.includes('image') || category === 'upscale') return '#44ff44'; // Green - image processing
-  if (category.includes('audio') || category.includes('speech')) return '#4499ff'; // Blue - audio processing
-  if (category === 'llm' || category === 'vision') return '#ffaa44'; // Orange - text/string output
+  // Video outputs (magenta)
+  if (category.includes('to-video')) return '#ff44ff';
+  if (category.includes('video') && !category.includes('to-')) return '#ff44ff';
+  
+  // Audio outputs (blue)
+  if (category.includes('to-audio')) return '#4499ff';
+  if (category.includes('to-speech')) return '#4499ff';
+  if (category.includes('audio') && !category.includes('to-')) return '#4499ff';
+  if (category.includes('speech')) return '#4499ff';
+  
+  // 3D outputs (cyan)
+  if (category.includes('to-3d') || category.includes('3d')) return '#44ffff';
+  
+  // Text/Vision/LLM outputs (orange)
+  if (category === 'llm' || category === 'vision') return '#ffaa44';
+  if (category.includes('to-text') || category.includes('to-json')) return '#ffaa44';
+  
+  // Utility operations (gray-green)
+  if (category === 'removal') return '#88aa88';
   
   return '#aaaaaa'; // Gray - generic/any
+};
+
+// Get output type for grouping/sorting
+const getCategoryOutputType = (category: string): number => {
+  // Return sort priority: lower numbers appear first
+  // Image outputs (green)
+  if (category.includes('to-image')) return 1;
+  if (category === 'upscale' || category === 'edit') return 1;
+  if (category.includes('image') && !category.includes('to-')) return 1;
+  
+  // Video outputs (magenta)
+  if (category.includes('to-video')) return 2;
+  if (category.includes('video') && !category.includes('to-')) return 2;
+  
+  // Audio outputs (blue)
+  if (category.includes('to-audio')) return 3;
+  if (category.includes('to-speech')) return 3;
+  if (category.includes('audio') && !category.includes('to-')) return 3;
+  if (category.includes('speech')) return 3;
+  
+  // 3D outputs
+  if (category.includes('to-3d') || category.includes('3d')) return 4;
+  
+  // Text/Vision/LLM outputs (orange)
+  if (category === 'llm' || category === 'vision') return 5;
+  if (category.includes('to-text') || category.includes('to-json')) return 5;
+  
+  // Utility operations (removal, etc.)
+  if (category === 'removal') return 6;
+  
+  return 7; // Generic/any
 };
 
 export const NodeBar = memo(() => {
@@ -38,7 +83,15 @@ export const NodeBar = memo(() => {
 
   const categories = Array.from(
     new Set(visibleEndpointsList.flatMap((e) => e.category))
-  ).sort();
+  ).sort((a, b) => {
+    // Sort by output type first, then alphabetically within each type
+    const typeA = getCategoryOutputType(a);
+    const typeB = getCategoryOutputType(b);
+    if (typeA !== typeB) {
+      return typeA - typeB;
+    }
+    return a.localeCompare(b);
+  });
 
   // Default all categories expanded (including 'utility')
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(() => {
