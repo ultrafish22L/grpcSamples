@@ -9,6 +9,7 @@ import {
   Connection,
   Edge,
 } from '@xyflow/react';
+import type { FinalConnectionState } from '@xyflow/system';
 import '@xyflow/react/dist/style.css';
 import { useStore } from '../../store/useStore';
 import { AIEndpointNode, ImageNode, VideoNode, TextInputNode } from '../Nodes';
@@ -24,7 +25,7 @@ const nodeTypes: NodeTypes = {
 };
 
 export const NodeGraph = memo(() => {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onReconnect } = useStore();
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onReconnect, removeEdge } = useStore();
 
   const handleNodesChange = useCallback(
     (changes: any) => onNodesChange(changes),
@@ -80,11 +81,16 @@ export const NodeGraph = memo(() => {
   );
 
   const handleReconnectEnd = useCallback(
-    (_event: MouseEvent | TouchEvent, edge: Edge) => {
-      // If the reconnect ends without a new connection, the edge is automatically removed
-      logger.debug('Edge reconnect ended', { edge: edge.id });
+    (_event: MouseEvent | TouchEvent, edge: Edge, _handleType: any, connectionState: FinalConnectionState) => {
+      // If the reconnect ended without a valid connection, remove the edge
+      if (!connectionState.isValid) {
+        logger.info('Edge reconnect cancelled - removing edge', { edge: edge.id });
+        removeEdge(edge.id);
+      } else {
+        logger.debug('Edge reconnect completed successfully', { edge: edge.id });
+      }
     },
-    []
+    [removeEdge]
   );
 
   const handleEdgeClick = useCallback(

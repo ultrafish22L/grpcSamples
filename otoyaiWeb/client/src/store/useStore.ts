@@ -53,6 +53,7 @@ interface AppState {
   onEdgesChange: (changes: EdgeChange[]) => void;
   onConnect: (connection: Connection) => void;
   onReconnect: (oldEdge: AppEdge, newConnection: Connection) => void;
+  removeEdge: (edgeId: string) => void;
   clearGraph: () => void;
   
   addVisibleEndpoint: (endpointId: string) => void;
@@ -197,6 +198,13 @@ export const useStore = create<AppState>()(
             : edge
         );
         
+        set({ edges: updatedEdges });
+      },
+
+      removeEdge: (edgeId) => {
+        const state = get();
+        const updatedEdges = state.edges.filter((edge) => edge.id !== edgeId);
+        logger.info('Edge removed', { edgeId });
         set({ edges: updatedEdges });
       },
 
