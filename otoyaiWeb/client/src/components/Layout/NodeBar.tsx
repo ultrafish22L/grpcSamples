@@ -7,6 +7,7 @@ import styles from './Layout.module.css';
 
 // Map category to output type color
 const getCategoryColor = (category: string): string => {
+  if (category.includes('image-to-video')) return '#00ddff'; // Cyan - image-to-video conversion
   if (category.includes('image')) return '#44ff44'; // Green - image output
   if (category.includes('video')) return '#ff44ff'; // Magenta - video output
   if (category.includes('audio') || category.includes('speech')) return '#4499ff'; // Blue - audio output
