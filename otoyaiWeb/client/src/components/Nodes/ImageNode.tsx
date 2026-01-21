@@ -19,15 +19,19 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
     updateNodeData(id, { previewCollapsed: !previewCollapsed });
   }, [id, previewCollapsed, updateNodeData]);
 
-  // Generate title from filename when single item
+  // Generate title from first filename (at least 22 chars)
   const nodeTitle = useMemo(() => {
-    if (typedData.items.length === 1) {
+    if (typedData.items.length > 0) {
       const item = typedData.items[0];
       const name = item.name || item.url?.split('/').pop() || 'Image';
-      return name.length > 22 ? name.substring(0, 22) + '...' : name;
+      // Show at least 22 characters or the full name if shorter
+      if (name.length > 22) {
+        return name.substring(0, 22) + '...';
+      }
+      return name;
     }
     return 'Image';
-  }, [typedData.items]);
+  }, [typedData.items.length, typedData.items[0]?.name, typedData.items[0]?.url]);
 
   const addItem = useCallback((e: React.MouseEvent, type: 'url' | 'file') => {
     e.stopPropagation();
@@ -75,6 +79,30 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
   const deleteItem = useCallback((e: React.MouseEvent, itemId: string) => {
     e.stopPropagation();
     typedData.items = typedData.items.filter((item) => item.id !== itemId);
+    updateNodeInternals(id);
+    forceUpdate({});
+  }, [id, typedData.items, updateNodeInternals]);
+
+  // Test helper: Add sample images
+  const addSampleImages = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    const sampleUrls = [
+      'https://picsum.photos/400/300?random=1',
+      'https://picsum.photos/400/400?random=2',
+      'https://picsum.photos/400/250?random=3',
+      'https://picsum.photos/400/350?random=4',
+    ];
+    
+    sampleUrls.forEach((url, index) => {
+      const newItem: MediaItem = {
+        id: `${Date.now()}-${Math.random()}`,
+        url: url,
+        name: `sample-image-${index + 1}.jpg`,
+        collapsed: false,
+      };
+      typedData.items.push(newItem);
+    });
+    
     updateNodeInternals(id);
     forceUpdate({});
   }, [id, typedData.items, updateNodeInternals]);
@@ -132,52 +160,52 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
             >
               +📁
             </button>
+            {typedData.items.length === 0 && (
+              <button
+                className={styles.iconButton}
+                onClick={addSampleImages}
+                title="Add Test Images"
+              >
+                🧪
+              </button>
+            )}
           </div>
         </div>
 
         {/* Collapsible Preview Area */}
         {!previewCollapsed && (
-          <div className={styles.previewArea} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.mediaItems}>
-              {typedData.items.map((item) => (
-                <div key={item.id} className={styles.mediaItem}>
-                  <div className={styles.mediaItemHeader}>
-                    <button
-                      className={styles.collapseButton}
-                      onClick={(e) => toggleCollapse(e, item.id)}
-                    >
-                      {item.collapsed ? '▶' : '▼'}
-                    </button>
-                    <span className={styles.mediaItemName}>
-                      {item.name || item.url || 'New Image'}
-                    </span>
-                    <button
-                      className={styles.deleteButton}
-                      onClick={(e) => deleteItem(e, item.id)}
-                      title="Delete"
-                    >
-                      ×
-                    </button>
-                  </div>
-
-                  {!item.collapsed && (item.preview || item.url) && (
-                    <div className={styles.mediaItemContent}>
+          <div className={styles.imageNodePreview} onClick={(e) => e.stopPropagation()}>
+            {typedData.items.length === 0 ? (
+              <div className={styles.emptyState}>
+                Click + buttons above to add images
+              </div>
+            ) : (
+              <div className={styles.imageList}>
+                {typedData.items.map((item) => (
+                  <div key={item.id} className={styles.imageListItem}>
+                    {(item.preview || item.url) && (
                       <img
                         src={item.preview || item.url}
-                        alt="Preview"
-                        className={styles.nodePreview}
+                        alt={item.name || 'Image'}
+                        className={styles.imageListImage}
                       />
+                    )}
+                    <div className={styles.imageListItemFooter}>
+                      <span className={styles.imageListItemName}>
+                        {item.name || item.url || 'New Image'}
+                      </span>
+                      <button
+                        className={styles.deleteButton}
+                        onClick={(e) => deleteItem(e, item.id)}
+                        title="Delete"
+                      >
+                        ×
+                      </button>
                     </div>
-                  )}
-                </div>
-              ))}
-
-              {typedData.items.length === 0 && (
-                <div className={styles.emptyState}>
-                  Click + buttons above to add images
-                </div>
-              )}
-            </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
