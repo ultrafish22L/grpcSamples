@@ -28,7 +28,15 @@ Install all dependencies for both client and server:
 npm install
 ```
 
-This runs `npm install` in the root, client, and server directories.
+This runs `npm install` in the root directory, and automatically installs dependencies in both `client/` and `server/` directories via the postinstall script.
+
+**Note**: If you get module errors later (like "Cannot find package 'axios'"), you may need to manually install in subdirectories:
+```bash
+cd client && npm install
+cd ../server && npm install
+```
+
+See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) for more help.
 
 ---
 
@@ -307,10 +315,11 @@ See `client/src/components/Nodes/` for examples. All nodes inherit from React Fl
 ## Support
 
 For issues:
-1. Check logs: `server/logs/app.log`
-2. Check browser console (F12 → Console tab)
-3. Review `README.md` for architecture details
-4. Check OTOY.AI API status: https://play.otoy.ai
+1. **Check [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)** for common problems and solutions
+2. Check logs: `server/logs/app.log`
+3. Check browser console (F12 → Console tab)
+4. Review `README.md` for architecture details
+5. Check OTOY.AI API status: https://play.otoy.ai
 
 ---
 

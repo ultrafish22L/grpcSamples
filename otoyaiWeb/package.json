@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "Node graph UI for play.otoy.ai API",
   "scripts": {
-    "install:all": "cd client && npm install && cd ../server && npm install",
+    "postinstall": "cd client && npm install && cd ../server && npm install",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
     "build": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
     "preview": "cd client && npm run preview"
   },
   "devDependencies": {
