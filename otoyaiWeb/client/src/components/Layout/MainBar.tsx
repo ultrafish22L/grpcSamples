@@ -19,6 +19,8 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
   const [showProjectDialog, setShowProjectDialog] = useState(false);
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const [projectName, setProjectName] = useState('');
+  const [showWorkspaceDialog, setShowWorkspaceDialog] = useState(false);
+  const [workspaceName, setWorkspaceName] = useState('');
 
   const handleNewProject = () => {
     if (confirm('Create new project? Current work will be cleared.')) {
@@ -47,6 +49,8 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
       try {
         const handle = await (window as any).showSaveFilePicker({
           suggestedName: filename,
+          startIn: 'documents',
+          id: 'otoyaiWeb-projects',
           types: [{
             description: 'OTOY AI Project',
             accept: { 'application/json': ['.otoyai'] },
@@ -97,6 +101,8 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     if ('showOpenFilePicker' in window) {
       try {
         const [handle] = await (window as any).showOpenFilePicker({
+          startIn: 'documents',
+          id: 'otoyaiWeb-projects',
           types: [{
             description: 'OTOY AI Project',
             accept: { 'application/json': ['.otoyai', '.json'] },
@@ -154,23 +160,32 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     setShowLoadDialog(false);
   };
 
-  const handleSaveWorkspace = async () => {
-    // Always show file save dialog for workspace
+  const handleSaveWorkspace = () => {
+    // Show dialog to name the workspace
+    setShowWorkspaceDialog(true);
+  };
+
+  const handleSaveWorkspaceConfirm = async () => {
+    if (!workspaceName.trim()) return;
+    
+    const name = workspaceName.trim();
     const workspaceData = {
-      name: 'Workspace',
+      name,
       visibleEndpoints,
       saved: Date.now(),
     };
     
     const jsonString = JSON.stringify(workspaceData, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
-    const filename = `workspace_${Date.now()}.otoyai-workspace`;
+    const filename = `${name.replace(/[^a-z0-9]/gi, '_')}.otoyai-workspace`;
     
     // Use modern File System Access API if available
     if ('showSaveFilePicker' in window) {
       try {
         const handle = await (window as any).showSaveFilePicker({
           suggestedName: filename,
+          startIn: 'documents',
+          id: 'otoyaiWeb-workspaces',
           types: [{
             description: 'OTOY AI Workspace',
             accept: { 'application/json': ['.otoyai-workspace'] },
@@ -179,6 +194,8 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
         const writable = await handle.createWritable();
         await writable.write(blob);
         await writable.close();
+        setWorkspaceName('');
+        setShowWorkspaceDialog(false);
       } catch (err) {
         console.log('Save cancelled');
       }
@@ -190,6 +207,8 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
       a.download = filename;
       a.click();
       URL.revokeObjectURL(url);
+      setWorkspaceName('');
+      setShowWorkspaceDialog(false);
     }
   };
 
@@ -200,6 +219,8 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     if ('showOpenFilePicker' in window) {
       try {
         const [handle] = await (window as any).showOpenFilePicker({
+          startIn: 'documents',
+          id: 'otoyaiWeb-workspaces',
           types: [{
             description: 'OTOY AI Workspace',
             accept: { 'application/json': ['.otoyai-workspace', '.json'] },
@@ -396,6 +417,29 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
             </div>
             <div className={styles.dialogButtons}>
               <button onClick={() => setShowLoadDialog(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showWorkspaceDialog && (
+        <div className={styles.dialogOverlay} onClick={() => setShowWorkspaceDialog(false)}>
+          <div className={styles.dialog} onClick={(e) => e.stopPropagation()}>
+            <h3>Save Workspace</h3>
+            <p className={styles.dialogDescription}>
+              Name your workspace configuration ({visibleEndpoints.length} models)
+            </p>
+            <input
+              type="text"
+              placeholder="Workspace name (e.g., 'My Video Pipeline')"
+              value={workspaceName}
+              onChange={(e) => setWorkspaceName(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSaveWorkspaceConfirm()}
+              autoFocus
+            />
+            <div className={styles.dialogButtons}>
+              <button onClick={handleSaveWorkspaceConfirm}>Save</button>
+              <button onClick={() => setShowWorkspaceDialog(false)}>Cancel</button>
             </div>
           </div>
         </div>
