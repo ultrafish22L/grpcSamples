@@ -1,4 +1,4 @@
-import { memo, useState, useCallback, useEffect } from 'react';
+import { memo, useState, useCallback, useEffect, useMemo } from 'react';
 import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { TextInputNodeData } from '../../types';
 import styles from './nodes.module.css';
@@ -7,10 +7,24 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as TextInputNodeData;
   const { updateNodeData } = useReactFlow();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+  const previewCollapsed = typedData.previewCollapsed ?? false;
 
   const handleTextChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateNodeData(id, { value: e.target.value });
   }, [id, updateNodeData]);
+
+  const togglePreview = useCallback(() => {
+    updateNodeData(id, { previewCollapsed: !previewCollapsed });
+  }, [id, previewCollapsed, updateNodeData]);
+
+  // Generate title from first 22 characters of text
+  const nodeTitle = useMemo(() => {
+    if (!typedData.value || typedData.value.trim() === '') {
+      return 'Text Node';
+    }
+    const text = typedData.value.trim();
+    return text.length > 22 ? text.substring(0, 22) + '...' : text;
+  }, [typedData.value]);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -32,19 +46,26 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
   return (
     <>
       <div 
-        className={`${styles.baseNode} ${selected ? styles.selected : ''}`}
+        className={`${styles.baseNode} ${styles.aiEndpointNode} ${selected ? styles.selected : ''}`}
         onContextMenu={handleContextMenu}
+        onClick={togglePreview}
       >
         <div className={styles.nodeHeader}>
-          <h3 className={styles.nodeTitle}>{typedData.label || 'Text Input'}</h3>
+          <h3 className={styles.nodeTitle}>{nodeTitle}</h3>
         </div>
 
-        <textarea
-          className={`${styles.nodeInput} ${styles.nodeTextarea}`}
-          placeholder="Enter text..."
-          value={typedData.value}
-          onChange={handleTextChange}
-        />
+        {/* Collapsible Preview Area */}
+        {!previewCollapsed && (
+          <div className={styles.previewArea}>
+            <textarea
+              className={`${styles.nodeInput} ${styles.nodeTextarea}`}
+              placeholder="Enter text..."
+              value={typedData.value}
+              onChange={handleTextChange}
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        )}
 
         <Handle 
           type="source" 
@@ -53,6 +74,7 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
           className={typedData.value ? styles.handleFilled : styles.handleOpen}
           style={{ left: '50%', bottom: 0, transform: 'translate(-50%, 50%)' }}
           title="Text output"
+          onClick={(e) => e.stopPropagation()}
         />
       </div>
 

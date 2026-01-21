@@ -1,20 +1,37 @@
-import { memo, useState, useCallback, useEffect } from 'react';
-import { Handle, Position, NodeProps, useUpdateNodeInternals } from '@xyflow/react';
+import { memo, useState, useCallback, useEffect, useMemo } from 'react';
+import { Handle, Position, NodeProps, useUpdateNodeInternals, useReactFlow } from '@xyflow/react';
 import { VideoNodeData, MediaItem } from '../../types';
 import styles from './nodes.module.css';
 
 function VideoNodeComponent({ id, data, selected }: NodeProps) {
   const updateNodeInternals = useUpdateNodeInternals();
+  const { updateNodeData } = useReactFlow();
   const [, forceUpdate] = useState({});
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const typedData = data as unknown as VideoNodeData;
+  const previewCollapsed = typedData.previewCollapsed ?? false;
 
   // Initialize items if empty
   if (!typedData.items || typedData.items.length === 0) {
     typedData.items = [];
   }
 
-  const addItem = (type: 'url' | 'file') => {
+  const togglePreview = useCallback(() => {
+    updateNodeData(id, { previewCollapsed: !previewCollapsed });
+  }, [id, previewCollapsed, updateNodeData]);
+
+  // Generate title from filename when single item
+  const nodeTitle = useMemo(() => {
+    if (typedData.items.length === 1) {
+      const item = typedData.items[0];
+      const name = item.name || item.url?.split('/').pop() || 'Video';
+      return name.length > 22 ? name.substring(0, 22) + '...' : name;
+    }
+    return 'Video';
+  }, [typedData.items]);
+
+  const addItem = useCallback((e: React.MouseEvent, type: 'url' | 'file') => {
+    e.stopPropagation();
     const newItem: MediaItem = {
       id: `${Date.now()}-${Math.random()}`,
       collapsed: false,
@@ -51,21 +68,23 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
       input.click();
       return; // Don't update yet, wait for file load
     }
-  };
+  }, [id, typedData.items, updateNodeInternals]);
 
-  const deleteItem = (itemId: string) => {
+  const deleteItem = useCallback((e: React.MouseEvent, itemId: string) => {
+    e.stopPropagation();
     typedData.items = typedData.items.filter((item: MediaItem) => item.id !== itemId);
     updateNodeInternals(id);
     forceUpdate({});
-  };
+  }, [id, typedData.items, updateNodeInternals]);
 
-  const toggleCollapse = (itemId: string) => {
+  const toggleCollapse = useCallback((e: React.MouseEvent, itemId: string) => {
+    e.stopPropagation();
     const item = typedData.items.find((i: MediaItem) => i.id === itemId);
     if (item) {
       item.collapsed = !item.collapsed;
       forceUpdate({});
     }
-  };
+  }, [typedData.items]);
 
   const hasMultipleItems = typedData.items.length > 1;
 
@@ -89,22 +108,23 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
   return (
     <>
       <div 
-        className={`${styles.baseNode} ${selected ? styles.selected : ''}`}
+        className={`${styles.baseNode} ${styles.aiEndpointNode} ${selected ? styles.selected : ''}`}
         onContextMenu={handleContextMenu}
+        onClick={togglePreview}
       >
         <div className={styles.nodeHeader}>
-          <h3 className={styles.nodeTitle}>Video</h3>
+          <h3 className={styles.nodeTitle}>{nodeTitle}</h3>
           <div className={styles.headerButtons}>
             <button
               className={styles.iconButton}
-              onClick={() => addItem('url')}
+              onClick={(e) => addItem(e, 'url')}
               title="Add URL"
             >
               +🔗
             </button>
             <button
               className={styles.iconButton}
-              onClick={() => addItem('file')}
+              onClick={(e) => addItem(e, 'file')}
               title="Add File"
             >
               +📁
@@ -112,46 +132,51 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
           </div>
         </div>
 
-        <div className={styles.mediaItems}>
-          {typedData.items.map((item: MediaItem) => (
-            <div key={item.id} className={styles.mediaItem}>
-              <div className={styles.mediaItemHeader}>
-                <button
-                  className={styles.collapseButton}
-                  onClick={() => toggleCollapse(item.id)}
-                >
-                  {item.collapsed ? '▶' : '▼'}
-                </button>
-                <span className={styles.mediaItemName}>
-                  {item.name || item.url || 'New Video'}
-                </span>
-                <button
-                  className={styles.deleteButton}
-                  onClick={() => deleteItem(item.id)}
-                  title="Delete"
-                >
-                  ×
-                </button>
-              </div>
+        {/* Collapsible Preview Area */}
+        {!previewCollapsed && (
+          <div className={styles.previewArea} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.mediaItems}>
+              {typedData.items.map((item: MediaItem) => (
+                <div key={item.id} className={styles.mediaItem}>
+                  <div className={styles.mediaItemHeader}>
+                    <button
+                      className={styles.collapseButton}
+                      onClick={(e) => toggleCollapse(e, item.id)}
+                    >
+                      {item.collapsed ? '▶' : '▼'}
+                    </button>
+                    <span className={styles.mediaItemName}>
+                      {item.name || item.url || 'New Video'}
+                    </span>
+                    <button
+                      className={styles.deleteButton}
+                      onClick={(e) => deleteItem(e, item.id)}
+                      title="Delete"
+                    >
+                      ×
+                    </button>
+                  </div>
 
-              {!item.collapsed && (item.preview || item.url) && (
-                <div className={styles.mediaItemContent}>
-                  <video
-                    src={item.preview || item.url}
-                    controls
-                    className={styles.nodePreview}
-                  />
+                  {!item.collapsed && (item.preview || item.url) && (
+                    <div className={styles.mediaItemContent}>
+                      <video
+                        src={item.preview || item.url}
+                        controls
+                        className={styles.nodePreview}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {typedData.items.length === 0 && (
+                <div className={styles.emptyState}>
+                  Click + buttons above to add videos
                 </div>
               )}
             </div>
-          ))}
-
-          {typedData.items.length === 0 && (
-            <div className={styles.emptyState}>
-              Click + buttons above to add videos
-            </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Output handles - Bottom */}
         {typedData.items.map((item: MediaItem, index: number) => {
@@ -174,6 +199,7 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
                 transform: 'translate(-50%, 50%)',
               }}
               title={item.name || 'Video output'}
+              onClick={(e) => e.stopPropagation()}
             />
           );
         })}
