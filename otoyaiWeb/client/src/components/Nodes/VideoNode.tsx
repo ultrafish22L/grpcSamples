@@ -100,10 +100,16 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
       <div 
         className={`${styles.baseNode} ${styles.aiEndpointNode} ${selected ? styles.selected : ''}`}
         onContextMenu={handleContextMenu}
-        onClick={togglePreview}
       >
         <div className={styles.nodeHeader}>
           <h3 className={styles.nodeTitle}>{nodeTitle}</h3>
+          <button 
+            className={styles.collapseButton}
+            onClick={(e) => { e.stopPropagation(); togglePreview(); }}
+            title={previewCollapsed ? "Expand" : "Collapse"}
+          >
+            {previewCollapsed ? '▶' : '▼'}
+          </button>
           <div className={styles.headerButtons} style={{ gap: '4px', marginLeft: '8px' }}>
             <button
               className={styles.iconButton}

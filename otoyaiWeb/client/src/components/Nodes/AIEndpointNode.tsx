@@ -154,7 +154,6 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
       <div 
         className={`${styles.baseNode} ${styles.aiEndpointNode} ${selected ? styles.selected : ''}`}
         onContextMenu={handleContextMenu}
-        onClick={togglePreview}
         title={endpoint.description}
       >
         {/* Input Handles - Top */}
@@ -189,6 +188,13 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
         {/* Title Bar with Play Button */}
         <div className={styles.nodeHeader}>
           <h3 className={styles.nodeTitle}>{endpoint.title}</h3>
+          <button 
+            className={styles.collapseButton}
+            onClick={(e) => { e.stopPropagation(); togglePreview(); }}
+            title={previewCollapsed ? "Expand preview" : "Collapse preview"}
+          >
+            {previewCollapsed ? '▶' : '▼'}
+          </button>
           <button 
             className={`${styles.playButton} ${styles[`playButton${executionStatus.charAt(0).toUpperCase() + executionStatus.slice(1)}`]}`}
             onClick={(e) => { e.stopPropagation(); handleExecute(); }}

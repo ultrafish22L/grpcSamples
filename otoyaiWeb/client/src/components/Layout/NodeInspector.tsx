@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useStore } from '../../store/useStore';
-import { AIEndpointNodeData, ImageNodeData, VideoNodeData } from '../../types';
+import { AIEndpointNodeData, ImageNodeData, VideoNodeData, TextInputNodeData } from '../../types';
 import { inferEndpointSchema, InputParameter } from '../../utils/endpointSchema';
 import { logger } from '../../services/logger';
 import styles from './NodeInspector.module.css';
@@ -37,6 +37,9 @@ export function NodeInspector() {
         )}
         {selectedNode.type === 'video' && (
           <MediaInspector node={selectedNode} updateNode={updateNode} type="video" />
+        )}
+        {selectedNode.type === 'textInput' && (
+          <TextInputInspector node={selectedNode} updateNode={updateNode} />
         )}
       </div>
     </div>
@@ -160,6 +163,47 @@ function MediaInspector({ node, type }: MediaInspectorProps) {
             <div className={styles.emptyMediaList}>No items loaded</div>
           )}
         </div>
+      </div>
+    </>
+  );
+}
+
+interface TextInputInspectorProps {
+  node: {
+    id: string;
+    data: unknown;
+  };
+  updateNode: (id: string, data: Partial<unknown>) => void;
+}
+
+function TextInputInspector({ node, updateNode }: TextInputInspectorProps) {
+  const data = node.data as TextInputNodeData;
+  const { value = '' } = data;
+
+  const handleValueChange = (newValue: string) => {
+    updateNode(node.id, { value: newValue });
+    logger.debug('Text node value updated', { node: node.id, length: newValue.length });
+  };
+
+  return (
+    <>
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>Text Input Node</h3>
+        <div className={styles.description}>
+          {value.length} character{value.length !== 1 ? 's' : ''}
+        </div>
+      </div>
+
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>Text Content</h3>
+        <textarea
+          className={styles.textInput}
+          value={value}
+          onChange={(e) => handleValueChange(e.target.value)}
+          placeholder="Enter text..."
+          rows={10}
+          style={{ width: '100%', resize: 'vertical' }}
+        />
       </div>
     </>
   );

@@ -106,7 +106,11 @@ export const useStore = create<AppState>()(
       addNode: (node) => {
         logger.info('Node added', { type: node.type, id: node.id });
         set((state) => ({
-          nodes: [...state.nodes, node],
+          // Deselect all existing nodes and select the new node
+          nodes: [
+            ...state.nodes.map(n => ({ ...n, selected: false })),
+            { ...node, selected: true }
+          ],
         }));
       },
 
