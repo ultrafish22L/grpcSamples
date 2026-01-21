@@ -389,12 +389,6 @@
   background: var(--color-bg-primary);
   border: 2px solid var(--color-accent);
   border-radius: 50%;
-  transition: all var(--transition-fast);
-}
-
-.handleOpen:hover {
-  background: var(--color-accent);
-  transform: scale(1.2);
 }
 
 .handleFilled {
@@ -403,11 +397,6 @@
   background: var(--color-accent);
   border: 2px solid var(--color-accent);
   border-radius: 50%;
-  transition: all var(--transition-fast);
-}
-
-.handleFilled:hover {
-  transform: scale(1.2);
 }
 
 /* Create Button */
