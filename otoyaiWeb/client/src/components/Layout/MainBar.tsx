@@ -14,8 +14,7 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     loadProject, 
     currentProject,
     visibleEndpoints,
-    setVisibleEndpoints,
-    resetVisibleEndpoints 
+    setVisibleEndpoints
   } = useStore();
   const [showProjectDialog, setShowProjectDialog] = useState(false);
   const [showLoadDialog, setShowLoadDialog] = useState(false);
@@ -238,11 +237,30 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
   };
 
   const handleResetWorkspace = () => {
-    // Reset to default endpoints
-    resetVisibleEndpoints();
-    
-    // Clear any saved workspace data from localStorage
+    // Clear workspace-specific localStorage
     localStorage.removeItem('otoyai-workspaces');
+    
+    // Update the Zustand persist cache to remove visibleEndpoints
+    // This will cause it to reinitialize with DEFAULT_VISIBLE_ENDPOINTS
+    const storage = localStorage.getItem('otoyai-storage');
+    if (storage) {
+      try {
+        const data = JSON.parse(storage);
+        // Remove visibleEndpoints from persisted state
+        // Keep projects intact
+        if (data.state) {
+          delete data.state.visibleEndpoints;
+          localStorage.setItem('otoyai-storage', JSON.stringify(data));
+        }
+      } catch (e) {
+        console.error('Failed to update storage', e);
+        // If parsing fails, just clear everything
+        localStorage.removeItem('otoyai-storage');
+      }
+    }
+    
+    // Reload to reinitialize with DEFAULT_VISIBLE_ENDPOINTS
+    window.location.reload();
   };
 
   return (
