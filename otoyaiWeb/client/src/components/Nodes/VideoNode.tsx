@@ -50,7 +50,7 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
         newItem.name = url.split('/').pop() || url;
         const newItems = [...typedData.items, newItem];
         updateNodeData(id, { items: newItems });
-        updateNodeInternals(id);
+        // Don't call updateNodeInternals here - let useLayoutEffect handle it after DOM updates
       }
       return;
     } else {
@@ -67,7 +67,7 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
           newItem.name = file.name;
           const newItems = [...typedData.items, newItem];
           updateNodeData(id, { items: newItems });
-          updateNodeInternals(id);
+          // Don't call updateNodeInternals here - let useLayoutEffect handle it after DOM updates
         }
       };
       input.click();
@@ -90,8 +90,8 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
       setEdges(updatedEdges);
     }
     
-    updateNodeInternals(id);
-  }, [id, typedData.items, updateNodeInternals, updateNodeData, edges, setEdges]);
+    // Don't call updateNodeInternals here - let useLayoutEffect handle it after DOM updates
+  }, [id, typedData.items, updateNodeData, edges, setEdges]);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -172,6 +172,15 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
   // Use useLayoutEffect to ensure this runs after DOM updates but before paint
   useLayoutEffect(() => {
     updateNodeInternals(id);
+  }, [typedData.items.length, id, updateNodeInternals]);
+
+  // Additional update after paint to catch any React Flow edge cases
+  // This ensures edges are connected to the correct handle positions
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      updateNodeInternals(id);
+    }, 10); // Small delay to ensure React Flow has processed everything
+    return () => clearTimeout(timer);
   }, [typedData.items.length, id, updateNodeInternals]);
 
   return (

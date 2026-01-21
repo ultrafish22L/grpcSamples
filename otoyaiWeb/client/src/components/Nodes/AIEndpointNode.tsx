@@ -43,9 +43,10 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
     }
   }, [id, previewCollapsed, updateNodeData]);
 
-  const togglePreview = useCallback(() => {
-    updateNodeData(id, { previewCollapsed: !previewCollapsed });
-  }, [id, previewCollapsed, updateNodeData]);
+  // TODO: Add UI button to toggle preview
+  // const togglePreview = useCallback(() => {
+  //   updateNodeData(id, { previewCollapsed: !previewCollapsed });
+  // }, [id, previewCollapsed, updateNodeData]);
 
   const handleExecute = useCallback(async () => {
     if (executionStatus === 'executing') return;
