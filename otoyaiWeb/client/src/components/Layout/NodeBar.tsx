@@ -1,6 +1,7 @@
 import { memo, useState, useEffect, useCallback } from 'react';
 import { useStore } from '../../store/useStore';
 import { Endpoint } from '../../types';
+import { getDefaultParameters } from '../../utils/endpointSchema';
 import { logger } from '../../services/logger';
 import styles from './Layout.module.css';
 
@@ -63,7 +64,13 @@ export const NodeBar = memo(() => {
     const x = Math.random() * 500 + 100;
     const y = Math.random() * 500 + 100;
 
-    logger.info('Adding AI endpoint node', { endpoint: endpoint.endpoint_id });
+    // Get default parameter values from schema
+    const defaultParams = getDefaultParameters(endpoint);
+
+    logger.info('Adding AI endpoint node', { 
+      endpoint: endpoint.endpoint_id, 
+      defaultParams 
+    });
 
     addNode({
       id,
@@ -71,7 +78,7 @@ export const NodeBar = memo(() => {
       position: { x, y },
       data: { 
         endpoint,
-        parameters: {},
+        parameters: defaultParams,
         isExecuting: false,
         selectedPin: 'output', // Default to showing output preview
       },

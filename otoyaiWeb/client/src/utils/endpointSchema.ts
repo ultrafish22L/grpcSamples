@@ -221,3 +221,17 @@ export function inferEndpointSchema(endpoint: Endpoint): EndpointSchema {
 export function isMediaInput(type: InputType): boolean {
   return type === 'image' || type === 'video' || type === 'audio';
 }
+
+// Extract default values from endpoint schema to initialize node parameters
+export function getDefaultParameters(endpoint: Endpoint): Record<string, unknown> {
+  const schema = inferEndpointSchema(endpoint);
+  const defaults: Record<string, unknown> = {};
+  
+  schema.inputs.forEach(input => {
+    if (input.default !== undefined) {
+      defaults[input.name] = input.default;
+    }
+  });
+  
+  return defaults;
+}
