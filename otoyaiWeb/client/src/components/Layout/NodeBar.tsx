@@ -131,7 +131,7 @@ export const NodeBar = memo(() => {
   return (
     <>
       <div className={styles.contextMenu}>
-        <h2 className={styles.contextMenuHeader}>Node Types</h2>
+        <h2 className={styles.contextMenuHeader}>Node Palette</h2>
 
         {/* Utility section as collapsible category */}
         <div className={styles.categorySection}>
