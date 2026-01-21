@@ -22,8 +22,6 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
   const [showProjectDialog, setShowProjectDialog] = useState(false);
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const [projectName, setProjectName] = useState('');
-  const [showWorkspaceDialog, setShowWorkspaceDialog] = useState(false);
-  const [workspaceName, setWorkspaceName] = useState('');
 
   const handleNewProject = () => {
     if (confirm('Create new project? Current work will be cleared.')) {
@@ -163,30 +161,28 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     setShowLoadDialog(false);
   };
 
-  const handleSaveWorkspace = () => {
-    // Show dialog to name the workspace
-    setShowWorkspaceDialog(true);
-  };
-
-  const handleSaveWorkspaceConfirm = async () => {
-    if (!workspaceName.trim()) return;
+  const handleSaveWorkspace = async () => {
+    // Directly open system file picker (like project save)
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+    const suggestedName = currentWorkspace?.name 
+      ? `${currentWorkspace.name.replace(/[^a-z0-9]/gi, '_')}.otoyai-workspace`
+      : `workspace_${timestamp}.otoyai-workspace`;
     
-    const name = workspaceName.trim();
     const workspaceData = {
-      name,
+      name: currentWorkspace?.name || `Workspace ${timestamp}`,
       visibleEndpoints,
       saved: Date.now(),
     };
     
     const jsonString = JSON.stringify(workspaceData, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
-    const filename = `${name.replace(/[^a-z0-9]/gi, '_')}.otoyai-workspace`;
     
     // Use modern File System Access API if available
     if ('showSaveFilePicker' in window) {
       try {
+        console.log('Opening file picker for workspace save...');
         const handle = await (window as any).showSaveFilePicker({
-          suggestedName: filename,
+          suggestedName,
           startIn: 'documents',
           id: 'otoyaiWeb-workspaces',
           types: [{
@@ -194,32 +190,37 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
             accept: { 'application/json': ['.otoyai-workspace'] },
           }],
         });
+        console.log('Saving workspace to:', handle.name);
         const writable = await handle.createWritable();
         await writable.write(blob);
         await writable.close();
         
-        // Remember this workspace as currently loaded
-        setCurrentWorkspace({ name, saved: workspaceData.saved });
+        // Extract name from filename (remove extension)
+        const savedName = handle.name.replace(/\.otoyai-workspace$/, '').replace(/_/g, ' ');
         
-        setWorkspaceName('');
-        setShowWorkspaceDialog(false);
-      } catch (err) {
-        console.log('Save cancelled');
+        // Remember this workspace as currently loaded
+        setCurrentWorkspace({ name: savedName, saved: workspaceData.saved });
+        console.log('Workspace saved:', savedName);
+      } catch (err: any) {
+        if (err.name !== 'AbortError') {
+          console.error('Error saving workspace:', err);
+        } else {
+          console.log('Save cancelled by user');
+        }
       }
     } else {
       // Fallback: trigger download
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = filename;
+      a.download = suggestedName;
       a.click();
       URL.revokeObjectURL(url);
       
       // Remember this workspace as currently loaded
-      setCurrentWorkspace({ name, saved: workspaceData.saved });
-      
-      setWorkspaceName('');
-      setShowWorkspaceDialog(false);
+      const savedName = suggestedName.replace(/\.otoyai-workspace$/, '').replace(/_/g, ' ');
+      setCurrentWorkspace({ name: savedName, saved: workspaceData.saved });
+      console.log('Workspace downloaded:', savedName);
     }
   };
 
@@ -441,29 +442,6 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
             </div>
             <div className={styles.dialogButtons}>
               <button onClick={() => setShowLoadDialog(false)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showWorkspaceDialog && (
-        <div className={styles.dialogOverlay} onClick={() => setShowWorkspaceDialog(false)}>
-          <div className={styles.dialog} onClick={(e) => e.stopPropagation()}>
-            <h3>Save Workspace</h3>
-            <p className={styles.dialogDescription}>
-              Name your workspace configuration ({visibleEndpoints.length} models)
-            </p>
-            <input
-              type="text"
-              placeholder="Workspace name (e.g., 'My Video Pipeline')"
-              value={workspaceName}
-              onChange={(e) => setWorkspaceName(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSaveWorkspaceConfirm()}
-              autoFocus
-            />
-            <div className={styles.dialogButtons}>
-              <button onClick={handleSaveWorkspaceConfirm}>Save</button>
-              <button onClick={() => setShowWorkspaceDialog(false)}>Cancel</button>
             </div>
           </div>
         </div>
