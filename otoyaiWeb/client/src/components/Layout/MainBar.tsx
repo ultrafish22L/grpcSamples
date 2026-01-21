@@ -13,8 +13,10 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     projects, 
     loadProject, 
     currentProject,
+    currentWorkspace,
     visibleEndpoints,
     setVisibleEndpoints,
+    setCurrentWorkspace,
     resetVisibleEndpoints
   } = useStore();
   const [showProjectDialog, setShowProjectDialog] = useState(false);
@@ -195,6 +197,10 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
         const writable = await handle.createWritable();
         await writable.write(blob);
         await writable.close();
+        
+        // Remember this workspace as currently loaded
+        setCurrentWorkspace({ name, saved: workspaceData.saved });
+        
         setWorkspaceName('');
         setShowWorkspaceDialog(false);
       } catch (err) {
@@ -208,6 +214,10 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
       a.download = filename;
       a.click();
       URL.revokeObjectURL(url);
+      
+      // Remember this workspace as currently loaded
+      setCurrentWorkspace({ name, saved: workspaceData.saved });
+      
       setWorkspaceName('');
       setShowWorkspaceDialog(false);
     }
@@ -234,6 +244,12 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
         
         if (workspaceData.visibleEndpoints) {
           setVisibleEndpoints(workspaceData.visibleEndpoints);
+          
+          // Remember this workspace as currently loaded
+          setCurrentWorkspace({
+            name: workspaceData.name || 'Loaded Workspace',
+            saved: workspaceData.saved || Date.now(),
+          });
         }
       } catch (err) {
         console.log('Load cancelled');
@@ -251,6 +267,12 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
           
           if (workspaceData.visibleEndpoints) {
             setVisibleEndpoints(workspaceData.visibleEndpoints);
+            
+            // Remember this workspace as currently loaded
+            setCurrentWorkspace({
+              name: workspaceData.name || 'Loaded Workspace',
+              saved: workspaceData.saved || Date.now(),
+            });
           }
         }
       };
@@ -351,6 +373,20 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
             <line x1="12" y1="5" x2="12" y2="19" />
             <line x1="5" y1="12" x2="19" y2="12" />
           </svg>
+        </div>
+
+        {/* Status Display - Shows current project and workspace */}
+        <div className={styles.statusDisplay}>
+          {currentProject && (
+            <div className={styles.statusItem} title={`Project: ${currentProject.name}`}>
+              📄
+            </div>
+          )}
+          {currentWorkspace && (
+            <div className={styles.statusItem} title={`Workspace: ${currentWorkspace.name}`}>
+              🎨
+            </div>
+          )}
         </div>
       </div>
 

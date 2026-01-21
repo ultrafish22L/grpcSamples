@@ -113,6 +113,11 @@ export interface Workflow {
   };
 }
 
+export interface WorkspaceInfo {
+  name: string;
+  saved: number;
+}
+
 interface AppState {
   endpoints: Endpoint[];
   loadingEndpoints: boolean;
@@ -123,6 +128,7 @@ interface AppState {
   visibleEndpoints: string[];
   projects: Project[];
   currentProject: Project | null;
+  currentWorkspace: WorkspaceInfo | null;
   viewport: { x: number; y: number; zoom: number };
 
   fetchEndpoints: () => Promise<void>;
@@ -144,6 +150,7 @@ interface AppState {
   removeVisibleEndpoint: (endpointId: string) => void;
   setVisibleEndpoints: (endpointIds: string[]) => void;
   resetVisibleEndpoints: () => void;
+  setCurrentWorkspace: (workspace: WorkspaceInfo | null) => void;
   
   setViewport: (viewport: { x: number; y: number; zoom: number }) => void;
   
@@ -169,6 +176,7 @@ export const useStore = create<AppState>()(
       visibleEndpoints: DEFAULT_VISIBLE_ENDPOINTS,
       projects: [],
       currentProject: null,
+      currentWorkspace: null,
       viewport: { x: 0, y: 0, zoom: 1 },
 
       fetchEndpoints: async () => {
@@ -341,7 +349,12 @@ export const useStore = create<AppState>()(
 
       resetVisibleEndpoints: () => {
         logger.info('Reset to default endpoints');
-        set({ visibleEndpoints: DEFAULT_VISIBLE_ENDPOINTS });
+        set({ visibleEndpoints: DEFAULT_VISIBLE_ENDPOINTS, currentWorkspace: null });
+      },
+
+      setCurrentWorkspace: (workspace) => {
+        logger.info('Set current workspace', { workspace: workspace?.name });
+        set({ currentWorkspace: workspace });
       },
 
       setViewport: (viewport) => {
@@ -459,9 +472,12 @@ export const useStore = create<AppState>()(
     {
       name: 'otoyai-storage',
       partialize: (state) => ({
-        // Only persist projects, NOT visibleEndpoints
-        // Node Palette should only be saved/loaded via workspace files
         projects: state.projects,
+        currentProject: state.currentProject,
+        currentWorkspace: state.currentWorkspace,
+        // Persist visibleEndpoints only when a workspace is loaded
+        // If no workspace, defaults to DEFAULT_VISIBLE_ENDPOINTS
+        visibleEndpoints: state.currentWorkspace ? state.visibleEndpoints : undefined,
       }),
     }
   )
