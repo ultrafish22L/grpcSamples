@@ -83,30 +83,6 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
     forceUpdate({});
   }, [id, typedData.items, updateNodeInternals]);
 
-  // Test helper: Add sample images
-  const addSampleImages = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    const sampleUrls = [
-      'https://picsum.photos/400/300?random=1',
-      'https://picsum.photos/400/400?random=2',
-      'https://picsum.photos/400/250?random=3',
-      'https://picsum.photos/400/350?random=4',
-    ];
-    
-    sampleUrls.forEach((url, index) => {
-      const newItem: MediaItem = {
-        id: `${Date.now()}-${Math.random()}`,
-        url: url,
-        name: `sample-image-${index + 1}.jpg`,
-        collapsed: false,
-      };
-      typedData.items.push(newItem);
-    });
-    
-    updateNodeInternals(id);
-    forceUpdate({});
-  }, [id, typedData.items, updateNodeInternals]);
-
   const toggleCollapse = useCallback((e: React.MouseEvent, itemId: string) => {
     e.stopPropagation();
     const item = typedData.items.find((i) => i.id === itemId);
@@ -145,7 +121,7 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
       >
         <div className={styles.nodeHeader}>
           <h3 className={styles.nodeTitle}>{nodeTitle}</h3>
-          <div className={styles.headerButtons}>
+          <div className={styles.headerButtons} style={{ gap: '4px', marginLeft: '8px' }}>
             <button
               className={styles.iconButton}
               onClick={(e) => addItem(e, 'url')}
@@ -160,15 +136,6 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
             >
               +📁
             </button>
-            {typedData.items.length === 0 && (
-              <button
-                className={styles.iconButton}
-                onClick={addSampleImages}
-                title="Add Test Images"
-              >
-                🧪
-              </button>
-            )}
           </div>
         </div>
 
