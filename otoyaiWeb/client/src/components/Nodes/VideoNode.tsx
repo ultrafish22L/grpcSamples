@@ -20,9 +20,9 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
     updateNodeData(id, { previewCollapsed: !previewCollapsed });
   }, [id, previewCollapsed, updateNodeData]);
 
-  // Generate title from filename when single item
+  // Generate title from first filename (minimum 22 chars or full name)
   const nodeTitle = useMemo(() => {
-    if (typedData.items.length === 1) {
+    if (typedData.items.length > 0) {
       const item = typedData.items[0];
       const name = item.name || item.url?.split('/').pop() || 'Video';
       return name.length > 22 ? name.substring(0, 22) + '...' : name;
@@ -77,17 +77,6 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
     forceUpdate({});
   }, [id, typedData.items, updateNodeInternals]);
 
-  const toggleCollapse = useCallback((e: React.MouseEvent, itemId: string) => {
-    e.stopPropagation();
-    const item = typedData.items.find((i: MediaItem) => i.id === itemId);
-    if (item) {
-      item.collapsed = !item.collapsed;
-      forceUpdate({});
-    }
-  }, [typedData.items]);
-
-  const hasMultipleItems = typedData.items.length > 1;
-
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     setContextMenu({ x: e.clientX, y: e.clientY });
@@ -114,7 +103,7 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
       >
         <div className={styles.nodeHeader}>
           <h3 className={styles.nodeTitle}>{nodeTitle}</h3>
-          <div className={styles.headerButtons}>
+          <div className={styles.headerButtons} style={{ gap: '4px', marginLeft: '8px' }}>
             <button
               className={styles.iconButton}
               onClick={(e) => addItem(e, 'url')}
@@ -132,21 +121,26 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
           </div>
         </div>
 
-        {/* Collapsible Preview Area */}
+        {/* Collapsible Preview Area - Scrollable Vertical List */}
         {!previewCollapsed && (
-          <div className={styles.previewArea} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.mediaItems}>
-              {typedData.items.map((item: MediaItem) => (
-                <div key={item.id} className={styles.mediaItem}>
-                  <div className={styles.mediaItemHeader}>
-                    <button
-                      className={styles.collapseButton}
-                      onClick={(e) => toggleCollapse(e, item.id)}
-                    >
-                      {item.collapsed ? '▶' : '▼'}
-                    </button>
-                    <span className={styles.mediaItemName}>
-                      {item.name || item.url || 'New Video'}
+          <div className={styles.videoNodePreview} onClick={(e) => e.stopPropagation()}>
+            {typedData.items.length === 0 ? (
+              <div className={styles.emptyState}>
+                Click + buttons above to add videos
+              </div>
+            ) : (
+              typedData.items.map((item: MediaItem) => (
+                <div key={item.id} className={styles.videoItemContainer}>
+                  {(item.preview || item.url) && (
+                    <video
+                      src={item.preview || item.url}
+                      controls
+                      className={styles.videoPreview}
+                    />
+                  )}
+                  <div className={styles.videoFooter}>
+                    <span className={styles.videoFilename}>
+                      {item.name || item.url?.split('/').pop() || 'video'}
                     </span>
                     <button
                       className={styles.deleteButton}
@@ -156,25 +150,9 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
                       ×
                     </button>
                   </div>
-
-                  {!item.collapsed && (item.preview || item.url) && (
-                    <div className={styles.mediaItemContent}>
-                      <video
-                        src={item.preview || item.url}
-                        controls
-                        className={styles.nodePreview}
-                      />
-                    </div>
-                  )}
                 </div>
-              ))}
-
-              {typedData.items.length === 0 && (
-                <div className={styles.emptyState}>
-                  Click + buttons above to add videos
-                </div>
-              )}
-            </div>
+              ))
+            )}
           </div>
         )}
 
