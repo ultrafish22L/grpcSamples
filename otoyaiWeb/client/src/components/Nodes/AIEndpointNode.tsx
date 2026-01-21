@@ -14,7 +14,7 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as AIEndpointNodeData;
   const { endpoint, selectedPin = 'output', result, previewCollapsed = true } = typedData;
   const { updateNodeData, getEdges } = useReactFlow();
-  const { onNodesChange, addNode } = useStore();
+  const { onNodesChange, addNode, nodes } = useStore();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const contextMenuRef = useRef<HTMLDivElement>(null);
   const [executionStatus, setExecutionStatus] = useState<ExecutionStatus>('idle');
@@ -84,8 +84,19 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
+    
+    // Select this node before showing context menu
+    if (!selected) {
+      const selectionChanges = nodes.map(node => ({
+        id: node.id,
+        type: 'select' as const,
+        selected: node.id === id
+      }));
+      onNodesChange(selectionChanges);
+    }
+    
     setContextMenu({ x: e.clientX, y: e.clientY });
-  }, []);
+  }, [selected, nodes, id, onNodesChange]);
 
   const closeContextMenu = useCallback(() => {
     setContextMenu(null);

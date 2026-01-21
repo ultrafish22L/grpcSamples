@@ -10,7 +10,7 @@ import styles from './nodes.module.css';
 function TextInputNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as TextInputNodeData;
   const { updateNodeData } = useReactFlow();
-  const { onNodesChange, addNode } = useStore();
+  const { onNodesChange, addNode, nodes } = useStore();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const contextMenuRef = useRef<HTMLDivElement>(null);
   const previewCollapsed = typedData.previewCollapsed ?? true;
@@ -34,8 +34,19 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
+    
+    // Select this node before showing context menu
+    if (!selected) {
+      const selectionChanges = nodes.map(node => ({
+        id: node.id,
+        type: 'select' as const,
+        selected: node.id === id
+      }));
+      onNodesChange(selectionChanges);
+    }
+    
     setContextMenu({ x: e.clientX, y: e.clientY });
-  }, []);
+  }, [selected, nodes, id, onNodesChange]);
 
   const closeContextMenu = useCallback(() => {
     setContextMenu(null);

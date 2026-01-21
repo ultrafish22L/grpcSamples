@@ -10,7 +10,7 @@ import styles from './nodes.module.css';
 function VideoNodeComponent({ id, data, selected }: NodeProps) {
   const updateNodeInternals = useUpdateNodeInternals();
   const { updateNodeData } = useReactFlow();
-  const { onNodesChange, addNode, edges, setEdges } = useStore();
+  const { onNodesChange, addNode, edges, setEdges, nodes } = useStore();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const contextMenuRef = useRef<HTMLDivElement>(null);
   const typedData = data as unknown as VideoNodeData;
@@ -95,8 +95,19 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
+    
+    // Select this node before showing context menu
+    if (!selected) {
+      const selectionChanges = nodes.map(node => ({
+        id: node.id,
+        type: 'select' as const,
+        selected: node.id === id
+      }));
+      onNodesChange(selectionChanges);
+    }
+    
     setContextMenu({ x: e.clientX, y: e.clientY });
-  }, []);
+  }, [selected, nodes, id, onNodesChange]);
 
   const closeContextMenu = useCallback(() => {
     setContextMenu(null);
