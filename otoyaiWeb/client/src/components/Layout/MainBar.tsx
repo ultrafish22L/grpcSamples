@@ -28,13 +28,61 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     }
   };
 
-  const handleSaveProject = () => {
-    if (currentProject) {
-      // Update existing project
-      saveProject(currentProject.name);
+  const handleSaveProject = async () => {
+    // Always show file save dialog
+    const { nodes, edges } = useStore.getState();
+    const projectData = {
+      name: currentProject?.name || 'Untitled',
+      created: currentProject?.created || Date.now(),
+      modified: Date.now(),
+      nodes,
+      edges,
+      visibleEndpoints,
+    };
+    
+    const jsonString = JSON.stringify(projectData, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const filename = `${projectData.name.replace(/[^a-z0-9]/gi, '_')}_${Date.now()}.otoyai`;
+    
+    // Use modern File System Access API if available
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await (window as any).showSaveFilePicker({
+          suggestedName: filename,
+          types: [{
+            description: 'OTOY AI Project',
+            accept: { 'application/json': ['.otoyai'] },
+          }],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        
+        // Also save to localStorage for quick access
+        if (currentProject) {
+          saveProject(currentProject.name);
+        } else {
+          saveProject(projectData.name);
+        }
+      } catch (err) {
+        // User cancelled
+        console.log('Save cancelled');
+      }
     } else {
-      // Show dialog for new project
-      setShowProjectDialog(true);
+      // Fallback: trigger download
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      // Also save to localStorage
+      if (currentProject) {
+        saveProject(currentProject.name);
+      } else {
+        setShowProjectDialog(true);
+      }
     }
   };
 
@@ -46,8 +94,61 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     }
   };
 
-  const handleLoadProject = () => {
-    setShowLoadDialog(true);
+  const handleLoadProject = async () => {
+    // Show file picker for loading .otoyai files
+    if ('showOpenFilePicker' in window) {
+      try {
+        const [handle] = await (window as any).showOpenFilePicker({
+          types: [{
+            description: 'OTOY AI Project',
+            accept: { 'application/json': ['.otoyai', '.json'] },
+          }],
+          multiple: false,
+        });
+        const file = await handle.getFile();
+        const text = await file.text();
+        const projectData = JSON.parse(text);
+        
+        // Load the project data into store
+        const { setNodes, setEdges, setVisibleEndpoints } = useStore.getState();
+        setNodes(projectData.nodes || []);
+        setEdges(projectData.edges || []);
+        if (projectData.visibleEndpoints) {
+          setVisibleEndpoints(projectData.visibleEndpoints);
+        }
+        
+        // Optionally save to localStorage for recent projects
+        if (projectData.name) {
+          saveProject(projectData.name);
+        }
+      } catch (err) {
+        console.log('Load cancelled');
+      }
+    } else {
+      // Fallback: show input for file upload
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.otoyai,.json';
+      input.onchange = async (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (file) {
+          const text = await file.text();
+          const projectData = JSON.parse(text);
+          
+          const { setNodes, setEdges, setVisibleEndpoints } = useStore.getState();
+          setNodes(projectData.nodes || []);
+          setEdges(projectData.edges || []);
+          if (projectData.visibleEndpoints) {
+            setVisibleEndpoints(projectData.visibleEndpoints);
+          }
+          
+          if (projectData.name) {
+            saveProject(projectData.name);
+          }
+        }
+      };
+      input.click();
+    }
   };
 
   const handleLoadProjectConfirm = (projectId: string) => {
@@ -55,8 +156,51 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     setShowLoadDialog(false);
   };
 
-  const handleSaveWorkspace = () => {
-    setShowWorkspaceDialog(true);
+  const handleSaveWorkspace = async () => {
+    // Always show file save dialog for workspace
+    const workspaceData = {
+      name: 'Workspace',
+      visibleEndpoints,
+      saved: Date.now(),
+    };
+    
+    const jsonString = JSON.stringify(workspaceData, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const filename = `workspace_${Date.now()}.otoyai-workspace`;
+    
+    // Use modern File System Access API if available
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await (window as any).showSaveFilePicker({
+          suggestedName: filename,
+          types: [{
+            description: 'OTOY AI Workspace',
+            accept: { 'application/json': ['.otoyai-workspace'] },
+          }],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        
+        // Also save to localStorage
+        const savedWorkspaces = JSON.parse(localStorage.getItem('otoyai-workspaces') || '[]');
+        savedWorkspaces.push(workspaceData);
+        localStorage.setItem('otoyai-workspaces', JSON.stringify(savedWorkspaces));
+      } catch (err) {
+        console.log('Save cancelled');
+      }
+    } else {
+      // Fallback: trigger download
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      // Also save to localStorage
+      setShowWorkspaceDialog(true);
+    }
   };
 
   const handleSaveWorkspaceConfirm = () => {
@@ -74,21 +218,44 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     }
   };
 
-  const handleLoadWorkspace = () => {
-    const savedWorkspaces = JSON.parse(localStorage.getItem('otoyai-workspaces') || '[]');
-    if (savedWorkspaces.length === 0) {
-      alert('No saved workspaces found');
-      return;
-    }
-    const workspaceNames = savedWorkspaces.map((w: { name: string; saved: number }, i: number) => 
-      `${i + 1}. ${w.name} (${new Date(w.saved).toLocaleDateString()})`
-    ).join('\n');
-    const choice = prompt(`Select workspace (enter number):\n\n${workspaceNames}`);
-    if (choice) {
-      const index = parseInt(choice) - 1;
-      if (index >= 0 && index < savedWorkspaces.length) {
-        setVisibleEndpoints(savedWorkspaces[index].visibleEndpoints);
+  const handleLoadWorkspace = async () => {
+    // Show file picker for loading workspace files
+    if ('showOpenFilePicker' in window) {
+      try {
+        const [handle] = await (window as any).showOpenFilePicker({
+          types: [{
+            description: 'OTOY AI Workspace',
+            accept: { 'application/json': ['.otoyai-workspace', '.json'] },
+          }],
+          multiple: false,
+        });
+        const file = await handle.getFile();
+        const text = await file.text();
+        const workspaceData = JSON.parse(text);
+        
+        if (workspaceData.visibleEndpoints) {
+          setVisibleEndpoints(workspaceData.visibleEndpoints);
+        }
+      } catch (err) {
+        console.log('Load cancelled');
       }
+    } else {
+      // Fallback: show input for file upload
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.otoyai-workspace,.json';
+      input.onchange = async (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (file) {
+          const text = await file.text();
+          const workspaceData = JSON.parse(text);
+          
+          if (workspaceData.visibleEndpoints) {
+            setVisibleEndpoints(workspaceData.visibleEndpoints);
+          }
+        }
+      };
+      input.click();
     }
   };
 

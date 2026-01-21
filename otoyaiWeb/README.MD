@@ -142,6 +142,47 @@ Original API: `https://play.otoy.ai/api/endpoints`
 
 ---
 
+## Project & Workspace File Management
+
+### Save & Load Files
+
+**Save button** in the main toolbar **always opens a native file dialog** to save projects to your local file system:
+
+- **Projects** (node graphs): Saved as `.otoyai` files
+  - Contains: nodes, edges, connections, parameters, visible endpoints
+  - File format: JSON
+  - Example: `MyProject_1705823456789.otoyai`
+  
+- **Workspaces** (NodeBar configs): Saved as `.otoyai-workspace` files
+  - Contains: visible endpoint configurations only
+  - File format: JSON
+  - Example: `workspace_1705823456789.otoyai-workspace`
+
+### Where Files Are Stored
+
+#### Browser Storage (localStorage)
+- **Key**: `otoyai-storage`
+- **Contents**: Recent projects and visible endpoint lists
+- **Purpose**: Quick access to recent work
+- **Location**: Browser's localStorage (not a real file)
+
+#### File System (via Save button)
+- **Location**: User's choice via native file dialog
+- **Format**: JSON files with `.otoyai` or `.otoyai-workspace` extensions
+- **Benefit**: Portable, version-controllable, shareable
+
+### File System Access API
+
+- **Modern browsers** (Chrome, Edge): Uses `showSaveFilePicker()` / `showOpenFilePicker()`
+- **Fallback**: Automatic download/upload for older browsers
+- **Security**: User explicitly chooses save location via OS dialog
+
+### Quick Access
+
+Even when saving to file system, projects are **also cached in localStorage** for the "Recent Projects" list visible when clicking the Load button's dropdown (planned feature).
+
+---
+
 ## Logger System
 
 Built-in file-based logging for development and debugging:
@@ -171,6 +212,9 @@ logger.debug('Debug info', { details });
 - NodeBar (middle panel) with categorized AI models
 - Node inspector (right panel) for parameter editing
 - Real-time endpoint fetching from play.otoy.ai
+- **Native file save/load dialogs** for projects (.otoyai files)
+- **Workspace save/load** for NodeBar configurations (.otoyai-workspace files)
+- localStorage caching for quick access to recent projects
 - File-based logging system
 - Production build pipeline
 - CORS enabled for local development
@@ -182,8 +226,8 @@ logger.debug('Debug info', { details });
 - Node result caching
 
 ### 📋 Planned
-- Save/load workflow graphs (JSON export/import)
-- Export results (download images/videos)
+- Recent projects dropdown in Load button
+- Export results (download images/videos from executed nodes)
 - Octane node for octaneWebR integration
 - Batch processing
 - Custom node templates

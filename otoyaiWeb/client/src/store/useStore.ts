@@ -61,6 +61,8 @@ interface AppState {
   onReconnect: (oldEdge: AppEdge, newConnection: Connection) => void;
   removeEdge: (edgeId: string) => void;
   clearGraph: () => void;
+  setNodes: (nodes: AppNode[]) => void;
+  setEdges: (edges: AppEdge[]) => void;
   
   addVisibleEndpoint: (endpointId: string) => void;
   removeVisibleEndpoint: (endpointId: string) => void;
@@ -225,6 +227,16 @@ export const useStore = create<AppState>()(
       clearGraph: () => {
         logger.info('Graph cleared');
         set({ nodes: [], edges: [] });
+      },
+
+      setNodes: (nodes) => {
+        logger.info('Nodes set', { nodeCount: nodes.length });
+        set({ nodes });
+      },
+
+      setEdges: (edges) => {
+        logger.info('Edges set', { edgeCount: edges.length });
+        set({ edges });
       },
 
       addVisibleEndpoint: (endpointId) => {
