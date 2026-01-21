@@ -290,6 +290,266 @@ Based on Artificial Analysis Intelligence Index v4.0:
 
 ---
 
+## 🎤 Audio-to-Text / Speech-to-Text (8 models)
+
+### Top Tier - Most Used
+
+1. **Whisper Large V3** (`openai/whisper-large-v3`)
+   - **6.42M downloads, 5.32k likes** ⭐
+   - **#1 speech-to-text model**
+   - Best accuracy, multi-language
+
+2. **Whisper Large V3 Turbo** (`openai/whisper-large-v3-turbo`)
+   - 2.73M downloads, 2.77k likes
+   - Faster version of V3
+
+3. **Faster Whisper Large V3** (`systran/faster-whisper-large-v3`)
+   - 601k downloads, 503 likes
+   - Optimized inference
+
+### Specialized / Alternatives
+
+4. **NVIDIA Parakeet TDT 0.6B V3** (`nvidia/parakeet-tdt-0.6b-v3`)
+   - 74.3k downloads, 566 likes
+   - Fast, low-latency
+
+5. **GLM-ASR-Nano 2512** (`zai-org/glm-asr-nano-2512`)
+   - 47.8k downloads, 326 likes
+   - Compact, efficient
+
+6. **NVIDIA Canary Qwen 2.5B** (`nvidia/canary-qwen-2.5b`)
+   - 81.2k downloads, 352 likes
+   - Multi-task ASR
+
+7. **Pyannote Speaker Diarization 3.1** (`pyannote/speaker-diarization-3.1`)
+   - 13M downloads, 1.45k likes
+   - Speaker identification
+
+8. **Whisper Small** (`openai/whisper-small`)
+   - 1.51M downloads, 508 likes
+   - Budget-friendly option
+
+---
+
+## 🧮 Embedding / Vector Models (10 models)
+
+### Multimodal Embeddings
+
+1. **Qwen3-VL-Embedding-8B** (`qwen/qwen3-vl-embedding-8b`)
+   - 80.9k downloads, 293 likes
+   - Vision + language embeddings
+
+2. **Qwen3-VL-Embedding-2B** (`qwen/qwen3-vl-embedding-2b`)
+   - 94.2k downloads, 262 likes
+   - Smaller multimodal
+
+### Text Embeddings - Top Tier
+
+3. **Qwen3-Embedding-0.6B** (`qwen/qwen3-embedding-0.6b`)
+   - **1.84M downloads, 835 likes** ⭐
+   - Fast, accurate
+
+4. **Qwen3-Embedding-8B** (`qwen/qwen3-embedding-8b`)
+   - 1.61M downloads, 540 likes
+   - Higher quality
+
+5. **Jina Embeddings V3** (`jinaai/jina-embeddings-v3`)
+   - 4.4M downloads, 1.12k likes
+   - Long context support (8k tokens)
+
+### Popular Open Source
+
+6. **BGE-Large-EN-V1.5** (`baai/bge-large-en-v1.5`)
+   - 4.05M downloads, 621 likes
+   - BAAI's flagship
+
+7. **BGE-Small-EN-V1.5** (`baai/bge-small-en-v1.5`)
+   - 3.29M downloads, 399 likes
+   - Fast inference
+
+8. **Multilingual-E5-Large** (`intfloat/multilingual-e5-large`)
+   - 3.05M downloads, 1.12k likes
+   - 100+ languages
+
+### NVIDIA Specialized
+
+9. **NVIDIA NV-Embed-V2** (`nvidia/nv-embed-v2`)
+   - 31.6k downloads, 501 likes
+   - State-of-the-art retrieval
+
+10. **NVIDIA Llama-Embed-Nemotron-8B** (`nvidia/llama-embed-nemotron-8b`)
+    - 459k downloads, 123 likes
+    - Latest NVIDIA embedding
+
+---
+
+## 👁️ Computer Vision - Object Detection (8 models)
+
+### YOLO Family (Most Popular)
+
+1. **YOLOv8** (`ultralytics/yolov8`)
+   - 5.73k downloads, 301 likes
+   - **#1 real-time object detection**
+   - Industry standard
+
+2. **Qualcomm YOLO-X** (`qualcomm/yolo-x`)
+   - 566 downloads, 8 likes
+   - Mobile-optimized
+
+3. **YOLOv11 License Plate Detection** (`morsetechlab/yolov11-license-plate-detection`)
+   - 1.9k downloads, 16 likes
+   - Specialized use case
+
+### DETR Family
+
+4. **DETR-ResNet-50** (`facebook/detr-resnet-50`)
+   - **547k downloads, 924 likes**
+   - Transformer-based detection
+
+5. **Table Transformer Detection** (`microsoft/table-transformer-detection`)
+   - 1.47M downloads, 392 likes
+   - Document table detection
+
+### Specialized Detectors
+
+6. **YOLOS-Tiny** (`hustvl/yolos-tiny`)
+   - 78.5k downloads, 273 likes
+   - Lightweight vision transformer
+
+7. **NVIDIA Nemotron Page Elements V3** (`nvidia/nemotron-page-elements-v3`)
+   - 1 download, 33 likes (new)
+   - Document element detection
+
+8. **Stock Market Pattern Detection** (`foduucom/stockmarket-pattern-detection-yolov8`)
+   - 6.15k downloads, 391 likes
+   - Niche application
+
+---
+
+## ✂️ Computer Vision - Image Segmentation (8 models)
+
+### Background Removal (Most Popular)
+
+1. **RMBG-2.0** (`briaai/rmbg-2.0`)
+   - **537k downloads, 1.03k likes** ⭐
+   - **#1 background removal**
+   - Latest Bria AI model
+
+2. **BiRefNet** (`zhengpeng7/birefnet`)
+   - **750k downloads, 520 likes**
+   - High-quality segmentation
+
+3. **RMBG-1.4** (`briaai/rmbg-1.4`)
+   - 162k downloads, 1.93k likes
+   - Previous version, stable
+
+### Semantic Segmentation
+
+4. **Segformer B2 Clothes** (`mattmdjaga/segformer_b2_clothes`)
+   - 190k downloads, 480 likes
+   - Fashion/clothing segmentation
+
+5. **NVIDIA Segformer B3** (`nvidia/segformer-b3-finetuned-ade-512-512`)
+   - 10.1k downloads, 14 likes
+   - General scene understanding
+
+### Specialized
+
+6. **Mask2Former Swin Large** (`facebook/mask2former-swin-large-cityscapes-semantic`)
+   - 244k downloads, 35 likes
+   - Cityscapes trained
+
+7. **YOLOv8 Segmentation** (`qualcomm/yolov8-segmentation`)
+   - 278 downloads, 21 likes
+   - Real-time instance segmentation
+
+8. **Fashn Human Parser** (`fashn-ai/fashn-human-parser`)
+   - 1.44k downloads, 11 likes
+   - Human body part segmentation
+
+---
+
+## 📏 Computer Vision - Depth Estimation (6 models)
+
+### Top Tier
+
+1. **Depth-Anything-V2-Large** (`depth-anything/depth-anything-v2-large`)
+   - **147k downloads, 148 likes** ⭐
+   - **#1 depth estimation**
+   - Best quality
+
+2. **Apple DepthPro** (`apple/depthpro-hf`)
+   - 27.7k downloads, 79 likes
+   - High-resolution depth
+
+3. **Intel DPT-Large** (`intel/dpt-large`)
+   - 34.9k downloads, 199 likes
+   - Dense prediction transformer
+
+### Specialized
+
+4. **Intel DPT-Hybrid-MiDaS** (`intel/dpt-hybrid-midas`)
+   - 496k downloads, 103 likes
+   - Cross-dataset generalization
+
+5. **Marigold Depth HR V1.1** (`prs-eth/marigold-depth-hr-v1-1`)
+   - 31 downloads, 10 likes
+   - High-resolution depth maps
+
+6. **GLPN-NYU** (`vinvino02/glpn-nyu`)
+   - 1.48k downloads, 24 likes
+   - Lightweight option
+
+---
+
+## 📝 Computer Vision - Image-to-Text (OCR/Captioning) (10 models)
+
+### OCR (Optical Character Recognition)
+
+1. **Llama-4-Scout-17B-16E-Instruct** (`meta-llama/llama-4-scout-17b-16e-instruct`)
+   - 204k downloads, 1.2k likes
+   - Multi-task vision-language
+
+2. **AllenAI OlmOCR-2-7B-1025** (`allenai/olmocr-2-7b-1025`)
+   - 539k downloads, 186 likes
+   - Document OCR
+
+3. **NVIDIA Nemotron OCR V1** (`nvidia/nemotron-ocr-v1`)
+   - 318 downloads, 70 likes
+   - Enterprise OCR
+
+4. **LightOn OCR-1B-1025** (`lightonai/lightonocr-1b-1025`)
+   - 35.7k downloads, 203 likes
+   - Efficient document reading
+
+5. **Microsoft TrOCR Base Handwritten** (`microsoft/trocr-base-handwritten`)
+   - **123k downloads, 473 likes**
+   - Handwriting recognition
+
+6. **Donut Base** (`naver-clova-ix/donut-base`)
+   - 29.8k downloads, 245 likes
+   - Document understanding
+
+### Image Captioning
+
+7. **BLIP Image Captioning Large** (`salesforce/blip-image-captioning-large`)
+   - **1.31M downloads, 1.44k likes** ⭐
+   - **#1 image captioning**
+
+8. **BLIP Image Captioning Base** (`salesforce/blip-image-captioning-base`)
+   - 1.86M downloads, 836 likes
+   - Faster version
+
+9. **Chandra** (`datalab-to/chandra`)
+   - 496k downloads, 466 likes
+   - Recent multimodal model
+
+10. **RolmOCR** (`reducto/rolmocr`)
+    - 3.47k downloads, 573 likes
+    - Specialized document OCR
+
+---
+
 ## 📈 Usage Statistics Summary
 
 ### By Category Popularity (Public Usage)
@@ -304,9 +564,16 @@ Based on Artificial Analysis Intelligence Index v4.0:
 | **TTS** | ElevenLabs | Most popular |
 | **Music** | Suno AI | Most popular |
 | **3D** | TripoSR | Open source leader |
+| **Speech-to-Text** | Whisper Large V3 | 6.42M downloads ⭐ |
+| **Embeddings** | Qwen3-Embedding-0.6B | 1.84M downloads |
+| **Object Detection** | YOLOv8 | Industry standard |
+| **Image Segmentation** | RMBG-2.0 | 537k downloads |
+| **Depth Estimation** | Depth-Anything-V2 | 147k downloads |
+| **Image Captioning** | BLIP Large | 1.31M downloads |
 
-### Total Models in Default Palette
+### Total Models in Report
 
+#### **Main Categories (62 models in default palette)**
 - **Text-to-Image:** 12 models
 - **Image-to-Image/Editing:** 7 models
 - **Image-to-Video:** 9 models
@@ -317,7 +584,16 @@ Based on Artificial Analysis Intelligence Index v4.0:
 - **3D Generation:** 3 models
 - **Special:** 1 model
 
-**TOTAL: 62 popular AI models**
+#### **Additional Categories (50 models documented)**
+- **Speech-to-Text:** 8 models
+- **Embeddings:** 10 models
+- **Object Detection:** 8 models
+- **Image Segmentation:** 8 models
+- **Depth Estimation:** 6 models
+- **Image-to-Text (OCR/Captioning):** 10 models
+
+**TOTAL IN REPORT: 112 popular AI models**
+**DEFAULT PALETTE: 62 models** (main categories only)
 
 ---
 
@@ -357,6 +633,32 @@ Research conducted January 2025:
 
 ---
 
-**Last Updated:** 2025-01-21
-**Research Version:** v1.0
+## 📊 Research Summary
+
+This comprehensive report covers **112 AI models** across **15 categories**:
+
+### Main Categories (in default palette):
+1. Text-to-Image (12 models)
+2. Image-to-Image/Editing (7 models)
+3. Image-to-Video (9 models)
+4. Text-to-Video (7 models)
+5. Large Language Models (15 models)
+6. Text-to-Speech & Audio (4 models)
+7. Music Generation (4 models)
+8. 3D Generation (3 models)
+9. Special/Custom (1 model)
+
+### Additional Categories (documented, available in node palette):
+10. Speech-to-Text / Audio-to-Text (8 models)
+11. Embeddings / Vector Models (10 models)
+12. Object Detection (8 models)
+13. Image Segmentation (8 models)
+14. Depth Estimation (6 models)
+15. Image-to-Text / OCR / Captioning (10 models)
+
+---
+
+**Last Updated:** 2025-01-21  
+**Research Version:** v2.0 (expanded with 6 additional categories)  
+**Models Researched:** 112 total (62 in default palette + 50 additional)  
 **Next Update:** Quarterly (April 2025)
