@@ -1,4 +1,4 @@
-import { memo, useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import { memo, useState, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Handle, Position, NodeProps, useUpdateNodeInternals, useReactFlow } from '@xyflow/react';
 import { ImageNodeData, MediaItem } from '../../types';
@@ -186,6 +186,12 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
       return () => document.removeEventListener('click', handleClick);
     }
   }, [contextMenu, closeContextMenu]);
+
+  // Update node internals when items change to recalculate handle positions
+  // Use useLayoutEffect to ensure this runs after DOM updates but before paint
+  useLayoutEffect(() => {
+    updateNodeInternals(id);
+  }, [typedData.items.length, id, updateNodeInternals]);
 
   return (
     <>
