@@ -20,8 +20,6 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
   const [showProjectDialog, setShowProjectDialog] = useState(false);
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const [projectName, setProjectName] = useState('');
-  const [showWorkspaceDialog, setShowWorkspaceDialog] = useState(false);
-  const [workspaceName, setWorkspaceName] = useState('');
 
   const handleNewProject = () => {
     if (confirm('Create new project? Current work will be cleared.')) {
@@ -182,11 +180,6 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
         const writable = await handle.createWritable();
         await writable.write(blob);
         await writable.close();
-        
-        // Also save to localStorage
-        const savedWorkspaces = JSON.parse(localStorage.getItem('otoyai-workspaces') || '[]');
-        savedWorkspaces.push(workspaceData);
-        localStorage.setItem('otoyai-workspaces', JSON.stringify(savedWorkspaces));
       } catch (err) {
         console.log('Save cancelled');
       }
@@ -198,26 +191,10 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
       a.download = filename;
       a.click();
       URL.revokeObjectURL(url);
-      
-      // Also save to localStorage
-      setShowWorkspaceDialog(true);
     }
   };
 
-  const handleSaveWorkspaceConfirm = () => {
-    if (workspaceName.trim()) {
-      const workspace = {
-        name: workspaceName.trim(),
-        visibleEndpoints,
-        saved: Date.now(),
-      };
-      const savedWorkspaces = JSON.parse(localStorage.getItem('otoyai-workspaces') || '[]');
-      savedWorkspaces.push(workspace);
-      localStorage.setItem('otoyai-workspaces', JSON.stringify(savedWorkspaces));
-      setWorkspaceName('');
-      setShowWorkspaceDialog(false);
-    }
-  };
+
 
   const handleLoadWorkspace = async () => {
     // Show file picker for loading workspace files
@@ -261,9 +238,11 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
   };
 
   const handleResetWorkspace = () => {
-    if (confirm('Reset workspace to default popular models (62 models)? This will replace your current NodeBar configuration.')) {
-      resetVisibleEndpoints();
-    }
+    // Reset to default endpoints
+    resetVisibleEndpoints();
+    
+    // Clear any saved workspace data from localStorage
+    localStorage.removeItem('otoyai-workspaces');
   };
 
   return (
@@ -399,29 +378,6 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
             </div>
             <div className={styles.dialogButtons}>
               <button onClick={() => setShowLoadDialog(false)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showWorkspaceDialog && (
-        <div className={styles.dialogOverlay} onClick={() => setShowWorkspaceDialog(false)}>
-          <div className={styles.dialog} onClick={(e) => e.stopPropagation()}>
-            <h3>Save Workspace</h3>
-            <p className={styles.dialogDescription}>
-              Save the current NodeBar configuration ({visibleEndpoints.length} endpoints)
-            </p>
-            <input
-              type="text"
-              placeholder="Workspace name"
-              value={workspaceName}
-              onChange={(e) => setWorkspaceName(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSaveWorkspaceConfirm()}
-              autoFocus
-            />
-            <div className={styles.dialogButtons}>
-              <button onClick={handleSaveWorkspaceConfirm}>Save</button>
-              <button onClick={() => setShowWorkspaceDialog(false)}>Cancel</button>
             </div>
           </div>
         </div>
