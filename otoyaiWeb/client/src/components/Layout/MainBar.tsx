@@ -229,6 +229,7 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
     // Show file picker for loading workspace files
     if ('showOpenFilePicker' in window) {
       try {
+        console.log('Opening file picker for workspace load...');
         const [handle] = await (window as any).showOpenFilePicker({
           startIn: 'documents',
           id: 'otoyaiWeb-workspaces',
@@ -238,11 +239,13 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
           }],
           multiple: false,
         });
+        console.log('File selected:', handle.name);
         const file = await handle.getFile();
         const text = await file.text();
         const workspaceData = JSON.parse(text);
         
         if (workspaceData.visibleEndpoints) {
+          console.log('Loading workspace with', workspaceData.visibleEndpoints.length, 'endpoints');
           setVisibleEndpoints(workspaceData.visibleEndpoints);
           
           // Remember this workspace as currently loaded
@@ -251,8 +254,12 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
             saved: workspaceData.saved || Date.now(),
           });
         }
-      } catch (err) {
-        console.log('Load cancelled');
+      } catch (err: any) {
+        if (err.name !== 'AbortError') {
+          console.error('Error loading workspace:', err);
+        } else {
+          console.log('Load cancelled by user');
+        }
       }
     } else {
       // Fallback: show input for file upload

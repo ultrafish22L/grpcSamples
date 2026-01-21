@@ -471,6 +471,7 @@ export const useStore = create<AppState>()(
     }),
     {
       name: 'otoyai-storage',
+      version: 2, // Increment version to force migration
       partialize: (state) => ({
         projects: state.projects,
         currentProject: state.currentProject,
@@ -479,6 +480,38 @@ export const useStore = create<AppState>()(
         // If no workspace, defaults to DEFAULT_VISIBLE_ENDPOINTS
         visibleEndpoints: state.currentWorkspace ? state.visibleEndpoints : undefined,
       }),
+      // Migrate old storage format
+      migrate: (persistedState: any, version: number) => {
+        logger.info('Migrating storage', { fromVersion: version, toVersion: 2 });
+        
+        // If migrating from version 0 or 1, clear old visibleEndpoints if no workspace
+        if (version < 2) {
+          if (!persistedState.currentWorkspace) {
+            // Clear old cached visibleEndpoints
+            delete persistedState.visibleEndpoints;
+            logger.info('Migration: Cleared old visibleEndpoints cache');
+          }
+        }
+        
+        return persistedState;
+      },
+      // Handle rehydration: if no workspace loaded, reset to defaults
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          // If no workspace is loaded, ensure visibleEndpoints is set to defaults
+          if (!state.currentWorkspace) {
+            state.visibleEndpoints = DEFAULT_VISIBLE_ENDPOINTS;
+            logger.info('No workspace loaded, reset to default endpoints', { 
+              count: DEFAULT_VISIBLE_ENDPOINTS.length 
+            });
+          } else {
+            logger.info('Workspace loaded from storage', { 
+              workspace: state.currentWorkspace.name,
+              endpointCount: state.visibleEndpoints.length 
+            });
+          }
+        }
+      },
     }
   )
 );
