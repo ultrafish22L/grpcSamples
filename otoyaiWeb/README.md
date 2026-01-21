@@ -47,7 +47,7 @@ npm run dev
 ```
 
 This will start:
-- **Client**: http://localhost:3000 (React app)
+- **Client**: http://localhost:60023 (React app, or port from $WORKER_1 env var, defaults to 5173)
 - **Server**: http://localhost:3001 (Express logger server)
 
 ### Individual Commands
