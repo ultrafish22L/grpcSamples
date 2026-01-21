@@ -10,7 +10,7 @@ import styles from './nodes.module.css';
 function ImageNodeComponent({ id, data, selected }: NodeProps) {
   const updateNodeInternals = useUpdateNodeInternals();
   const { updateNodeData } = useReactFlow();
-  const { onNodesChange, addNode } = useStore();
+  const { onNodesChange, addNode, edges, setEdges } = useStore();
   const typedData = data as unknown as ImageNodeData;
   const previewCollapsed = typedData.previewCollapsed ?? true;
   const contextMenuRef = useRef<HTMLDivElement>(null);
@@ -85,8 +85,19 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
     e.stopPropagation();
     const newItems = typedData.items.filter((item) => item.id !== itemId);
     updateNodeData(id, { items: newItems });
+    
+    // Remove edges connected to this handle
+    const handleId = `output-${itemId}`;
+    const updatedEdges = edges.filter((edge) => 
+      !(edge.source === id && edge.sourceHandle === handleId)
+    );
+    if (updatedEdges.length !== edges.length) {
+      logger.info('Removed edges for deleted item', { nodeId: id, itemId, handleId });
+      setEdges(updatedEdges);
+    }
+    
     updateNodeInternals(id);
-  }, [id, typedData.items, updateNodeInternals, updateNodeData]);
+  }, [id, typedData.items, updateNodeInternals, updateNodeData, edges, setEdges]);
 
   // TODO: Implement collapse functionality for gallery view
   // const toggleCollapse = useCallback((e: React.MouseEvent, itemId: string) => {
@@ -256,7 +267,7 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
                 key={item.id}
                 type="source"
                 position={Position.Bottom}
-                id={`output-${index}`}
+                id={`output-${item.id}`}
                 className={`${hasImage ? styles.handleFilled : styles.handleOpen} ${styles[getHandleColorClass('image')]}`}
                 style={{
                   left: `${leftPercent}%`,

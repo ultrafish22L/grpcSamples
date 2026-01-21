@@ -86,8 +86,8 @@ function AIEndpointInspector({ node, updateNode, nodes, edges }: AIEndpointInspe
         };
       } else if (sourceNode.type === 'image') {
         const imageData = sourceNode.data as ImageNodeData;
-        const handleIndex = parseInt(edge.sourceHandle?.replace('output-', '') || '0');
-        const item = imageData.items[handleIndex];
+        const itemId = edge.sourceHandle?.replace('output-', '') || '';
+        const item = imageData.items.find(i => i.id === itemId);
         sourceData = {
           type: 'image',
           item: item,
@@ -95,8 +95,8 @@ function AIEndpointInspector({ node, updateNode, nodes, edges }: AIEndpointInspe
         };
       } else if (sourceNode.type === 'video') {
         const videoData = sourceNode.data as VideoNodeData;
-        const handleIndex = parseInt(edge.sourceHandle?.replace('output-', '') || '0');
-        const item = videoData.items[handleIndex];
+        const itemId = edge.sourceHandle?.replace('output-', '') || '';
+        const item = videoData.items.find(i => i.id === itemId);
         sourceData = {
           type: 'video',
           item: item,
@@ -204,8 +204,8 @@ function MediaInspector({ node, type, nodes, edges }: MediaInspectorProps) {
         let sourceData: any = null;
         if (sourceNode.type === 'image' || sourceNode.type === 'video') {
           const mediaData = sourceNode.data as ImageNodeData | VideoNodeData;
-          const handleIndex = parseInt(edge.sourceHandle?.replace('output-', '') || '0');
-          sourceData = mediaData.items[handleIndex];
+          const itemId = edge.sourceHandle?.replace('output-', '') || '';
+          sourceData = mediaData.items.find(i => i.id === itemId);
         }
         
         return {
