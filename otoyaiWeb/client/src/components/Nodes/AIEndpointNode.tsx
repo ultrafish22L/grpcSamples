@@ -1,4 +1,5 @@
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { AIEndpointNodeData } from '../../types';
 import { inferEndpointSchema, isMediaInput } from '../../utils/endpointSchema';
@@ -275,8 +276,8 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
         })}
       </div>
 
-      {/* Context Menu */}
-      {contextMenu && (
+      {/* Context Menu - Rendered via Portal */}
+      {contextMenu && createPortal(
         <div
           ref={contextMenuRef}
           className={styles.nodeContextMenu}
@@ -293,7 +294,8 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
           <div className={styles.contextMenuItem} onClick={handleDelete}>
             🗑️ Delete
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

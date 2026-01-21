@@ -1,12 +1,16 @@
 import { memo, useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Handle, Position, NodeProps, useUpdateNodeInternals, useReactFlow } from '@xyflow/react';
 import { VideoNodeData, MediaItem } from '../../types';
 import { getHandleColorClass } from '../../utils/connectionValidator';
+import { useStore } from '../../store/useStore';
+import { logger } from '../../services/logger';
 import styles from './nodes.module.css';
 
 function VideoNodeComponent({ id, data, selected }: NodeProps) {
   const updateNodeInternals = useUpdateNodeInternals();
   const { updateNodeData } = useReactFlow();
+  const { onNodesChange, addNode } = useStore();
   const [, forceUpdate] = useState({});
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const contextMenuRef = useRef<HTMLDivElement>(null);
@@ -87,6 +91,24 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
   const closeContextMenu = useCallback(() => {
     setContextMenu(null);
   }, []);
+
+  const handleDelete = useCallback(() => {
+    logger.info('Delete video node requested', { id });
+    onNodesChange([{ type: 'remove', id }]);
+    closeContextMenu();
+  }, [id, onNodesChange, closeContextMenu]);
+
+  const handleDuplicate = useCallback(() => {
+    logger.info('Duplicate video node requested', { id });
+    const newNode = {
+      id: `${id}-copy-${Date.now()}`,
+      type: 'video',
+      position: { x: selected ? 50 : 0, y: selected ? 50 : 0 },
+      data: { ...typedData, items: [...typedData.items] },
+    };
+    addNode(newNode as any);
+    closeContextMenu();
+  }, [id, typedData, selected, addNode, closeContextMenu]);
 
   // Calculate adjusted position to keep menu in viewport
   const contextMenuPosition = useMemo(() => {
@@ -236,7 +258,7 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
         )}
       </div>
 
-      {contextMenu && (
+      {contextMenu && createPortal(
         <div
           ref={contextMenuRef}
           className={styles.nodeContextMenu}
@@ -253,7 +275,8 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
           <div className={styles.contextMenuItem}>
             🗑️ Delete
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

@@ -1,4 +1,5 @@
 import { memo, useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { TextInputNodeData } from '../../types';
 import { getHandleColorClass } from '../../utils/connectionValidator';
@@ -124,7 +125,7 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
         />
       </div>
 
-      {contextMenu && (
+      {contextMenu && createPortal(
         <div
           ref={contextMenuRef}
           className={styles.nodeContextMenu}
@@ -141,7 +142,8 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
           <div className={styles.contextMenuItem}>
             🗑️ Delete
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

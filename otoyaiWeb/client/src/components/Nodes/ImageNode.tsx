@@ -1,12 +1,16 @@
 import { memo, useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Handle, Position, NodeProps, useUpdateNodeInternals, useReactFlow } from '@xyflow/react';
 import { ImageNodeData, MediaItem } from '../../types';
 import { getHandleColorClass } from '../../utils/connectionValidator';
+import { useStore } from '../../store/useStore';
+import { logger } from '../../services/logger';
 import styles from './nodes.module.css';
 
 function ImageNodeComponent({ id, data, selected }: NodeProps) {
   const updateNodeInternals = useUpdateNodeInternals();
   const { updateNodeData } = useReactFlow();
+  const { onNodesChange, addNode } = useStore();
   const [, forceUpdate] = useState({});
   const typedData = data as unknown as ImageNodeData;
   const previewCollapsed = typedData.previewCollapsed ?? true;
@@ -106,6 +110,24 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
   const closeContextMenu = useCallback(() => {
     setContextMenu(null);
   }, []);
+
+  const handleDelete = useCallback(() => {
+    logger.info('Delete image node requested', { id });
+    onNodesChange([{ type: 'remove', id }]);
+    closeContextMenu();
+  }, [id, onNodesChange, closeContextMenu]);
+
+  const handleDuplicate = useCallback(() => {
+    logger.info('Duplicate image node requested', { id });
+    const newNode = {
+      id: `${id}-copy-${Date.now()}`,
+      type: 'image',
+      position: { x: selected ? 50 : 0, y: selected ? 50 : 0 },
+      data: { ...typedData, items: [...typedData.items] },
+    };
+    addNode(newNode as any);
+    closeContextMenu();
+  }, [id, typedData, selected, addNode, closeContextMenu]);
 
   // Calculate adjusted position to keep menu in viewport
   const contextMenuPosition = useMemo(() => {
@@ -257,7 +279,7 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
         )}
       </div>
 
-      {contextMenu && (
+      {contextMenu && createPortal(
         <div
           ref={contextMenuRef}
           className={styles.nodeContextMenu}
@@ -268,13 +290,14 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className={styles.contextMenuItem}>
+          <div className={styles.contextMenuItem} onClick={handleDuplicate}>
             📋 Duplicate
           </div>
-          <div className={styles.contextMenuItem}>
+          <div className={styles.contextMenuItem} onClick={handleDelete}>
             🗑️ Delete
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
