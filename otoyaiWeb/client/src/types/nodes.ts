@@ -5,8 +5,9 @@ export type NodeType = 'aiEndpoint' | 'image' | 'video' | 'textInput' | 'output'
 
 export interface AIEndpointNodeData {
   endpoint: Endpoint;
-  parameters?: Record<string, unknown>;
+  parameters: Record<string, unknown>;
   result?: unknown;
+  isExecuting?: boolean;
 }
 
 export interface MediaItem {

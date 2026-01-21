@@ -210,3 +210,204 @@
   font-size: var(--font-size-sm);
   font-style: italic;
 }
+
+/* AI Endpoint Node Styles */
+.aiEndpointNode {
+  min-width: 280px;
+  max-width: 320px;
+}
+
+.parameterList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-md) 0;
+  position: relative;
+}
+
+.parameterItem {
+  position: relative;
+  padding-left: 24px; /* Space for the handle */
+}
+
+.parameterControl {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.parameterLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  cursor: help;
+  user-select: none;
+}
+
+.required {
+  color: #ff4444;
+  margin-left: 2px;
+}
+
+.textInput {
+  width: 100%;
+  padding: 6px 8px;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 50px;
+  transition: border-color var(--transition-fast);
+}
+
+.textInput:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.numberInput {
+  width: 100%;
+  padding: 6px 8px;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  transition: border-color var(--transition-fast);
+}
+
+.numberInput:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.selectInput {
+  width: 100%;
+  padding: 6px 8px;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.selectInput:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+  color: var(--color-text-primary);
+}
+
+.checkboxLabel input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.mediaPlaceholder {
+  padding: 6px 8px;
+  background: var(--color-bg-secondary);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  text-align: center;
+}
+
+/* Handle Styles */
+.handleOpen {
+  width: 12px;
+  height: 12px;
+  background: var(--color-bg-primary);
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+}
+
+.handleOpen:hover {
+  background: var(--color-accent);
+  transform: scale(1.2);
+}
+
+.handleFilled {
+  width: 8px;
+  height: 8px;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+}
+
+.handleFilled:hover {
+  background: var(--color-accent);
+  transform: scale(1.3);
+}
+
+/* Create Button */
+.createButton {
+  width: 100%;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #000;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-top: var(--spacing-sm);
+  box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
+}
+
+.createButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #00bbee, #0088bb);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+}
+
+.createButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.createButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Node Context Menu */
+.nodeContextMenu {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  min-width: 150px;
+  overflow: hidden;
+}
+
+.contextMenuItem {
+  padding: 10px 16px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contextMenuItem:hover {
+  background: var(--color-bg-tertiary);
+  color: var(--color-accent);
+}

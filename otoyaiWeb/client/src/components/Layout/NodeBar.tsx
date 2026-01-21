@@ -54,7 +54,11 @@ export const NodeBar = memo(() => {
       id,
       type: 'aiEndpoint',
       position: { x, y },
-      data: { endpoint },
+      data: { 
+        endpoint,
+        parameters: {},
+        isExecuting: false,
+      },
     });
   };
 
