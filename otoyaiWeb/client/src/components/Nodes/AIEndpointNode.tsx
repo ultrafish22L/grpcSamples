@@ -109,7 +109,7 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
               position={Position.Top}
               id={input.name}
               className={`${isFilled ? styles.handleFilled : styles.handleOpen} ${isSelected ? styles.handleSelected : ''}`}
-              style={{ left: handleLeft, top: -6 }}
+              style={{ left: handleLeft, top: 0, transform: 'translate(-50%, -50%)' }}
               title={`${input.label}${input.required ? ' (required)' : ''}\n${input.description || ''}`}
               onClick={() => handlePinClick(input.name)}
             />
@@ -147,7 +147,7 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
               position={Position.Bottom}
               id={output.name}
               className={`${isFilled ? styles.handleFilled : styles.handleOpen} ${isSelected ? styles.handleSelected : ''}`}
-              style={{ left: handleLeft, bottom: -6 }}
+              style={{ left: handleLeft, bottom: 0, transform: 'translate(-50%, 50%)' }}
               title={`Output: ${output.type || 'result'}`}
               onClick={() => handlePinClick('output')}
             />

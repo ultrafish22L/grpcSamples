@@ -172,7 +172,8 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
               className={styles.handleOpen}
               style={{
                 left: handleLeft,
-                bottom: -6,
+                bottom: 0,
+                transform: 'translate(-50%, 50%)',
               }}
               title={item.name || 'Image output'}
             />
