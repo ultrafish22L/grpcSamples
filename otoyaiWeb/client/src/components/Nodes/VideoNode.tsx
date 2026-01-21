@@ -159,6 +159,7 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
           const numOutputs = typedData.items.length;
           const spacing = nodeWidth / (numOutputs + 1);
           const handleLeft = spacing * (index + 1);
+          const hasVideo = item.url || item.file;
           
           return (
             <Handle
@@ -166,7 +167,7 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
               type="source"
               position={Position.Bottom}
               id={item.id}
-              className={styles.handleOpen}
+              className={hasVideo ? styles.handleFilled : styles.handleOpen}
               style={{
                 left: handleLeft,
                 bottom: 0,

@@ -45,8 +45,9 @@ function TextInputNodeComponent({ data, selected }: NodeProps) {
           type="source" 
           position={Position.Bottom} 
           id="output"
-          className={styles.handleOpen}
+          className={typedData.value ? styles.handleFilled : styles.handleOpen}
           style={{ left: '50%', bottom: 0, transform: 'translate(-50%, 50%)' }}
+          title="Text output"
         />
       </div>
 

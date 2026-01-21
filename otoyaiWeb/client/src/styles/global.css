@@ -87,10 +87,6 @@ select {
   background: var(--color-bg-secondary);
 }
 
-.react-flow__handle:hover {
-  background: var(--color-accent);
-}
-
 .react-flow__controls {
   button {
     background-color: var(--color-bg-secondary);

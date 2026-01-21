@@ -162,6 +162,7 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
           const numOutputs = typedData.items.length;
           const spacing = nodeWidth / (numOutputs + 1);
           const handleLeft = spacing * (index + 1);
+          const hasImage = item.url || item.file;
           
           return (
             <Handle
@@ -169,7 +170,7 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
               type="source"
               position={Position.Bottom}
               id={item.id}
-              className={styles.handleOpen}
+              className={hasImage ? styles.handleFilled : styles.handleOpen}
               style={{
                 left: handleLeft,
                 bottom: 0,
