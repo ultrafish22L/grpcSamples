@@ -11,7 +11,6 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
   const updateNodeInternals = useUpdateNodeInternals();
   const { updateNodeData } = useReactFlow();
   const { onNodesChange, addNode } = useStore();
-  const [, forceUpdate] = useState({});
   const typedData = data as unknown as ImageNodeData;
   const previewCollapsed = typedData.previewCollapsed ?? true;
   const contextMenuRef = useRef<HTMLDivElement>(null);
@@ -52,9 +51,9 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
       if (url && url.trim()) {
         newItem.url = url.trim();
         newItem.name = url.split('/').pop() || url;
-        typedData.items.push(newItem);
+        const newItems = [...typedData.items, newItem];
+        updateNodeData(id, { items: newItems });
         updateNodeInternals(id);
-        forceUpdate({});
       }
       return;
     } else {
@@ -70,9 +69,9 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
             newItem.preview = event.target?.result as string;
             newItem.file = file;
             newItem.name = file.name;
-            typedData.items.push(newItem);
+            const newItems = [...typedData.items, newItem];
+            updateNodeData(id, { items: newItems });
             updateNodeInternals(id);
-            forceUpdate({});
           };
           reader.readAsDataURL(file);
         }
@@ -80,14 +79,14 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
       input.click();
       return; // Don't update yet, wait for file load
     }
-  }, [id, typedData.items, updateNodeInternals]);
+  }, [id, typedData.items, updateNodeInternals, updateNodeData]);
 
   const deleteItem = useCallback((e: React.MouseEvent, itemId: string) => {
     e.stopPropagation();
-    typedData.items = typedData.items.filter((item) => item.id !== itemId);
+    const newItems = typedData.items.filter((item) => item.id !== itemId);
+    updateNodeData(id, { items: newItems });
     updateNodeInternals(id);
-    forceUpdate({});
-  }, [id, typedData.items, updateNodeInternals]);
+  }, [id, typedData.items, updateNodeInternals, updateNodeData]);
 
   // TODO: Implement collapse functionality for gallery view
   // const toggleCollapse = useCallback((e: React.MouseEvent, itemId: string) => {

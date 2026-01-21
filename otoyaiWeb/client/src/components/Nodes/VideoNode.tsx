@@ -11,7 +11,6 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
   const updateNodeInternals = useUpdateNodeInternals();
   const { updateNodeData } = useReactFlow();
   const { onNodesChange, addNode } = useStore();
-  const [, forceUpdate] = useState({});
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const contextMenuRef = useRef<HTMLDivElement>(null);
   const typedData = data as unknown as VideoNodeData;
@@ -49,9 +48,9 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
       if (url && url.trim()) {
         newItem.url = url.trim();
         newItem.name = url.split('/').pop() || url;
-        typedData.items.push(newItem);
+        const newItems = [...typedData.items, newItem];
+        updateNodeData(id, { items: newItems });
         updateNodeInternals(id);
-        forceUpdate({});
       }
       return;
     } else {
@@ -66,22 +65,22 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
           newItem.preview = url;
           newItem.file = file;
           newItem.name = file.name;
-          typedData.items.push(newItem);
+          const newItems = [...typedData.items, newItem];
+          updateNodeData(id, { items: newItems });
           updateNodeInternals(id);
-          forceUpdate({});
         }
       };
       input.click();
       return; // Don't update yet, wait for file load
     }
-  }, [id, typedData.items, updateNodeInternals]);
+  }, [id, typedData.items, updateNodeInternals, updateNodeData]);
 
   const deleteItem = useCallback((e: React.MouseEvent, itemId: string) => {
     e.stopPropagation();
-    typedData.items = typedData.items.filter((item: MediaItem) => item.id !== itemId);
+    const newItems = typedData.items.filter((item: MediaItem) => item.id !== itemId);
+    updateNodeData(id, { items: newItems });
     updateNodeInternals(id);
-    forceUpdate({});
-  }, [id, typedData.items, updateNodeInternals]);
+  }, [id, typedData.items, updateNodeInternals, updateNodeData]);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
