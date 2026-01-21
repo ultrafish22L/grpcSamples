@@ -103,17 +103,16 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
           className={styles.otoyLogo}
           title="Open beta.otoy.ai"
         >
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* OTOY Logo - Exact match to beta.otoy.ai */}
-            <g transform="translate(12, 12)">
-              {/* Rotated diamond with ring cutout */}
-              <g transform="rotate(45)">
-                <rect x="-10" y="-10" width="20" height="20" fill="#e63946" rx="1.5"/>
-                <circle cx="0" cy="0" r="7.5" fill="#1a1a1a"/>
-              </g>
-              {/* Center dot */}
-              <circle cx="0" cy="0" r="2.8" fill="#e63946"/>
-            </g>
+          <svg width="40" height="40" viewBox="0 0 152.21 154" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* OTOY Logo - Official SVG from beta.otoy.ai */}
+            <defs>
+              <linearGradient id="otoy-gradient" x1="-1746.44" y1="-41.64" x2="-1745.44" y2="-41.64" gradientTransform="translate(128374.51 114010.34) rotate(40.24) scale(98.25)" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stopColor="#f10101"/>
+                <stop offset="1" stopColor="#c90303"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#otoy-gradient)" d="M62.96,10.44L10.44,62.96c-7.26,7.26-7.26,19.03,0,26.29h0l52.52,52.52c7.26,7.26,19.03,7.26,26.29,0h0l52.52-52.52c7.26-7.26,7.26-19.03,0-26.29h0L89.25,10.44c-3.63-3.63-8.39-5.44-13.15-5.44h0c-4.76,0-9.51,1.81-13.15,5.44M46.45,105.77c-16.38-16.38-16.38-42.94,0-59.32h0c16.38-16.38,42.94-16.38,59.32,0h0c16.38,16.38,16.38,42.94,0,59.32h0c-8.19,8.19-18.92,12.29-29.66,12.29h0c-10.74,0-21.47-4.1-29.66-12.29"/>
+            <path fill="url(#otoy-gradient)" d="M58.37,58.37c-9.8,9.79-9.8,25.67,0,35.47h0c9.8,9.8,25.68,9.8,35.47,0h0c9.8-9.79,9.8-25.67,0-35.47h0c-4.9-4.9-11.31-7.35-17.73-7.35h0c-6.42,0-12.84,2.45-17.74,7.35"/>
           </svg>
         </a>
 
