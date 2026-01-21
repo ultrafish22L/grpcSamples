@@ -49,8 +49,8 @@ export const ContextMenu = memo(() => {
     logger.info('Adding utility node', { type });
 
     const nodeData = {
-      image: { url: '', file: undefined, preview: undefined },
-      video: { url: '', file: undefined, preview: undefined },
+      image: { items: [] },
+      video: { items: [] },
       textInput: { value: '', label: 'Text Input' },
     };
 

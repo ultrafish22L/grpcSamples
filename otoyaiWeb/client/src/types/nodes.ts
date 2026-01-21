@@ -9,16 +9,21 @@ export interface AIEndpointNodeData {
   result?: unknown;
 }
 
-export interface ImageNodeData {
+export interface MediaItem {
+  id: string;
   url?: string;
   file?: File;
   preview?: string;
+  name?: string;
+  collapsed?: boolean;
+}
+
+export interface ImageNodeData {
+  items: MediaItem[];
 }
 
 export interface VideoNodeData {
-  url?: string;
-  file?: File;
-  preview?: string;
+  items: MediaItem[];
 }
 
 export interface TextInputNodeData {
