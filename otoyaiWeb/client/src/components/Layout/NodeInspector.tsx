@@ -1,12 +1,12 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { useStore } from '../../store/useStore';
-import { AIEndpointNodeData, ImageNodeData, VideoNodeData, TextInputNodeData } from '../../types';
+import { AIEndpointNodeData, ImageNodeData, VideoNodeData, TextInputNodeData, AppNode } from '../../types';
 import { inferEndpointSchema, InputParameter } from '../../utils/endpointSchema';
 import { logger } from '../../services/logger';
 import styles from './NodeInspector.module.css';
 
 export function NodeInspector() {
-  const { nodes, updateNode } = useStore();
+  const { nodes, edges, updateNode } = useStore();
   const selectedNodes = nodes.filter((n) => n.selected);
   const selectedNode = selectedNodes.length === 1 ? selectedNodes[0] : null;
 
@@ -33,10 +33,10 @@ export function NodeInspector() {
           <AIEndpointInspector node={selectedNode} updateNode={updateNode} />
         )}
         {selectedNode.type === 'image' && (
-          <MediaInspector node={selectedNode} updateNode={updateNode} type="image" />
+          <MediaInspector node={selectedNode} updateNode={updateNode} type="image" nodes={nodes} edges={edges} />
         )}
         {selectedNode.type === 'video' && (
-          <MediaInspector node={selectedNode} updateNode={updateNode} type="video" />
+          <MediaInspector node={selectedNode} updateNode={updateNode} type="video" nodes={nodes} edges={edges} />
         )}
         {selectedNode.type === 'textInput' && (
           <TextInputInspector node={selectedNode} updateNode={updateNode} />
@@ -127,11 +127,44 @@ interface MediaInspectorProps {
   };
   updateNode: (id: string, data: Partial<unknown>) => void;
   type: 'image' | 'video';
+  nodes: AppNode[];
+  edges: any[];
 }
 
-function MediaInspector({ node, type }: MediaInspectorProps) {
+function MediaInspector({ node, type, nodes, edges }: MediaInspectorProps) {
   const data = node.data as ImageNodeData | VideoNodeData;
   const { items = [] } = data;
+  const [previewExpanded, setPreviewExpanded] = useState(true);
+
+  // Find connected input sources
+  const connectedInputs = useMemo(() => {
+    return edges
+      .filter((edge) => edge.target === node.id)
+      .map((edge) => {
+        const sourceNode = nodes.find((n) => n.id === edge.source);
+        if (!sourceNode) return null;
+        
+        // Get the source data based on node type
+        let sourceData: any = null;
+        if (sourceNode.type === 'image' || sourceNode.type === 'video') {
+          const mediaData = sourceNode.data as ImageNodeData | VideoNodeData;
+          const handleIndex = parseInt(edge.sourceHandle?.replace('output-', '') || '0');
+          sourceData = mediaData.items[handleIndex];
+        }
+        
+        return {
+          nodeId: sourceNode.id,
+          nodeType: sourceNode.type,
+          handleId: edge.sourceHandle,
+          data: sourceData,
+        };
+      })
+      .filter((conn) => conn !== null);
+  }, [edges, node.id, nodes]);
+
+  const togglePreview = useCallback(() => {
+    setPreviewExpanded(!previewExpanded);
+  }, [previewExpanded]);
 
   return (
     <>
@@ -140,11 +173,111 @@ function MediaInspector({ node, type }: MediaInspectorProps) {
         <div className={styles.description}>
           {items.length} {type === 'image' ? 'image' : 'video'}
           {items.length !== 1 ? 's' : ''} loaded
+          {connectedInputs.length > 0 && (
+            <span> • {connectedInputs.length} connected input{connectedInputs.length !== 1 ? 's' : ''}</span>
+          )}
         </div>
       </div>
 
+      {/* Preview Section with Collapse */}
       <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>Items</h3>
+        <div className={styles.previewHeader}>
+          <h3 className={styles.sectionTitle}>Preview</h3>
+          <button
+            className={styles.collapseButton}
+            onClick={togglePreview}
+            title={previewExpanded ? 'Collapse' : 'Expand'}
+          >
+            {previewExpanded ? '▼' : '▶'}
+          </button>
+        </div>
+
+        {previewExpanded && (
+          <div className={styles.previewArea}>
+            {/* Connected Inputs */}
+            {connectedInputs.length > 0 && (
+              <div className={styles.connectedInputs}>
+                <h4 className={styles.subsectionTitle}>Connected Inputs</h4>
+                <div className={styles.connectedList}>
+                  {connectedInputs.map((conn, index) => (
+                    <div key={index} className={styles.connectedItem}>
+                      <div className={styles.connectedIcon}>
+                        {conn.nodeType === 'image' ? '🖼️' : conn.nodeType === 'video' ? '🎬' : '📎'}
+                      </div>
+                      <div className={styles.connectedInfo}>
+                        <div className={styles.connectedNodeId}>
+                          {conn.nodeType} node
+                        </div>
+                        {conn.data && (conn.data.preview || conn.data.url) && (
+                          <div className={styles.connectedPreview}>
+                            {type === 'image' ? (
+                              <img
+                                src={conn.data.preview || conn.data.url}
+                                alt={conn.data.name || 'Connected'}
+                                className={styles.connectedThumbnail}
+                              />
+                            ) : (
+                              <video
+                                src={conn.data.preview || conn.data.url}
+                                className={styles.connectedThumbnail}
+                                muted
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Local Items */}
+            {items.length > 0 && (
+              <div className={styles.localItems}>
+                <h4 className={styles.subsectionTitle}>Local Items</h4>
+                <div className={styles.mediaPreviewGrid}>
+                  {items.map((item, index) => (
+                    <div key={item.id} className={styles.mediaPreviewItem}>
+                      {type === 'image' ? (
+                        (item.preview || item.url) && (
+                          <img
+                            src={item.preview || item.url}
+                            alt={item.name || `Image ${index + 1}`}
+                            className={styles.mediaThumbnail}
+                          />
+                        )
+                      ) : (
+                        (item.preview || item.url) && (
+                          <video
+                            src={item.preview || item.url}
+                            className={styles.mediaThumbnail}
+                            controls
+                            muted
+                          />
+                        )
+                      )}
+                      <div className={styles.mediaPreviewLabel}>
+                        {index + 1}. {item.name || 'Untitled'}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {items.length === 0 && connectedInputs.length === 0 && (
+              <div className={styles.emptyPreview}>
+                No items or connections
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Items List Section */}
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>Items List</h3>
         <div className={styles.mediaList}>
           {items.map((item, index) => (
             <div key={item.id} className={styles.mediaListItem}>

@@ -8,12 +8,13 @@ import {
   NodeTypes,
   Connection,
   Edge,
+  Node,
 } from '@xyflow/react';
 import type { FinalConnectionState } from '@xyflow/system';
 import '@xyflow/react/dist/style.css';
 import { useStore } from '../../store/useStore';
 import { AIEndpointNode, ImageNode, VideoNode, TextInputNode } from '../Nodes';
-import { isValidConnection } from '../../utils/connectionValidator';
+import { isValidConnection, getHandleType, getHandleColorStyle } from '../../utils/connectionValidator';
 import { logger } from '../../services/logger';
 import styles from './NodeGraph.module.css';
 
@@ -133,19 +134,12 @@ export const NodeGraph = memo(() => {
         <Background variant={BackgroundVariant.Dots} gap={16} size={1} />
         <Controls />
         <MiniMap
-          nodeColor={(node) => {
-            switch (node.type) {
-              case 'aiEndpoint':
-                return '#00d4ff';
-              case 'image':
-                return '#44ff44';
-              case 'video':
-                return '#ff44ff';
-              case 'textInput':
-                return '#ffaa44';
-              default:
-                return '#4a4a4a';
-            }
+          pannable
+          zoomable
+          nodeColor={(node: Node) => {
+            // Get the output handle type for this node
+            const handleType = getHandleType(node, 'output', true);
+            return getHandleColorStyle(handleType);
           }}
         />
       </ReactFlow>
