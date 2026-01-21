@@ -5,13 +5,19 @@ import { getDefaultParameters } from '../../utils/endpointSchema';
 import { logger } from '../../services/logger';
 import styles from './Layout.module.css';
 
-// Map category to output type color
+// Map category to output type color (based on what the endpoint produces)
 const getCategoryColor = (category: string): string => {
-  if (category.includes('image-to-video')) return '#00ddff'; // Cyan - image-to-video conversion
-  if (category.includes('image')) return '#44ff44'; // Green - image output
-  if (category.includes('video')) return '#ff44ff'; // Magenta - video output
-  if (category.includes('audio') || category.includes('speech')) return '#4499ff'; // Blue - audio output
+  // Check output type first (what comes after "to-")
+  if (category.includes('to-video')) return '#ff44ff'; // Magenta - video output
+  if (category.includes('to-image')) return '#44ff44'; // Green - image output
+  if (category.includes('to-audio') || category.includes('to-speech')) return '#4499ff'; // Blue - audio output
+  
+  // Handle categories without "to-" prefix
+  if (category.includes('video')) return '#ff44ff'; // Magenta - video processing
+  if (category.includes('image') || category === 'upscale') return '#44ff44'; // Green - image processing
+  if (category.includes('audio') || category.includes('speech')) return '#4499ff'; // Blue - audio processing
   if (category === 'llm' || category === 'vision') return '#ffaa44'; // Orange - text/string output
+  
   return '#aaaaaa'; // Gray - generic/any
 };
 

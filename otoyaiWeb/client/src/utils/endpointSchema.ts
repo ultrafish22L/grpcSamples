@@ -200,15 +200,24 @@ export function inferEndpointSchema(endpoint: Endpoint): EndpointSchema {
     });
   }
 
-  // Determine output type
+  // Determine output type (based on what the endpoint produces)
   const outputs: EndpointSchema['outputs'] = [];
-  if (category.includes('image') || category === 'upscale') {
-    outputs.push({ type: 'image' });
-  } else if (category.includes('video')) {
+  // Check output type first (what comes after "to-")
+  if (category.includes('to-video')) {
     outputs.push({ type: 'video' });
+  } else if (category.includes('to-image')) {
+    outputs.push({ type: 'image' });
+  } else if (category.includes('to-audio') || category.includes('to-speech')) {
+    outputs.push({ type: 'audio' });
+  } 
+  // Handle categories without "to-" prefix
+  else if (category.includes('video')) {
+    outputs.push({ type: 'video' });
+  } else if (category.includes('image') || category === 'upscale') {
+    outputs.push({ type: 'image' });
   } else if (category.includes('audio') || category.includes('speech')) {
     outputs.push({ type: 'audio' });
-  } else if (category === 'llm') {
+  } else if (category === 'llm' || category === 'vision') {
     outputs.push({ type: 'text' });
   } else {
     outputs.push({ type: 'json' });
