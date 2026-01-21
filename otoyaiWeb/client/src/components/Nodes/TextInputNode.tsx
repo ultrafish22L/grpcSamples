@@ -1,11 +1,16 @@
 import { memo, useState, useCallback, useEffect } from 'react';
-import { Handle, Position, NodeProps } from '@xyflow/react';
+import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { TextInputNodeData } from '../../types';
 import styles from './nodes.module.css';
 
-function TextInputNodeComponent({ data, selected }: NodeProps) {
+function TextInputNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as TextInputNodeData;
+  const { updateNodeData } = useReactFlow();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+
+  const handleTextChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    updateNodeData(id, { value: e.target.value });
+  }, [id, updateNodeData]);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -38,7 +43,7 @@ function TextInputNodeComponent({ data, selected }: NodeProps) {
           className={`${styles.nodeInput} ${styles.nodeTextarea}`}
           placeholder="Enter text..."
           value={typedData.value}
-          onChange={(e) => (typedData.value = e.target.value)}
+          onChange={handleTextChange}
         />
 
         <Handle 
