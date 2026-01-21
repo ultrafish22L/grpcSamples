@@ -3,11 +3,14 @@ import { createPortal } from 'react-dom';
 import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { TextInputNodeData } from '../../types';
 import { getHandleColorClass } from '../../utils/connectionValidator';
+import { useStore } from '../../store/useStore';
+import { logger } from '../../services/logger';
 import styles from './nodes.module.css';
 
 function TextInputNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as TextInputNodeData;
   const { updateNodeData } = useReactFlow();
+  const { onNodesChange, addNode } = useStore();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const contextMenuRef = useRef<HTMLDivElement>(null);
   const previewCollapsed = typedData.previewCollapsed ?? true;
@@ -74,6 +77,24 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
       return () => document.removeEventListener('click', handleClick);
     }
   }, [contextMenu, closeContextMenu]);
+
+  const handleDelete = useCallback(() => {
+    logger.info('Delete text input node requested', { id });
+    onNodesChange([{ type: 'remove', id }]);
+    closeContextMenu();
+  }, [id, onNodesChange, closeContextMenu]);
+
+  const handleDuplicate = useCallback(() => {
+    logger.info('Duplicate text input node requested', { id });
+    const newNode = {
+      id: `${id}-copy-${Date.now()}`,
+      type: 'textInput',
+      position: { x: selected ? 50 : 0, y: selected ? 50 : 0 },
+      data: { ...typedData },
+    };
+    addNode(newNode as any);
+    closeContextMenu();
+  }, [id, typedData, selected, addNode, closeContextMenu]);
   
   return (
     <>
@@ -136,10 +157,10 @@ function TextInputNodeComponent({ data, selected, id }: NodeProps) {
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className={styles.contextMenuItem}>
+          <div className={styles.contextMenuItem} onClick={handleDuplicate}>
             📋 Duplicate
           </div>
-          <div className={styles.contextMenuItem}>
+          <div className={styles.contextMenuItem} onClick={handleDelete}>
             🗑️ Delete
           </div>
         </div>,

@@ -4,6 +4,7 @@ import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
 import { AIEndpointNodeData } from '../../types';
 import { inferEndpointSchema, isMediaInput } from '../../utils/endpointSchema';
 import { getHandleColorClass, mapOutputTypeToHandleType, mapInputTypeToHandleType } from '../../utils/connectionValidator';
+import { useStore } from '../../store/useStore';
 import { logger } from '../../services/logger';
 import styles from './nodes.module.css';
 
@@ -13,6 +14,7 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as AIEndpointNodeData;
   const { endpoint, selectedPin = 'output', result, previewCollapsed = true } = typedData;
   const { updateNodeData, getEdges } = useReactFlow();
+  const { onNodesChange, addNode } = useStore();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const contextMenuRef = useRef<HTMLDivElement>(null);
   const [executionStatus, setExecutionStatus] = useState<ExecutionStatus>('idle');
@@ -122,16 +124,22 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   }, [contextMenu, closeContextMenu]);
 
   const handleDelete = useCallback(() => {
-    logger.info('Delete node requested', { id });
-    // TODO: Implement node deletion
+    logger.info('Delete AI endpoint node requested', { id });
+    onNodesChange([{ type: 'remove', id }]);
     closeContextMenu();
-  }, [id, closeContextMenu]);
+  }, [id, onNodesChange, closeContextMenu]);
 
   const handleDuplicate = useCallback(() => {
-    logger.info('Duplicate node requested', { id });
-    // TODO: Implement node duplication
+    logger.info('Duplicate AI endpoint node requested', { id });
+    const newNode = {
+      id: `${id}-copy-${Date.now()}`,
+      type: 'aiEndpoint',
+      position: { x: selected ? 50 : 0, y: selected ? 50 : 0 },
+      data: { ...typedData },
+    };
+    addNode(newNode as any);
     closeContextMenu();
-  }, [id, closeContextMenu]);
+  }, [id, typedData, selected, addNode, closeContextMenu]);
 
   // Calculate node width for handle positioning
   const nodeWidth = 220; // Match the min-width in CSS
