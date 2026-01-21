@@ -20,8 +20,16 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
     };
 
     if (type === 'url') {
-      // Add URL item
-      typedData.items.push(newItem);
+      // Show prompt dialog for URL
+      const url = prompt('Enter image URL:');
+      if (url && url.trim()) {
+        newItem.url = url.trim();
+        newItem.name = url.split('/').pop() || url;
+        typedData.items.push(newItem);
+        updateNodeInternals(id);
+        forceUpdate({});
+      }
+      return;
     } else {
       // Trigger file picker
       const input = document.createElement('input');
@@ -45,9 +53,6 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
       input.click();
       return; // Don't update yet, wait for file load
     }
-
-    updateNodeInternals(id);
-    forceUpdate({});
   };
 
   const deleteItem = (itemId: string) => {
@@ -60,15 +65,6 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
     const item = typedData.items.find((i) => i.id === itemId);
     if (item) {
       item.collapsed = !item.collapsed;
-      forceUpdate({});
-    }
-  };
-
-  const updateItemUrl = (itemId: string, url: string) => {
-    const item = typedData.items.find((i) => i.id === itemId);
-    if (item) {
-      item.url = url;
-      item.name = url.split('/').pop() || url;
       forceUpdate({});
     }
   };
@@ -119,25 +115,13 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
               </button>
             </div>
 
-            {!item.collapsed && (
+            {!item.collapsed && (item.preview || item.url) && (
               <div className={styles.mediaItemContent}>
-                {!item.file && (
-                  <input
-                    type="text"
-                    placeholder="Image URL"
-                    className={styles.nodeInput}
-                    value={item.url || ''}
-                    onChange={(e) => updateItemUrl(item.id, e.target.value)}
-                  />
-                )}
-
-                {(item.preview || item.url) && (
-                  <img
-                    src={item.preview || item.url}
-                    alt="Preview"
-                    className={styles.nodePreview}
-                  />
-                )}
+                <img
+                  src={item.preview || item.url}
+                  alt="Preview"
+                  className={styles.nodePreview}
+                />
               </div>
             )}
           </div>

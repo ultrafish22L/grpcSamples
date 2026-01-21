@@ -20,8 +20,16 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
     };
 
     if (type === 'url') {
-      // Add URL item
-      typedData.items.push(newItem);
+      // Show prompt dialog for URL
+      const url = prompt('Enter video URL:');
+      if (url && url.trim()) {
+        newItem.url = url.trim();
+        newItem.name = url.split('/').pop() || url;
+        typedData.items.push(newItem);
+        updateNodeInternals(id);
+        forceUpdate({});
+      }
+      return;
     } else {
       // Trigger file picker
       const input = document.createElement('input');
@@ -42,9 +50,6 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
       input.click();
       return; // Don't update yet, wait for file load
     }
-
-    updateNodeInternals(id);
-    forceUpdate({});
   };
 
   const deleteItem = (itemId: string) => {
@@ -57,15 +62,6 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
     const item = typedData.items.find((i: MediaItem) => i.id === itemId);
     if (item) {
       item.collapsed = !item.collapsed;
-      forceUpdate({});
-    }
-  };
-
-  const updateItemUrl = (itemId: string, url: string) => {
-    const item = typedData.items.find((i: MediaItem) => i.id === itemId);
-    if (item) {
-      item.url = url;
-      item.name = url.split('/').pop() || url;
       forceUpdate({});
     }
   };
@@ -116,25 +112,13 @@ function VideoNodeComponent({ id, data, selected }: NodeProps) {
               </button>
             </div>
 
-            {!item.collapsed && (
+            {!item.collapsed && (item.preview || item.url) && (
               <div className={styles.mediaItemContent}>
-                {!item.file && (
-                  <input
-                    type="text"
-                    placeholder="Video URL"
-                    className={styles.nodeInput}
-                    value={item.url || ''}
-                    onChange={(e) => updateItemUrl(item.id, e.target.value)}
-                  />
-                )}
-
-                {(item.preview || item.url) && (
-                  <video
-                    src={item.preview || item.url}
-                    controls
-                    className={styles.nodePreview}
-                  />
-                )}
+                <video
+                  src={item.preview || item.url}
+                  controls
+                  className={styles.nodePreview}
+                />
               </div>
             )}
           </div>
