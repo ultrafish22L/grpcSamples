@@ -13,7 +13,21 @@ export const NodeBar = memo(() => {
     visibleEndpoints,
     removeVisibleEndpoint 
   } = useStore();
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  
+  // Filter endpoints to only show visible ones
+  const visibleEndpointsList = endpoints.filter((e) =>
+    visibleEndpoints.includes(e.endpoint_id)
+  );
+
+  const categories = Array.from(
+    new Set(visibleEndpointsList.flatMap((e) => e.category))
+  ).sort();
+
+  // Default all categories expanded (including 'utility')
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(() => {
+    return new Set(['utility', ...categories]);
+  });
+  
   const [contextMenu, setContextMenu] = useState<{
     x: number;
     y: number;
@@ -24,14 +38,15 @@ export const NodeBar = memo(() => {
     fetchEndpoints();
   }, [fetchEndpoints]);
 
-  // Filter endpoints to only show visible ones
-  const visibleEndpointsList = endpoints.filter((e) =>
-    visibleEndpoints.includes(e.endpoint_id)
-  );
-
-  const categories = Array.from(
-    new Set(visibleEndpointsList.flatMap((e) => e.category))
-  ).sort();
+  // Update expanded categories when new categories are loaded
+  useEffect(() => {
+    setExpandedCategories(prev => {
+      const newSet = new Set(prev);
+      newSet.add('utility');
+      categories.forEach(cat => newSet.add(cat));
+      return newSet;
+    });
+  }, [categories.join(',')]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleCategory = (category: string) => {
     const newExpanded = new Set(expandedCategories);
@@ -111,33 +126,48 @@ export const NodeBar = memo(() => {
     });
   };
 
+  const isUtilityExpanded = expandedCategories.has('utility');
+
   return (
     <>
       <div className={styles.contextMenu}>
-        <h2 className={styles.contextMenuHeader}>Nodes</h2>
+        <h2 className={styles.contextMenuHeader}>Node Types</h2>
 
-        <div className={styles.utilitySection}>
-          <div className={styles.categoryTitle}>Utility Nodes</div>
-          <div className={styles.utilityList}>
-            <button
-              className={styles.utilityItem}
-              onClick={() => handleAddUtilityNode('textInput')}
-            >
-              📝 Text Input
-            </button>
-            <button
-              className={styles.utilityItem}
-              onClick={() => handleAddUtilityNode('image')}
-            >
-              🖼️ Image
-            </button>
-            <button
-              className={styles.utilityItem}
-              onClick={() => handleAddUtilityNode('video')}
-            >
-              🎬 Video
-            </button>
+        {/* Utility section as collapsible category */}
+        <div className={styles.categorySection}>
+          <div
+            className={`${styles.categoryTitle} ${isUtilityExpanded ? styles.active : ''}`}
+            onClick={() => toggleCategory('utility')}
+          >
+            <span>utility</span>
+            <span>{isUtilityExpanded ? '▼' : '▶'}</span>
           </div>
+
+          {isUtilityExpanded && (
+            <div className={styles.endpointList}>
+              <div
+                className={styles.endpointItem}
+                onClick={() => handleAddUtilityNode('textInput')}
+                title="Text input node for prompts and text data"
+              >
+                <div className={styles.endpointItemTitle}>Text Input</div>
+              </div>
+              <div
+                className={styles.endpointItem}
+                onClick={() => handleAddUtilityNode('image')}
+                title="Image input node for uploading and managing images"
+              >
+                <div className={styles.endpointItemTitle}>Image</div>
+              </div>
+              <div
+                className={styles.endpointItem}
+                onClick={() => handleAddUtilityNode('video')}
+                title="Video input node for uploading and managing videos"
+              >
+                <div className={styles.endpointItemTitle}>Video</div>
+              </div>
+            </div>
+          )}
         </div>
 
         {loadingEndpoints && <div className={styles.loading}>Loading endpoints...</div>}
@@ -166,9 +196,9 @@ export const NodeBar = memo(() => {
                       className={styles.endpointItem}
                       onClick={() => handleAddEndpoint(endpoint)}
                       onContextMenu={(e) => handleContextMenu(e, endpoint.endpoint_id)}
+                      title={endpoint.description}
                     >
                       <div className={styles.endpointItemTitle}>{endpoint.title}</div>
-                      <div className={styles.endpointItemVendor}>{endpoint.vendor}</div>
                     </div>
                   ))}
                 </div>

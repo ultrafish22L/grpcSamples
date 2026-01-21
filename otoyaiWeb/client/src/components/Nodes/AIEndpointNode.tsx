@@ -86,14 +86,14 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
       <div 
         className={`${styles.baseNode} ${styles.aiEndpointNode} ${selected ? styles.selected : ''}`}
         onContextMenu={handleContextMenu}
+        title={endpoint.description}
       >
         {/* Header with title and buttons */}
         <div className={styles.nodeHeader}>
           <div className={styles.nodeTitleArea}>
-            <h3 className={styles.nodeTitle} title={endpoint.description}>
+            <h3 className={styles.nodeTitle}>
               {endpoint.title}
             </h3>
-            <div className={styles.nodeVendor}>{endpoint.vendor}</div>
           </div>
           <div className={styles.nodeHeaderButtons}>
             <button 
