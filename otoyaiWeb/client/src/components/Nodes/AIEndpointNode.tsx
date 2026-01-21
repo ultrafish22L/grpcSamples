@@ -1,11 +1,13 @@
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Handle, Position, NodeProps, useReactFlow } from '@xyflow/react';
-import { AIEndpointNodeData } from '../../types';
+import { AIEndpointNodeData, TextInputNodeData, ImageNodeData, VideoNodeData } from '../../types';
 import { inferEndpointSchema, isMediaInput } from '../../utils/endpointSchema';
 import { getHandleColorClass, mapOutputTypeToHandleType, mapInputTypeToHandleType } from '../../utils/connectionValidator';
 import { useStore } from '../../store/useStore';
 import { logger } from '../../services/logger';
+import { otoyAPI } from '../../services/api';
+import { packageParameters, resolveConnectedParameters } from '../../utils/parameterPackager';
 import styles from './nodes.module.css';
 
 type ExecutionStatus = 'idle' | 'executing' | 'completed' | 'error';
@@ -48,6 +50,45 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   //   updateNodeData(id, { previewCollapsed: !previewCollapsed });
   // }, [id, previewCollapsed, updateNodeData]);
 
+  // Get values from connected input nodes
+  const getConnectedValues = useCallback(() => {
+    const edges = getEdges();
+    const connectedValues: Record<string, any> = {};
+    
+    for (const input of schema.inputs) {
+      const handleId = `input-${input.name}`;
+      const edge = edges.find(e => e.target === id && e.targetHandle === handleId);
+      
+      if (edge) {
+        const sourceNode = nodes.find(n => n.id === edge.source);
+        if (sourceNode) {
+          // Get value from source node based on type with proper type guards
+          if (sourceNode.type === 'textInput') {
+            const textData = sourceNode.data as TextInputNodeData;
+            connectedValues[input.name] = textData.value;
+          } else if (sourceNode.type === 'image' || sourceNode.type === 'video') {
+            // For media nodes with multiple outputs, get the specific item
+            const mediaData = sourceNode.data as ImageNodeData | VideoNodeData;
+            const sourceHandle = edge.sourceHandle;
+            if (sourceHandle && sourceHandle.startsWith('output-')) {
+              const itemId = sourceHandle.replace('output-', '');
+              const item = mediaData.items?.find((i) => i.id === itemId);
+              if (item) {
+                connectedValues[input.name] = item.preview || item.url || item.file;
+              }
+            }
+          } else if (sourceNode.type === 'aiEndpoint') {
+            // Get result from AI endpoint output
+            const aiData = sourceNode.data as AIEndpointNodeData;
+            connectedValues[input.name] = aiData.result;
+          }
+        }
+      }
+    }
+    
+    return connectedValues;
+  }, [id, schema.inputs, getEdges, nodes]);
+
   const handleExecute = useCallback(async () => {
     if (executionStatus === 'executing') return;
 
@@ -58,30 +99,60 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
     });
 
     try {
-      // TODO: Implement actual API call
-      // For now, simulate execution with a delay
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      // Get connected values and merge with node parameters
+      const connectedValues = getConnectedValues();
+      const nodeParameters = typedData.parameters || {};
+      const resolvedParameters = resolveConnectedParameters(nodeParameters, connectedValues);
       
-      // Mock result
-      const mockResult = {
-        url: 'https://via.placeholder.com/512',
-        status: 'completed'
-      };
+      logger.debug('Resolved parameters', { 
+        nodeId: id, 
+        resolved: Object.keys(resolvedParameters),
+        connected: Object.keys(connectedValues)
+      });
+
+      // Package parameters for API call
+      const packagedParameters = await packageParameters(resolvedParameters, schema.inputs);
       
-      updateNodeData(id, { result: mockResult });
-      setExecutionStatus('completed');
-      logger.info('AI endpoint execution completed', { nodeId: id });
-      
-      // Reset to idle after 2 seconds
-      setTimeout(() => setExecutionStatus('idle'), 2000);
+      logger.debug('Packaged parameters', { 
+        nodeId: id, 
+        keys: Object.keys(packagedParameters)
+      });
+
+      // Execute endpoint
+      const response = await otoyAPI.executeEndpoint({
+        endpoint_id: endpoint.endpoint_id,
+        parameters: packagedParameters,
+      });
+
+      if (response.success) {
+        updateNodeData(id, { 
+          result: response.data,
+          error: undefined 
+        });
+        setExecutionStatus('completed');
+        logger.info('AI endpoint execution completed', { 
+          nodeId: id,
+          resultKeys: Object.keys(response.data || {})
+        });
+        
+        // Reset to idle after 2 seconds
+        setTimeout(() => setExecutionStatus('idle'), 2000);
+      } else {
+        throw new Error(response.error || 'Execution failed');
+      }
     } catch (error) {
+      const errorMessage = (error as Error).message || 'Unknown error';
+      updateNodeData(id, { 
+        result: undefined,
+        error: errorMessage 
+      });
       setExecutionStatus('error');
       logger.error('AI endpoint execution failed', error as Error);
       
       // Reset to idle after 3 seconds
       setTimeout(() => setExecutionStatus('idle'), 3000);
     }
-  }, [id, endpoint.endpoint_id, executionStatus, updateNodeData]);
+  }, [id, endpoint.endpoint_id, executionStatus, updateNodeData, getConnectedValues, typedData.parameters, schema.inputs]);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
