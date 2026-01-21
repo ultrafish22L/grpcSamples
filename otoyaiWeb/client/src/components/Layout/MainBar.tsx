@@ -104,11 +104,11 @@ export const MainBar = memo(({ onAddNodeClick }: MainBarProps) => {
           title="Open beta.otoy.ai"
         >
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-            {/* OTOY Logo - Red diamond with circular cutout and red dot */}
+            {/* OTOY Logo - Red diamond with circular ring and center dot (cropped tight) */}
             <g transform="translate(20, 20) rotate(45)">
-              <rect x="-13" y="-13" width="26" height="26" fill="#ff3333" rx="2" />
-              <circle cx="0" cy="0" r="10" fill="#1a1a1a" />
-              <circle cx="0" cy="0" r="4" fill="#ff3333" />
+              <rect x="-18" y="-18" width="36" height="36" fill="#e63946" rx="3" />
+              <circle cx="0" cy="0" r="13" fill="#1a1a1a" />
+              <circle cx="0" cy="0" r="6" fill="#e63946" />
             </g>
           </svg>
         </a>
