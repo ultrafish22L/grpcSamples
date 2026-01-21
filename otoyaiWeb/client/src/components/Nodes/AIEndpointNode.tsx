@@ -7,7 +7,7 @@ import styles from './nodes.module.css';
 
 function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as AIEndpointNodeData;
-  const { endpoint, selectedPin = 'output', result, previewCollapsed = false } = typedData;
+  const { endpoint, selectedPin = 'output', result, previewCollapsed = true } = typedData;
   const { updateNodeData } = useReactFlow();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
 
@@ -51,9 +51,8 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
     closeContextMenu();
   }, [id, closeContextMenu]);
 
-  // Calculate handle positions
-  const handleSpacing = 24;
-  const handleStartOffset = 12;
+  // Calculate node width for handle positioning
+  const nodeWidth = 220; // Match the min-width in CSS
 
   // Determine what to show in preview
   const previewContent = useMemo(() => {
@@ -94,9 +93,14 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
       >
         {/* Input Handles - Top */}
         {schema.inputs.map((input, index) => {
-          const handleLeft = handleStartOffset + index * handleSpacing;
-          const isMedia = isMediaInput(input.type);
+          const numInputs = schema.inputs.length;
+          const spacing = nodeWidth / (numInputs + 1);
+          const handleLeft = spacing * (index + 1);
+          
           const isSelected = selectedPin === input.name;
+          const isConnected = false; // TODO: Check if handle is connected
+          const hasValue = typedData.parameters?.[input.name] != null && typedData.parameters[input.name] !== '';
+          const isFilled = hasValue && !isConnected;
           
           return (
             <Handle
@@ -104,7 +108,7 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
               type="target"
               position={Position.Top}
               id={input.name}
-              className={`${isMedia ? styles.handleOpen : styles.handleFilled} ${isSelected ? styles.handleSelected : ''}`}
+              className={`${isFilled ? styles.handleFilled : styles.handleOpen} ${isSelected ? styles.handleSelected : ''}`}
               style={{ left: handleLeft, top: 0 }}
               title={`${input.label}${input.required ? ' (required)' : ''}\n${input.description || ''}`}
               onClick={() => handlePinClick(input.name)}
@@ -127,8 +131,14 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
 
         {/* Output Handles - Bottom */}
         {schema.outputs.map((output, index) => {
-          const handleLeft = handleStartOffset + index * handleSpacing;
+          const numOutputs = schema.outputs.length;
+          const spacing = nodeWidth / (numOutputs + 1);
+          const handleLeft = spacing * (index + 1);
+          
           const isSelected = selectedPin === 'output';
+          const isConnected = false; // TODO: Check if handle is connected
+          const hasResult = result != null;
+          const isFilled = hasResult && !isConnected;
           
           return (
             <Handle
@@ -136,7 +146,7 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
               type="source"
               position={Position.Bottom}
               id={output.name}
-              className={`${styles.handleOpen} ${isSelected ? styles.handleSelected : ''}`}
+              className={`${isFilled ? styles.handleFilled : styles.handleOpen} ${isSelected ? styles.handleSelected : ''}`}
               style={{ left: handleLeft, bottom: 0 }}
               title={`Output: ${output.type || 'result'}`}
               onClick={() => handlePinClick('output')}

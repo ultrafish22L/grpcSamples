@@ -37,7 +37,7 @@
 }
 
 .nodeTitle {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--color-accent);
   margin: 0;
@@ -398,17 +398,16 @@
 }
 
 .handleFilled {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   background: var(--color-accent);
-  border: none;
+  border: 2px solid var(--color-accent);
   border-radius: 50%;
   transition: all var(--transition-fast);
 }
 
 .handleFilled:hover {
-  background: var(--color-accent);
-  transform: scale(1.3);
+  transform: scale(1.2);
 }
 
 /* Create Button */
