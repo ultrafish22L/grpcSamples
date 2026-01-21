@@ -2,6 +2,7 @@ import { memo, useState, useEffect, useCallback } from 'react';
 import { useStore } from '../../store/useStore';
 import { Endpoint } from '../../types';
 import { getDefaultParameters } from '../../utils/endpointSchema';
+import { getEndpointCostDisplay } from '../../utils/endpointCosts';
 import { logger } from '../../services/logger';
 import styles from './Layout.module.css';
 
@@ -293,20 +294,27 @@ export const NodeBar = memo(() => {
 
               {isExpanded && (
                 <div className={styles.endpointList}>
-                  {categoryEndpoints.map((endpoint) => (
-                    <div
-                      key={endpoint._id}
-                      className={styles.endpointItem}
-                      onClick={() => handleAddEndpoint(endpoint)}
-                      onContextMenu={(e) => handleContextMenu(e, endpoint.endpoint_id)}
-                      title={endpoint.description}
-                    >
-                      <div className={styles.endpointItemTitle}>
-                        <span className={styles.endpointCost}>💎</span>
-                        {endpoint.title}
+                  {categoryEndpoints.map((endpoint) => {
+                    const cost = getEndpointCostDisplay(endpoint.endpoint_id);
+                    return (
+                      <div
+                        key={endpoint._id}
+                        className={styles.endpointItem}
+                        onClick={() => handleAddEndpoint(endpoint)}
+                        onContextMenu={(e) => handleContextMenu(e, endpoint.endpoint_id)}
+                        title={endpoint.description}
+                      >
+                        <div className={styles.endpointItemTitle}>
+                          {endpoint.title}
+                        </div>
+                        {cost && (
+                          <div className={styles.endpointCost}>
+                            {cost}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>

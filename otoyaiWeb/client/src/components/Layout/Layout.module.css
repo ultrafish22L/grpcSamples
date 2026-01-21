@@ -98,6 +98,10 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   font-size: var(--font-size-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
 .endpointItem:hover {
@@ -109,15 +113,20 @@
 .endpointItemTitle {
   font-weight: 500;
   color: var(--color-text-primary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .endpointCost {
   font-size: 10px;
-  opacity: 0.6;
+  opacity: 0.5;
   flex-shrink: 0;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  white-space: nowrap;
 }
 
 .utilitySection {
