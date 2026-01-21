@@ -459,7 +459,8 @@ export const useStore = create<AppState>()(
     {
       name: 'otoyai-storage',
       partialize: (state) => ({
-        visibleEndpoints: state.visibleEndpoints,
+        // Only persist projects, NOT visibleEndpoints
+        // Node Palette should only be saved/loaded via workspace files
         projects: state.projects,
       }),
     }
