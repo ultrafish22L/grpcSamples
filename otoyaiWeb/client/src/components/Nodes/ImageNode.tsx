@@ -202,10 +202,9 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
           />
         ) : (
           typedData.items.map((item: MediaItem, index: number) => {
-            const nodeWidth = 220; // Match the min-width in CSS
             const numOutputs = typedData.items.length;
-            const spacing = nodeWidth / (numOutputs + 1);
-            const handleLeft = spacing * (index + 1);
+            // Calculate position as percentage for proper scaling
+            const leftPercent = (100 / (numOutputs + 1)) * (index + 1);
             const hasImage = item.url || item.file;
             
             return (
@@ -213,10 +212,10 @@ function ImageNodeComponent({ id, data, selected }: NodeProps) {
                 key={item.id}
                 type="source"
                 position={Position.Bottom}
-                id={item.id}
+                id={`output-${index}`}
                 className={`${hasImage ? styles.handleFilled : styles.handleOpen} ${styles[getHandleColorClass('image')]}`}
                 style={{
-                  left: handleLeft,
+                  left: `${leftPercent}%`,
                   bottom: 0,
                   transform: 'translate(-50%, 50%)',
                 }}
