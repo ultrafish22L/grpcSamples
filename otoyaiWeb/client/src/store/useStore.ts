@@ -128,13 +128,22 @@ export const useStore = create<AppState>()(
       },
 
       onConnect: (connection) => {
+        const state = get();
+        
+        // Remove any existing connections to the target handle (inputs can only have one connection)
+        const existingEdges = state.edges.filter(
+          (edge) => !(edge.target === connection.target && edge.targetHandle === connection.targetHandle)
+        );
+        
         logger.info('Nodes connected', { 
           source: connection.source, 
-          target: connection.target 
+          target: connection.target,
+          removedOldConnection: existingEdges.length < state.edges.length
         });
-        set((state) => ({
-          edges: addEdge(connection, state.edges),
-        }));
+        
+        set({
+          edges: addEdge(connection, existingEdges),
+        });
       },
 
       clearGraph: () => {

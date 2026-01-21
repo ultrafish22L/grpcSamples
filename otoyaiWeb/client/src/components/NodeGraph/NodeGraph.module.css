@@ -8,3 +8,24 @@
   width: 100%;
   height: 100%;
 }
+
+/* Make edges more visible and clickable */
+.reactFlowWrapper :global(.react-flow__edge-path) {
+  stroke-width: 2;
+  cursor: pointer;
+}
+
+.reactFlowWrapper :global(.react-flow__edge-path):hover {
+  stroke-width: 3;
+  stroke: var(--color-accent, #00d4ff);
+}
+
+.reactFlowWrapper :global(.react-flow__edge.selected .react-flow__edge-path) {
+  stroke: var(--color-accent, #00d4ff);
+  stroke-width: 3;
+}
+
+/* Make edge interaction area larger */
+.reactFlowWrapper :global(.react-flow__edge-interaction) {
+  stroke-width: 20;
+}

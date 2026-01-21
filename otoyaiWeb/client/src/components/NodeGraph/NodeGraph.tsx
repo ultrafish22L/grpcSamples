@@ -6,10 +6,14 @@ import {
   MiniMap,
   BackgroundVariant,
   NodeTypes,
+  Connection,
+  Edge,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useStore } from '../../store/useStore';
 import { AIEndpointNode, ImageNode, VideoNode, TextInputNode } from '../Nodes';
+import { isValidConnection } from '../../utils/connectionValidator';
+import { logger } from '../../services/logger';
 import styles from './NodeGraph.module.css';
 
 const nodeTypes: NodeTypes = {
@@ -37,6 +41,28 @@ export const NodeGraph = memo(() => {
     [onConnect]
   );
 
+  const handleIsValidConnection = useCallback(
+    (connection: Connection) => {
+      const valid = isValidConnection(connection, nodes);
+      if (!valid) {
+        logger.warn('Invalid connection attempted', {
+          source: connection.source,
+          target: connection.target,
+        });
+      }
+      return valid;
+    },
+    [nodes]
+  );
+
+  const handleEdgeClick = useCallback(
+    (_event: React.MouseEvent, edge: Edge) => {
+      logger.info('Edge clicked for deletion', { edge: edge.id });
+      onEdgesChange([{ type: 'remove', id: edge.id }]);
+    },
+    [onEdgesChange]
+  );
+
   return (
     <div className={styles.nodeGraph}>
       <ReactFlow
@@ -45,6 +71,8 @@ export const NodeGraph = memo(() => {
         onNodesChange={handleNodesChange}
         onEdgesChange={handleEdgesChange}
         onConnect={handleConnect}
+        onEdgeClick={handleEdgeClick}
+        isValidConnection={handleIsValidConnection}
         nodeTypes={nodeTypes}
         fitView
         className={styles.reactFlowWrapper}
