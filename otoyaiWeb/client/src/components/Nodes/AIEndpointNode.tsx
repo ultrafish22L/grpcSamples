@@ -9,7 +9,7 @@ type ExecutionStatus = 'idle' | 'executing' | 'completed' | 'error';
 
 function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
   const typedData = data as unknown as AIEndpointNodeData;
-  const { endpoint, selectedPin = 'output', result } = typedData;
+  const { endpoint, selectedPin = 'output', result, previewCollapsed = true } = typedData;
   const { updateNodeData } = useReactFlow();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [executionStatus, setExecutionStatus] = useState<ExecutionStatus>('idle');
@@ -20,6 +20,10 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
     updateNodeData(id, { selectedPin: pinName });
     logger.debug('Pin selected', { node: id, pin: pinName });
   }, [id, updateNodeData]);
+
+  const togglePreview = useCallback(() => {
+    updateNodeData(id, { previewCollapsed: !previewCollapsed });
+  }, [id, previewCollapsed, updateNodeData]);
 
   const handleExecute = useCallback(async () => {
     if (executionStatus === 'executing') return;
@@ -102,11 +106,42 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
     }
   };
 
+  // Determine what to show in preview
+  const previewContent = useMemo(() => {
+    if (selectedPin === 'output') {
+      if (result && typeof result === 'object' && 'url' in result) {
+        return <img src={(result as { url: string }).url} alt="Output" className={styles.previewImage} />;
+      }
+      return (
+        <div className={styles.previewPlaceholder}>
+          <div className={styles.previewIcon}>🎨</div>
+          <div className={styles.previewText}>Output preview</div>
+        </div>
+      );
+    }
+    
+    // Show preview for selected input pin
+    const input = schema.inputs.find(i => i.name === selectedPin);
+    if (input && isMediaInput(input.type)) {
+      return (
+        <div className={styles.previewPlaceholder}>
+          <div className={styles.previewIcon}>
+            {input.type === 'image' ? '🖼️' : input.type === 'video' ? '🎬' : '🎵'}
+          </div>
+          <div className={styles.previewText}>{input.label}</div>
+        </div>
+      );
+    }
+
+    return null;
+  }, [selectedPin, result, schema.inputs]);
+
   return (
     <>
       <div 
         className={`${styles.baseNode} ${styles.aiEndpointNode} ${selected ? styles.selected : ''}`}
         onContextMenu={handleContextMenu}
+        onClick={togglePreview}
         title={endpoint.description}
       >
         {/* Input Handles - Top */}
@@ -129,7 +164,7 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
               className={`${isFilled ? styles.handleFilled : styles.handleOpen} ${isSelected ? styles.handleSelected : ''}`}
               style={{ left: handleLeft, top: 0, transform: 'translate(-50%, -50%)' }}
               title={`${input.label}${input.required ? ' (required)' : ''}\n${input.description || ''}`}
-              onClick={() => handlePinClick(input.name)}
+              onClick={(e) => { e.stopPropagation(); handlePinClick(input.name); }}
             />
           );
         })}
@@ -139,7 +174,7 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
           <h3 className={styles.nodeTitle}>{endpoint.title}</h3>
           <button 
             className={`${styles.playButton} ${styles[`playButton${executionStatus.charAt(0).toUpperCase() + executionStatus.slice(1)}`]}`}
-            onClick={handleExecute}
+            onClick={(e) => { e.stopPropagation(); handleExecute(); }}
             disabled={executionStatus === 'executing'}
             title={executionStatus === 'executing' ? 'Executing...' : 'Execute endpoint'}
           >
@@ -148,6 +183,13 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
             </span>
           </button>
         </div>
+
+        {/* Collapsible Preview Area */}
+        {!previewCollapsed && (
+          <div className={styles.previewArea}>
+            {previewContent}
+          </div>
+        )}
 
         {/* Output Handles - Bottom */}
         {schema.outputs.map((output, index) => {
@@ -169,7 +211,7 @@ function AIEndpointNodeComponent({ data, selected, id }: NodeProps) {
               className={`${isFilled ? styles.handleFilled : styles.handleOpen} ${isSelected ? styles.handleSelected : ''}`}
               style={{ left: handleLeft, bottom: 0, transform: 'translate(-50%, 50%)' }}
               title={`Output: ${output.type || 'result'}`}
-              onClick={() => handlePinClick('output')}
+              onClick={(e) => { e.stopPropagation(); handlePinClick('output'); }}
             />
           );
         })}

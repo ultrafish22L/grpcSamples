@@ -234,6 +234,7 @@
   max-width: 220px;
   padding: 0;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .nodeTitleArea {
@@ -547,8 +548,13 @@
 
 /* Spinning Animation */
 .spinning {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
   animation: spin 1s linear infinite;
+  transform-origin: center center;
 }
 
 @keyframes spin {
