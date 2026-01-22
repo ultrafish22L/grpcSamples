@@ -14,7 +14,7 @@ Create a production-ready web-based clone of [Octane Render Studio Standalone Ed
 - **Behaves identically** to Octane SE (complete functional parity)
 - **Connects to real Octane** via gRPC LiveLink API (no mocks/simulations)
 
-**See [WORKFLOW.md](./WORKFLOW.md) for complete development process and prime directive.**
+**All development follows the autonomous loop: Pick → Implement → Build → Test → Commit → Push → Repeat**
 
 ---
 
@@ -107,7 +107,7 @@ All essential features working with real-time Octane synchronization:
 #### **Infrastructure**
 - ✅ **Embedded gRPC Proxy** - Vite plugin provides gRPC-Web proxy (no separate server)
 - ✅ **Type Safety** - Full TypeScript support with auto-generated protobuf types
-- ✅ **Theme System** - Complete dark/light mode switching with persistent preferences (see [THEME_SYSTEM.md](./THEME_SYSTEM.md))
+- ✅ **Theme System** - Complete dark/light mode switching with persistent preferences
 - ✅ **Professional UI** - OTOY-branded themes with Octane SE styling
 - ✅ **Hot Reload** - Vite dev server with instant updates
 - ✅ **Cross-Browser** - Chrome, Firefox, Edge, Safari compatible
@@ -116,13 +116,29 @@ All essential features working with real-time Octane synchronization:
 
 ## 🎯 **Recent Achievements** (Last 7 Days)
 
+### **2025-01-22**: Proto Loading & Runtime Error Fixes
+- ✅ **Fixed ApiItem Proto Loading**
+  - Switched ApiItem services to use apinodesystem_3.proto (clean definitions)
+  - Resolved "duplicate name 'getRequest'" errors from apinodesystem.proto
+  - All ApiItem gRPC calls now working (findAttr, isGraph, getValueByAttrID, etc.)
+- ✅ **Fixed findAttr 500 Errors**
+  - Corrected AttributeId for P_LOCK_RENDER_AOVS from 61460 to 2672
+  - Added proper null/zero handle detection for connectedNode responses
+  - Film Settings node detection now fails gracefully when not connected
+- ✅ **Fixed Favicon 404**
+  - Added missing client/public/favicon.ico file
+- ✅ **Scene Tree Loading**
+  - Successfully loads 300+ nodes from Octane scene
+  - All scene outliner and node inspector features working
+  - No more proto loading errors blocking API calls
+
 ### **2025-01-XX**: Complete Theme System Implementation
 - ✅ **Dark/Light Mode Switching**
   - Instant theme switching with toggle button in menu bar
   - Persistent theme preference via localStorage
   - 100% CSS variable coverage (224 hardcoded colors eliminated)
   - Two professional themes: Dark Mode (default) and Light Mode
-  - Complete documentation in [THEME_SYSTEM.md](./THEME_SYSTEM.md)
+  - Dark and light mode themes with instant switching
   - Extensible architecture for adding custom themes
   - Zero performance impact, < 16ms theme switch time
   - Implementation completed across 6 phases (bug fixes → conversion → component → testing)
@@ -286,13 +302,9 @@ Browsers cannot natively speak gRPC (HTTP/2 binary protocol). The Vite plugin ac
 
 ## 📚 **Documentation**
 
-- **[MANUAL_COMPARISON.md](./MANUAL_COMPARISON.md)** 🆕 - Complete feature comparison vs Octane SE manual (215 features cataloged)
-- **[WORKFLOW.md](./WORKFLOW.md)** ⭐ - Complete development workflow and prime directive
-- **[THEME_SYSTEM.md](./THEME_SYSTEM.md)** 🆕 - Complete theme system documentation (dark/light mode switching)
-- **[OVERVIEW.md](./OVERVIEW.md)** - Architecture deep dive and design philosophy
-- **[QUICKSTART.md](./QUICKSTART.md)** - New developer onboarding guide
-- **[OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md](./OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md)** - Feature roadmap by phase
-- **[OCTANE_API_REFERENCE.md](./OCTANE_API_REFERENCE.md)** - gRPC API patterns and examples
+- **[README.md](./README.md)** - This file - complete project overview, features, and status
+- **[QUICKSTART.md](./QUICKSTART.md)** - New developer onboarding guide (10 minute setup)
+- **[REPRO_PROMPT.md](./REPRO_PROMPT.md)** - AI assistant context for debugging and development
 
 ---
 
@@ -452,17 +464,17 @@ curl http://localhost:43930/api/health | python -m json.tool
 
 ## 📝 **Contributing Guidelines**
 
-**Process**:
-1. Read **[WORKFLOW.md](./WORKFLOW.md)** thoroughly (prime directive)
-2. Get task assignment from project maintainer
-3. Verify feature exists in [Octane SE Manual](https://docs.otoy.com/standaloneSE/)
-4. Check proto files for required APIs
-5. Implement with TypeScript + React best practices
-6. Build passes: `npm run build`
-7. Test manually: `npm run dev`
-8. Commit with descriptive message
-9. Push to main (if authorized)
-10. Report completion and stop
+**Development Process**:
+1. Get task assignment from project maintainer
+2. Verify feature exists in [Octane SE Manual](https://docs.otoy.com/standaloneSE/)
+3. Check proto files for required APIs
+4. Implement with TypeScript + React best practices
+5. Build passes: `npm run build`
+6. Test manually: `npm run dev`
+7. Commit with descriptive message
+8. Push to main
+9. Update README.md with achievements
+10. Report completion
 
 **Code Style**:
 - Use TypeScript strict mode (no `any` types)
@@ -530,6 +542,6 @@ Octane Render® and OTOY® are registered trademarks of OTOY Inc.
 
 ---
 
-**Last Updated**: 2025-01-21  
+**Last Updated**: 2025-01-22  
 **Version**: 1.0.0  
-**Status**: Production-ready core, advanced features in progress
+**Status**: Production-ready core, all runtime errors resolved

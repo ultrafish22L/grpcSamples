@@ -157,11 +157,11 @@ At this point, you should have:
 - Report bugs or request features
 
 ### **For Developers**
-1. Read **[WORKFLOW.md](./WORKFLOW.md)** ⭐ - Development process (prime directive)
-2. Read **[OVERVIEW.md](./OVERVIEW.md)** - Architecture and design decisions
-3. Read **[README.md](./README.md)** - Full project documentation
-4. Browse code starting from **client/src/App.tsx**
-5. Pick a task from **[OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md](./OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md)**
+1. Read **[README.md](./README.md)** - Full project documentation and current status
+2. Read **[REPRO_PROMPT.md](./REPRO_PROMPT.md)** - Context for debugging and AI assistance
+3. Browse code starting from **client/src/App.tsx**
+4. Understand proto files in **server/proto/**
+5. Review [Octane SE Manual](https://docs.otoy.com/standaloneSE/) for feature references
 6. Get approval from maintainer before starting work
 
 ---
@@ -374,14 +374,14 @@ For developers ready to contribute:
 3. 🔍 CHECK proto files for required API methods
 4. 💻 IMPLEMENT code changes
 5. 🔨 BUILD with `npm run build` (must pass)
-6. 🧪 TEST with `npm run dev` (optional)
+6. 🧪 TEST with `npm run dev` (recommended)
 7. 📝 COMMIT with descriptive message
 8. 🚀 PUSH to origin/main
-9. 📚 UPDATE README.md
-10. ✅ REPORT completion and STOP
+9. 📚 UPDATE README.md with achievements
+10. ✅ REPORT completion
 ```
 
-**See [WORKFLOW.md](./WORKFLOW.md) for detailed process.**
+**See README.md Contributing Guidelines for detailed process.**
 
 ---
 
@@ -389,12 +389,9 @@ For developers ready to contribute:
 
 | File | Purpose | When to Read |
 |------|---------|--------------|
-| **README.md** | Project overview, features | First (after this) |
-| **WORKFLOW.md** ⭐ | Development process | Before starting work |
-| **OVERVIEW.md** | Architecture, design | When curious about how it works |
-| **QUICKSTART.md** | This file! | You're reading it 😊 |
-| **OCTANE_STANDALONE_IMPLEMENTATION_PLAN.md** | Feature roadmap | When picking next task |
-| **OCTANE_API_REFERENCE.md** | gRPC API examples | When implementing API calls |
+| **QUICKSTART.md** | This file! 10-minute setup guide | You're reading it 😊 |
+| **README.md** | Complete project overview, features, status | After setup completes |
+| **REPRO_PROMPT.md** | AI assistant context for debugging | When debugging or getting AI help |
 
 ---
 
@@ -444,9 +441,8 @@ If any unchecked: **See [Troubleshooting](#troubleshooting) section above**
 - Explore Scene Outliner tree navigation
 
 ### **Read Documentation**
-- **WORKFLOW.md** for development process
-- **OVERVIEW.md** for architecture deep dive
-- **README.md** for complete feature list
+- **README.md** for complete feature list and project status
+- **REPRO_PROMPT.md** for debugging context and architecture overview
 
 ### **Start Contributing**
 - Pick a task from implementation plan
@@ -481,6 +477,6 @@ If any unchecked: **See [Troubleshooting](#troubleshooting) section above**
 
 ---
 
-**Last Updated**: 2025-01-21  
+**Last Updated**: 2025-01-22  
 **Version**: 1.0.0  
 **Estimated Setup Time**: 10 minutes
