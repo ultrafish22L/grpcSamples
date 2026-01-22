@@ -117,7 +117,7 @@ export class MaterialDatabaseService extends BaseService {
         const renderTargetResponse = await this.apiService.callApi('ApiScene', 'firstItem', null, { type: 11 });
         if (renderTargetResponse?.result?.handle) {
           const renderTargetHandle = renderTargetResponse.result.handle;
-          const graphResponse = await this.apiService.callApi('ApiNode', 'connectedNode', renderTargetHandle, { pinIndex: 0 });
+          const graphResponse = await this.apiService.callApi('ApiNode', 'connectedNodeIx', renderTargetHandle, { pinIx: 0 });
           if (graphResponse?.result?.handle) {
             graphHandle = graphResponse.result.handle;
           }
@@ -255,7 +255,7 @@ export class MaterialDatabaseService extends BaseService {
         const renderTargetResponse = await this.apiService.callApi('ApiScene', 'firstItem', null, { type: 11 });
         if (renderTargetResponse?.result?.handle) {
           const renderTargetHandle = renderTargetResponse.result.handle;
-          const graphResponse = await this.apiService.callApi('ApiNode', 'connectedNode', renderTargetHandle, { pinIndex: 0 });
+          const graphResponse = await this.apiService.callApi('ApiNode', 'connectedNodeIx', renderTargetHandle, { pinIx: 0 });
           if (graphResponse?.result?.handle) {
             graphHandle = graphResponse.result.handle;
           }

@@ -882,8 +882,8 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
               if (geometryNode?.handle !== undefined && materialPinIndex !== undefined) {
                 // Get the material node connected to the geometry's material pin
                 try {
-                  const materialResponse = await client.callApi('ApiNode', 'connectedNode', geometryNode.handle, {
-                    pinIndex: materialPinIndex
+                  const materialResponse = await client.callApi('ApiNode', 'connectedNodeIx', geometryNode.handle, {
+                    pinIx: materialPinIndex
                   });
                   
                   if (materialResponse?.result?.handle) {
