@@ -138,7 +138,12 @@ export class OctaneClient extends EventEmitter {
       
       this.ws.onopen = () => {
         console.log('✅ WebSocket connected');
-        this.ws?.send(JSON.stringify({ type: 'subscribe' }));
+        // Safety check: ensure WebSocket is actually open before sending
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+          this.ws.send(JSON.stringify({ type: 'subscribe' }));
+        } else {
+          console.warn('⚠️ WebSocket not ready in onopen handler, state:', this.ws?.readyState);
+        }
       };
       
       this.ws.onmessage = (event) => {

@@ -1888,18 +1888,19 @@ message ApiRenderEngine
         uint32 outputTextBufferSize = 3;
     }
 
+    // COMMENTED OUT: Conflicts with JavaScript Object.prototype.toString()
     // Request packet corresponding to '[in] parameters in ApiRenderEngine::toString'
-    message toStringRequest
-    {
-        RenderPriority priority = 1;
-    }
+    // message toStringRequest
+    // {
+    //     RenderPriority priority = 1;
+    // }
 
     // Response packet corresponding to '[out] parameters in 'ApiRenderEngine::toString'
-    message toStringResponse
-    {
-        
-        string result = 1;
-    }
+    // message toStringResponse
+    // {
+    //     
+    //     string result = 1;
+    // }
 
     // Request packet corresponding to '[in] parameters in ApiRenderEngine::getDevicePciIds'
     message getDevicePciIdsRequest
@@ -2223,8 +2224,9 @@ service ApiRenderEngineService
     rpc pickCryptomatteMatte(ApiRenderEngine.pickCryptomatteMatteRequest) returns (ApiRenderEngine.pickCryptomatteMatteResponse);
     /// Modifies a cryptomatte matte selection string (e
     rpc modifyCryptomatteMatteSelection(ApiRenderEngine.modifyCryptomatteMatteSelectionRequest) returns (ApiRenderEngine.modifyCryptomatteMatteSelectionResponse);
+    /// COMMENTED OUT: Conflicts with JavaScript Object.prototype.toString()
     /// Returns a human readable string for a render priority
-    rpc toString(ApiRenderEngine.toStringRequest) returns (ApiRenderEngine.toStringResponse);
+    // rpc toString(ApiRenderEngine.toStringRequest) returns (ApiRenderEngine.toStringResponse);
     /// Returns PCI bus and device ids of the device
     ///
     /// 

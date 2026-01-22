@@ -101,7 +101,8 @@ class OctaneGrpcClient {
       'ApiNodePinInfoEx': 'apinodepininfohelper.proto',
       'ApiRenderEngine': 'apirender.proto',
       'ApiSceneOutliner': 'apisceneoutliner.proto',
-      'StreamCallbackService': 'callback.proto',
+      'StreamCallbackService': 'callbackstream.proto',
+      'CallbackHandler': 'callback.proto',
     };
     
     const protoFileName = serviceToProtoMap[serviceName] || (serviceName.toLowerCase() + '.proto');
@@ -112,37 +113,19 @@ class OctaneGrpcClient {
     }
     
     try {
-      // Load with dependencies for complex services
-      const protoFiles = [protoFilePath];
-      
-      // ApiRenderEngine needs common.proto, callback.proto, and octanerenderpasses.proto
-      if (serviceName === 'ApiRenderEngine') {
-        const commonProto = path.join(PROTO_PATH, 'common.proto');
-        const callbackProto = path.join(PROTO_PATH, 'callback.proto');
-        const renderPassesProto = path.join(PROTO_PATH, 'octanerenderpasses.proto');
-        if (fs.existsSync(commonProto)) protoFiles.unshift(commonProto);
-        if (fs.existsSync(callbackProto)) protoFiles.push(callbackProto);
-        if (fs.existsSync(renderPassesProto)) protoFiles.push(renderPassesProto);
-      }
-      
-      // StreamCallbackService needs common.proto and apirender.proto
-      if (serviceName === 'StreamCallbackService') {
-        const commonProto = path.join(PROTO_PATH, 'common.proto');
-        const apirenderProto = path.join(PROTO_PATH, 'apirender.proto');
-        if (fs.existsSync(commonProto)) protoFiles.unshift(commonProto);
-        if (fs.existsSync(apirenderProto)) protoFiles.push(apirenderProto);
-      }
-      
-      const packageDefinition = protoLoader.loadSync(protoFiles, {
+      // Load proto file - proto-loader will automatically resolve imports via includeDirs
+      const packageDefinition = protoLoader.loadSync(protoFilePath, {
         keepCase: true,
         longs: String,
         enums: String,
         defaults: true,
         oneofs: true,
-        includeDirs: [PROTO_PATH]
+        includeDirs: [PROTO_PATH]  // This makes proto-loader auto-resolve imports
       });
       
-      return grpc.loadPackageDefinition(packageDefinition);
+      const loadedProto = grpc.loadPackageDefinition(packageDefinition);
+      
+      return loadedProto;
     } catch (error: any) {
       console.log(`⚠️  Could not load proto for ${serviceName}:`, error.message);
       return null;
