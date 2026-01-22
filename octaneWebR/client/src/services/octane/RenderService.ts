@@ -160,9 +160,9 @@ export class RenderService extends BaseService {
 
       const attrIndex = attrIndexResponse.result;
 
-      // Get the boolean value using the attribute index as pin index
-      const valueResponse = await this.apiService.callApi('ApiNode', 'getPinBoolIx', filmSettingsHandle, { pinIx: attrIndex });
-      return valueResponse?.result ?? false;
+      // Get the boolean value using getPinValueByIx (apinodesystem_7.proto)
+      const valueResponse = await this.apiService.callApi('ApiNode', 'getPinValueByIx', filmSettingsHandle, { index: attrIndex });
+      return valueResponse?.bool_value ?? false;
     } catch (error: any) {
       console.error('❌ Failed to get viewport resolution lock:', error.message);
       return false;
