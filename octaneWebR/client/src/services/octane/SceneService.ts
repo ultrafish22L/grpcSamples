@@ -349,7 +349,7 @@ export class SceneService extends BaseService {
           
           if (attrInfoResponse?.result && attrInfoResponse.result.type != "AT_UNKNOWN") {
             item.attrInfo = attrInfoResponse.result;
-            console.log(`  📊 End node: ${item.name} (${item.attrInfo.type})`);
+            console.log(`  📊 End node: ${item.name} (${attrInfoResponse.result.type})`);
           }
         } catch (attrError: any) {
           console.log(`  ℹ️ No attrInfo for ${item.name}`);

@@ -5,20 +5,34 @@
 
 import { BaseService } from './BaseService';
 import { ApiService } from './ApiService';
+import { EventEmitter } from '../../utils/EventEmitter';
+import Logger from '../../utils/Logger';
 
+/**
+ * WebSocket reconnection configuration
+ */
+const RECONNECT_DELAY_MS = 5000;
+
+/**
+ * Connection Service manages server connections and WebSocket communication
+ */
 export class ConnectionService extends BaseService {
   private ws: WebSocket | null = null;
   private connected: boolean = false;
   private apiService: ApiService;
 
-  constructor(emitter: any, serverUrl: string, apiService: ApiService) {
+  constructor(emitter: EventEmitter, serverUrl: string, apiService: ApiService) {
     super(emitter, serverUrl);
     this.apiService = apiService;
   }
 
+  /**
+   * Connect to the Octane server and establish WebSocket
+   * @returns Promise resolving to true if connection successful, false otherwise
+   */
   async connect(): Promise<boolean> {
     try {
-      console.log('📡 ConnectionService.connect() - Connecting to server:', this.serverUrl);
+      Logger.network('ConnectionService.connect() - Connecting to server:', this.serverUrl);
       
       // Check server health
       const isHealthy = await this.apiService.checkServerHealth();
@@ -30,68 +44,79 @@ export class ConnectionService extends BaseService {
       this.connectWebSocket();
       
       this.connected = true;
-      console.log('✅ Setting connected = true, emitting connected event');
-      this.emit('connected');
-      console.log('✅ Connected to OctaneWebR server');
+      Logger.debug('Setting connected = true, emitting connected event');
+      this.emit('connected', undefined);
+      Logger.success('Connected to OctaneWebR server');
       
       return true;
-    } catch (error: any) {
-      console.error('❌ Connection failed:', error.message);
-      console.error('❌ Error stack:', error.stack);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const errorStack = error instanceof Error ? error.stack : '';
+      Logger.error('Connection failed:', errorMessage);
+      Logger.debug('Error stack:', errorStack);
       this.emit('connectionError', error);
       return false;
     }
   }
 
+  /**
+   * Establish WebSocket connection for real-time callbacks
+   * Handles automatic reconnection on disconnect
+   */
   private connectWebSocket(): void {
     const wsUrl = this.serverUrl.replace('http', 'ws') + '/api/callbacks';
-    console.log('🔌 Connecting WebSocket:', wsUrl);
+    Logger.network('Connecting WebSocket:', wsUrl);
     
     try {
       this.ws = new WebSocket(wsUrl);
       
       this.ws.onopen = () => {
-        console.log('✅ WebSocket connected');
+        Logger.success('WebSocket connected');
         // Safety check: ensure WebSocket is actually open before sending
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
           this.ws.send(JSON.stringify({ type: 'subscribe' }));
         } else {
-          console.warn('⚠️ WebSocket not ready in onopen handler, state:', this.ws?.readyState);
+          Logger.warn('WebSocket not ready in onopen handler, state:', this.ws?.readyState);
         }
       };
       
-      this.ws.onmessage = (event) => {
+      this.ws.onmessage = (event: MessageEvent) => {
         try {
-          const message = JSON.parse(event.data);
+          const message = JSON.parse(event.data as string);
           if (message.type === 'newImage') {
             this.emit('OnNewImage', message.data);
           } else if (message.type === 'newStatistics') {
             this.emit('OnNewStatistics', message.data);
           }
-        } catch (error: any) {
-          console.error('❌ WebSocket message error:', error.message);
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          Logger.error('WebSocket message error:', errorMessage);
         }
       };
       
-      this.ws.onerror = (error) => {
-        console.error('❌ WebSocket error:', error);
+      this.ws.onerror = (error: Event) => {
+        Logger.error('WebSocket error:', error);
       };
       
       this.ws.onclose = () => {
-        console.log('🔌 WebSocket disconnected');
-        // Attempt reconnection after 5 seconds
+        Logger.network('WebSocket disconnected');
+        // Attempt reconnection after configured delay
         setTimeout(() => {
           if (this.connected) {
-            console.log('🔄 Reconnecting WebSocket...');
+            Logger.network('Reconnecting WebSocket...');
             this.connectWebSocket();
           }
-        }, 5000);
+        }, RECONNECT_DELAY_MS);
       };
-    } catch (error: any) {
-      console.error('❌ WebSocket connection failed:', error.message);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      Logger.error('WebSocket connection failed:', errorMessage);
     }
   }
 
+  /**
+   * Disconnect from the server and close WebSocket
+   */
   async disconnect(): Promise<void> {
     this.connected = false;
     
@@ -100,10 +125,14 @@ export class ConnectionService extends BaseService {
       this.ws = null;
     }
     
-    this.emit('disconnected');
-    console.log('🔌 Disconnected from server');
+    this.emit('disconnected', undefined);
+    Logger.network('Disconnected from server');
   }
 
+  /**
+   * Check if currently connected to the server
+   * @returns True if connected, false otherwise
+   */
   isConnected(): boolean {
     return this.connected;
   }

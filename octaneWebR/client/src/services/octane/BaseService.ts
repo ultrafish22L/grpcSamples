@@ -4,6 +4,9 @@
 
 import { EventEmitter } from '../../utils/EventEmitter';
 
+/**
+ * Base Service provides common event emitter and server URL access to all services
+ */
 export abstract class BaseService {
   protected emitter: EventEmitter;
   protected serverUrl: string;
@@ -13,15 +16,30 @@ export abstract class BaseService {
     this.serverUrl = serverUrl;
   }
 
-  protected emit(event: string, data?: any): void {
+  /**
+   * Emit an event to all listeners
+   * @param event - Event name
+   * @param data - Optional event data
+   */
+  protected emit(event: string, data?: unknown): void {
     this.emitter.emit(event, data);
   }
 
-  protected on(event: string, handler: (...args: any[]) => void): void {
+  /**
+   * Register an event listener
+   * @param event - Event name
+   * @param handler - Event handler function
+   */
+  protected on(event: string, handler: (...args: unknown[]) => void): void {
     this.emitter.on(event, handler);
   }
 
-  protected off(event: string, handler: (...args: any[]) => void): void {
+  /**
+   * Unregister an event listener
+   * @param event - Event name
+   * @param handler - Event handler function
+   */
+  protected off(event: string, handler: (...args: unknown[]) => void): void {
     this.emitter.off(event, handler);
   }
 }
