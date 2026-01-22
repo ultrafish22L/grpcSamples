@@ -1,6 +1,12 @@
 /**
  * Node Commands
  * Command implementations for node graph operations
+ * 
+ * NOTE: These commands use the correct proto method signatures:
+ * - connectToIx: For connecting pins (and disconnecting with handle=0)
+ * - setPinValueByName: For setting parameter values by name
+ * 
+ * All methods verified against apinodesystem_7.proto
  */
 
 import { Command } from '../services/CommandHistory';
@@ -106,19 +112,27 @@ export class ConnectPinsCommand implements Command {
   }
 
   async execute(): Promise<void> {
-    await this.client.callApi('ApiNode', 'connectPinByIndex', {
-      nodeId: this.targetNodeId,
-      pinIndex: this.targetPinIndex,
-      sourceNodeId: this.sourceNodeId,
-      sourcePinIndex: this.sourcePinIndex
+    await this.client.callApi('ApiNode', 'connectToIx', this.targetNodeId, {
+      pinIdx: this.targetPinIndex,
+      sourceNode: {
+        handle: this.sourceNodeId,
+        type: 17, // ApiNode type
+      },
+      evaluate: true,
+      doCycleCheck: true,
     });
     console.log(`Connected pins: ${this.sourceNodeId}[${this.sourcePinIndex}] -> ${this.targetNodeId}[${this.targetPinIndex}]`);
   }
 
   async undo(): Promise<void> {
-    await this.client.callApi('ApiNode', 'disconnectPinByIndex', {
-      nodeId: this.targetNodeId,
-      pinIndex: this.targetPinIndex
+    await this.client.callApi('ApiNode', 'connectToIx', this.targetNodeId, {
+      pinIdx: this.targetPinIndex,
+      sourceNode: {
+        handle: 0, // 0 = disconnect
+        type: 17,
+      },
+      evaluate: true,
+      doCycleCheck: true,
     });
     console.log(`Disconnected pin: ${this.targetNodeId}[${this.targetPinIndex}]`);
   }
@@ -143,21 +157,29 @@ export class DisconnectPinCommand implements Command {
 
   async execute(): Promise<void> {
     // TODO: Store previous connection for undo
-    // Would need to query current connection before disconnecting
-    await this.client.callApi('ApiNode', 'disconnectPinByIndex', {
-      nodeId: this.nodeId,
-      pinIndex: this.pinIndex
+    // Would need to query current connection before disconnecting using connectedNodeIx
+    await this.client.callApi('ApiNode', 'connectToIx', this.nodeId, {
+      pinIdx: this.pinIndex,
+      sourceNode: {
+        handle: 0, // 0 = disconnect
+        type: 17,
+      },
+      evaluate: true,
+      doCycleCheck: true,
     });
     console.log(`Disconnected pin: ${this.nodeId}[${this.pinIndex}]`);
   }
 
   async undo(): Promise<void> {
     if (this.previousConnection) {
-      await this.client.callApi('ApiNode', 'connectPinByIndex', {
-        nodeId: this.nodeId,
-        pinIndex: this.pinIndex,
-        sourceNodeId: this.previousConnection.sourceNodeId,
-        sourcePinIndex: this.previousConnection.sourcePinIndex
+      await this.client.callApi('ApiNode', 'connectToIx', this.nodeId, {
+        pinIdx: this.pinIndex,
+        sourceNode: {
+          handle: this.previousConnection.sourceNodeId,
+          type: 17,
+        },
+        evaluate: true,
+        doCycleCheck: true,
       });
       console.log(`Reconnected pin: ${this.nodeId}[${this.pinIndex}]`);
     } else {
@@ -193,9 +215,8 @@ export class SetParameterCommand implements Command {
   }
 
   async execute(): Promise<void> {
-    await this.client.callApi('ApiNode', 'setParameterValue', {
-      nodeId: this.nodeId,
-      paramName: this.paramName,
+    await this.client.callApi('ApiNode', 'setPinValueByName', this.nodeId, {
+      pinName: this.paramName,
       value: this.newValue
     });
     console.log(`Set parameter: ${this.paramName} = ${JSON.stringify(this.newValue)}`);
@@ -203,9 +224,8 @@ export class SetParameterCommand implements Command {
 
   async undo(): Promise<void> {
     if (this.oldValue !== null) {
-      await this.client.callApi('ApiNode', 'setParameterValue', {
-        nodeId: this.nodeId,
-        paramName: this.paramName,
+      await this.client.callApi('ApiNode', 'setPinValueByName', this.nodeId, {
+        pinName: this.paramName,
         value: this.oldValue
       });
       console.log(`Restored parameter: ${this.paramName} = ${JSON.stringify(this.oldValue)}`);

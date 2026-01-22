@@ -1157,13 +1157,18 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   /**
    * Handle edge deletion (keyboard Delete key or context menu)
    * NOTE: Currently connections are visual-only in ReactFlow and not synced to Octane backend
-   * When backend sync is implemented, this should call ApiNode.disconnectIx or similar
+   * When backend sync is implemented, use connectToIx with handle=0 to disconnect pins
    */
   const onEdgesDelete = useCallback(
     async (deletedEdges: Edge[]) => {
       console.log(`✂️ Deleted ${deletedEdges.length} edge(s) from graph (visual only)`);
       // TODO: When backend connection sync is implemented, add API calls here
-      // For each edge: await client.callApi('ApiNode', 'disconnectIx', targetHandle, { pinIdx });
+      // For each edge: await client.callApi('ApiNode', 'connectToIx', targetHandle, {
+      //   pinIdx,
+      //   sourceNode: { handle: 0, type: 17 },  // handle=0 means disconnect
+      //   evaluate: true,
+      //   doCycleCheck: true
+      // });
     },
     []
   );
