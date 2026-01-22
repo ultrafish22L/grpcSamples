@@ -5,8 +5,8 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useOctane } from '../hooks/useOctane';
-import { GPUStatisticsDialog } from './dialogs/GPUStatisticsDialog';
+import { useOctane } from '../../hooks/useOctane';
+import { GPUStatisticsDialog } from '../dialogs/GPUStatisticsDialog';
 
 interface RenderStats {
   samples: number;
