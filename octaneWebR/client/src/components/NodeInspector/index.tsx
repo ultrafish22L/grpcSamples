@@ -12,11 +12,11 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { SceneNode } from '../services/OctaneClient';
-import { useOctane } from '../hooks/useOctane';
-import { AttributeId, AttrType } from '../constants/OctaneTypes';
-import { OctaneIconMapper } from '../utils/OctaneIconMapper';
-import { NodeInspectorContextMenu } from './NodeInspector/NodeInspectorContextMenu';
+import { SceneNode } from '../../services/OctaneClient';
+import { useOctane } from '../../hooks/useOctane';
+import { AttributeId, AttrType } from '../../constants/OctaneTypes';
+import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
+import { NodeInspectorContextMenu } from './NodeInspectorContextMenu';
 
 /**
  * Format float value to maximum 6 decimal places
