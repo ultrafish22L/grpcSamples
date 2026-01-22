@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef _API_RENDER_H_
 #define _API_RENDER_H_  1
@@ -656,6 +656,28 @@ public:
     /// @param[in]  userData
     ///     Opaque pointer to userdata. This pointer is not touched by Octane. Can be a NULL pointer.
     static void setOnNewImageCallback(
+        OnNewImageCallbackT callback,
+        void                *userData);
+
+    /// Registers a callback with the render target that is called when a new tonemapped result
+    /// is available. Use for streaming the viewport over the network (H.264 over RTP)
+    ///
+    /// @param[in]  callback
+    ///     User provided callback funcion or NULL to unset the callback.
+    /// @param[in]  userData
+    ///     Opaque pointer to userdata. This pointer is not touched by Octane. Can be a NULL pointer.
+    static void setOnNewVideoImageCallback(
+        OnNewImageCallbackT callback,
+        void                *userData);
+    
+    /// Registers a callback with the render target that is called when a new tonemapped result
+    /// is available. Use for streaming the viewport over the network (H.264 over RTP)
+    ///
+    /// @param[in]  callback
+    ///     User provided callback funcion or NULL to unset the callback.
+    /// @param[in]  userData
+    ///     Opaque pointer to userdata. This pointer is not touched by Octane. Can be a NULL pointer.
+    static void setOnNewSharedMemImageCallback(
         OnNewImageCallbackT callback,
         void                *userData);
 
@@ -1509,9 +1531,6 @@ public:
     ///     The number of peer-to-peer groups in @ref peerToPeerGroups. If set to
     ///     @ref DONT_CHANGE_PEER_TO_PEER, @ref peerToPeerGroups will be ignored and the setup not
     ///     changed.
-    /// @param useMetalRayTracing
-    ///     Whether to use the Metal ray tracing backend on devices with support for it.
-    ///     This does not affect NVIDIA devices
     /// @return
     ///     TRUE if all the devices enabled. FALSE if failed able to enable one or more devices 
     ///     due to the maximum GPU limit, in this case, Please use get functions to update the UI
@@ -1525,8 +1544,7 @@ public:
         const uint32_t *const         denoiseDeviceIxs,
         const uint32_t                denoiseDeviceCount,
         const Octane::uint32_2 *const peerToPeerGroups = nullptr,
-        const uint32_t                peerToPeerGroupCount = DONT_CHANGE_PEER_TO_PEER,
-        const bool                    useMetalRayTracing = true);
+        const uint32_t                peerToPeerGroupCount = DONT_CHANGE_PEER_TO_PEER);
 
     /// Returns TRUE if the device is used for rendering.
     static bool isDeviceUsedForRendering(
@@ -1559,9 +1577,6 @@ public:
     /// stays valid until shutdown or the next call of this function.
     static Octane::uint32_2 * const currentPeerToPeerGroups(
         uint32_t & groupCount);
-
-    /// Returns TRUE if hardware raytracing is currently enabled for all devices with support for it
-    static bool hardwareRayTracingEnabled();
 
     /// Opens a modal dialog to allow the user to set devices configuration. When the
     /// the function returns, the dialog has been closed already and the settings have been stored

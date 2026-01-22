@@ -873,7 +873,7 @@ message ApiItem
     {
         ObjectRef   item_ref     = 1;
         AttributeId attribute_id = 2;
-
+        optional bool evaluate = 3;
         oneof array_value 
         {
             BoolArrayT   bool_array       = 10;
@@ -897,6 +897,7 @@ message ApiItem
     {
         ObjectRef item_ref = 1;
         uint32    index    = 2;
+        optional bool evaluate = 3;
         oneof array_value 
         {
             BoolArrayT   bool_array       = 10;
@@ -920,6 +921,7 @@ message ApiItem
     {
         ObjectRef item_ref = 1;
         string    name     = 2;
+        optional bool evaluate = 3;
         oneof array_value 
         {
             BoolArrayT   bool_array       = 10;
@@ -969,7 +971,7 @@ message ApiItem
     {
         ObjectRef   item_ref     = 1; 
         AttributeId attribute_id = 2;
-
+        optional bool evaluate = 3;
         oneof value 
         {
             bool       bool_value     = 10;
@@ -993,6 +995,7 @@ message ApiItem
     {
         ObjectRef item_ref = 1;
         uint32    index    = 2;
+        optional bool evaluate = 3;
         oneof value 
         {
             bool       bool_value     = 10;
@@ -1015,6 +1018,7 @@ message ApiItem
     {
         ObjectRef item_ref = 1;
         string    name     = 2;
+        optional bool evaluate = 3;
         oneof value 
         {
             bool       bool_value     = 10;
@@ -1292,9 +1296,9 @@ service ApiItemService
     /// Dump all attributes of this item to a text file
     rpc dumpAttributes(ApiItem.dumpAttributesRequest) returns (google.protobuf.Empty);
     // Scalar getters
-    rpc getByAttrID(ApiItem.getValueByIDRequest) returns (ApiItem.getValueResponse);
-    rpc getByName(ApiItem.getValueByNameRequest) returns (ApiItem.getValueResponse);
-    rpc getByIx(ApiItem.getValueByIxRequest)     returns (ApiItem.getValueResponse);
+    rpc getValueByAttrID(ApiItem.getValueByIDRequest) returns (ApiItem.getValueResponse);
+    rpc getValueByName(ApiItem.getValueByNameRequest) returns (ApiItem.getValueResponse);
+    rpc getValueByIx(ApiItem.getValueByIxRequest)     returns (ApiItem.getValueResponse);
 
     // Array getters
     rpc getArrayByAttrID(ApiItem.getArrayByIDRequest) returns (ApiItem.getArrayResponse);
@@ -1302,9 +1306,9 @@ service ApiItemService
     rpc getArrayByIx(ApiItem.getArrayByIxRequest)     returns (ApiItem.getArrayResponse);
 
     // Scalar setters
-    rpc setByAttrID(ApiItem.setValueByIDRequest)      returns (ApiItem.setValueResponse);
-    rpc setByName(ApiItem.setValueByNameRequest)      returns (ApiItem.setValueResponse);   
-    rpc setByIx(ApiItem.setValueByIxRequest)          returns (ApiItem.setValueResponse);
+    rpc setValueByAttrID(ApiItem.setValueByIDRequest)      returns (ApiItem.setValueResponse);
+    rpc setValueByName(ApiItem.setValueByNameRequest)      returns (ApiItem.setValueResponse);   
+    rpc setValueByIx(ApiItem.setValueByIxRequest)          returns (ApiItem.setValueResponse);
 
     // Array setters
     rpc setArrayByName(ApiItem.setArrayByNameRequest)    returns (ApiItem.setArrayResponse);
@@ -1312,9 +1316,9 @@ service ApiItemService
     rpc setArrayByIx(ApiItem.setArrayByIxRequest)        returns (ApiItem.setArrayResponse);
   
     // Anim getters
-    rpc getAnimByAttr(ApiItem.getAnimByIDRequest)    returns (ApiItem.getAnimArrayResponse);
+    rpc getAnimByAttr(ApiItem.getAnimByIDRequest)      returns (ApiItem.getAnimArrayResponse);
     rpc getAnimByName(ApiItem.getAnimByNameRequest)    returns (ApiItem.getAnimArrayResponse);
-    rpc getAnimByIx(ApiItem.getAnimByIxRequest)       returns (ApiItem.getAnimArrayResponse);
+    rpc getAnimByIx(ApiItem.getAnimByIxRequest)        returns (ApiItem.getAnimArrayResponse);
 
     // Anim setters
     rpc setAnimByAttr(ApiItem.setAnimByIDRequest)    returns (ApiItem.setAnimArrayResponse);

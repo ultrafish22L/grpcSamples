@@ -829,12 +829,6 @@
     <ClInclude Include="..\..\src\api\grpc\protoc\apiwindow.pb.h">
       <Filter>Source Files\protoc\headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\api\grpc\protoc\callback.grpc.pb.h">
-      <Filter>Source Files\protoc\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\api\grpc\protoc\callback.pb.h">
-      <Filter>Source Files\protoc\headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\api\grpc\protoc\common.grpc.pb.h">
       <Filter>Source Files\protoc\headers</Filter>
     </ClInclude>
@@ -1123,9 +1117,6 @@
     <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_8.pb.h">
       <Filter>Source Files\protoc\headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\api\grpc\client\apigaussiansplatcloudnodeclient.h">
-      <Filter>Source Files\wrappers\headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\api\grpc\protoc\apigaussiansplatting.grpc.pb.h">
       <Filter>Source Files\protoc\headers</Filter>
     </ClInclude>
@@ -1134,6 +1125,15 @@
     </ClInclude>
     <ClInclude Include="..\..\src\api\grpc\grpcapinodeinfo.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\client\apigaussiansplattingclient.h">
+      <Filter>Source Files\wrappers\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\callbackstream.grpc.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\callbackstream.pb.h">
+      <Filter>Source Files\protoc\headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1935,12 +1935,6 @@
     <ClCompile Include="..\..\src\api\grpc\protoc\apiwindow.pb.cc">
       <Filter>Source Files\protoc</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\api\grpc\protoc\callback.grpc.pb.cc">
-      <Filter>Source Files\protoc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\api\grpc\protoc\callback.pb.cc">
-      <Filter>Source Files\protoc</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\api\grpc\protoc\common.grpc.pb.cc">
       <Filter>Source Files\protoc</Filter>
     </ClCompile>
@@ -2181,13 +2175,25 @@
     <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_8.pb.cc">
       <Filter>Source Files\protoc</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\api\grpc\client\apigaussiansplatcloudnodeclient.cpp">
+    <ClCompile Include="..\..\src\api\grpc\client\apigaussiansplattingclient.cpp">
       <Filter>Source Files\wrappers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\api\grpc\protoc\apigaussiansplatting.grpc.pb.cc">
       <Filter>Source Files\protoc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\api\grpc\protoc\apigaussiansplatting.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\callbackstream.grpc.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\callbackstream.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\callback.pb.cc">
+      <Filter>Source Files\protoc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\callback.grpc.pb.cc">
       <Filter>Source Files\protoc</Filter>
     </ClCompile>
   </ItemGroup>

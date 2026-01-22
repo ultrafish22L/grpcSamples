@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef _API_LOG_MANAGER_H_
 #define _API_LOG_MANAGER_H_ 1

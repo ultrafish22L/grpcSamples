@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 //////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
@@ -69,20 +69,17 @@ Octane::FrameRangeT FrameRangeTProxy::make(
         // Process 'result' [out] parameter from the gRPC response packet
         octaneapi::FrameRangeT resultOut = response.result();
         // Using Converter 7, type = Octane::FrameRangeT, protoType = FrameRangeT
-        FrameRangeT::convert(resultOut, retVal); // 22 Convert Called type 4 =FrameRangeT;
+        FrameRangeTConverter::convert(resultOut, retVal); // 22 Convert Called type 4 =FrameRangeT;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -121,18 +118,15 @@ uint32_t FrameRangeTProxy::count() const
         uint32_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };

@@ -1420,8 +1420,6 @@ message ApiRenderEngine
         Uint2ArrayT peerToPeerGroups = 8;
         // The number of peer-to-peer groups in @ref peerToPeerGroups. If set to
         uint32 peerToPeerGroupCount = 9;
-        // Whether to use the Metal ray tracing backend on devices with support for it.
-        bool useMetalRayTracing = 10;
     }
 
     // Response packet corresponding to '[out] parameters in 'ApiRenderEngine::setDevicesActivity'
@@ -1525,18 +1523,6 @@ message ApiRenderEngine
         
         Uint2ArrayT result = 1;
         uint32 groupCount = 2;
-    }
-
-    // Request packet corresponding to '[in] parameters in ApiRenderEngine::hardwareRayTracingEnabled'
-    message hardwareRayTracingEnabledRequest
-    {
-    }
-
-    // Response packet corresponding to '[out] parameters in 'ApiRenderEngine::hardwareRayTracingEnabled'
-    message hardwareRayTracingEnabledResponse
-    {
-        
-        bool result = 1;
     }
 
     // Request packet corresponding to '[in] parameters in ApiRenderEngine::openDeviceSettings'
@@ -2160,8 +2146,6 @@ service ApiRenderEngineService
     rpc setRenderPriority(ApiRenderEngine.setRenderPriorityRequest) returns (google.protobuf.Empty);
     /// Returns the current peer-to-peer configuration
     rpc currentPeerToPeerGroups(ApiRenderEngine.currentPeerToPeerGroupsRequest) returns (ApiRenderEngine.currentPeerToPeerGroupsResponse);
-    /// Returns TRUE if hardware raytracing is currently enabled for all devices with support for it
-    rpc hardwareRayTracingEnabled(ApiRenderEngine.hardwareRayTracingEnabledRequest) returns (ApiRenderEngine.hardwareRayTracingEnabledResponse);
     /// Opens a modal dialog to allow the user to set devices configuration
     rpc openDeviceSettings(ApiRenderEngine.openDeviceSettingsRequest) returns (google.protobuf.Empty);
     /// Returns the state of the device
@@ -2240,7 +2224,7 @@ service ApiRenderEngineService
     /// Modifies a cryptomatte matte selection string (e
     rpc modifyCryptomatteMatteSelection(ApiRenderEngine.modifyCryptomatteMatteSelectionRequest) returns (ApiRenderEngine.modifyCryptomatteMatteSelectionResponse);
     /// Returns a human readable string for a render priority
-    //rpc toString(ApiRenderEngine.toStringRequest) returns (ApiRenderEngine.toStringResponse);
+    rpc toString(ApiRenderEngine.toStringRequest) returns (ApiRenderEngine.toStringResponse);
     /// Returns PCI bus and device ids of the device
     ///
     /// 

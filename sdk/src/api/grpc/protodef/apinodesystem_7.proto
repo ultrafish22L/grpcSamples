@@ -345,7 +345,6 @@ message ApiNode
         //     The created item or NULL if the node could not be created.
         ObjectRef result = 1;
     }
-    // Request packet corresponding to '[in] parameters in ApiNode::create'
     message createRequest
     {
         // The type of the node to create.
@@ -415,905 +414,46 @@ message ApiNode
         bool result = 1;
         uint32 foundIndex = 2;
     }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinBool1'
-    message getPinBool1Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinBool1'
-    message getPinBool1Response
-    {
-        
-        bool result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinBoolIx'
-    message getPinBoolIxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinBoolIx'
-    message getPinBoolIxResponse
-    {
-        
-        bool result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinBool'
-    message getPinBoolRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinBool'
-    message getPinBoolResponse
-    {
-        
-        bool result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFilePath1'
-    message getPinFilePath1Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFilePath1'
-    message getPinFilePath1Response
-    {
-        
-        ApiFilePath result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFilePathIx'
-    message getPinFilePathIxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFilePathIx'
-    message getPinFilePathIxResponse
-    {
-        
-        ApiFilePath result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFilePath'
-    message getPinFilePathRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFilePath'
-    message getPinFilePathResponse
-    {
-        
-        ApiFilePath result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat1'
-    message getPinFloat1Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat1'
-    message getPinFloat1Response
-    {
-        
-        float result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat21'
-    message getPinFloat21Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat21'
-    message getPinFloat21Response
-    {
-        
-        float_2 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat2Ix'
-    message getPinFloat2IxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat2Ix'
-    message getPinFloat2IxResponse
-    {
-        
-        float_2 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat2'
-    message getPinFloat2Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat2'
-    message getPinFloat2Response
-    {
-        
-        float_2 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat31'
-    message getPinFloat31Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat31'
-    message getPinFloat31Response
-    {
-        
-        float_3 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat3Ix'
-    message getPinFloat3IxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat3Ix'
-    message getPinFloat3IxResponse
-    {
-        
-        float_3 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat3'
-    message getPinFloat3Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat3'
-    message getPinFloat3Response
-    {
-        
-        float_3 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat41'
-    message getPinFloat41Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat41'
-    message getPinFloat41Response
-    {
-        
-        float_4 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat4Ix'
-    message getPinFloat4IxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat4Ix'
-    message getPinFloat4IxResponse
-    {
-        
-        float_4 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat4'
-    message getPinFloat4Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat4'
-    message getPinFloat4Response
-    {
-        
-        float_4 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloatIx'
-    message getPinFloatIxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloatIx'
-    message getPinFloatIxResponse
-    {
-        
-        float result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinFloat'
-    message getPinFloatRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinFloat'
-    message getPinFloatResponse
-    {
-        
-        float result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt1'
-    message getPinInt1Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt1'
-    message getPinInt1Response
-    {
-        
-        int32 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt21'
-    message getPinInt21Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt21'
-    message getPinInt21Response
-    {
-        
-        int32_2 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt2Ix'
-    message getPinInt2IxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt2Ix'
-    message getPinInt2IxResponse
-    {
-        
-        int32_2 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt2'
-    message getPinInt2Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt2'
-    message getPinInt2Response
-    {
-        
-        int32_2 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt31'
-    message getPinInt31Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt31'
-    message getPinInt31Response
-    {
-        
-        int32_3 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt3Ix'
-    message getPinInt3IxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt3Ix'
-    message getPinInt3IxResponse
-    {
-        
-        int32_3 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt3'
-    message getPinInt3Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt3'
-    message getPinInt3Response
-    {
-        
-        int32_3 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt41'
-    message getPinInt41Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt41'
-    message getPinInt41Response
-    {
-        
-        int32_4 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt4Ix'
-    message getPinInt4IxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt4Ix'
-    message getPinInt4IxResponse
-    {
-        
-        int32_4 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt4'
-    message getPinInt4Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt4'
-    message getPinInt4Response
-    {
-        
-        int32_4 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinIntIx'
-    message getPinIntIxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinIntIx'
-    message getPinIntIxResponse
-    {
-        
-        int32 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinInt'
-    message getPinIntRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinInt'
-    message getPinIntResponse
-    {
-        
-        int32 result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinMatrix1'
-    message getPinMatrix1Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinMatrix1'
-    message getPinMatrix1Response
-    {
-        
-        MatrixF result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinMatrixIx'
-    message getPinMatrixIxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinMatrixIx'
-    message getPinMatrixIxResponse
-    {
-        
-        MatrixF result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinMatrix'
-    message getPinMatrixRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinMatrix'
-    message getPinMatrixResponse
-    {
-        
-        MatrixF result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinString1'
-    message getPinString1Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinString1'
-    message getPinString1Response
-    {
-        
-        string result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinStringIx'
-    message getPinStringIxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinStringIx'
-    message getPinStringIxResponse
-    {
-        
-        string result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinString'
-    message getPinStringRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinString'
-    message getPinStringResponse
-    {
-        
-        string result = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue10'
-    message getPinValue10Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue10'
-    message getPinValue10Response
-    {
-        string value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue11'
-    message getPinValue11Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue11'
-    message getPinValue11Response
-    {
-        ApiFilePath value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue12'
-    message getPinValue12Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue12'
-    message getPinValue12Response
-    {
-        bool value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue13'
-    message getPinValue13Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue13'
-    message getPinValue13Response
-    {
-        float value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue14'
-    message getPinValue14Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue14'
-    message getPinValue14Response
-    {
-        float_2 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue15'
-    message getPinValue15Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue15'
-    message getPinValue15Response
-    {
-        float_3 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue16'
-    message getPinValue16Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue16'
-    message getPinValue16Response
-    {
-        float_4 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue17'
-    message getPinValue17Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue17'
-    message getPinValue17Response
-    {
-        int32 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue18'
-    message getPinValue18Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue18'
-    message getPinValue18Response
-    {
-        int32_2 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue19'
-    message getPinValue19Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue19'
-    message getPinValue19Response
-    {
-        int32_3 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue1'
-    message getPinValue1Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue1'
-    message getPinValue1Response
-    {
-        float value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue20'
-    message getPinValue20Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue20'
-    message getPinValue20Response
-    {
-        int32_4 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue21'
-    message getPinValue21Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue21'
-    message getPinValue21Response
-    {
-        MatrixF value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue22'
-    message getPinValue22Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue22'
-    message getPinValue22Response
-    {
-        string value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue23'
-    message getPinValue23Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue23'
-    message getPinValue23Response
-    {
-        ApiFilePath value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue2'
-    message getPinValue2Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue2'
-    message getPinValue2Response
-    {
-        float_2 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue3'
-    message getPinValue3Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue3'
-    message getPinValue3Response
-    {
-        float_3 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue4'
-    message getPinValue4Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue4'
-    message getPinValue4Response
-    {
-        float_4 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue5'
-    message getPinValue5Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue5'
-    message getPinValue5Response
-    {
-        int32 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue6'
-    message getPinValue6Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue6'
-    message getPinValue6Response
-    {
-        int32_2 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue7'
-    message getPinValue7Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue7'
-    message getPinValue7Response
-    {
-        int32_3 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue8'
-    message getPinValue8Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue8'
-    message getPinValue8Response
-    {
-        int32_4 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue9'
-    message getPinValue9Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue9'
-    message getPinValue9Response
-    {
-        MatrixF value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx10'
-    message getPinValueIx10Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx10'
-    message getPinValueIx10Response
-    {
-        string value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx11'
-    message getPinValueIx11Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx11'
-    message getPinValueIx11Response
-    {
-        ApiFilePath value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx1'
-    message getPinValueIx1Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx1'
-    message getPinValueIx1Response
-    {
-        float value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx2'
-    message getPinValueIx2Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx2'
-    message getPinValueIx2Response
-    {
-        float_2 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx3'
-    message getPinValueIx3Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx3'
-    message getPinValueIx3Response
-    {
-        float_3 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx4'
-    message getPinValueIx4Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx4'
-    message getPinValueIx4Response
-    {
-        float_4 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx5'
-    message getPinValueIx5Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx5'
-    message getPinValueIx5Response
-    {
-        int32 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx6'
-    message getPinValueIx6Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx6'
-    message getPinValueIx6Response
-    {
-        int32_2 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx7'
-    message getPinValueIx7Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx7'
-    message getPinValueIx7Response
-    {
-        int32_3 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx8'
-    message getPinValueIx8Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx8'
-    message getPinValueIx8Response
-    {
-        int32_4 value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx9'
-    message getPinValueIx9Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx9'
-    message getPinValueIx9Response
-    {
-        MatrixF value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValueIx'
-    message getPinValueIxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValueIx'
-    message getPinValueIxResponse
-    {
-        bool value = 1;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::getPinValue'
-    message getPinValueRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-    }
-    // Response packet corresponding to '[out] parameters in 'ApiNode::getPinValue'
-    message getPinValueResponse
-    {
-        bool value = 1;
+    // --- For scalar retrieval --- 
+    message getPinValueByIDRequest 
+    {
+        ObjectRef       item_ref      = 1; // which object
+        PinId           pin_id  = 2; // which property inside the object
+        PinTypeId       expected_type = 3; // optional type enum for validation
+    }
+    message getPinValueByIxRequest 
+    {
+        ObjectRef       item_ref      = 1; // which object
+        uint32          index         = 2; // property index
+        PinTypeId       expected_type = 3; // optional
+    }
+    message getPinValueByNameRequest 
+    {
+        ObjectRef       item_ref      = 1; // which object
+        string          name          = 2; // property name
+        PinTypeId       expected_type = 3; // optional
+    }
+    // Response for "getPin" calls
+    message getPinValueByXResponse
+    {
+        oneof value 
+        {
+            // -- Scalar types --
+            bool       bool_value     = 10;
+            int32      int_value      = 11;
+            int32_2    int2_value     = 12;
+            int32_3    int3_value     = 13;
+            int32_4    int4_value     = 14;
+            int64      long_value     = 15;
+            int64_2    long2_value    = 16;
+            float      float_value    = 17;
+            float_2    float2_value   = 18;
+            float_3    float3_value   = 19;
+            float_4    float4_value   = 20;
+            MatrixF    matrix_value   = 21;
+            string     string_value   = 22;
+            ApiFilePath file_path_value  = 23;
+        }
     }
     // Request packet corresponding to '[in] parameters in ApiNode::hasPin1'
     message hasPin1Request
@@ -1721,330 +861,85 @@ message ApiNode
         
         bool result = 1;
     }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue10'
-    message setPinValue10Request
+    message setPinValueByIDRequest
     {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        string value = 3;
-        bool evaluate = 4;
+        ObjectRef    item_ref     = 1; 
+        PinId        pin_id = 2;
+        optional bool evaluate = 3;
+        oneof value 
+        {               
+            bool        bool_value       = 10;
+            int32       int_value        = 11;
+            int32_2     int2_value       = 12;
+            int32_3     int3_value       = 13;
+            int32_4     int4_value       = 14;
+            int64       long_value       = 15;
+            int64_2     long2_value      = 16;
+            float       float_value      = 17;
+            float_2     float2_value     = 18;
+            float_3     float3_value     = 19;
+            float_4     float4_value     = 20;
+            MatrixF     matrix_value     = 21;
+            string      string_value     = 22;
+            ApiFilePath file_path_value  = 23;
+            // If you have single "bytes" or other scalar variants, add them here
+        }
     }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue11'
-    message setPinValue11Request
+    // E) Index-based (scalar)
+    message setPinValueByIxRequest
     {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        ApiFilePath value = 3;
-        bool evaluate = 4;
+        ObjectRef item_ref = 1;
+        uint32    index    = 2;
+        optional bool evaluate = 3;
+        oneof value 
+        {
+            bool        bool_value     = 10;
+            int32       int_value      = 11;
+            int32_2     int2_value     = 12;
+            int32_3     int3_value     = 13;
+            int32_4     int4_value     = 14;
+            int64       long_value     = 15;
+            int64_2     long2_value    = 16;
+            float       float_value    = 17;
+            float_2     float2_value   = 18;
+            float_3     float3_value   = 19;
+            float_4     float4_value   = 20;
+            MatrixF     matrix_value   = 21;
+            string      string_value   = 22;
+            ApiFilePath file_path_value = 23;
+        }
     }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue12'
-    message setPinValue12Request
+    message setPinValueByNameRequest
     {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        bool value = 3;
-        bool evaluate = 4;
+        ObjectRef item_ref = 1;
+        string    name     = 2;
+        optional bool evaluate = 3;
+        oneof value 
+        {
+            bool        bool_value      = 10;
+            int32       int_value       = 11;
+            int32_2     int2_value      = 12;
+            int32_3     int3_value      = 13;
+            int32_4     int4_value      = 14;
+            int64       long_value      = 15;
+            int64_2     long2_value     = 16;
+            float       float_value     = 17;
+            float_2     float2_value    = 18;
+            float_3     float3_value    = 19;
+            float_4     float4_value    = 20;
+            MatrixF     matrix_value    = 21;
+            string      string_value    = 22;
+            ApiFilePath file_path_value = 23;
+        }
     }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue13'
-    message setPinValue13Request
+    // -----------------------------------------------------------------------------
+    // 5. Response definition
+    // -----------------------------------------------------------------------------
+    message setPinValueResponse 
     {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        float value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue14'
-    message setPinValue14Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        float_2 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue15'
-    message setPinValue15Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        float_3 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue16'
-    message setPinValue16Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        float_4 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue17'
-    message setPinValue17Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        int32 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue18'
-    message setPinValue18Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        int32_2 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue19'
-    message setPinValue19Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        int32_3 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue1'
-    message setPinValue1Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        float value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue20'
-    message setPinValue20Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        int32_4 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue21'
-    message setPinValue21Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        MatrixF value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue22'
-    message setPinValue22Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        string value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue23'
-    message setPinValue23Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        string name = 2;
-        ApiFilePath value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue2'
-    message setPinValue2Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        float_2 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue3'
-    message setPinValue3Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        float_3 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue4'
-    message setPinValue4Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        float_4 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue5'
-    message setPinValue5Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        int32 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue6'
-    message setPinValue6Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        int32_2 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue7'
-    message setPinValue7Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        int32_3 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue8'
-    message setPinValue8Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        int32_4 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue9'
-    message setPinValue9Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        MatrixF value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx10'
-    message setPinValueIx10Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        string value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx11'
-    message setPinValueIx11Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        ApiFilePath value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx1'
-    message setPinValueIx1Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        float value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx2'
-    message setPinValueIx2Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        float_2 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx3'
-    message setPinValueIx3Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        float_3 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx4'
-    message setPinValueIx4Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        float_4 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx5'
-    message setPinValueIx5Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        int32 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx6'
-    message setPinValueIx6Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        int32_2 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx7'
-    message setPinValueIx7Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        int32_3 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx8'
-    message setPinValueIx8Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        int32_4 value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx9'
-    message setPinValueIx9Request
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        MatrixF value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValueIx'
-    message setPinValueIxRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        uint32 index = 2;
-        bool value = 3;
-        bool evaluate = 4;
-    }
-    // Request packet corresponding to '[in] parameters in ApiNode::setPinValue'
-    message setPinValueRequest
-    {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
-        PinId id = 2;
-        bool value = 3;
-        bool evaluate = 4;
-    }
+        bool   success       = 1;
+        string error_message = 2; 
+    }    // Request packet corresponding to '[in] parameters in ApiNode::create'
     // Request packet corresponding to '[in] parameters in ApiNode::setTextureTypeConfiguration'
     message setTextureTypeConfigurationRequest
     {
@@ -2250,124 +1145,6 @@ service ApiNodeService
     rpc copyFrom1(ApiNode.copyFrom1Request) returns (ApiNode.copyFrom1Response);
     /// Same as above, but identifying the pin via its index
     rpc copyFromIx(ApiNode.copyFromIxRequest) returns (ApiNode.copyFromIxResponse);
-    /// Returns the value of a value node (skipping linker nodes) or the default
-    /// value of the pin if it's not connected to value node
-    rpc getPinBool(ApiNode.getPinBoolRequest) returns (ApiNode.getPinBoolResponse);
-    rpc getPinFloat(ApiNode.getPinFloatRequest) returns (ApiNode.getPinFloatResponse);
-    rpc getPinFloat2(ApiNode.getPinFloat2Request) returns (ApiNode.getPinFloat2Response);
-    rpc getPinFloat3(ApiNode.getPinFloat3Request) returns (ApiNode.getPinFloat3Response);
-    rpc getPinFloat4(ApiNode.getPinFloat4Request) returns (ApiNode.getPinFloat4Response);
-    rpc getPinInt(ApiNode.getPinIntRequest) returns (ApiNode.getPinIntResponse);
-    rpc getPinInt2(ApiNode.getPinInt2Request) returns (ApiNode.getPinInt2Response);
-    rpc getPinInt3(ApiNode.getPinInt3Request) returns (ApiNode.getPinInt3Response);
-    rpc getPinInt4(ApiNode.getPinInt4Request) returns (ApiNode.getPinInt4Response);
-    rpc getPinMatrix(ApiNode.getPinMatrixRequest) returns (ApiNode.getPinMatrixResponse);
-    rpc getPinString(ApiNode.getPinStringRequest) returns (ApiNode.getPinStringResponse);
-    rpc getPinFilePath(ApiNode.getPinFilePathRequest) returns (ApiNode.getPinFilePathResponse);
-    /// Same as above but identifies the pin via name
-    rpc getPinBool1(ApiNode.getPinBool1Request) returns (ApiNode.getPinBool1Response);
-    rpc getPinFloat1(ApiNode.getPinFloat1Request) returns (ApiNode.getPinFloat1Response);
-    rpc getPinFloat21(ApiNode.getPinFloat21Request) returns (ApiNode.getPinFloat21Response);
-    rpc getPinFloat31(ApiNode.getPinFloat31Request) returns (ApiNode.getPinFloat31Response);
-    rpc getPinFloat41(ApiNode.getPinFloat41Request) returns (ApiNode.getPinFloat41Response);
-    rpc getPinInt1(ApiNode.getPinInt1Request) returns (ApiNode.getPinInt1Response);
-    rpc getPinInt21(ApiNode.getPinInt21Request) returns (ApiNode.getPinInt21Response);
-    rpc getPinInt31(ApiNode.getPinInt31Request) returns (ApiNode.getPinInt31Response);
-    rpc getPinInt41(ApiNode.getPinInt41Request) returns (ApiNode.getPinInt41Response);
-    rpc getPinMatrix1(ApiNode.getPinMatrix1Request) returns (ApiNode.getPinMatrix1Response);
-    rpc getPinString1(ApiNode.getPinString1Request) returns (ApiNode.getPinString1Response);
-    rpc getPinFilePath1(ApiNode.getPinFilePath1Request) returns (ApiNode.getPinFilePath1Response);
-    /// Same as above but identifies the pin via index
-    rpc getPinBoolIx(ApiNode.getPinBoolIxRequest) returns (ApiNode.getPinBoolIxResponse);
-    rpc getPinFloatIx(ApiNode.getPinFloatIxRequest) returns (ApiNode.getPinFloatIxResponse);
-    rpc getPinFloat2Ix(ApiNode.getPinFloat2IxRequest) returns (ApiNode.getPinFloat2IxResponse);
-    rpc getPinFloat3Ix(ApiNode.getPinFloat3IxRequest) returns (ApiNode.getPinFloat3IxResponse);
-    rpc getPinFloat4Ix(ApiNode.getPinFloat4IxRequest) returns (ApiNode.getPinFloat4IxResponse);
-    rpc getPinIntIx(ApiNode.getPinIntIxRequest) returns (ApiNode.getPinIntIxResponse);
-    rpc getPinInt2Ix(ApiNode.getPinInt2IxRequest) returns (ApiNode.getPinInt2IxResponse);
-    rpc getPinInt3Ix(ApiNode.getPinInt3IxRequest) returns (ApiNode.getPinInt3IxResponse);
-    rpc getPinInt4Ix(ApiNode.getPinInt4IxRequest) returns (ApiNode.getPinInt4IxResponse);
-    rpc getPinMatrixIx(ApiNode.getPinMatrixIxRequest) returns (ApiNode.getPinMatrixIxResponse);
-    rpc getPinStringIx(ApiNode.getPinStringIxRequest) returns (ApiNode.getPinStringIxResponse);
-    rpc getPinFilePathIx(ApiNode.getPinFilePathIxRequest) returns (ApiNode.getPinFilePathIxResponse);
-    /// Returns the value in an out argument
-    rpc getPinValue(ApiNode.getPinValueRequest) returns (ApiNode.getPinValueResponse);
-    rpc getPinValue1(ApiNode.getPinValue1Request) returns (ApiNode.getPinValue1Response);
-    rpc getPinValue2(ApiNode.getPinValue2Request) returns (ApiNode.getPinValue2Response);
-    rpc getPinValue3(ApiNode.getPinValue3Request) returns (ApiNode.getPinValue3Response);
-    rpc getPinValue4(ApiNode.getPinValue4Request) returns (ApiNode.getPinValue4Response);
-    rpc getPinValue5(ApiNode.getPinValue5Request) returns (ApiNode.getPinValue5Response);
-    rpc getPinValue6(ApiNode.getPinValue6Request) returns (ApiNode.getPinValue6Response);
-    rpc getPinValue7(ApiNode.getPinValue7Request) returns (ApiNode.getPinValue7Response);
-    rpc getPinValue8(ApiNode.getPinValue8Request) returns (ApiNode.getPinValue8Response);
-    rpc getPinValue9(ApiNode.getPinValue9Request) returns (ApiNode.getPinValue9Response);
-    rpc getPinValue10(ApiNode.getPinValue10Request) returns (ApiNode.getPinValue10Response);
-    rpc getPinValue11(ApiNode.getPinValue11Request) returns (ApiNode.getPinValue11Response);
-    /// Same as above but identifies the pin via name
-    rpc getPinValue12(ApiNode.getPinValue12Request) returns (ApiNode.getPinValue12Response);
-    rpc getPinValue13(ApiNode.getPinValue13Request) returns (ApiNode.getPinValue13Response);
-    rpc getPinValue14(ApiNode.getPinValue14Request) returns (ApiNode.getPinValue14Response);
-    rpc getPinValue15(ApiNode.getPinValue15Request) returns (ApiNode.getPinValue15Response);
-    rpc getPinValue16(ApiNode.getPinValue16Request) returns (ApiNode.getPinValue16Response);
-    rpc getPinValue17(ApiNode.getPinValue17Request) returns (ApiNode.getPinValue17Response);
-    rpc getPinValue18(ApiNode.getPinValue18Request) returns (ApiNode.getPinValue18Response);
-    rpc getPinValue19(ApiNode.getPinValue19Request) returns (ApiNode.getPinValue19Response);
-    rpc getPinValue20(ApiNode.getPinValue20Request) returns (ApiNode.getPinValue20Response);
-    rpc getPinValue21(ApiNode.getPinValue21Request) returns (ApiNode.getPinValue21Response);
-    rpc getPinValue22(ApiNode.getPinValue22Request) returns (ApiNode.getPinValue22Response);
-    rpc getPinValue23(ApiNode.getPinValue23Request) returns (ApiNode.getPinValue23Response);
-    /// Same as above but identifies the pin via index
-    rpc getPinValueIx(ApiNode.getPinValueIxRequest) returns (ApiNode.getPinValueIxResponse);
-    rpc getPinValueIx1(ApiNode.getPinValueIx1Request) returns (ApiNode.getPinValueIx1Response);
-    rpc getPinValueIx2(ApiNode.getPinValueIx2Request) returns (ApiNode.getPinValueIx2Response);
-    rpc getPinValueIx3(ApiNode.getPinValueIx3Request) returns (ApiNode.getPinValueIx3Response);
-    rpc getPinValueIx4(ApiNode.getPinValueIx4Request) returns (ApiNode.getPinValueIx4Response);
-    rpc getPinValueIx5(ApiNode.getPinValueIx5Request) returns (ApiNode.getPinValueIx5Response);
-    rpc getPinValueIx6(ApiNode.getPinValueIx6Request) returns (ApiNode.getPinValueIx6Response);
-    rpc getPinValueIx7(ApiNode.getPinValueIx7Request) returns (ApiNode.getPinValueIx7Response);
-    rpc getPinValueIx8(ApiNode.getPinValueIx8Request) returns (ApiNode.getPinValueIx8Response);
-    rpc getPinValueIx9(ApiNode.getPinValueIx9Request) returns (ApiNode.getPinValueIx9Response);
-    rpc getPinValueIx10(ApiNode.getPinValueIx10Request) returns (ApiNode.getPinValueIx10Response);
-    rpc getPinValueIx11(ApiNode.getPinValueIx11Request) returns (ApiNode.getPinValueIx11Response);
-    /// Sets a connected node's value attribute through a pin
-    rpc setPinValue(ApiNode.setPinValueRequest) returns (google.protobuf.Empty);
-    rpc setPinValue1(ApiNode.setPinValue1Request) returns (google.protobuf.Empty);
-    rpc setPinValue2(ApiNode.setPinValue2Request) returns (google.protobuf.Empty);
-    rpc setPinValue3(ApiNode.setPinValue3Request) returns (google.protobuf.Empty);
-    rpc setPinValue4(ApiNode.setPinValue4Request) returns (google.protobuf.Empty);
-    rpc setPinValue5(ApiNode.setPinValue5Request) returns (google.protobuf.Empty);
-    rpc setPinValue6(ApiNode.setPinValue6Request) returns (google.protobuf.Empty);
-    rpc setPinValue7(ApiNode.setPinValue7Request) returns (google.protobuf.Empty);
-    rpc setPinValue8(ApiNode.setPinValue8Request) returns (google.protobuf.Empty);
-    rpc setPinValue9(ApiNode.setPinValue9Request) returns (google.protobuf.Empty);
-    rpc setPinValue10(ApiNode.setPinValue10Request) returns (google.protobuf.Empty);
-    rpc setPinValue11(ApiNode.setPinValue11Request) returns (google.protobuf.Empty);
-    /// Same as above but identifies the pin via name
-    rpc setPinValue12(ApiNode.setPinValue12Request) returns (google.protobuf.Empty);
-    rpc setPinValue13(ApiNode.setPinValue13Request) returns (google.protobuf.Empty);
-    rpc setPinValue14(ApiNode.setPinValue14Request) returns (google.protobuf.Empty);
-    rpc setPinValue15(ApiNode.setPinValue15Request) returns (google.protobuf.Empty);
-    rpc setPinValue16(ApiNode.setPinValue16Request) returns (google.protobuf.Empty);
-    rpc setPinValue17(ApiNode.setPinValue17Request) returns (google.protobuf.Empty);
-    rpc setPinValue18(ApiNode.setPinValue18Request) returns (google.protobuf.Empty);
-    rpc setPinValue19(ApiNode.setPinValue19Request) returns (google.protobuf.Empty);
-    rpc setPinValue20(ApiNode.setPinValue20Request) returns (google.protobuf.Empty);
-    rpc setPinValue21(ApiNode.setPinValue21Request) returns (google.protobuf.Empty);
-    rpc setPinValue22(ApiNode.setPinValue22Request) returns (google.protobuf.Empty);
-    rpc setPinValue23(ApiNode.setPinValue23Request) returns (google.protobuf.Empty);
-    /// Same as above but identifies the pin via index
-    rpc setPinValueIx(ApiNode.setPinValueIxRequest) returns (google.protobuf.Empty);
-    rpc setPinValueIx1(ApiNode.setPinValueIx1Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx2(ApiNode.setPinValueIx2Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx3(ApiNode.setPinValueIx3Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx4(ApiNode.setPinValueIx4Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx5(ApiNode.setPinValueIx5Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx6(ApiNode.setPinValueIx6Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx7(ApiNode.setPinValueIx7Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx8(ApiNode.setPinValueIx8Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx9(ApiNode.setPinValueIx9Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx10(ApiNode.setPinValueIx10Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx11(ApiNode.setPinValueIx11Request) returns (google.protobuf.Empty);
     /// Opens a UI to allow the user choose where and how the specified node should be stored
     rpc storeToDb(ApiNode.storeToDbRequest) returns (ApiNode.storeToDbResponse);
     /// Show the OSL editor window for this node
@@ -2379,5 +1156,14 @@ service ApiNodeService
     /// Unpack all file data of the node that is coming from an ORBX package and optionally the file
     /// data of its input nodes
     rpc unpackFileData(ApiNode.unpackFileDataRequest) returns (ApiNode.unpackFileDataResponse);
+
+    rpc getPinValueByPinID(ApiNode.getPinValueByIDRequest) returns (ApiNode.getPinValueByXResponse);
+    rpc getPinValueByName(ApiNode.getPinValueByNameRequest) returns (ApiNode.getPinValueByXResponse);
+    rpc getPinValueByIx(ApiNode.getPinValueByIxRequest)     returns (ApiNode.getPinValueByXResponse);
+
+    rpc setPinValueByPinID(ApiNode.setPinValueByIDRequest)      returns (ApiNode.setPinValueResponse);
+    rpc setPinValueByName(ApiNode.setPinValueByNameRequest)      returns (ApiNode.setPinValueResponse);
+    rpc setPinValueByIx(ApiNode.setPinValueByIxRequest)          returns (ApiNode.setPinValueResponse);
+
 }
 

@@ -3165,7 +3165,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MatrixArrayTDefaultTypeInternal _MatrixArrayT_default_instance_;
 }  // namespace octaneapi
 static const ::_pb::EnumDescriptor* PROTOBUF_NONNULL
-    file_level_enum_descriptors_common_2eproto[4];
+    file_level_enum_descriptors_common_2eproto[5];
 static constexpr const ::_pb::ServiceDescriptor *PROTOBUF_NONNULL *PROTOBUF_NULLABLE
     file_level_service_descriptors_common_2eproto = nullptr;
 const ::uint32_t
@@ -4404,14 +4404,20 @@ const char descriptor_table_protodef_common_2eproto[] ABSL_ATTRIBUTE_SECTION_VAR
     "ATTR_ID_LONG\020\007\022\021\n\rATTR_ID_LONG2\020\010\022\021\n\rATT"
     "R_ID_FLOAT\020\t\022\022\n\016ATTR_ID_FLOAT2\020Z\022\022\n\016ATTR"
     "_ID_FLOAT3\020\013\022\022\n\016ATTR_ID_FLOAT4\020\014\022\022\n\016ATTR"
-    "_ID_MATRIX\020\r\022\022\n\016ATTR_ID_STRING\020\016B\002H\002b\006pr"
-    "oto3"
+    "_ID_MATRIX\020\r\022\022\n\016ATTR_ID_STRING\020\016*\214\002\n\tPin"
+    "TypeId\022\024\n\020PIN_ID_UNDEFINED\020\000\022\017\n\013PIN_ID_B"
+    "OOL\020\001\022\017\n\013PIN_ID_BYTE\020\002\022\016\n\nPIN_ID_INT\020\003\022\017"
+    "\n\013PIN_ID_INT2\020\004\022\017\n\013PIN_ID_INT3\020\005\022\017\n\013PIN_"
+    "ID_INT4\020\006\022\020\n\014PIN_ID_FLOAT\020\t\022\021\n\rPIN_ID_FL"
+    "OAT2\020Z\022\021\n\rPIN_ID_FLOAT3\020\013\022\021\n\rPIN_ID_FLOA"
+    "T4\020\014\022\021\n\rPIN_ID_MATRIX\020\r\022\021\n\rPIN_ID_STRING"
+    "\020\016\022\023\n\017PIN_ID_FILEPATH\020\017B\002H\002b\006proto3"
 };
 static ::absl::once_flag descriptor_table_common_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_common_2eproto = {
     false,
     false,
-    8924,
+    9195,
     descriptor_table_protodef_common_2eproto,
     "common.proto",
     &descriptor_table_common_2eproto_once,
@@ -4449,6 +4455,12 @@ const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL AttributeTypeId_descr
 }
 PROTOBUF_CONSTINIT const uint32_t AttributeTypeId_internal_data_[] = {
     655360u, 65568u, 30u, 90u, };
+const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL PinTypeId_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_common_2eproto);
+  return file_level_enum_descriptors_common_2eproto[4];
+}
+PROTOBUF_CONSTINIT const uint32_t PinTypeId_internal_data_[] = {
+    458752u, 65568u, 500u, 90u, };
 // ===================================================================
 
 class ObjectRef::_Internal {

@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 //////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
@@ -77,18 +77,15 @@ void ApiCustomCurveEditorControllerProxy::setBounds(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -129,18 +126,15 @@ void ApiCustomCurveEditorControllerProxy::onButtonClick(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -181,18 +175,15 @@ void ApiCustomCurveEditorControllerProxy::onKeyPress(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -234,18 +225,15 @@ void ApiCustomCurveEditorControllerProxy::onMouseMove(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -278,18 +266,15 @@ void ApiCustomCurveEditorControllerProxy::onMouseExit()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -343,18 +328,15 @@ bool ApiCustomCurveEditorControllerProxy::onMouseDown(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -397,18 +379,15 @@ void ApiCustomCurveEditorControllerProxy::onMouseUp(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -452,18 +431,15 @@ void ApiCustomCurveEditorControllerProxy::draw(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 

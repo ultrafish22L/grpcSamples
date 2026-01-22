@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 //////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
@@ -66,18 +66,15 @@ bool ApiNetRenderManagerProxy::configure(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -107,18 +104,15 @@ Octane::NetRenderSettings ApiNetRenderManagerProxy::configuration()
         octaneapi::NetRenderSettings resultOut = response.result();
         NetRenderSettingsConverter::convert(resultOut, retVal);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -151,18 +145,15 @@ void ApiNetRenderManagerProxy::enable(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -191,18 +182,15 @@ bool ApiNetRenderManagerProxy::isSupported()
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -232,18 +220,15 @@ bool ApiNetRenderManagerProxy::isEnabled()
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -268,18 +253,15 @@ void ApiNetRenderManagerProxy::saveConfiguration()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -303,18 +285,15 @@ void ApiNetRenderManagerProxy::openOctanePreferences()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -343,18 +322,15 @@ size_t ApiNetRenderManagerProxy::networkInterfaceCount()
         uint32_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -392,18 +368,15 @@ Octane::NetInterfaceInfo ApiNetRenderManagerProxy::networkInterface(
         octaneapi::NetInterfaceInfo resultOut = response.result();
         NetInterfaceInfoConverter::convert(resultOut, retVal);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -446,18 +419,15 @@ void ApiNetRenderManagerProxy::setNetStatusListener(
         // set callback Id CallbackStorage::registerOnStatusUpdate( response.callbackid(), callback);
         CallbackStorage::registerOnStatusUpdate( response.callbackid(), callback);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -486,18 +456,15 @@ Octane::NetRenderStatus ApiNetRenderManagerProxy::status()
         octaneapi::NetRenderStatus resultOut = response.result();
         NetRenderStatusConverter::convert(resultOut, retVal);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -540,18 +507,15 @@ void ApiNetRenderManagerProxy::setDaemonListener(
         // set callback Id CallbackStorage::registerOnDaemonUpdate( response.callbackid(), callback);
         CallbackStorage::registerOnDaemonUpdate( response.callbackid(), callback);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -588,18 +552,15 @@ bool ApiNetRenderManagerProxy::bindDaemon(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -632,18 +593,15 @@ void ApiNetRenderManagerProxy::unbindDaemon(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -680,18 +638,15 @@ bool ApiNetRenderManagerProxy::stealDaemon(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };

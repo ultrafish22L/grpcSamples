@@ -1,18 +1,10 @@
 # empty-module/CMakeLists.txt
 
 set(THIRD_PARTY_INCLUDE_DIR
-${CMAKE_SOURCE_DIR}/../libraries/libcommon
-${CMAKE_SOURCE_DIR}/../src/globals
-${CMAKE_SOURCE_DIR}/../src/api
-${CMAKE_SOURCE_DIR}/../src/api/module
-${CMAKE_SOURCE_DIR}/../src/api/module/gui
 ${CMAKE_SOURCE_DIR}/../src/api/grpc/protoc
-${CMAKE_SOURCE_DIR}/../src/api/grpc/converters
-${CMAKE_SOURCE_DIR}/../src/api/grpc/client
 ${CMAKE_SOURCE_DIR}/../src/api/grpc
 ${CMAKE_SOURCE_DIR}/../
-${CMAKE_SOURCE_DIR}/../src/api/ui
-${CMAKE_SOURCE_DIR}/grpcproxy
+
 ${CMAKE_SOURCE_DIR}/../thirdparty/grpc/${THIRDPARTY_PLATFORM}/include
 )
 
@@ -37,7 +29,6 @@ endif()
 
 target_link_libraries(renderexample_app
   PRIVATE
-    grpcproxylib 
     ${GRPC_LIB}
     ${PROTOBUF_LIB}
     ${RE2_LIB}

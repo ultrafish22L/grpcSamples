@@ -127,7 +127,7 @@ function NodeParameter({
         // Pass just the handle string - callApi will wrap it in objectPtr automatically
         const response = await client.callApi(
           'ApiItem',
-          'getByAttrID',
+          'getValueByAttrID',
           node.handle,  // Pass handle as string
           {
             attribute_id: AttributeId.A_VALUE, // 185 - Use constant instead of hardcoded value

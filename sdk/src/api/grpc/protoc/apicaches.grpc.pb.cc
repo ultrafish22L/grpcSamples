@@ -26,6 +26,9 @@ static const char* ApiCachesService_method_names[] = {
   "/octaneapi.ApiCachesService/getMeshletCacheSize",
   "/octaneapi.ApiCachesService/getMeshletCacheUsedSize",
   "/octaneapi.ApiCachesService/clearMeshletCache",
+  "/octaneapi.ApiCachesService/hasMeshletCacheFile",
+  "/octaneapi.ApiCachesService/checkMeshletBuildStatus",
+  "/octaneapi.ApiCachesService/clearMeshletCacheFileForNode",
   "/octaneapi.ApiCachesService/getVirtualTextureCacheSize",
   "/octaneapi.ApiCachesService/getVirtualTextureCacheUsedSize",
   "/octaneapi.ApiCachesService/pruneVirtualTextureCache",
@@ -43,11 +46,14 @@ ApiCachesService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& c
   : channel_(channel), rpcmethod_getMeshletCacheSize_(ApiCachesService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_getMeshletCacheUsedSize_(ApiCachesService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_clearMeshletCache_(ApiCachesService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_getVirtualTextureCacheSize_(ApiCachesService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_getVirtualTextureCacheUsedSize_(ApiCachesService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_pruneVirtualTextureCache_(ApiCachesService_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_checkVirtualTextureStatus_(ApiCachesService_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_clearVirtualTextureCacheForNode_(ApiCachesService_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_hasMeshletCacheFile_(ApiCachesService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_checkMeshletBuildStatus_(ApiCachesService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_clearMeshletCacheFileForNode_(ApiCachesService_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getVirtualTextureCacheSize_(ApiCachesService_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getVirtualTextureCacheUsedSize_(ApiCachesService_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_pruneVirtualTextureCache_(ApiCachesService_method_names[8], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_checkVirtualTextureStatus_(ApiCachesService_method_names[9], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_clearVirtualTextureCacheForNode_(ApiCachesService_method_names[10], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status ApiCachesService::Stub::getMeshletCacheSize(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_getMeshletCacheSizeRequest& request, ::octaneapi::ApiCaches_getMeshletCacheSizeResponse* response) {
@@ -115,6 +121,75 @@ void ApiCachesService::Stub::async::clearMeshletCache(::grpc::ClientContext* con
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* ApiCachesService::Stub::AsyncclearMeshletCacheRaw(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_clearMeshletCacheRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncclearMeshletCacheRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status ApiCachesService::Stub::hasMeshletCacheFile(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_hasMeshletCacheFileRequest& request, ::octaneapi::ApiCaches_hasMeshletCacheFileResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiCaches_hasMeshletCacheFileRequest, ::octaneapi::ApiCaches_hasMeshletCacheFileResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_hasMeshletCacheFile_, context, request, response);
+}
+
+void ApiCachesService::Stub::async::hasMeshletCacheFile(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_hasMeshletCacheFileRequest* request, ::octaneapi::ApiCaches_hasMeshletCacheFileResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiCaches_hasMeshletCacheFileRequest, ::octaneapi::ApiCaches_hasMeshletCacheFileResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_hasMeshletCacheFile_, context, request, response, std::move(f));
+}
+
+void ApiCachesService::Stub::async::hasMeshletCacheFile(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_hasMeshletCacheFileRequest* request, ::octaneapi::ApiCaches_hasMeshletCacheFileResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_hasMeshletCacheFile_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiCaches_hasMeshletCacheFileResponse>* ApiCachesService::Stub::PrepareAsynchasMeshletCacheFileRaw(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_hasMeshletCacheFileRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiCaches_hasMeshletCacheFileResponse, ::octaneapi::ApiCaches_hasMeshletCacheFileRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_hasMeshletCacheFile_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiCaches_hasMeshletCacheFileResponse>* ApiCachesService::Stub::AsynchasMeshletCacheFileRaw(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_hasMeshletCacheFileRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsynchasMeshletCacheFileRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status ApiCachesService::Stub::checkMeshletBuildStatus(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest& request, ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest, ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_checkMeshletBuildStatus_, context, request, response);
+}
+
+void ApiCachesService::Stub::async::checkMeshletBuildStatus(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest* request, ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest, ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_checkMeshletBuildStatus_, context, request, response, std::move(f));
+}
+
+void ApiCachesService::Stub::async::checkMeshletBuildStatus(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest* request, ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_checkMeshletBuildStatus_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse>* ApiCachesService::Stub::PrepareAsynccheckMeshletBuildStatusRaw(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse, ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_checkMeshletBuildStatus_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse>* ApiCachesService::Stub::AsynccheckMeshletBuildStatusRaw(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsynccheckMeshletBuildStatusRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status ApiCachesService::Stub::clearMeshletCacheFileForNode(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest& request, ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest, ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_clearMeshletCacheFileForNode_, context, request, response);
+}
+
+void ApiCachesService::Stub::async::clearMeshletCacheFileForNode(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest* request, ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest, ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_clearMeshletCacheFileForNode_, context, request, response, std::move(f));
+}
+
+void ApiCachesService::Stub::async::clearMeshletCacheFileForNode(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest* request, ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_clearMeshletCacheFileForNode_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse>* ApiCachesService::Stub::PrepareAsyncclearMeshletCacheFileForNodeRaw(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse, ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_clearMeshletCacheFileForNode_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse>* ApiCachesService::Stub::AsyncclearMeshletCacheFileForNodeRaw(::grpc::ClientContext* context, const ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncclearMeshletCacheFileForNodeRaw(context, request, cq);
   result->StartCall();
   return result;
 }
@@ -268,6 +343,36 @@ ApiCachesService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ApiCachesService_method_names[3],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ApiCachesService::Service, ::octaneapi::ApiCaches_hasMeshletCacheFileRequest, ::octaneapi::ApiCaches_hasMeshletCacheFileResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ApiCachesService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::octaneapi::ApiCaches_hasMeshletCacheFileRequest* req,
+             ::octaneapi::ApiCaches_hasMeshletCacheFileResponse* resp) {
+               return service->hasMeshletCacheFile(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ApiCachesService_method_names[4],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ApiCachesService::Service, ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest, ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ApiCachesService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest* req,
+             ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse* resp) {
+               return service->checkMeshletBuildStatus(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ApiCachesService_method_names[5],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ApiCachesService::Service, ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest, ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ApiCachesService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest* req,
+             ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse* resp) {
+               return service->clearMeshletCacheFileForNode(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ApiCachesService_method_names[6],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiCachesService::Service, ::octaneapi::ApiCaches_getVirtualTextureCacheSizeRequest, ::octaneapi::ApiCaches_getVirtualTextureCacheSizeResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiCachesService::Service* service,
              ::grpc::ServerContext* ctx,
@@ -276,7 +381,7 @@ ApiCachesService::Service::Service() {
                return service->getVirtualTextureCacheSize(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiCachesService_method_names[4],
+      ApiCachesService_method_names[7],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiCachesService::Service, ::octaneapi::ApiCaches_getVirtualTextureCacheUsedSizeRequest, ::octaneapi::ApiCaches_getVirtualTextureCacheUsedSizeResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiCachesService::Service* service,
@@ -286,7 +391,7 @@ ApiCachesService::Service::Service() {
                return service->getVirtualTextureCacheUsedSize(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiCachesService_method_names[5],
+      ApiCachesService_method_names[8],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiCachesService::Service, ::octaneapi::ApiCaches_pruneVirtualTextureCacheRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiCachesService::Service* service,
@@ -296,7 +401,7 @@ ApiCachesService::Service::Service() {
                return service->pruneVirtualTextureCache(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiCachesService_method_names[6],
+      ApiCachesService_method_names[9],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiCachesService::Service, ::octaneapi::ApiCaches_checkVirtualTextureStatusRequest, ::octaneapi::ApiCaches_checkVirtualTextureStatusResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiCachesService::Service* service,
@@ -306,7 +411,7 @@ ApiCachesService::Service::Service() {
                return service->checkVirtualTextureStatus(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiCachesService_method_names[7],
+      ApiCachesService_method_names[10],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiCachesService::Service, ::octaneapi::ApiCaches_clearVirtualTextureCacheForNodeRequest, ::octaneapi::ApiCaches_clearVirtualTextureCacheForNodeResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiCachesService::Service* service,
@@ -335,6 +440,27 @@ ApiCachesService::Service::~Service() {
 }
 
 ::grpc::Status ApiCachesService::Service::clearMeshletCache(::grpc::ServerContext* context, const ::octaneapi::ApiCaches_clearMeshletCacheRequest* request, ::google::protobuf::Empty* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ApiCachesService::Service::hasMeshletCacheFile(::grpc::ServerContext* context, const ::octaneapi::ApiCaches_hasMeshletCacheFileRequest* request, ::octaneapi::ApiCaches_hasMeshletCacheFileResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ApiCachesService::Service::checkMeshletBuildStatus(::grpc::ServerContext* context, const ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest* request, ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ApiCachesService::Service::clearMeshletCacheFileForNode(::grpc::ServerContext* context, const ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest* request, ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse* response) {
   (void) context;
   (void) request;
   (void) response;

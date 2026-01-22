@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef _OCTANEENUMS_H_
 #define _OCTANEENUMS_H_ 1
@@ -280,6 +280,10 @@ enum BlendMode
     /// Offset added to blend mode values stored in an NT_BLENDING_SETTINGS node to signify that the
     /// blend operation is not HDR.
     BLEND_MODE_SDR_OFFSET              = 2000,
+
+    /// Offset added to blend mode values stored in an NT_BLENDING_SETTINGS node to signify that the
+    /// background and foreground inputs should be swapped.
+    BLEND_MODE_REVERSE_OFFSET          = 4000,
 };
 
 
@@ -305,7 +309,9 @@ enum BxDFDiffuseModel
     /// Lambertian diffuse lobe (cosine lobe)
     BxDF_DIFFUSE_LAMBERTIAN = 1,
     /// Oren-nayar diffuse lobe, used in diffuse material
-    BxDF_DIFFUSE_OREN_NAYAR = 2
+    BxDF_DIFFUSE_OREN_NAYAR = 2,
+    /// Energy Preserving Oren-nayar diffuse lobe, used in diffuse material
+    BxDF_DIFFUSE_EON = 3
 };
 
 
@@ -324,6 +330,16 @@ enum BxDFSpecularModel
     BxDF_SPECULAR_ENERGY_PRESERVED_GGX = 6,
     /// Student's T distribution
     BxDF_SPECULAR_STD                  = 7,
+};
+
+
+/// Sheen BxDF models supported by Octane
+enum BxDFSheenModel
+{
+    /// Sheen lobe
+    BxDF_SHEEN = 10 /* MATERIAL_SHEEN_BRDF */,
+    /// Multi-scattering micro-flake sheen model (first introduced by OpenPBR)
+    BxDF_FUZZ  = 19 /* MATERIAL_FUZZ_BRDF */
 };
 
 
@@ -936,12 +952,21 @@ enum DispersionModel
 /// The levels of details we currently support in displacement mapping.
 enum DisplacementLod
 {
-    DISPLACEMENT_LEVEL_256  = 8,
-    DISPLACEMENT_LEVEL_512  = 9,
-    DISPLACEMENT_LEVEL_1024 = 10,
-    DISPLACEMENT_LEVEL_2048 = 11,
-    DISPLACEMENT_LEVEL_4096 = 12,
-    DISPLACEMENT_LEVEL_8192 = 13,
+    DISPLACEMENT_LEVEL_256   = 8,
+    DISPLACEMENT_LEVEL_512   = 9,
+    DISPLACEMENT_LEVEL_1024  = 10,
+    DISPLACEMENT_LEVEL_2048  = 11,
+    DISPLACEMENT_LEVEL_4096  = 12,
+    DISPLACEMENT_LEVEL_8192  = 13,
+    DISPLACEMENT_LEVEL_16384 = 14,
+};
+
+
+/// Quality of the displacement mapping. Normal corresponds to the legacy displacement. 
+enum DisplacementQuality
+{
+    DISPLACEMENT_QUALITY_NORMAL = 0,
+    DISPLACEMENT_QUALITY_HIGH   = 1,
 };
 
 
@@ -996,7 +1021,19 @@ enum DistanceMode
 };
 
 
-/// states a scene export can be.
+/// RGB mode used by NT_OUTPUT_AOV_LAYER_EXPAND_CONTRACT. This determines how to how to treat the
+/// RGB channels (the alpha channel is always treated as a mask).
+enum ExpandContractRgbMode
+{
+    /// Expand/contract the alpha channel as usual, then update the RGB channels to match the new
+    /// alpha values. This should be used for a regular color image.
+    EXPAND_CONTRACT_RGB_MODE_COLOR = 0,
+    /// Expand/contract each of the four RGBA channels separately, as four independent masks.
+    EXPAND_CONTRACT_RGB_MODE_MASKS = 1,
+};
+
+
+/// States a scene export can be.
 enum ExportState
 {
     /// The export hasn't started yet or was reset.
@@ -1569,6 +1606,18 @@ enum LightPassMask
 };
 
 
+/// The types of light sampler we use for rendering
+enum LightSampler
+{
+    /// Power based sampling
+    LIGHT_SAMPLER_POWER     = 0,
+    /// AI light sampling
+    LIGHT_SAMPLER_AILIGHT   = 1,
+    /// Light BVH sampling
+    LIGHT_SAMPLER_LIGHTBVH  = 2
+};
+
+
 /// The available views for thumbnails of liveDB material and texture macros.
 enum LiveDbThumbnailView
 {
@@ -1851,6 +1900,20 @@ enum UnblendExtractMode
 };
 
 
+/// Output color ranges for the unblend and reblend output AOV layers.
+enum UnblendOutputColorRange
+{
+    /// No negative RGB components in ACES2065-1 (and no negative luminance).
+    UNBLEND_OUTPUT_COLOR_RANGE_HDR_UNLIMITED = 0,
+    /// No negative RGB components in ACEScg (and no negative luminance).
+    UNBLEND_OUTPUT_COLOR_RANGE_HDR_ACESCG_GAMUT = 1,
+    /// No negative RGB components in linear sRGB.
+    UNBLEND_OUTPUT_COLOR_RANGE_HDR_SRGB_GAMUT = 2,
+    /// All RGB components in the range [0, 1] in linear sRGB.
+    UNBLEND_OUTPUT_COLOR_RANGE_SDR_SRGB = 3,
+};
+
+
 /// The different modes we currently support in the panoramic camera. The value is set in the
 /// pin P_CAMERA_MODE of the node NT_CAM_PANORAMIC.
 enum PanoramicCameraMode
@@ -1915,6 +1978,19 @@ enum PremultipliedAlphaType
     /// output color space's transfer function. This should be avoided because compositing should be
     /// performed in a linear color space.
     PREMULTIPLIED_ALPHA_TYPE_ENCODED = 2,
+};
+
+
+
+/// Pre-pass types (for works before integration).
+enum PrePassType
+{
+    // Note: these should be in a bit-shifting order strictly for masking purpose.
+
+    // Pre-pass for NRC's sample generation.
+    PRE_PASS_TYPE_NRC_SAMPLE_GENERATION     = (1 << 0),
+    // Invalid type. Note: this should have the left-most shifted bit.
+    PRE_PASS_TYPE_INVALID                   = (1 << 1)
 };
 
 
@@ -2098,43 +2174,44 @@ enum RenderPassId
 
     // --- Beauty AOVs ---
 
-    RENDER_PASS_BEAUTY               = 0,
-    RENDER_PASS_CAMERA_MASK          = 125,
-    RENDER_PASS_EMIT                 = 1,
-    RENDER_PASS_ENVIRONMENT          = 2,
-    RENDER_PASS_DIFFUSE              = 3,
-    RENDER_PASS_DIFFUSE_DIRECT       = 4,
-    RENDER_PASS_DIFFUSE_INDIRECT     = 5,
-    RENDER_PASS_DIFFUSE_FILTER       = 6,
-    RENDER_PASS_REFLECTION           = 7,
-    RENDER_PASS_REFLECTION_DIRECT    = 8,
-    RENDER_PASS_REFLECTION_INDIRECT  = 9,
-    RENDER_PASS_REFLECTION_FILTER    = 10,
-    RENDER_PASS_REFRACTION           = 11,
-    RENDER_PASS_REFRACTION_FILTER    = 12,
-    RENDER_PASS_TRANSMISSION         = 13,
-    RENDER_PASS_TRANSMISSION_FILTER  = 14,
-    RENDER_PASS_SSS                  = 15,
-    RENDER_PASS_VOLUME               = 35,
-    RENDER_PASS_VOLUME_MASK          = 36,
-    RENDER_PASS_VOLUME_EMISSION      = 37,
-    RENDER_PASS_VOLUME_Z_DEPTH_FRONT = 38,
-    RENDER_PASS_VOLUME_Z_DEPTH_BACK  = 39,
-    RENDER_PASS_GAUSSIAN_SPLAT       = 127,
-    RENDER_PASS_SHADOW               = 32,
-    RENDER_PASS_IRRADIANCE           = 33,
-    RENDER_PASS_LIGHT_DIRECTION      = 34,
-    RENDER_PASS_POSTFX_MEDIA_MASK    = 128,
-    RENDER_PASS_POSTFX_MEDIA         = 84,
-    RENDER_PASS_POST_PROC            = 16,
-    RENDER_PASS_NOISE_BEAUTY         = 31,
-    RENDER_PASS_ALPHA                = 126,
+    RENDER_PASS_BEAUTY                 = 0,
+    RENDER_PASS_CAMERA_MASK            = 125,
+    RENDER_PASS_EMIT                   = 1,
+    RENDER_PASS_ENVIRONMENT            = 2,
+    RENDER_PASS_ENVIRONMENT_UNOCCLUDED = 129,
+    RENDER_PASS_DIFFUSE                = 3,
+    RENDER_PASS_DIFFUSE_DIRECT         = 4,
+    RENDER_PASS_DIFFUSE_INDIRECT       = 5,
+    RENDER_PASS_DIFFUSE_FILTER         = 6,
+    RENDER_PASS_REFLECTION             = 7,
+    RENDER_PASS_REFLECTION_DIRECT      = 8,
+    RENDER_PASS_REFLECTION_INDIRECT    = 9,
+    RENDER_PASS_REFLECTION_FILTER      = 10,
+    RENDER_PASS_REFRACTION             = 11,
+    RENDER_PASS_REFRACTION_FILTER      = 12,
+    RENDER_PASS_TRANSMISSION           = 13,
+    RENDER_PASS_TRANSMISSION_FILTER    = 14,
+    RENDER_PASS_SSS                    = 15,
+    RENDER_PASS_VOLUME                 = 35,
+    RENDER_PASS_VOLUME_MASK            = 36,
+    RENDER_PASS_VOLUME_EMISSION        = 37,
+    RENDER_PASS_VOLUME_Z_DEPTH_FRONT   = 38,
+    RENDER_PASS_VOLUME_Z_DEPTH_BACK    = 39,
+    RENDER_PASS_GAUSSIAN_SPLAT         = 127,
+    RENDER_PASS_SHADOW                 = 32,
+    RENDER_PASS_IRRADIANCE             = 33,
+    RENDER_PASS_LIGHT_DIRECTION        = 34,
+    RENDER_PASS_POSTFX_MEDIA_MASK      = 128,
+    RENDER_PASS_POSTFX_MEDIA           = 84,
+    RENDER_PASS_POST_PROC              = 16,
+    RENDER_PASS_NOISE_BEAUTY           = 31,
+    RENDER_PASS_ALPHA                  = 126,
 
     // --- Render layer AOVs ---
 
-    RENDER_PASS_LAYER_SHADOWS       = 17,
-    RENDER_PASS_LAYER_BLACK_SHADOWS = 18,
-    RENDER_PASS_LAYER_REFLECTIONS   = 20,
+    RENDER_PASS_LAYER_SHADOWS          = 17,
+    RENDER_PASS_LAYER_BLACK_SHADOWS    = 18,
+    RENDER_PASS_LAYER_REFLECTIONS      = 20,
 
     // --- Light AOVs ---
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #pragma once
 
@@ -658,161 +658,6 @@ public:
             const bool                                evaluate
             );
 
-    /// Returns the value of a value node (skipping linker nodes) or the default
-    /// value of the pin if it's not connected to value node. These should getters should
-    /// only be called on a pin of the appropriate type (e.g. getBool on PT_BOOL).
-    /// @param[out] status
-    ///     Contains the status of the gRPC call
-    bool getPinBool(
-            const Octane::PinId   id
-            ) const;
-
-    float getPinFloat(
-            const Octane::PinId   id
-            ) const;
-
-    OctaneVec::float_2 getPinFloat2(
-            const Octane::PinId   id
-            ) const;
-
-    OctaneVec::float_3 getPinFloat3(
-            const Octane::PinId   id
-            ) const;
-
-    OctaneVec::float_4 getPinFloat4(
-            const Octane::PinId   id
-            ) const;
-
-    int32_t getPinInt(
-            const Octane::PinId   id
-            ) const;
-
-    OctaneVec::int32_2 getPinInt2(
-            const Octane::PinId   id
-            ) const;
-
-    OctaneVec::int32_3 getPinInt3(
-            const Octane::PinId   id
-            ) const;
-
-    OctaneVec::int32_4 getPinInt4(
-            const Octane::PinId   id
-            ) const;
-
-    OctaneVec::MatrixF getPinMatrix(
-            const Octane::PinId   id
-            ) const;
-
-    std::string getPinString(
-            const Octane::PinId   id
-            ) const;
-
-    Octane::ApiFilePath getPinFilePath(
-            const Octane::PinId   id
-            ) const;
-
-    /// Same as above but identifies the pin via name.
-    /// @param[out] status
-    ///     Contains the status of the gRPC call
-    bool getPinBool(
-            const char *   name
-            ) const;
-
-    float getPinFloat(
-            const char *   name
-            ) const;
-
-    OctaneVec::float_2 getPinFloat2(
-            const char *   name
-            ) const;
-
-    OctaneVec::float_3 getPinFloat3(
-            const char *   name
-            ) const;
-
-    OctaneVec::float_4 getPinFloat4(
-            const char *   name
-            ) const;
-
-    int32_t getPinInt(
-            const char *   name
-            ) const;
-
-    OctaneVec::int32_2 getPinInt2(
-            const char *   name
-            ) const;
-
-    OctaneVec::int32_3 getPinInt3(
-            const char *   name
-            ) const;
-
-    OctaneVec::int32_4 getPinInt4(
-            const char *   name
-            ) const;
-
-    OctaneVec::MatrixF getPinMatrix(
-            const char *   name
-            ) const;
-
-    std::string getPinString(
-            const char *   name
-            ) const;
-
-    Octane::ApiFilePath getPinFilePath(
-            const char *   name
-            ) const;
-
-    /// Same as above but identifies the pin via index.
-    /// @param[out] status
-    ///     Contains the status of the gRPC call
-    bool getPinBoolIx(
-            const uint32_t   index
-            ) const;
-
-    float getPinFloatIx(
-            const uint32_t   index
-            ) const;
-
-    OctaneVec::float_2 getPinFloat2Ix(
-            const uint32_t   index
-            ) const;
-
-    OctaneVec::float_3 getPinFloat3Ix(
-            const uint32_t   index
-            ) const;
-
-    OctaneVec::float_4 getPinFloat4Ix(
-            const uint32_t   index
-            ) const;
-
-    int32_t getPinIntIx(
-            const uint32_t   index
-            ) const;
-
-    OctaneVec::int32_2 getPinInt2Ix(
-            const uint32_t   index
-            ) const;
-
-    OctaneVec::int32_3 getPinInt3Ix(
-            const uint32_t   index
-            ) const;
-
-    OctaneVec::int32_4 getPinInt4Ix(
-            const uint32_t   index
-            ) const;
-
-    OctaneVec::MatrixF getPinMatrixIx(
-            const uint32_t   index
-            ) const;
-
-    std::string getPinStringIx(
-            const uint32_t   index
-            ) const;
-
-    Octane::ApiFilePath getPinFilePathIx(
-            const uint32_t   index
-            ) const;
-
     /// Returns the value in an out argument.
     /// @param[out] status
     ///     Contains the status of the gRPC call
@@ -1286,6 +1131,46 @@ public:
             const char *                              assetPath,
             bool                                      recursive
             );
+
+
+    bool         getPinBool    (const PinId id) const;
+    float        getPinFloat   (const PinId id) const;
+    float_2      getPinFloat2  (const PinId id) const;
+    float_3      getPinFloat3  (const PinId id) const;
+    float_4      getPinFloat4  (const PinId id) const;
+    int32_t      getPinInt     (const PinId id) const;
+    int32_2      getPinInt2    (const PinId id) const;
+    int32_3      getPinInt3    (const PinId id) const;
+    int32_4      getPinInt4    (const PinId id) const;
+    MatrixF      getPinMatrix  (const PinId id) const;
+    std::string  getPinString  (const PinId id) const;
+    ApiFilePath  getPinFilePath(const PinId id) const;
+
+    bool         getPinBool    (const char *name) const;
+    float        getPinFloat   (const char *name) const;
+    float_2      getPinFloat2  (const char *name) const;
+    float_3      getPinFloat3  (const char *name) const;
+    float_4      getPinFloat4  (const char *name) const;
+    int32_t      getPinInt     (const char *name) const;
+    int32_2      getPinInt2    (const char *name) const;
+    int32_3      getPinInt3    (const char *name) const;
+    int32_4      getPinInt4    (const char *name) const;
+    MatrixF      getPinMatrix  (const char *name) const;
+    std::string  getPinString  (const char *name) const;
+    ApiFilePath  getPinFilePath(const char *name) const;
+
+    bool         getPinBoolIx    (const uint32_t index) const;
+    float        getPinFloatIx   (const uint32_t index) const;
+    float_2      getPinFloat2Ix  (const uint32_t index) const;
+    float_3      getPinFloat3Ix  (const uint32_t index) const;
+    float_4      getPinFloat4Ix  (const uint32_t index) const;
+    int32_t      getPinIntIx     (const uint32_t index) const;
+    int32_2      getPinInt2Ix    (const uint32_t index) const;
+    int32_3      getPinInt3Ix    (const uint32_t index) const;
+    int32_4      getPinInt4Ix    (const uint32_t index) const;
+    MatrixF      getPinMatrixIx  (const uint32_t index) const;
+    std::string  getPinStringIx  (const uint32_t index) const;
+    ApiFilePath  getPinFilePathIx(const uint32_t index) const;
 
     static GRPCSettings & getGRPCSettings();
 };

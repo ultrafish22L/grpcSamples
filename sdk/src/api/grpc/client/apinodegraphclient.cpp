@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 //////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
@@ -88,18 +88,15 @@ ApiNodeGraphProxy ApiNodeGraphProxy::create(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiNodeGraphProxy retVal;
         return retVal;
     }
@@ -139,18 +136,15 @@ const Octane::ApiNodeGraphInfo ApiNodeGraphProxy::info() const
         octaneapi::ApiNodeGraphInfo resultOut = response.result();
         ApiNodeGraphInfoConverter::convert(resultOut, retVal);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -189,18 +183,15 @@ Octane::NodeGraphType ApiNodeGraphProxy::type() const
         octaneapi::NodeGraphType resultOut = response.result();
         retVal = static_cast<Octane::NodeGraphType>(resultOut);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -240,18 +231,15 @@ void ApiNodeGraphProxy::getOwnedItems(
         octaneapi::ObjectRef listOut = response.list();
         list.attachObjectHandle(listOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -290,18 +278,15 @@ void ApiNodeGraphProxy::getInputNodes(
         octaneapi::ObjectRef listOut = response.list();
         list.attachObjectHandle(listOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -340,18 +325,15 @@ void ApiNodeGraphProxy::getOutputNodes(
         octaneapi::ObjectRef listOut = response.list();
         list.attachObjectHandle(listOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -404,18 +386,15 @@ void ApiNodeGraphProxy::findNodes(
         octaneapi::ObjectRef listOut = response.list();
         list.attachObjectHandle(listOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -465,18 +444,15 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstNode(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiNodeProxy retVal;
         return retVal;
     }
@@ -528,18 +504,15 @@ ApiNodeProxy ApiNodeGraphProxy::findFirstOutputNode(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiNodeProxy retVal;
         return retVal;
     }
@@ -594,18 +567,15 @@ void ApiNodeGraphProxy::findItemsByName(
         octaneapi::ObjectRef listOut = response.list();
         list.attachObjectHandle(listOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -661,18 +631,15 @@ void ApiNodeGraphProxy::setLinearTimeTransform(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -714,18 +681,15 @@ ApiAnimationTimeTransformProxy ApiNodeGraphProxy::timeTransform() const
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiAnimationTimeTransformProxy retVal;
         return retVal;
     }
@@ -760,18 +724,15 @@ void ApiNodeGraphProxy::clearTimeTransform()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -814,18 +775,15 @@ std::vector<std::string> ApiNodeGraphProxy::getAssetPaths()
         }
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         return {};
     }
 };
@@ -868,18 +826,15 @@ void ApiNodeGraphProxy::recenter(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -912,18 +867,15 @@ void ApiNodeGraphProxy::clear()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -993,18 +945,15 @@ void ApiNodeGraphProxy::copyFrom(
         octaneapi::ObjectRef copiedItemsOut = response.copieditems();
         copiedItems->attachObjectHandle(copiedItemsOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1057,18 +1006,15 @@ ApiItemProxy ApiNodeGraphProxy::copyFrom(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiItemProxy retVal;
         return retVal;
     }
@@ -1123,18 +1069,15 @@ ApiItemProxy ApiNodeGraphProxy::copyItemTree(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiItemProxy retVal;
         return retVal;
     }
@@ -1223,18 +1166,15 @@ void ApiNodeGraphProxy::copyFrom(
         octaneapi::ObjectRef origItemCopiesOut = response.origitemcopies();
         origItemCopies->attachObjectHandle(origItemCopiesOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1298,18 +1238,15 @@ ApiNodeGraphProxy ApiNodeGraphProxy::groupItems(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiNodeGraphProxy retVal;
         return retVal;
     }
@@ -1350,18 +1287,15 @@ void ApiNodeGraphProxy::ungroup(
         octaneapi::ObjectRef ungroupedItemsOut = response.ungroupeditems();
         ungroupedItems->attachObjectHandle(ungroupedItemsOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1402,18 +1336,15 @@ void ApiNodeGraphProxy::unfold(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1474,18 +1405,15 @@ std::string ApiNodeGraphProxy::showWindow(
         // param.mType = const char *
         retVal =  resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1510,18 +1438,15 @@ void ApiNodeGraphProxy::closeWindow()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1596,18 +1521,15 @@ void ApiNodeGraphProxy::showDbWindow(
         // Process 'callbackId2' [out] parameter from the gRPC response packet
         int32_t callbackId2Out = response.callbackid2();
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1639,18 +1561,15 @@ void ApiNodeGraphProxy::closeDbWindow(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 

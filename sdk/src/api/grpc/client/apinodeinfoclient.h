@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #pragma once
 
@@ -11,7 +11,6 @@
 #include "grpcbase.h"
 #include "clientcallbackmgr.h"
 #include "grpcapinodeinfo.h"
-/*
 namespace OctaneGRPC
 {
     struct ApiNodeInfoProxy;
@@ -38,4 +37,3 @@ public:
 };
 
 } // end of namespace
-*/

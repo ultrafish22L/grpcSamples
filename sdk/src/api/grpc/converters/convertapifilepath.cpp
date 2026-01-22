@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)
 // myself
@@ -6,15 +6,6 @@
 // application includes
 #include "stringmgr.h"
 #include "objectmgr.h"
-#ifdef NO_PCH
-#include "apinodesystem_1.grpc.pb.h"
-#include "apinodesystem_3.grpc.pb.h"
-#include "apinodesystem_5.grpc.pb.h"
-#include "apinodesystem_6.grpc.pb.h"
-#include "apinodesystem_7.grpc.pb.h"
-#include "apinodesystem_8.grpc.pb.h"
-#endif // #ifdef NO_PCH
-#include "apinodesystem.h"
 #ifdef NO_PCH
 #include "apimodulenodegraph.grpc.pb.h"
 #endif // #ifdef NO_PCH

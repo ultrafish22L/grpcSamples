@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -65,11 +65,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\vs\octane_build_grpc_api_examples.props" />
+    <Import Project="..\vs\octane_build_grpc_api_examples_no_wrappers.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\vs\octane_build_grpc_api_examples.props" />
+    <Import Project="..\vs\octane_build_grpc_api_examples_no_wrappers.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -149,7 +149,73 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apichangemanager.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apichangemanager.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiinfo.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiinfo.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_3.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_3.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_7.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_7.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiprojectmanager.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiprojectmanager.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apirender.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apirender.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitimesampling.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitimesampling.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\callbackstream.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\callbackstream.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\common.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\common.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneenums.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneenums.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneids.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneids.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneimageexport.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneimageexport.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneinfos.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneinfos.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanereferenceexport.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanereferenceexport.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanerenderpasses.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanerenderpasses.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanetime.grpc.pb.cc" />
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanetime.pb.cc" />
     <ClCompile Include="render-example.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apichangemanager.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apichangemanager.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiinfo.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiinfo.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_3.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_3.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_7.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_7.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiprojectmanager.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiprojectmanager.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apirender.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apirender.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitimesampling.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitimesampling.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\callbackstream.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\callbackstream.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\common.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\common.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneenums.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneenums.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneids.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneids.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneimageexport.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneimageexport.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneinfos.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneinfos.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanereferenceexport.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanereferenceexport.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanerenderpasses.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanerenderpasses.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanetime.grpc.pb.h" />
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanetime.pb.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

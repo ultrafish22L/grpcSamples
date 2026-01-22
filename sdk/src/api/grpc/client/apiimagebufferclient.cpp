@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 //////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
@@ -82,18 +82,15 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiImageBufferProxy retVal;
         return retVal;
     }
@@ -165,18 +162,15 @@ ApiImageBufferProxy ApiImageBufferProxy::create(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiImageBufferProxy retVal;
         return retVal;
     }
@@ -240,18 +234,15 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiImageBufferProxy retVal;
         return retVal;
     }
@@ -322,18 +313,15 @@ ApiImageBufferProxy ApiImageBufferProxy::load(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiImageBufferProxy retVal;
         return retVal;
     }
@@ -393,18 +381,15 @@ ApiImageBufferProxy ApiImageBufferProxy::convertTo(
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiImageBufferProxy retVal;
         return retVal;
     }
@@ -439,18 +424,15 @@ void ApiImageBufferProxy::destroy()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -488,18 +470,15 @@ float ApiImageBufferProxy::bytesPerPixel() const
         float resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -538,18 +517,15 @@ float ApiImageBufferProxy::bytesPerChannel() const
         float resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -588,18 +564,15 @@ uint8_t ApiImageBufferProxy::channelCount() const
         uint32_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -639,18 +612,15 @@ OctaneVec::uint32_2 ApiImageBufferProxy::size() const
         retVal.x = resultOut.x();
         retVal.y = resultOut.y();
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -689,18 +659,15 @@ size_t ApiImageBufferProxy::sizeInBytes() const
         uint32_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -739,18 +706,15 @@ Octane::ImageType ApiImageBufferProxy::type() const
         octaneapi::ImageType resultOut = response.result();
         retVal = static_cast<Octane::ImageType>(resultOut);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -790,18 +754,15 @@ std::string ApiImageBufferProxy::sourceInfo() const
         // param.mType = const char *
         retVal =  resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -840,18 +801,15 @@ bool ApiImageBufferProxy::canWrapX() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -890,18 +848,15 @@ bool ApiImageBufferProxy::canWrapY() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -940,18 +895,15 @@ bool ApiImageBufferProxy::needsFlip() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -990,18 +942,15 @@ bool ApiImageBufferProxy::hasAlpha() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1040,18 +989,15 @@ bool ApiImageBufferProxy::hasColor() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1090,18 +1036,15 @@ bool ApiImageBufferProxy::isCompressed() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1140,18 +1083,15 @@ bool ApiImageBufferProxy::isEmpty() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1190,18 +1130,15 @@ bool ApiImageBufferProxy::isHalf() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1240,18 +1177,15 @@ bool ApiImageBufferProxy::isHdr() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1290,18 +1224,15 @@ bool ApiImageBufferProxy::isMono() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1349,18 +1280,15 @@ bool ApiImageBufferProxy::isPixelValid(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1402,18 +1330,15 @@ void ApiImageBufferProxy::compress(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1462,18 +1387,15 @@ void ApiImageBufferProxy::setPixelLdr(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1522,18 +1444,15 @@ void ApiImageBufferProxy::setPixelHalf(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1582,18 +1501,15 @@ void ApiImageBufferProxy::setPixelHdr(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1672,18 +1588,15 @@ bool ApiImageBufferProxy::copyRegion(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1717,18 +1630,15 @@ void ApiImageBufferProxy::compositeOnBlack()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1761,18 +1671,15 @@ void ApiImageBufferProxy::flipVertical()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1813,18 +1720,15 @@ void ApiImageBufferProxy::convert(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1865,18 +1769,15 @@ void ApiImageBufferProxy::applyGaussianFilter(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1917,18 +1818,15 @@ void ApiImageBufferProxy::applyBoxFilter(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1977,18 +1875,15 @@ void ApiImageBufferProxy::applyLevels(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -2039,18 +1934,15 @@ void ApiImageBufferProxy::compareValues(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -2112,18 +2004,15 @@ bool ApiImageBufferProxy::calculateMeanSquareError(
         double errorOut = response.error();
         error = errorOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2177,18 +2066,15 @@ bool ApiImageBufferProxy::save(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2242,18 +2128,15 @@ bool ApiImageBufferProxy::saveAsync(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2302,18 +2185,15 @@ std::string ApiImageBufferProxy::pixelAddr(
         // param.mType = const char *
         retVal =  resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2362,18 +2242,15 @@ std::string ApiImageBufferProxy::pixelAddr(
         // param.mType = char *
         retVal =  resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };

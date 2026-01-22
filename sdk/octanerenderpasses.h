@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef _OCTANE_RENDER_PASSES_H_
 #define _OCTANE_RENDER_PASSES_H_ 1
@@ -205,6 +205,10 @@ struct ApiRenderPassInfo
     /// Description for this render pass.
     const char *      mDescription;
     /// Category of the AOV node.
+    ///
+    /// This may include a prefix (that starts and ends with '!') for sorting purposes. This prefix
+    /// should be kept for any alphabetical sorting operations, but must be removed using
+    /// removeCategorySortPrefix before displaying the string anywhere user-visible.
     const char *      mCategory;
     /// TRUE if this pass is an info channel pass
     bool              mIsInfoPass;

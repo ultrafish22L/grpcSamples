@@ -209,6 +209,7 @@ message ApiArrayImageTypeT
         BLEND_MODE_PLUS = 1015;
         BLEND_MODE_MATTE = 1016;
         BLEND_MODE_SDR_OFFSET = 2000;
+        BLEND_MODE_REVERSE_OFFSET = 4000;
     }
 
     enum BrdfModel 
@@ -224,6 +225,7 @@ message ApiArrayImageTypeT
         BxDF_DIFFUSE_OCTANE = 0;
         BxDF_DIFFUSE_LAMBERTIAN = 1;
         BxDF_DIFFUSE_OREN_NAYAR = 2;
+        BxDF_DIFFUSE_EON = 3;
     }
 
     enum BxDFSpecularModel 
@@ -234,6 +236,13 @@ message ApiArrayImageTypeT
         BxDF_SPECULAR_WARD = 3;
         BxDF_SPECULAR_ENERGY_PRESERVED_GGX = 6;
         BxDF_SPECULAR_STD = 7;
+    }
+
+    enum BxDFSheenModel 
+    {
+        BxDFSheenModel_UNSPECIFIED = 0;
+        BxDF_SHEEN = 10;
+        BxDF_FUZZ = 19;
     }
 
     enum BxDFTranmissionType 
@@ -559,6 +568,13 @@ message ApiArrayImageTypeT
         DISPLACEMENT_LEVEL_2048 = 11;
         DISPLACEMENT_LEVEL_4096 = 12;
         DISPLACEMENT_LEVEL_8192 = 13;
+        DISPLACEMENT_LEVEL_16384 = 14;
+    }
+
+    enum DisplacementQuality 
+    {
+        DISPLACEMENT_QUALITY_NORMAL = 0;
+        DISPLACEMENT_QUALITY_HIGH = 1;
     }
 
     enum DisplacementDirection 
@@ -594,6 +610,12 @@ message ApiArrayImageTypeT
         DISTANCE_MODE_OFFSET_X = 1;
         DISTANCE_MODE_OFFSET_Y = 2;
         DISTANCE_MODE_OFFSET_Z = 3;
+    }
+
+    enum ExpandContractRgbMode 
+    {
+        EXPAND_CONTRACT_RGB_MODE_COLOR = 0;
+        EXPAND_CONTRACT_RGB_MODE_MASKS = 1;
     }
 
     enum ExportState 
@@ -963,6 +985,13 @@ message ApiArrayImageTypeT
         LIGHT_PASS_MASK_ALL = 4194303;
     }
 
+    enum LightSampler 
+    {
+        LIGHT_SAMPLER_POWER = 0;
+        LIGHT_SAMPLER_AILIGHT = 1;
+        LIGHT_SAMPLER_LIGHTBVH = 2;
+    }
+
     enum LiveDbThumbnailView 
     {
         DB_VIEW_FULL = 0;
@@ -1132,6 +1161,14 @@ message ApiArrayImageTypeT
         UNBLEND_EXTRACT_MODE_BACKGROUND = 1;
     }
 
+    enum UnblendOutputColorRange 
+    {
+        UNBLEND_OUTPUT_COLOR_RANGE_HDR_UNLIMITED = 0;
+        UNBLEND_OUTPUT_COLOR_RANGE_HDR_ACESCG_GAMUT = 1;
+        UNBLEND_OUTPUT_COLOR_RANGE_HDR_SRGB_GAMUT = 2;
+        UNBLEND_OUTPUT_COLOR_RANGE_SDR_SRGB = 3;
+    }
+
     enum PanoramicCameraMode 
     {
         SPHERICAL_CAMERA = 0;
@@ -1189,6 +1226,13 @@ message ApiArrayImageTypeT
         PREMULTIPLIED_ALPHA_TYPE_NONE = 0;
         PREMULTIPLIED_ALPHA_TYPE_LINEARIZED = 1;
         PREMULTIPLIED_ALPHA_TYPE_ENCODED = 2;
+    }
+
+    enum PrePassType 
+    {
+        PrePassType_UNSPECIFIED = 0;
+        PRE_PASS_TYPE_NRC_SAMPLE_GENERATION = 1;
+        PRE_PASS_TYPE_INVALID = 2;
     }
 
     enum PreviewType 
@@ -1442,14 +1486,7 @@ message ApiArrayImageTypeT
         RENDER_PASS_ALPHA = 126;
         RENDER_PASS_GAUSSIAN_SPLAT = 127;
         RENDER_PASS_POSTFX_MEDIA_MASK = 128;
-        RENDER_PASS_SCREENSPACE_MOTION = 129;
-        RENDER_PASS_PRIMARY_HIT_DISTANCE = 130;
-        RENDER_PASS_PRIMARY_HIT_NORMAL = 131;
-        RENDER_PASS_DIFFUSE_FILTER_RGB = 132;
-        RENDER_PASS_REFLECTION_FILTER_RGB = 133;
-        RENDER_PASS_PRIMARY_HIT_ROUGHNESS = 134;
-        RENDER_PASS_TRANSPARENCY_MASK = 135;
-        RENDER_PASS_BIAS_CURR_COLOR = 136;
+        RENDER_PASS_ENVIRONMENT_UNOCCLUDED = 129;
         RENDER_PASS_CUSTOM_OFFSET = 500;
         RENDER_PASS_CUSTOM_1 = 501;
         RENDER_PASS_CUSTOM_2 = 502;
@@ -1470,8 +1507,8 @@ message ApiArrayImageTypeT
         RENDER_PASS_CUSTOM_17 = 517;
         RENDER_PASS_CUSTOM_18 = 518;
         RENDER_PASS_CUSTOM_19 = 519;
-        RENDER_PASS_CUSTOM_20 = 520;
         RENDER_PASS_CUSTOM_LAST = 520;
+        RENDER_PASS_CUSTOM_20 = 520;
         RENDER_PASS_INFO_OFFSET = 1000;
         RENDER_PASS_GEOMETRIC_NORMAL = 1000;
         RENDER_PASS_SHADING_NORMAL = 1001;

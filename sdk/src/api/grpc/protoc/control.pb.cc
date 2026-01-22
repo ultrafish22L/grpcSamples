@@ -26,6 +26,37 @@ namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace octaneapi {
 
+inline constexpr ApiControl_WebRTCStatusResponse::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        signalserveraddress_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        ourid_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        running_{false} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ApiControl_WebRTCStatusResponse::ApiControl_WebRTCStatusResponse(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(ApiControl_WebRTCStatusResponse_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ApiControl_WebRTCStatusResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiControl_WebRTCStatusResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiControl_WebRTCStatusResponseDefaultTypeInternal() {}
+  union {
+    ApiControl_WebRTCStatusResponse _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiControl_WebRTCStatusResponseDefaultTypeInternal _ApiControl_WebRTCStatusResponse_default_instance_;
+
 inline constexpr ApiControl_StartBlockingRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -153,6 +184,15 @@ const ::uint32_t
         4, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiControl_ControlResponse, _impl_.success_),
         0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiControl_WebRTCStatusResponse, _impl_._has_bits_),
+        6, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiControl_WebRTCStatusResponse, _impl_.running_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiControl_WebRTCStatusResponse, _impl_.signalserveraddress_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiControl_WebRTCStatusResponse, _impl_.ourid_),
+        2,
+        0,
+        1,
         0x000, // bitmap
 };
 
@@ -161,40 +201,52 @@ static const ::_pbi::MigrationSchema
         {0, sizeof(::octaneapi::ApiControl_StartBlockingRequest)},
         {7, sizeof(::octaneapi::ApiControl_ApiLogRequest)},
         {14, sizeof(::octaneapi::ApiControl_ControlResponse)},
-        {19, sizeof(::octaneapi::ApiControl)},
+        {19, sizeof(::octaneapi::ApiControl_WebRTCStatusResponse)},
+        {28, sizeof(::octaneapi::ApiControl)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::octaneapi::_ApiControl_StartBlockingRequest_default_instance_._instance,
     &::octaneapi::_ApiControl_ApiLogRequest_default_instance_._instance,
     &::octaneapi::_ApiControl_ControlResponse_default_instance_._instance,
+    &::octaneapi::_ApiControl_WebRTCStatusResponse_default_instance_._instance,
     &::octaneapi::_ApiControl_default_instance_._instance,
 };
 const char descriptor_table_protodef_control_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\rcontrol.proto\022\toctaneapi\"\254\001\n\nApiContro"
-    "l\032\?\n\024StartBlockingRequest\022\026\n\016uniqueModul"
-    "eId\030\001 \001(\t\022\017\n\007message\030\002 \001(\t\0329\n\rApiLogRequ"
-    "est\022\026\n\016saveToTextFile\030\001 \001(\010\022\020\n\010filePath\030"
-    "\002 \001(\t\032\"\n\017ControlResponse\022\017\n\007success\030\001 \001("
-    "\0102\341\001\n\021ApiControlService\022k\n\026startBlocking"
-    "Operation\022*.octaneapi.ApiControl.StartBl"
-    "ockingRequest\032%.octaneapi.ApiControl.Con"
-    "trolResponse\022_\n\021setApiLogFilePath\022#.octa"
-    "neapi.ApiControl.ApiLogRequest\032%.octanea"
-    "pi.ApiControl.ControlResponseB\002H\002b\006proto"
-    "3"
+    "\n\rcontrol.proto\022\toctaneapi\032\033google/proto"
+    "buf/empty.proto\"\201\002\n\nApiControl\032\?\n\024StartB"
+    "lockingRequest\022\026\n\016uniqueModuleId\030\001 \001(\t\022\017"
+    "\n\007message\030\002 \001(\t\0329\n\rApiLogRequest\022\026\n\016save"
+    "ToTextFile\030\001 \001(\010\022\020\n\010filePath\030\002 \001(\t\032\"\n\017Co"
+    "ntrolResponse\022\017\n\007success\030\001 \001(\010\032S\n\024WebRTC"
+    "StatusResponse\022\017\n\007running\030\001 \001(\010\022\033\n\023signa"
+    "lServerAddress\030\002 \001(\t\022\r\n\005ourId\030\003 \001(\t2\367\002\n\021"
+    "ApiControlService\022k\n\026startBlockingOperat"
+    "ion\022*.octaneapi.ApiControl.StartBlocking"
+    "Request\032%.octaneapi.ApiControl.ControlRe"
+    "sponse\022_\n\021setApiLogFilePath\022#.octaneapi."
+    "ApiControl.ApiLogRequest\032%.octaneapi.Api"
+    "Control.ControlResponse\022U\n\017getWebRTCStat"
+    "us\022\026.google.protobuf.Empty\032*.octaneapi.A"
+    "piControl.WebRTCStatusResponse\022=\n\013closeO"
+    "ctane\022\026.google.protobuf.Empty\032\026.google.p"
+    "rotobuf.EmptyB\002H\002b\006proto3"
+};
+static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
+    descriptor_table_control_2eproto_deps[1] = {
+        &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
 };
 static ::absl::once_flag descriptor_table_control_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_control_2eproto = {
     false,
     false,
-    441,
+    705,
     descriptor_table_protodef_control_2eproto,
     "control.proto",
     &descriptor_table_control_2eproto_once,
-    nullptr,
-    0,
-    4,
+    descriptor_table_control_2eproto_deps,
+    1,
+    5,
     schemas,
     file_default_instances,
     TableStruct_control_2eproto::offsets,
@@ -654,6 +706,176 @@ void ApiControl_ControlResponse::InternalSwap(ApiControl_ControlResponse* PROTOB
   GetReflection()->Swap(this, other);}
 
 ::google::protobuf::Metadata ApiControl_ControlResponse::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ApiControl_WebRTCStatusResponse::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<ApiControl_WebRTCStatusResponse>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ApiControl_WebRTCStatusResponse, _impl_._has_bits_);
+};
+
+ApiControl_WebRTCStatusResponse::ApiControl_WebRTCStatusResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiControl_WebRTCStatusResponse_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiControl.WebRTCStatusResponse)
+}
+PROTOBUF_NDEBUG_INLINE ApiControl_WebRTCStatusResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::octaneapi::ApiControl_WebRTCStatusResponse& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        signalserveraddress_(arena, from.signalserveraddress_),
+        ourid_(arena, from.ourid_) {}
+
+ApiControl_WebRTCStatusResponse::ApiControl_WebRTCStatusResponse(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const ApiControl_WebRTCStatusResponse& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiControl_WebRTCStatusResponse_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ApiControl_WebRTCStatusResponse* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.running_ = from._impl_.running_;
+
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiControl.WebRTCStatusResponse)
+}
+PROTOBUF_NDEBUG_INLINE ApiControl_WebRTCStatusResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        signalserveraddress_(arena),
+        ourid_(arena) {}
+
+inline void ApiControl_WebRTCStatusResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.running_ = {};
+}
+ApiControl_WebRTCStatusResponse::~ApiControl_WebRTCStatusResponse() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiControl.WebRTCStatusResponse)
+  SharedDtor(*this);
+}
+inline void ApiControl_WebRTCStatusResponse::SharedDtor(MessageLite& self) {
+  ApiControl_WebRTCStatusResponse& this_ = static_cast<ApiControl_WebRTCStatusResponse&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.signalserveraddress_.Destroy();
+  this_._impl_.ourid_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL ApiControl_WebRTCStatusResponse::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) ApiControl_WebRTCStatusResponse(arena);
+}
+constexpr auto ApiControl_WebRTCStatusResponse::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(ApiControl_WebRTCStatusResponse),
+                                            alignof(ApiControl_WebRTCStatusResponse));
+}
+constexpr auto ApiControl_WebRTCStatusResponse::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_ApiControl_WebRTCStatusResponse_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &ApiControl_WebRTCStatusResponse::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiControl_WebRTCStatusResponse>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &ApiControl_WebRTCStatusResponse::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiControl_WebRTCStatusResponse::ClearImpl),
+              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
+              ,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(ApiControl_WebRTCStatusResponse, _impl_._cached_size_),
+          false,
+      },
+      &ApiControl_WebRTCStatusResponse::kDescriptorMethods,
+      &descriptor_table_control_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull ApiControl_WebRTCStatusResponse_class_data_ =
+        ApiControl_WebRTCStatusResponse::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+ApiControl_WebRTCStatusResponse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiControl_WebRTCStatusResponse_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiControl_WebRTCStatusResponse_class_data_.tc_table);
+  return ApiControl_WebRTCStatusResponse_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 3, 0, 74, 2>
+ApiControl_WebRTCStatusResponse::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ApiControl_WebRTCStatusResponse, _impl_._has_bits_),
+    0, // no _extensions_
+    3, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967288,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    3,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    ApiControl_WebRTCStatusResponse_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiControl_WebRTCStatusResponse>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // bool running = 1;
+    {::_pbi::TcParser::FastV8S1,
+     {8, 2, 0, PROTOBUF_FIELD_OFFSET(ApiControl_WebRTCStatusResponse, _impl_.running_)}},
+    // string signalServerAddress = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ApiControl_WebRTCStatusResponse, _impl_.signalserveraddress_)}},
+    // string ourId = 3;
+    {::_pbi::TcParser::FastUS1,
+     {26, 1, 0, PROTOBUF_FIELD_OFFSET(ApiControl_WebRTCStatusResponse, _impl_.ourid_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // bool running = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiControl_WebRTCStatusResponse, _impl_.running_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+    // string signalServerAddress = 2;
+    {PROTOBUF_FIELD_OFFSET(ApiControl_WebRTCStatusResponse, _impl_.signalserveraddress_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // string ourId = 3;
+    {PROTOBUF_FIELD_OFFSET(ApiControl_WebRTCStatusResponse, _impl_.ourid_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+  }},
+  // no aux_entries
+  {{
+    "\51\0\23\5\0\0\0\0"
+    "octaneapi.ApiControl.WebRTCStatusResponse"
+    "signalServerAddress"
+    "ourId"
+  }},
+};
+void ApiControl_WebRTCStatusResponse::InternalSwap(ApiControl_WebRTCStatusResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  GetReflection()->Swap(this, other);}
+
+::google::protobuf::Metadata ApiControl_WebRTCStatusResponse::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

@@ -2236,49 +2236,6 @@ struct ApiRenderEngine_hasPendingRenderDataRequestDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiRenderEngine_hasPendingRenderDataRequestDefaultTypeInternal _ApiRenderEngine_hasPendingRenderDataRequest_default_instance_;
-
-inline constexpr ApiRenderEngine_hardwareRayTracingEnabledResponse::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : _cached_size_{0},
-        result_{false} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR ApiRenderEngine_hardwareRayTracingEnabledResponse::ApiRenderEngine_hardwareRayTracingEnabledResponse(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(ApiRenderEngine_hardwareRayTracingEnabledResponse_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct ApiRenderEngine_hardwareRayTracingEnabledResponseDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiRenderEngine_hardwareRayTracingEnabledResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiRenderEngine_hardwareRayTracingEnabledResponseDefaultTypeInternal() {}
-  union {
-    ApiRenderEngine_hardwareRayTracingEnabledResponse _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiRenderEngine_hardwareRayTracingEnabledResponseDefaultTypeInternal _ApiRenderEngine_hardwareRayTracingEnabledResponse_default_instance_;
-template <typename>
-PROTOBUF_CONSTEXPR ApiRenderEngine_hardwareRayTracingEnabledRequest::ApiRenderEngine_hardwareRayTracingEnabledRequest(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(ApiRenderEngine_hardwareRayTracingEnabledRequest_class_data_.base()){}
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase() {
-}
-#endif  // PROTOBUF_CUSTOM_VTABLE
-struct ApiRenderEngine_hardwareRayTracingEnabledRequestDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiRenderEngine_hardwareRayTracingEnabledRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiRenderEngine_hardwareRayTracingEnabledRequestDefaultTypeInternal() {}
-  union {
-    ApiRenderEngine_hardwareRayTracingEnabledRequest _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiRenderEngine_hardwareRayTracingEnabledRequestDefaultTypeInternal _ApiRenderEngine_hardwareRayTracingEnabledRequest_default_instance_;
 template <typename>
 PROTOBUF_CONSTEXPR ApiRenderEngine_grabRenderResultRequest::ApiRenderEngine_grabRenderResultRequest(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -5515,8 +5472,7 @@ inline constexpr ApiRenderEngine_setDevicesActivityRequest::Impl_::Impl_(
         devicecountusingpriority_{0u},
         imagedeviceix_{0},
         denoisedevicecount_{0u},
-        peertopeergroupcount_{0u},
-        usemetalraytracing_{false} {}
+        peertopeergroupcount_{0u} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR ApiRenderEngine_setDevicesActivityRequest::ApiRenderEngine_setDevicesActivityRequest(::_pbi::ConstantInitialized)
@@ -7065,7 +7021,7 @@ const ::uint32_t
         1,
         0x081, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_setDevicesActivityRequest, _impl_._has_bits_),
-        13, // hasbit index offset
+        12, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_setDevicesActivityRequest, _impl_.renderdeviceixs_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_setDevicesActivityRequest, _impl_.renderdevicecount_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_setDevicesActivityRequest, _impl_.deviceixsusingpriority_),
@@ -7075,7 +7031,6 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_setDevicesActivityRequest, _impl_.denoisedevicecount_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_setDevicesActivityRequest, _impl_.peertopeergroups_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_setDevicesActivityRequest, _impl_.peertopeergroupcount_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_setDevicesActivityRequest, _impl_.usemetalraytracing_),
         0,
         4,
         1,
@@ -7085,7 +7040,6 @@ const ::uint32_t
         7,
         3,
         8,
-        9,
         0x081, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_setDevicesActivityResponse, _impl_._has_bits_),
         4, // hasbit index offset
@@ -7160,12 +7114,6 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_currentPeerToPeerGroupsResponse, _impl_.groupcount_),
         0,
         1,
-        0x000, // bitmap
-        0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse, _impl_._has_bits_),
-        4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse, _impl_.result_),
-        0,
         0x000, // bitmap
         0x081, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiRenderEngine_renderDeviceStateRequest, _impl_._has_bits_),
@@ -7604,79 +7552,77 @@ static const ::_pbi::MigrationSchema
         {1079, sizeof(::octaneapi::ApiRenderEngine_getAvailablePeerToPeerPairsRequest)},
         {1080, sizeof(::octaneapi::ApiRenderEngine_getAvailablePeerToPeerPairsResponse)},
         {1087, sizeof(::octaneapi::ApiRenderEngine_setDevicesActivityRequest)},
-        {1110, sizeof(::octaneapi::ApiRenderEngine_setDevicesActivityResponse)},
-        {1115, sizeof(::octaneapi::ApiRenderEngine_isDeviceUsedForRenderingRequest)},
-        {1120, sizeof(::octaneapi::ApiRenderEngine_isDeviceUsedForRenderingResponse)},
-        {1125, sizeof(::octaneapi::ApiRenderEngine_deviceUsesPriorityRequest)},
-        {1130, sizeof(::octaneapi::ApiRenderEngine_deviceUsesPriorityResponse)},
-        {1135, sizeof(::octaneapi::ApiRenderEngine_deviceUsesHardwareRayTracingRequest)},
-        {1140, sizeof(::octaneapi::ApiRenderEngine_deviceUsesHardwareRayTracingResponse)},
-        {1145, sizeof(::octaneapi::ApiRenderEngine_imageDeviceIndexRequest)},
-        {1146, sizeof(::octaneapi::ApiRenderEngine_imageDeviceIndexResponse)},
-        {1151, sizeof(::octaneapi::ApiRenderEngine_isDeviceUsedForDenoisingRequest)},
-        {1156, sizeof(::octaneapi::ApiRenderEngine_isDeviceUsedForDenoisingResponse)},
-        {1161, sizeof(::octaneapi::ApiRenderEngine_renderPriorityRequest)},
-        {1162, sizeof(::octaneapi::ApiRenderEngine_renderPriorityResponse)},
-        {1167, sizeof(::octaneapi::ApiRenderEngine_setRenderPriorityRequest)},
-        {1172, sizeof(::octaneapi::ApiRenderEngine_currentPeerToPeerGroupsRequest)},
-        {1177, sizeof(::octaneapi::ApiRenderEngine_currentPeerToPeerGroupsResponse)},
-        {1184, sizeof(::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest)},
-        {1185, sizeof(::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse)},
-        {1190, sizeof(::octaneapi::ApiRenderEngine_openDeviceSettingsRequest)},
-        {1191, sizeof(::octaneapi::ApiRenderEngine_renderDeviceStateRequest)},
-        {1196, sizeof(::octaneapi::ApiRenderEngine_renderDeviceStateResponse)},
-        {1201, sizeof(::octaneapi::ApiRenderEngine_renderDeviceErrorCodeRequest)},
-        {1206, sizeof(::octaneapi::ApiRenderEngine_renderDeviceErrorCodeResponse)},
-        {1211, sizeof(::octaneapi::ApiRenderEngine_errorcodeToStringRequest)},
-        {1216, sizeof(::octaneapi::ApiRenderEngine_errorcodeToStringResponse)},
-        {1221, sizeof(::octaneapi::ApiRenderEngine_renderDeviceErrorMessageRequest)},
-        {1226, sizeof(::octaneapi::ApiRenderEngine_renderDeviceErrorMessageResponse)},
-        {1231, sizeof(::octaneapi::ApiRenderEngine_saveRenderDeviceConfigRequest)},
-        {1232, sizeof(::octaneapi::ApiRenderEngine_outOfCoreEnabledRequest)},
-        {1233, sizeof(::octaneapi::ApiRenderEngine_outOfCoreEnabledResponse)},
-        {1238, sizeof(::octaneapi::ApiRenderEngine_enableOutOfCoreRequest)},
-        {1243, sizeof(::octaneapi::ApiRenderEngine_disableOutOfCoreRequest)},
-        {1244, sizeof(::octaneapi::ApiRenderEngine_getOutOfCoreMemoryUsageRequest)},
-        {1245, sizeof(::octaneapi::ApiRenderEngine_getOutOfCoreMemoryUsageResponse)},
-        {1258, sizeof(::octaneapi::ApiRenderEngine_setGpuHeadroomRequest)},
-        {1263, sizeof(::octaneapi::ApiRenderEngine_getGpuHeadroomRequest)},
-        {1264, sizeof(::octaneapi::ApiRenderEngine_getGpuHeadroomResponse)},
-        {1269, sizeof(::octaneapi::ApiRenderEngine_setCoreLimitRequest)},
-        {1274, sizeof(::octaneapi::ApiRenderEngine_disableCoreLimitRequest)},
-        {1275, sizeof(::octaneapi::ApiRenderEngine_registerInputSharedSurfaceRequest)},
-        {1280, sizeof(::octaneapi::ApiRenderEngine_registerInputSharedSurfaceResponse)},
-        {1285, sizeof(::octaneapi::ApiRenderEngine_unregisterInputSharedSurfaceRequest)},
-        {1290, sizeof(::octaneapi::ApiRenderEngine_triggerAsyncTonemapRequest)},
-        {1295, sizeof(::octaneapi::ApiRenderEngine_setSharedSurfaceOutputTypeRequest)},
-        {1302, sizeof(::octaneapi::ApiRenderEngine_getSharedSurfaceOutputTypeRequest)},
-        {1303, sizeof(::octaneapi::ApiRenderEngine_getSharedSurfaceOutputTypeResponse)},
-        {1308, sizeof(::octaneapi::ApiRenderEngine_getRealTimeRequest)},
-        {1309, sizeof(::octaneapi::ApiRenderEngine_getRealTimeResponse)},
-        {1314, sizeof(::octaneapi::ApiRenderEngine_pauseRenderingRequest)},
-        {1315, sizeof(::octaneapi::ApiRenderEngine_continueRenderingRequest)},
-        {1316, sizeof(::octaneapi::ApiRenderEngine_isRenderingPausedRequest)},
-        {1317, sizeof(::octaneapi::ApiRenderEngine_isRenderingPausedResponse)},
-        {1322, sizeof(::octaneapi::ApiRenderEngine_restartRenderingRequest)},
-        {1323, sizeof(::octaneapi::ApiRenderEngine_stopRenderingRequest)},
-        {1324, sizeof(::octaneapi::ApiRenderEngine_pickRequest)},
-        {1335, sizeof(::octaneapi::ApiRenderEngine_pickResponse)},
-        {1342, sizeof(::octaneapi::ApiRenderEngine_pickWhitePointRequest)},
-        {1349, sizeof(::octaneapi::ApiRenderEngine_pickWhitePointResponse)},
-        {1356, sizeof(::octaneapi::ApiRenderEngine_pickImagerWhitePointRequest)},
-        {1361, sizeof(::octaneapi::ApiRenderEngine_pickImagerWhitePointResponse)},
-        {1368, sizeof(::octaneapi::ApiRenderEngine_isOutputAovWhitePointPickableRequest)},
-        {1375, sizeof(::octaneapi::ApiRenderEngine_isOutputAovWhitePointPickableResponse)},
-        {1380, sizeof(::octaneapi::ApiRenderEngine_pickOutputAovWhitePointRequest)},
-        {1389, sizeof(::octaneapi::ApiRenderEngine_pickOutputAovWhitePointResponse)},
-        {1396, sizeof(::octaneapi::ApiRenderEngine_pickCryptomatteMatteRequest)},
-        {1405, sizeof(::octaneapi::ApiRenderEngine_pickCryptomatteMatteResponse)},
-        {1414, sizeof(::octaneapi::ApiRenderEngine_modifyCryptomatteMatteSelectionRequest)},
-        {1423, sizeof(::octaneapi::ApiRenderEngine_modifyCryptomatteMatteSelectionResponse)},
-        {1432, sizeof(::octaneapi::ApiRenderEngine_toStringRequest)},
-        {1437, sizeof(::octaneapi::ApiRenderEngine_toStringResponse)},
-        {1442, sizeof(::octaneapi::ApiRenderEngine_getDevicePciIdsRequest)},
-        {1447, sizeof(::octaneapi::ApiRenderEngine_getDevicePciIdsResponse)},
-        {1454, sizeof(::octaneapi::ApiRenderEngine)},
+        {1108, sizeof(::octaneapi::ApiRenderEngine_setDevicesActivityResponse)},
+        {1113, sizeof(::octaneapi::ApiRenderEngine_isDeviceUsedForRenderingRequest)},
+        {1118, sizeof(::octaneapi::ApiRenderEngine_isDeviceUsedForRenderingResponse)},
+        {1123, sizeof(::octaneapi::ApiRenderEngine_deviceUsesPriorityRequest)},
+        {1128, sizeof(::octaneapi::ApiRenderEngine_deviceUsesPriorityResponse)},
+        {1133, sizeof(::octaneapi::ApiRenderEngine_deviceUsesHardwareRayTracingRequest)},
+        {1138, sizeof(::octaneapi::ApiRenderEngine_deviceUsesHardwareRayTracingResponse)},
+        {1143, sizeof(::octaneapi::ApiRenderEngine_imageDeviceIndexRequest)},
+        {1144, sizeof(::octaneapi::ApiRenderEngine_imageDeviceIndexResponse)},
+        {1149, sizeof(::octaneapi::ApiRenderEngine_isDeviceUsedForDenoisingRequest)},
+        {1154, sizeof(::octaneapi::ApiRenderEngine_isDeviceUsedForDenoisingResponse)},
+        {1159, sizeof(::octaneapi::ApiRenderEngine_renderPriorityRequest)},
+        {1160, sizeof(::octaneapi::ApiRenderEngine_renderPriorityResponse)},
+        {1165, sizeof(::octaneapi::ApiRenderEngine_setRenderPriorityRequest)},
+        {1170, sizeof(::octaneapi::ApiRenderEngine_currentPeerToPeerGroupsRequest)},
+        {1175, sizeof(::octaneapi::ApiRenderEngine_currentPeerToPeerGroupsResponse)},
+        {1182, sizeof(::octaneapi::ApiRenderEngine_openDeviceSettingsRequest)},
+        {1183, sizeof(::octaneapi::ApiRenderEngine_renderDeviceStateRequest)},
+        {1188, sizeof(::octaneapi::ApiRenderEngine_renderDeviceStateResponse)},
+        {1193, sizeof(::octaneapi::ApiRenderEngine_renderDeviceErrorCodeRequest)},
+        {1198, sizeof(::octaneapi::ApiRenderEngine_renderDeviceErrorCodeResponse)},
+        {1203, sizeof(::octaneapi::ApiRenderEngine_errorcodeToStringRequest)},
+        {1208, sizeof(::octaneapi::ApiRenderEngine_errorcodeToStringResponse)},
+        {1213, sizeof(::octaneapi::ApiRenderEngine_renderDeviceErrorMessageRequest)},
+        {1218, sizeof(::octaneapi::ApiRenderEngine_renderDeviceErrorMessageResponse)},
+        {1223, sizeof(::octaneapi::ApiRenderEngine_saveRenderDeviceConfigRequest)},
+        {1224, sizeof(::octaneapi::ApiRenderEngine_outOfCoreEnabledRequest)},
+        {1225, sizeof(::octaneapi::ApiRenderEngine_outOfCoreEnabledResponse)},
+        {1230, sizeof(::octaneapi::ApiRenderEngine_enableOutOfCoreRequest)},
+        {1235, sizeof(::octaneapi::ApiRenderEngine_disableOutOfCoreRequest)},
+        {1236, sizeof(::octaneapi::ApiRenderEngine_getOutOfCoreMemoryUsageRequest)},
+        {1237, sizeof(::octaneapi::ApiRenderEngine_getOutOfCoreMemoryUsageResponse)},
+        {1250, sizeof(::octaneapi::ApiRenderEngine_setGpuHeadroomRequest)},
+        {1255, sizeof(::octaneapi::ApiRenderEngine_getGpuHeadroomRequest)},
+        {1256, sizeof(::octaneapi::ApiRenderEngine_getGpuHeadroomResponse)},
+        {1261, sizeof(::octaneapi::ApiRenderEngine_setCoreLimitRequest)},
+        {1266, sizeof(::octaneapi::ApiRenderEngine_disableCoreLimitRequest)},
+        {1267, sizeof(::octaneapi::ApiRenderEngine_registerInputSharedSurfaceRequest)},
+        {1272, sizeof(::octaneapi::ApiRenderEngine_registerInputSharedSurfaceResponse)},
+        {1277, sizeof(::octaneapi::ApiRenderEngine_unregisterInputSharedSurfaceRequest)},
+        {1282, sizeof(::octaneapi::ApiRenderEngine_triggerAsyncTonemapRequest)},
+        {1287, sizeof(::octaneapi::ApiRenderEngine_setSharedSurfaceOutputTypeRequest)},
+        {1294, sizeof(::octaneapi::ApiRenderEngine_getSharedSurfaceOutputTypeRequest)},
+        {1295, sizeof(::octaneapi::ApiRenderEngine_getSharedSurfaceOutputTypeResponse)},
+        {1300, sizeof(::octaneapi::ApiRenderEngine_getRealTimeRequest)},
+        {1301, sizeof(::octaneapi::ApiRenderEngine_getRealTimeResponse)},
+        {1306, sizeof(::octaneapi::ApiRenderEngine_pauseRenderingRequest)},
+        {1307, sizeof(::octaneapi::ApiRenderEngine_continueRenderingRequest)},
+        {1308, sizeof(::octaneapi::ApiRenderEngine_isRenderingPausedRequest)},
+        {1309, sizeof(::octaneapi::ApiRenderEngine_isRenderingPausedResponse)},
+        {1314, sizeof(::octaneapi::ApiRenderEngine_restartRenderingRequest)},
+        {1315, sizeof(::octaneapi::ApiRenderEngine_stopRenderingRequest)},
+        {1316, sizeof(::octaneapi::ApiRenderEngine_pickRequest)},
+        {1327, sizeof(::octaneapi::ApiRenderEngine_pickResponse)},
+        {1334, sizeof(::octaneapi::ApiRenderEngine_pickWhitePointRequest)},
+        {1341, sizeof(::octaneapi::ApiRenderEngine_pickWhitePointResponse)},
+        {1348, sizeof(::octaneapi::ApiRenderEngine_pickImagerWhitePointRequest)},
+        {1353, sizeof(::octaneapi::ApiRenderEngine_pickImagerWhitePointResponse)},
+        {1360, sizeof(::octaneapi::ApiRenderEngine_isOutputAovWhitePointPickableRequest)},
+        {1367, sizeof(::octaneapi::ApiRenderEngine_isOutputAovWhitePointPickableResponse)},
+        {1372, sizeof(::octaneapi::ApiRenderEngine_pickOutputAovWhitePointRequest)},
+        {1381, sizeof(::octaneapi::ApiRenderEngine_pickOutputAovWhitePointResponse)},
+        {1388, sizeof(::octaneapi::ApiRenderEngine_pickCryptomatteMatteRequest)},
+        {1397, sizeof(::octaneapi::ApiRenderEngine_pickCryptomatteMatteResponse)},
+        {1406, sizeof(::octaneapi::ApiRenderEngine_modifyCryptomatteMatteSelectionRequest)},
+        {1415, sizeof(::octaneapi::ApiRenderEngine_modifyCryptomatteMatteSelectionResponse)},
+        {1424, sizeof(::octaneapi::ApiRenderEngine_toStringRequest)},
+        {1429, sizeof(::octaneapi::ApiRenderEngine_toStringResponse)},
+        {1434, sizeof(::octaneapi::ApiRenderEngine_getDevicePciIdsRequest)},
+        {1439, sizeof(::octaneapi::ApiRenderEngine_getDevicePciIdsResponse)},
+        {1446, sizeof(::octaneapi::ApiRenderEngine)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::octaneapi::_ApiArrayApiRenderImage_default_instance_._instance,
@@ -7864,8 +7810,6 @@ static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::octaneapi::_ApiRenderEngine_setRenderPriorityRequest_default_instance_._instance,
     &::octaneapi::_ApiRenderEngine_currentPeerToPeerGroupsRequest_default_instance_._instance,
     &::octaneapi::_ApiRenderEngine_currentPeerToPeerGroupsResponse_default_instance_._instance,
-    &::octaneapi::_ApiRenderEngine_hardwareRayTracingEnabledRequest_default_instance_._instance,
-    &::octaneapi::_ApiRenderEngine_hardwareRayTracingEnabledResponse_default_instance_._instance,
     &::octaneapi::_ApiRenderEngine_openDeviceSettingsRequest_default_instance_._instance,
     &::octaneapi::_ApiRenderEngine_renderDeviceStateRequest_default_instance_._instance,
     &::octaneapi::_ApiRenderEngine_renderDeviceStateResponse_default_instance_._instance,
@@ -7972,7 +7916,7 @@ const char descriptor_table_protodef_apirender_2eproto[] ABSL_ATTRIBUTE_SECTION_
     "istics\022\032\n\022usedRgba32Textures\030\001 \001(\r\022\032\n\022us"
     "edRgba64Textures\030\002 \001(\r\022\026\n\016usedY8Textures"
     "\030\003 \001(\r\022\027\n\017usedY16Textures\030\004 \001(\r\022\033\n\023usedV"
-    "irtualTextures\030\005 \001(\r\"\274\223\001\n\017ApiRenderEngin"
+    "irtualTextures\030\005 \001(\r\"\307\222\001\n\017ApiRenderEngin"
     "e\032\201\003\n ApiRenderEngine_PickIntersection\022\""
     "\n\004node\030\001 \001(\0132\024.octaneapi.ObjectRef\022\025\n\rma"
     "terialPinIx\030\002 \001(\r\022\r\n\005depth\030\003 \001(\002\022$\n\010posi"
@@ -8328,7 +8272,7 @@ const char descriptor_table_protodef_apirender_2eproto[] ABSL_ATTRIBUTE_SECTION_
     "ceSharedSurfaceInfo\032$\n\"getAvailablePeerT"
     "oPeerPairsRequest\032\\\n#getAvailablePeerToP"
     "eerPairsResponse\022&\n\006result\030\001 \001(\0132\026.octan"
-    "eapi.Uint2ArrayT\022\r\n\005count\030\002 \001(\r\032\217\003\n\031setD"
+    "eapi.Uint2ArrayT\022\r\n\005count\030\002 \001(\r\032\363\002\n\031setD"
     "evicesActivityRequest\022.\n\017renderDeviceIxs"
     "\030\001 \001(\0132\025.octaneapi.UintArrayT\022\031\n\021renderD"
     "eviceCount\030\002 \001(\r\0225\n\026deviceIxsUsingPriori"
@@ -8338,526 +8282,519 @@ const char descriptor_table_protodef_apirender_2eproto[] ABSL_ATTRIBUTE_SECTION_
     "aneapi.UintArrayT\022\032\n\022denoiseDeviceCount\030"
     "\007 \001(\r\0220\n\020peerToPeerGroups\030\010 \001(\0132\026.octane"
     "api.Uint2ArrayT\022\034\n\024peerToPeerGroupCount\030"
-    "\t \001(\r\022\032\n\022useMetalRayTracing\030\n \001(\010\032,\n\032set"
-    "DevicesActivityResponse\022\016\n\006result\030\001 \001(\010\032"
-    "0\n\037isDeviceUsedForRenderingRequest\022\r\n\005in"
-    "dex\030\001 \001(\r\0322\n isDeviceUsedForRenderingRes"
-    "ponse\022\016\n\006result\030\001 \001(\010\032*\n\031deviceUsesPrior"
-    "ityRequest\022\r\n\005index\030\001 \001(\r\032,\n\032deviceUsesP"
-    "riorityResponse\022\016\n\006result\030\001 \001(\010\0324\n#devic"
-    "eUsesHardwareRayTracingRequest\022\r\n\005index\030"
-    "\001 \001(\r\0326\n$deviceUsesHardwareRayTracingRes"
-    "ponse\022\016\n\006result\030\001 \001(\010\032\031\n\027imageDeviceInde"
-    "xRequest\032*\n\030imageDeviceIndexResponse\022\016\n\006"
-    "result\030\001 \001(\005\0320\n\037isDeviceUsedForDenoising"
-    "Request\022\r\n\005index\030\001 \001(\r\0322\n isDeviceUsedFo"
-    "rDenoisingResponse\022\016\n\006result\030\001 \001(\010\032\027\n\025re"
-    "nderPriorityRequest\032S\n\026renderPriorityRes"
-    "ponse\0229\n\006result\030\001 \001(\0162).octaneapi.ApiRen"
-    "derEngine.RenderPriority\032W\n\030setRenderPri"
-    "orityRequest\022;\n\010priority\030\001 \001(\0162).octanea"
-    "pi.ApiRenderEngine.RenderPriority\0324\n\036cur"
-    "rentPeerToPeerGroupsRequest\022\022\n\ngroupCoun"
-    "t\030\001 \001(\r\032]\n\037currentPeerToPeerGroupsRespon"
-    "se\022&\n\006result\030\001 \001(\0132\026.octaneapi.Uint2Arra"
-    "yT\022\022\n\ngroupCount\030\002 \001(\r\032\"\n hardwareRayTra"
-    "cingEnabledRequest\0323\n!hardwareRayTracing"
-    "EnabledResponse\022\016\n\006result\030\001 \001(\010\032\033\n\031openD"
-    "eviceSettingsRequest\032,\n\030renderDeviceStat"
-    "eRequest\022\020\n\010deviceIx\030\001 \001(\r\032I\n\031renderDevi"
-    "ceStateResponse\022,\n\006result\030\001 \001(\0162\034.octane"
-    "api.RenderDeviceState\0320\n\034renderDeviceErr"
-    "orCodeRequest\022\020\n\010deviceIx\030\001 \001(\r\032G\n\035rende"
-    "rDeviceErrorCodeResponse\022&\n\006result\030\001 \001(\016"
-    "2\026.octaneapi.RenderError\032@\n\030errorcodeToS"
-    "tringRequest\022$\n\004code\030\001 \001(\0162\026.octaneapi.R"
-    "enderError\032+\n\031errorcodeToStringResponse\022"
-    "\016\n\006result\030\001 \001(\t\0323\n\037renderDeviceErrorMess"
-    "ageRequest\022\020\n\010deviceIx\030\001 \001(\r\0322\n renderDe"
-    "viceErrorMessageResponse\022\016\n\006result\030\001 \001(\t"
-    "\032\037\n\035saveRenderDeviceConfigRequest\032\031\n\027out"
-    "OfCoreEnabledRequest\032*\n\030outOfCoreEnabled"
-    "Response\022\016\n\006result\030\001 \001(\010\032\'\n\026enableOutOfC"
-    "oreRequest\022\r\n\005limit\030\001 \001(\004\032\031\n\027disableOutO"
-    "fCoreRequest\032 \n\036getOutOfCoreMemoryUsageR"
-    "equest\032\211\001\n\037getOutOfCoreMemoryUsageRespon"
-    "se\022\025\n\rusedOutOfCore\030\001 \001(\004\022\024\n\014maxOutOfCor"
-    "e\030\002 \001(\004\022\024\n\014usedByOctane\030\003 \001(\004\022\021\n\ttotalUs"
-    "ed\030\004 \001(\004\022\020\n\010totalRam\030\005 \001(\004\032,\n\025setGpuHead"
-    "roomRequest\022\023\n\013gpuHeadroom\030\001 \001(\004\032\027\n\025getG"
-    "puHeadroomRequest\032(\n\026getGpuHeadroomRespo"
-    "nse\022\016\n\006result\030\001 \001(\004\032\'\n\023setCoreLimitReque"
-    "st\022\020\n\010maxCores\030\001 \001(\r\032\031\n\027disableCoreLimit"
-    "Request\032J\n!registerInputSharedSurfaceReq"
-    "uest\022%\n\007surface\030\001 \001(\0132\024.octaneapi.Object"
-    "Ref\0324\n\"registerInputSharedSurfaceRespons"
-    "e\022\016\n\006result\030\001 \001(\003\0321\n#unregisterInputShar"
-    "edSurfaceRequest\022\n\n\002id\030\001 \001(\003\032+\n\032triggerA"
-    "syncTonemapRequest\022\r\n\005force\030\001 \001(\010\032a\n!set"
-    "SharedSurfaceOutputTypeRequest\022*\n\004type\030\001"
-    " \001(\0162\034.octaneapi.SharedSurfaceType\022\020\n\010re"
-    "alTime\030\002 \001(\010\032#\n!getSharedSurfaceOutputTy"
-    "peRequest\032R\n\"getSharedSurfaceOutputTypeR"
-    "esponse\022,\n\006result\030\001 \001(\0162\034.octaneapi.Shar"
-    "edSurfaceType\032\024\n\022getRealTimeRequest\032%\n\023g"
-    "etRealTimeResponse\022\016\n\006result\030\001 \001(\010\032\027\n\025pa"
-    "useRenderingRequest\032\032\n\030continueRendering"
-    "Request\032\032\n\030isRenderingPausedRequest\032+\n\031i"
-    "sRenderingPausedResponse\022\016\n\006result\030\001 \001(\010"
-    "\032\031\n\027restartRenderingRequest\032\026\n\024stopRende"
-    "ringRequest\032c\n\013pickRequest\022\t\n\001x\030\001 \001(\r\022\t\n"
-    "\001y\030\002 \001(\r\022#\n\033filterDuplicateMaterialPins\030"
-    "\003 \001(\010\022\031\n\021intersectionsSize\030\004 \001(\r\032r\n\014pick"
-    "Response\022\016\n\006result\030\001 \001(\r\022R\n\rintersection"
-    "s\030\002 \001(\0132;.octaneapi.ApiRenderEngine.ApiR"
-    "enderEngine_PickIntersection\032-\n\025pickWhit"
-    "ePointRequest\022\t\n\001x\030\001 \001(\r\022\t\n\001y\030\002 \001(\r\032P\n\026p"
-    "ickWhitePointResponse\022\016\n\006result\030\001 \001(\010\022&\n"
-    "\nwhitePoint\030\002 \001(\0132\022.octaneapi.float_3\032D\n"
-    "\033pickImagerWhitePointRequest\022%\n\010position"
-    "\030\001 \001(\0132\023.octaneapi.uint32_2\032V\n\034pickImage"
-    "rWhitePointResponse\022\016\n\006result\030\001 \001(\010\022&\n\nw"
-    "hitePoint\030\002 \001(\0132\022.octaneapi.float_3\032T\n$i"
-    "sOutputAovWhitePointPickableRequest\022\026\n\016o"
-    "utputAovIndex\030\001 \001(\r\022\024\n\014nodeUniqueId\030\002 \001("
-    "\r\0327\n%isOutputAovWhitePointPickableRespon"
-    "se\022\016\n\006result\030\001 \001(\010\032u\n\036pickOutputAovWhite"
-    "PointRequest\022%\n\010position\030\001 \001(\0132\023.octanea"
-    "pi.uint32_2\022\026\n\016outputAovIndex\030\002 \001(\r\022\024\n\014n"
-    "odeUniqueId\030\003 \001(\r\032Y\n\037pickOutputAovWhiteP"
-    "ointResponse\022\016\n\006result\030\001 \001(\010\022&\n\nwhitePoi"
-    "nt\030\002 \001(\0132\022.octaneapi.float_3\032Z\n\033pickCryp"
-    "tomatteMatteRequest\022\t\n\001x\030\001 \001(\r\022\t\n\001y\030\002 \001("
-    "\r\022%\n\004pass\030\003 \001(\0162\027.octaneapi.RenderPassId"
-    "\032^\n\034pickCryptomatteMatteResponse\022\016\n\006resu"
-    "lt\030\001 \001(\010\022\021\n\tmatteName\030\002 \001(\t\022\033\n\023matteName"
-    "BufferSize\030\003 \001(\r\032[\n&modifyCryptomatteMat"
-    "teSelectionRequest\022\021\n\tinputText\030\001 \001(\t\022\021\n"
-    "\tmatteName\030\002 \001(\t\022\013\n\003add\030\003 \001(\010\032k\n\'modifyC"
-    "ryptomatteMatteSelectionResponse\022\016\n\006resu"
-    "lt\030\001 \001(\010\022\022\n\noutputText\030\002 \001(\t\022\034\n\024outputTe"
-    "xtBufferSize\030\003 \001(\r\032N\n\017toStringRequest\022;\n"
-    "\010priority\030\001 \001(\0162).octaneapi.ApiRenderEng"
-    "ine.RenderPriority\032\"\n\020toStringResponse\022\016"
-    "\n\006result\030\001 \001(\t\032*\n\026getDevicePciIdsRequest"
-    "\022\020\n\010deviceIx\030\001 \001(\r\032@\n\027getDevicePciIdsRes"
-    "ponse\022\020\n\010pciBusId\030\001 \001(\004\022\023\n\013pciDeviceId\030\002"
-    " \001(\004\"^\n\016RenderPriority\022\020\n\014PRIORITY_LOW\020\000"
-    "\022\023\n\017PRIORITY_MEDIUM\020\001\022\021\n\rPRIORITY_HIGH\020\002"
-    "\022\022\n\016PRIORITY_COUNT\020\0032\241\177\n\026ApiRenderEngine"
-    "Service\022\204\001\n\023setRenderTargetNode\0225.octane"
-    "api.ApiRenderEngine.setRenderTargetNodeR"
-    "equest\0326.octaneapi.ApiRenderEngine.setRe"
-    "nderTargetNodeResponse\022\204\001\n\023getRenderTarg"
-    "etNode\0225.octaneapi.ApiRenderEngine.getRe"
-    "nderTargetNodeRequest\0326.octaneapi.ApiRen"
-    "derEngine.getRenderTargetNodeResponse\022\212\001"
-    "\n\025getRenderGeometryNode\0227.octaneapi.ApiR"
-    "enderEngine.getRenderGeometryNodeRequest"
-    "\0328.octaneapi.ApiRenderEngine.getRenderGe"
-    "ometryNodeResponse\022\204\001\n\023getRenderCameraNo"
-    "de\0225.octaneapi.ApiRenderEngine.getRender"
-    "CameraNodeRequest\0326.octaneapi.ApiRenderE"
-    "ngine.getRenderCameraNodeResponse\022\\\n\017set"
-    "RenderRegion\0221.octaneapi.ApiRenderEngine"
-    ".setRenderRegionRequest\032\026.google.protobu"
-    "f.Empty\022x\n\017getRenderRegion\0221.octaneapi.A"
-    "piRenderEngine.getRenderRegionRequest\0322."
-    "octaneapi.ApiRenderEngine.getRenderRegio"
-    "nResponse\022h\n\025setAsyncTonemapParams\0227.oct"
-    "aneapi.ApiRenderEngine.setAsyncTonemapPa"
-    "ramsRequest\032\026.google.protobuf.Empty\022j\n\026s"
-    "etAsyncTonemapParams1\0228.octaneapi.ApiRen"
-    "derEngine.setAsyncTonemapParams1Request\032"
-    "\026.google.protobuf.Empty\022\215\001\n\026asyncTonemap"
-    "BufferType\0228.octaneapi.ApiRenderEngine.a"
-    "syncTonemapBufferTypeRequest\0329.octaneapi"
-    ".ApiRenderEngine.asyncTonemapBufferTypeR"
-    "esponse\022\256\001\n!asyncTonemapCryptomatteFalse"
-    "Color\022C.octaneapi.ApiRenderEngine.asyncT"
-    "onemapCryptomatteFalseColorRequest\032D.oct"
-    "aneapi.ApiRenderEngine.asyncTonemapCrypt"
-    "omatteFalseColorResponse\022\253\001\n asyncTonema"
-    "pOutputColorSpaceInfo\022B.octaneapi.ApiRen"
-    "derEngine.asyncTonemapOutputColorSpaceIn"
-    "foRequest\032C.octaneapi.ApiRenderEngine.as"
-    "yncTonemapOutputColorSpaceInfoResponse\022\215"
-    "\001\n\026asyncTonemapColorSpace\0228.octaneapi.Ap"
-    "iRenderEngine.asyncTonemapColorSpaceRequ"
-    "est\0329.octaneapi.ApiRenderEngine.asyncTon"
-    "emapColorSpaceResponse\022\261\001\n\"asyncTonemapP"
-    "remultipliedAlphaType\022D.octaneapi.ApiRen"
-    "derEngine.asyncTonemapPremultipliedAlpha"
-    "TypeRequest\032E.octaneapi.ApiRenderEngine."
-    "asyncTonemapPremultipliedAlphaTypeRespon"
-    "se\022\234\001\n\033setAsyncTonemapRenderPasses\022=.oct"
-    "aneapi.ApiRenderEngine.setAsyncTonemapRe"
-    "nderPassesRequest\032>.octaneapi.ApiRenderE"
-    "ngine.setAsyncTonemapRenderPassesRespons"
-    "e\022n\n\030asyncTonemapRenderPasses\022:.octaneap"
-    "i.ApiRenderEngine.asyncTonemapRenderPass"
-    "esRequest\032\026.google.protobuf.Empty\022u\n\016get"
-    "EnabledAovs\0220.octaneapi.ApiRenderEngine."
-    "getEnabledAovsRequest\0321.octaneapi.ApiRen"
-    "derEngine.getEnabledAovsResponse\022`\n\021free"
-    "TonemapPasses\0223.octaneapi.ApiRenderEngin"
-    "e.freeTonemapPassesRequest\032\026.google.prot"
-    "obuf.Empty\022\204\001\n\023displayRenderPassId\0225.oct"
-    "aneapi.ApiRenderEngine.displayRenderPass"
-    "IdRequest\0326.octaneapi.ApiRenderEngine.di"
-    "splayRenderPassIdResponse\022^\n\020setSubSampl"
-    "eMode\0222.octaneapi.ApiRenderEngine.setSub"
-    "SampleModeRequest\032\026.google.protobuf.Empt"
-    "y\022{\n\020getSubSampleMode\0222.octaneapi.ApiRen"
-    "derEngine.getSubSampleModeRequest\0323.octa"
-    "neapi.ApiRenderEngine.getSubSampleModeRe"
-    "sponse\022T\n\013setClayMode\022-.octaneapi.ApiRen"
-    "derEngine.setClayModeRequest\032\026.google.pr"
-    "otobuf.Empty\022c\n\010clayMode\022*.octaneapi.Api"
-    "RenderEngine.clayModeRequest\032+.octaneapi"
-    ".ApiRenderEngine.clayModeResponse\022T\n\003fps"
-    "\022%.octaneapi.ApiRenderEngine.fpsRequest\032"
-    "&.octaneapi.ApiRenderEngine.fpsResponse\022"
-    "J\n\006setFps\022(.octaneapi.ApiRenderEngine.se"
-    "tFpsRequest\032\026.google.protobuf.Empty\022l\n\013i"
-    "sCompiling\022-.octaneapi.ApiRenderEngine.i"
-    "sCompilingRequest\032..octaneapi.ApiRenderE"
-    "ngine.isCompilingResponse\022\212\001\n\025isCompress"
-    "ingTextures\0227.octaneapi.ApiRenderEngine."
-    "isCompressingTexturesRequest\0328.octaneapi"
-    ".ApiRenderEngine.isCompressingTexturesRe"
-    "sponse\022\207\001\n\024hasPendingRenderData\0226.octane"
-    "api.ApiRenderEngine.hasPendingRenderData"
-    "Request\0327.octaneapi.ApiRenderEngine.hasP"
-    "endingRenderDataResponse\022\212\001\n\025getCurrentC"
-    "hangeLevel\0227.octaneapi.ApiRenderEngine.g"
-    "etCurrentChangeLevelRequest\0328.octaneapi."
-    "ApiRenderEngine.getCurrentChangeLevelRes"
-    "ponse\022\226\001\n\031getRenderImageChangeLevel\022;.oc"
-    "taneapi.ApiRenderEngine.getRenderImageCh"
-    "angeLevelRequest\032<.octaneapi.ApiRenderEn"
-    "gine.getRenderImageChangeLevelResponse\022\242"
-    "\001\n\035getRenderRestartedChangeLevel\022\?.octan"
-    "eapi.ApiRenderEngine.getRenderRestartedC"
-    "hangeLevelRequest\032@.octaneapi.ApiRenderE"
-    "ngine.getRenderRestartedChangeLevelRespo"
-    "nse\022\215\001\n\026setAsyncUpdateCallback\0228.octanea"
-    "pi.ApiRenderEngine.setAsyncUpdateCallbac"
-    "kRequest\0329.octaneapi.ApiRenderEngine.set"
-    "AsyncUpdateCallbackResponse\022x\n\017updatesAr"
-    "eAsync\0221.octaneapi.ApiRenderEngine.updat"
-    "esAreAsyncRequest\0322.octaneapi.ApiRenderE"
-    "ngine.updatesAreAsyncResponse\022o\n\014isImage"
-    "Ready\022..octaneapi.ApiRenderEngine.isImag"
-    "eReadyRequest\032/.octaneapi.ApiRenderEngin"
-    "e.isImageReadyResponse\022\\\n\017resetImageRead"
-    "y\0221.octaneapi.ApiRenderEngine.resetImage"
-    "ReadyRequest\032\026.google.protobuf.Empty\022x\n\017"
-    "isRenderFailure\0221.octaneapi.ApiRenderEng"
-    "ine.isRenderFailureRequest\0322.octaneapi.A"
-    "piRenderEngine.isRenderFailureResponse\022b"
-    "\n\022resetRenderFailure\0224.octaneapi.ApiRend"
-    "erEngine.resetRenderFailureRequest\032\026.goo"
-    "gle.protobuf.Empty\022\223\001\n\030setOnTileBlendedC"
-    "allback\022:.octaneapi.ApiRenderEngine.setO"
-    "nTileBlendedCallbackRequest\032;.octaneapi."
-    "ApiRenderEngine.setOnTileBlendedCallback"
-    "Response\022\231\001\n\032setOnNewStatisticsCallback\022"
-    "<.octaneapi.ApiRenderEngine.setOnNewStat"
-    "isticsCallbackRequest\032=.octaneapi.ApiRen"
-    "derEngine.setOnNewStatisticsCallbackResp"
-    "onse\022\212\001\n\025setOnNewImageCallback\0227.octanea"
-    "pi.ApiRenderEngine.setOnNewImageCallback"
-    "Request\0328.octaneapi.ApiRenderEngine.setO"
-    "nNewImageCallbackResponse\022\215\001\n\026setOnOcioE"
-    "rrorCallback\0228.octaneapi.ApiRenderEngine"
-    ".setOnOcioErrorCallbackRequest\0329.octanea"
-    "pi.ApiRenderEngine.setOnOcioErrorCallbac"
-    "kResponse\022\231\001\n\032setOnRenderFailureCallback"
-    "\022<.octaneapi.ApiRenderEngine.setOnRender"
-    "FailureCallbackRequest\032=.octaneapi.ApiRe"
-    "nderEngine.setOnRenderFailureCallbackRes"
-    "ponse\022~\n setForceCallbacksInRenderThread"
-    "s\022B.octaneapi.ApiRenderEngine.setForceCa"
-    "llbacksInRenderThreadsRequest\032\026.google.p"
-    "rotobuf.Empty\022{\n\020grabRenderResult\0222.octa"
-    "neapi.ApiRenderEngine.grabRenderResultRe"
-    "quest\0323.octaneapi.ApiRenderEngine.grabRe"
-    "nderResultResponse\022d\n\023releaseRenderResul"
-    "t\0225.octaneapi.ApiRenderEngine.releaseRen"
-    "derResultRequest\032\026.google.protobuf.Empty"
-    "\022\201\001\n\022synchronousTonemap\0224.octaneapi.ApiR"
-    "enderEngine.synchronousTonemapRequest\0325."
-    "octaneapi.ApiRenderEngine.synchronousTon"
-    "emapResponse\022\204\001\n\023synchronousTonemap1\0225.o"
+    "\t \001(\r\032,\n\032setDevicesActivityResponse\022\016\n\006r"
+    "esult\030\001 \001(\010\0320\n\037isDeviceUsedForRenderingR"
+    "equest\022\r\n\005index\030\001 \001(\r\0322\n isDeviceUsedFor"
+    "RenderingResponse\022\016\n\006result\030\001 \001(\010\032*\n\031dev"
+    "iceUsesPriorityRequest\022\r\n\005index\030\001 \001(\r\032,\n"
+    "\032deviceUsesPriorityResponse\022\016\n\006result\030\001 "
+    "\001(\010\0324\n#deviceUsesHardwareRayTracingReque"
+    "st\022\r\n\005index\030\001 \001(\r\0326\n$deviceUsesHardwareR"
+    "ayTracingResponse\022\016\n\006result\030\001 \001(\010\032\031\n\027ima"
+    "geDeviceIndexRequest\032*\n\030imageDeviceIndex"
+    "Response\022\016\n\006result\030\001 \001(\005\0320\n\037isDeviceUsed"
+    "ForDenoisingRequest\022\r\n\005index\030\001 \001(\r\0322\n is"
+    "DeviceUsedForDenoisingResponse\022\016\n\006result"
+    "\030\001 \001(\010\032\027\n\025renderPriorityRequest\032S\n\026rende"
+    "rPriorityResponse\0229\n\006result\030\001 \001(\0162).octa"
+    "neapi.ApiRenderEngine.RenderPriority\032W\n\030"
+    "setRenderPriorityRequest\022;\n\010priority\030\001 \001"
+    "(\0162).octaneapi.ApiRenderEngine.RenderPri"
+    "ority\0324\n\036currentPeerToPeerGroupsRequest\022"
+    "\022\n\ngroupCount\030\001 \001(\r\032]\n\037currentPeerToPeer"
+    "GroupsResponse\022&\n\006result\030\001 \001(\0132\026.octanea"
+    "pi.Uint2ArrayT\022\022\n\ngroupCount\030\002 \001(\r\032\033\n\031op"
+    "enDeviceSettingsRequest\032,\n\030renderDeviceS"
+    "tateRequest\022\020\n\010deviceIx\030\001 \001(\r\032I\n\031renderD"
+    "eviceStateResponse\022,\n\006result\030\001 \001(\0162\034.oct"
+    "aneapi.RenderDeviceState\0320\n\034renderDevice"
+    "ErrorCodeRequest\022\020\n\010deviceIx\030\001 \001(\r\032G\n\035re"
+    "nderDeviceErrorCodeResponse\022&\n\006result\030\001 "
+    "\001(\0162\026.octaneapi.RenderError\032@\n\030errorcode"
+    "ToStringRequest\022$\n\004code\030\001 \001(\0162\026.octaneap"
+    "i.RenderError\032+\n\031errorcodeToStringRespon"
+    "se\022\016\n\006result\030\001 \001(\t\0323\n\037renderDeviceErrorM"
+    "essageRequest\022\020\n\010deviceIx\030\001 \001(\r\0322\n rende"
+    "rDeviceErrorMessageResponse\022\016\n\006result\030\001 "
+    "\001(\t\032\037\n\035saveRenderDeviceConfigRequest\032\031\n\027"
+    "outOfCoreEnabledRequest\032*\n\030outOfCoreEnab"
+    "ledResponse\022\016\n\006result\030\001 \001(\010\032\'\n\026enableOut"
+    "OfCoreRequest\022\r\n\005limit\030\001 \001(\004\032\031\n\027disableO"
+    "utOfCoreRequest\032 \n\036getOutOfCoreMemoryUsa"
+    "geRequest\032\211\001\n\037getOutOfCoreMemoryUsageRes"
+    "ponse\022\025\n\rusedOutOfCore\030\001 \001(\004\022\024\n\014maxOutOf"
+    "Core\030\002 \001(\004\022\024\n\014usedByOctane\030\003 \001(\004\022\021\n\ttota"
+    "lUsed\030\004 \001(\004\022\020\n\010totalRam\030\005 \001(\004\032,\n\025setGpuH"
+    "eadroomRequest\022\023\n\013gpuHeadroom\030\001 \001(\004\032\027\n\025g"
+    "etGpuHeadroomRequest\032(\n\026getGpuHeadroomRe"
+    "sponse\022\016\n\006result\030\001 \001(\004\032\'\n\023setCoreLimitRe"
+    "quest\022\020\n\010maxCores\030\001 \001(\r\032\031\n\027disableCoreLi"
+    "mitRequest\032J\n!registerInputSharedSurface"
+    "Request\022%\n\007surface\030\001 \001(\0132\024.octaneapi.Obj"
+    "ectRef\0324\n\"registerInputSharedSurfaceResp"
+    "onse\022\016\n\006result\030\001 \001(\003\0321\n#unregisterInputS"
+    "haredSurfaceRequest\022\n\n\002id\030\001 \001(\003\032+\n\032trigg"
+    "erAsyncTonemapRequest\022\r\n\005force\030\001 \001(\010\032a\n!"
+    "setSharedSurfaceOutputTypeRequest\022*\n\004typ"
+    "e\030\001 \001(\0162\034.octaneapi.SharedSurfaceType\022\020\n"
+    "\010realTime\030\002 \001(\010\032#\n!getSharedSurfaceOutpu"
+    "tTypeRequest\032R\n\"getSharedSurfaceOutputTy"
+    "peResponse\022,\n\006result\030\001 \001(\0162\034.octaneapi.S"
+    "haredSurfaceType\032\024\n\022getRealTimeRequest\032%"
+    "\n\023getRealTimeResponse\022\016\n\006result\030\001 \001(\010\032\027\n"
+    "\025pauseRenderingRequest\032\032\n\030continueRender"
+    "ingRequest\032\032\n\030isRenderingPausedRequest\032+"
+    "\n\031isRenderingPausedResponse\022\016\n\006result\030\001 "
+    "\001(\010\032\031\n\027restartRenderingRequest\032\026\n\024stopRe"
+    "nderingRequest\032c\n\013pickRequest\022\t\n\001x\030\001 \001(\r"
+    "\022\t\n\001y\030\002 \001(\r\022#\n\033filterDuplicateMaterialPi"
+    "ns\030\003 \001(\010\022\031\n\021intersectionsSize\030\004 \001(\r\032r\n\014p"
+    "ickResponse\022\016\n\006result\030\001 \001(\r\022R\n\rintersect"
+    "ions\030\002 \001(\0132;.octaneapi.ApiRenderEngine.A"
+    "piRenderEngine_PickIntersection\032-\n\025pickW"
+    "hitePointRequest\022\t\n\001x\030\001 \001(\r\022\t\n\001y\030\002 \001(\r\032P"
+    "\n\026pickWhitePointResponse\022\016\n\006result\030\001 \001(\010"
+    "\022&\n\nwhitePoint\030\002 \001(\0132\022.octaneapi.float_3"
+    "\032D\n\033pickImagerWhitePointRequest\022%\n\010posit"
+    "ion\030\001 \001(\0132\023.octaneapi.uint32_2\032V\n\034pickIm"
+    "agerWhitePointResponse\022\016\n\006result\030\001 \001(\010\022&"
+    "\n\nwhitePoint\030\002 \001(\0132\022.octaneapi.float_3\032T"
+    "\n$isOutputAovWhitePointPickableRequest\022\026"
+    "\n\016outputAovIndex\030\001 \001(\r\022\024\n\014nodeUniqueId\030\002"
+    " \001(\r\0327\n%isOutputAovWhitePointPickableRes"
+    "ponse\022\016\n\006result\030\001 \001(\010\032u\n\036pickOutputAovWh"
+    "itePointRequest\022%\n\010position\030\001 \001(\0132\023.octa"
+    "neapi.uint32_2\022\026\n\016outputAovIndex\030\002 \001(\r\022\024"
+    "\n\014nodeUniqueId\030\003 \001(\r\032Y\n\037pickOutputAovWhi"
+    "tePointResponse\022\016\n\006result\030\001 \001(\010\022&\n\nwhite"
+    "Point\030\002 \001(\0132\022.octaneapi.float_3\032Z\n\033pickC"
+    "ryptomatteMatteRequest\022\t\n\001x\030\001 \001(\r\022\t\n\001y\030\002"
+    " \001(\r\022%\n\004pass\030\003 \001(\0162\027.octaneapi.RenderPas"
+    "sId\032^\n\034pickCryptomatteMatteResponse\022\016\n\006r"
+    "esult\030\001 \001(\010\022\021\n\tmatteName\030\002 \001(\t\022\033\n\023matteN"
+    "ameBufferSize\030\003 \001(\r\032[\n&modifyCryptomatte"
+    "MatteSelectionRequest\022\021\n\tinputText\030\001 \001(\t"
+    "\022\021\n\tmatteName\030\002 \001(\t\022\013\n\003add\030\003 \001(\010\032k\n\'modi"
+    "fyCryptomatteMatteSelectionResponse\022\016\n\006r"
+    "esult\030\001 \001(\010\022\022\n\noutputText\030\002 \001(\t\022\034\n\024outpu"
+    "tTextBufferSize\030\003 \001(\r\032N\n\017toStringRequest"
+    "\022;\n\010priority\030\001 \001(\0162).octaneapi.ApiRender"
+    "Engine.RenderPriority\032\"\n\020toStringRespons"
+    "e\022\016\n\006result\030\001 \001(\t\032*\n\026getDevicePciIdsRequ"
+    "est\022\020\n\010deviceIx\030\001 \001(\r\032@\n\027getDevicePciIds"
+    "Response\022\020\n\010pciBusId\030\001 \001(\004\022\023\n\013pciDeviceI"
+    "d\030\002 \001(\004\"^\n\016RenderPriority\022\020\n\014PRIORITY_LO"
+    "W\020\000\022\023\n\017PRIORITY_MEDIUM\020\001\022\021\n\rPRIORITY_HIG"
+    "H\020\002\022\022\n\016PRIORITY_COUNT\020\0032\210~\n\026ApiRenderEng"
+    "ineService\022\204\001\n\023setRenderTargetNode\0225.oct"
+    "aneapi.ApiRenderEngine.setRenderTargetNo"
+    "deRequest\0326.octaneapi.ApiRenderEngine.se"
+    "tRenderTargetNodeResponse\022\204\001\n\023getRenderT"
+    "argetNode\0225.octaneapi.ApiRenderEngine.ge"
+    "tRenderTargetNodeRequest\0326.octaneapi.Api"
+    "RenderEngine.getRenderTargetNodeResponse"
+    "\022\212\001\n\025getRenderGeometryNode\0227.octaneapi.A"
+    "piRenderEngine.getRenderGeometryNodeRequ"
+    "est\0328.octaneapi.ApiRenderEngine.getRende"
+    "rGeometryNodeResponse\022\204\001\n\023getRenderCamer"
+    "aNode\0225.octaneapi.ApiRenderEngine.getRen"
+    "derCameraNodeRequest\0326.octaneapi.ApiRend"
+    "erEngine.getRenderCameraNodeResponse\022\\\n\017"
+    "setRenderRegion\0221.octaneapi.ApiRenderEng"
+    "ine.setRenderRegionRequest\032\026.google.prot"
+    "obuf.Empty\022x\n\017getRenderRegion\0221.octaneap"
+    "i.ApiRenderEngine.getRenderRegionRequest"
+    "\0322.octaneapi.ApiRenderEngine.getRenderRe"
+    "gionResponse\022h\n\025setAsyncTonemapParams\0227."
+    "octaneapi.ApiRenderEngine.setAsyncTonema"
+    "pParamsRequest\032\026.google.protobuf.Empty\022j"
+    "\n\026setAsyncTonemapParams1\0228.octaneapi.Api"
+    "RenderEngine.setAsyncTonemapParams1Reque"
+    "st\032\026.google.protobuf.Empty\022\215\001\n\026asyncTone"
+    "mapBufferType\0228.octaneapi.ApiRenderEngin"
+    "e.asyncTonemapBufferTypeRequest\0329.octane"
+    "api.ApiRenderEngine.asyncTonemapBufferTy"
+    "peResponse\022\256\001\n!asyncTonemapCryptomatteFa"
+    "lseColor\022C.octaneapi.ApiRenderEngine.asy"
+    "ncTonemapCryptomatteFalseColorRequest\032D."
+    "octaneapi.ApiRenderEngine.asyncTonemapCr"
+    "yptomatteFalseColorResponse\022\253\001\n asyncTon"
+    "emapOutputColorSpaceInfo\022B.octaneapi.Api"
+    "RenderEngine.asyncTonemapOutputColorSpac"
+    "eInfoRequest\032C.octaneapi.ApiRenderEngine"
+    ".asyncTonemapOutputColorSpaceInfoRespons"
+    "e\022\215\001\n\026asyncTonemapColorSpace\0228.octaneapi"
+    ".ApiRenderEngine.asyncTonemapColorSpaceR"
+    "equest\0329.octaneapi.ApiRenderEngine.async"
+    "TonemapColorSpaceResponse\022\261\001\n\"asyncTonem"
+    "apPremultipliedAlphaType\022D.octaneapi.Api"
+    "RenderEngine.asyncTonemapPremultipliedAl"
+    "phaTypeRequest\032E.octaneapi.ApiRenderEngi"
+    "ne.asyncTonemapPremultipliedAlphaTypeRes"
+    "ponse\022\234\001\n\033setAsyncTonemapRenderPasses\022=."
+    "octaneapi.ApiRenderEngine.setAsyncTonema"
+    "pRenderPassesRequest\032>.octaneapi.ApiRend"
+    "erEngine.setAsyncTonemapRenderPassesResp"
+    "onse\022n\n\030asyncTonemapRenderPasses\022:.octan"
+    "eapi.ApiRenderEngine.asyncTonemapRenderP"
+    "assesRequest\032\026.google.protobuf.Empty\022u\n\016"
+    "getEnabledAovs\0220.octaneapi.ApiRenderEngi"
+    "ne.getEnabledAovsRequest\0321.octaneapi.Api"
+    "RenderEngine.getEnabledAovsResponse\022`\n\021f"
+    "reeTonemapPasses\0223.octaneapi.ApiRenderEn"
+    "gine.freeTonemapPassesRequest\032\026.google.p"
+    "rotobuf.Empty\022\204\001\n\023displayRenderPassId\0225."
+    "octaneapi.ApiRenderEngine.displayRenderP"
+    "assIdRequest\0326.octaneapi.ApiRenderEngine"
+    ".displayRenderPassIdResponse\022^\n\020setSubSa"
+    "mpleMode\0222.octaneapi.ApiRenderEngine.set"
+    "SubSampleModeRequest\032\026.google.protobuf.E"
+    "mpty\022{\n\020getSubSampleMode\0222.octaneapi.Api"
+    "RenderEngine.getSubSampleModeRequest\0323.o"
+    "ctaneapi.ApiRenderEngine.getSubSampleMod"
+    "eResponse\022T\n\013setClayMode\022-.octaneapi.Api"
+    "RenderEngine.setClayModeRequest\032\026.google"
+    ".protobuf.Empty\022c\n\010clayMode\022*.octaneapi."
+    "ApiRenderEngine.clayModeRequest\032+.octane"
+    "api.ApiRenderEngine.clayModeResponse\022T\n\003"
+    "fps\022%.octaneapi.ApiRenderEngine.fpsReque"
+    "st\032&.octaneapi.ApiRenderEngine.fpsRespon"
+    "se\022J\n\006setFps\022(.octaneapi.ApiRenderEngine"
+    ".setFpsRequest\032\026.google.protobuf.Empty\022l"
+    "\n\013isCompiling\022-.octaneapi.ApiRenderEngin"
+    "e.isCompilingRequest\032..octaneapi.ApiRend"
+    "erEngine.isCompilingResponse\022\212\001\n\025isCompr"
+    "essingTextures\0227.octaneapi.ApiRenderEngi"
+    "ne.isCompressingTexturesRequest\0328.octane"
+    "api.ApiRenderEngine.isCompressingTexture"
+    "sResponse\022\207\001\n\024hasPendingRenderData\0226.oct"
+    "aneapi.ApiRenderEngine.hasPendingRenderD"
+    "ataRequest\0327.octaneapi.ApiRenderEngine.h"
+    "asPendingRenderDataResponse\022\212\001\n\025getCurre"
+    "ntChangeLevel\0227.octaneapi.ApiRenderEngin"
+    "e.getCurrentChangeLevelRequest\0328.octanea"
+    "pi.ApiRenderEngine.getCurrentChangeLevel"
+    "Response\022\226\001\n\031getRenderImageChangeLevel\022;"
+    ".octaneapi.ApiRenderEngine.getRenderImag"
+    "eChangeLevelRequest\032<.octaneapi.ApiRende"
+    "rEngine.getRenderImageChangeLevelRespons"
+    "e\022\242\001\n\035getRenderRestartedChangeLevel\022\?.oc"
+    "taneapi.ApiRenderEngine.getRenderRestart"
+    "edChangeLevelRequest\032@.octaneapi.ApiRend"
+    "erEngine.getRenderRestartedChangeLevelRe"
+    "sponse\022\215\001\n\026setAsyncUpdateCallback\0228.octa"
+    "neapi.ApiRenderEngine.setAsyncUpdateCall"
+    "backRequest\0329.octaneapi.ApiRenderEngine."
+    "setAsyncUpdateCallbackResponse\022x\n\017update"
+    "sAreAsync\0221.octaneapi.ApiRenderEngine.up"
+    "datesAreAsyncRequest\0322.octaneapi.ApiRend"
+    "erEngine.updatesAreAsyncResponse\022o\n\014isIm"
+    "ageReady\022..octaneapi.ApiRenderEngine.isI"
+    "mageReadyRequest\032/.octaneapi.ApiRenderEn"
+    "gine.isImageReadyResponse\022\\\n\017resetImageR"
+    "eady\0221.octaneapi.ApiRenderEngine.resetIm"
+    "ageReadyRequest\032\026.google.protobuf.Empty\022"
+    "x\n\017isRenderFailure\0221.octaneapi.ApiRender"
+    "Engine.isRenderFailureRequest\0322.octaneap"
+    "i.ApiRenderEngine.isRenderFailureRespons"
+    "e\022b\n\022resetRenderFailure\0224.octaneapi.ApiR"
+    "enderEngine.resetRenderFailureRequest\032\026."
+    "google.protobuf.Empty\022\223\001\n\030setOnTileBlend"
+    "edCallback\022:.octaneapi.ApiRenderEngine.s"
+    "etOnTileBlendedCallbackRequest\032;.octanea"
+    "pi.ApiRenderEngine.setOnTileBlendedCallb"
+    "ackResponse\022\231\001\n\032setOnNewStatisticsCallba"
+    "ck\022<.octaneapi.ApiRenderEngine.setOnNewS"
+    "tatisticsCallbackRequest\032=.octaneapi.Api"
+    "RenderEngine.setOnNewStatisticsCallbackR"
+    "esponse\022\212\001\n\025setOnNewImageCallback\0227.octa"
+    "neapi.ApiRenderEngine.setOnNewImageCallb"
+    "ackRequest\0328.octaneapi.ApiRenderEngine.s"
+    "etOnNewImageCallbackResponse\022\215\001\n\026setOnOc"
+    "ioErrorCallback\0228.octaneapi.ApiRenderEng"
+    "ine.setOnOcioErrorCallbackRequest\0329.octa"
+    "neapi.ApiRenderEngine.setOnOcioErrorCall"
+    "backResponse\022\231\001\n\032setOnRenderFailureCallb"
+    "ack\022<.octaneapi.ApiRenderEngine.setOnRen"
+    "derFailureCallbackRequest\032=.octaneapi.Ap"
+    "iRenderEngine.setOnRenderFailureCallback"
+    "Response\022~\n setForceCallbacksInRenderThr"
+    "eads\022B.octaneapi.ApiRenderEngine.setForc"
+    "eCallbacksInRenderThreadsRequest\032\026.googl"
+    "e.protobuf.Empty\022{\n\020grabRenderResult\0222.o"
+    "ctaneapi.ApiRenderEngine.grabRenderResul"
+    "tRequest\0323.octaneapi.ApiRenderEngine.gra"
+    "bRenderResultResponse\022d\n\023releaseRenderRe"
+    "sult\0225.octaneapi.ApiRenderEngine.release"
+    "RenderResultRequest\032\026.google.protobuf.Em"
+    "pty\022\201\001\n\022synchronousTonemap\0224.octaneapi.A"
+    "piRenderEngine.synchronousTonemapRequest"
+    "\0325.octaneapi.ApiRenderEngine.synchronous"
+    "TonemapResponse\022\204\001\n\023synchronousTonemap1\022"
+    "5.octaneapi.ApiRenderEngine.synchronousT"
+    "onemap1Request\0326.octaneapi.ApiRenderEngi"
+    "ne.synchronousTonemap1Response\022\256\001\n!synch"
+    "ronousTonemapAllRenderPasses\022C.octaneapi"
+    ".ApiRenderEngine.synchronousTonemapAllRe"
+    "nderPassesRequest\032D.octaneapi.ApiRenderE"
+    "ngine.synchronousTonemapAllRenderPassesR"
+    "esponse\022\261\001\n\"synchronousTonemapAllRenderP"
+    "asses1\022D.octaneapi.ApiRenderEngine.synch"
+    "ronousTonemapAllRenderPasses1Request\032E.o"
     "ctaneapi.ApiRenderEngine.synchronousTone"
-    "map1Request\0326.octaneapi.ApiRenderEngine."
-    "synchronousTonemap1Response\022\256\001\n!synchron"
-    "ousTonemapAllRenderPasses\022C.octaneapi.Ap"
-    "iRenderEngine.synchronousTonemapAllRende"
-    "rPassesRequest\032D.octaneapi.ApiRenderEngi"
-    "ne.synchronousTonemapAllRenderPassesResp"
-    "onse\022\261\001\n\"synchronousTonemapAllRenderPass"
-    "es1\022D.octaneapi.ApiRenderEngine.synchron"
-    "ousTonemapAllRenderPasses1Request\032E.octa"
-    "neapi.ApiRenderEngine.synchronousTonemap"
-    "AllRenderPasses1Response\022\204\001\n\023getRenderSt"
-    "atistics\0225.octaneapi.ApiRenderEngine.get"
-    "RenderStatisticsRequest\0326.octaneapi.ApiR"
-    "enderEngine.getRenderStatisticsResponse\022"
-    "\226\001\n\031getRenderResultStatistics\022;.octaneap"
-    "i.ApiRenderEngine.getRenderResultStatist"
-    "icsRequest\032<.octaneapi.ApiRenderEngine.g"
-    "etRenderResultStatisticsResponse\022f\n\tsave"
-    "Image\022+.octaneapi.ApiRenderEngine.saveIm"
-    "ageRequest\032,.octaneapi.ApiRenderEngine.s"
-    "aveImageResponse\022i\n\nsaveImage1\022,.octanea"
-    "pi.ApiRenderEngine.saveImage1Request\032-.o"
-    "ctaneapi.ApiRenderEngine.saveImage1Respo"
-    "nse\022i\n\nsaveImage2\022,.octaneapi.ApiRenderE"
-    "ngine.saveImage2Request\032-.octaneapi.ApiR"
-    "enderEngine.saveImage2Response\022{\n\020saveRe"
-    "nderPasses\0222.octaneapi.ApiRenderEngine.s"
-    "aveRenderPassesRequest\0323.octaneapi.ApiRe"
-    "nderEngine.saveRenderPassesResponse\022~\n\021s"
-    "aveRenderPasses1\0223.octaneapi.ApiRenderEn"
-    "gine.saveRenderPasses1Request\0324.octaneap"
-    "i.ApiRenderEngine.saveRenderPasses1Respo"
-    "nse\022~\n\021saveRenderPasses2\0223.octaneapi.Api"
-    "RenderEngine.saveRenderPasses2Request\0324."
-    "octaneapi.ApiRenderEngine.saveRenderPass"
-    "es2Response\022\223\001\n\030saveRenderPassesMultiExr"
-    "\022:.octaneapi.ApiRenderEngine.saveRenderP"
-    "assesMultiExrRequest\032;.octaneapi.ApiRend"
-    "erEngine.saveRenderPassesMultiExrRespons"
-    "e\022\226\001\n\031saveRenderPassesMultiExr1\022;.octane"
-    "api.ApiRenderEngine.saveRenderPassesMult"
-    "iExr1Request\032<.octaneapi.ApiRenderEngine"
-    ".saveRenderPassesMultiExr1Response\022\220\001\n\027s"
-    "aveRenderPassesDeepExr\0229.octaneapi.ApiRe"
-    "nderEngine.saveRenderPassesDeepExrReques"
-    "t\032:.octaneapi.ApiRenderEngine.saveRender"
-    "PassesDeepExrResponse\022{\n\020deepImageEnable"
-    "d\0222.octaneapi.ApiRenderEngine.deepImageE"
-    "nabledRequest\0323.octaneapi.ApiRenderEngin"
-    "e.deepImageEnabledResponse\022~\n\021deepImageE"
-    "nabled1\0223.octaneapi.ApiRenderEngine.deep"
-    "ImageEnabled1Request\0324.octaneapi.ApiRend"
-    "erEngine.deepImageEnabled1Response\022~\n\021de"
-    "epPassesEnabled\0223.octaneapi.ApiRenderEng"
-    "ine.deepPassesEnabledRequest\0324.octaneapi"
-    ".ApiRenderEngine.deepPassesEnabledRespon"
-    "se\022{\n\020canSaveDeepImage\0222.octaneapi.ApiRe"
-    "nderEngine.canSaveDeepImageRequest\0323.oct"
-    "aneapi.ApiRenderEngine.canSaveDeepImageR"
-    "esponse\022r\n\rsaveDeepImage\022/.octaneapi.Api"
-    "RenderEngine.saveDeepImageRequest\0320.octa"
-    "neapi.ApiRenderEngine.saveDeepImageRespo"
-    "nse\022x\n\017saveRenderState\0221.octaneapi.ApiRe"
-    "nderEngine.saveRenderStateRequest\0322.octa"
-    "neapi.ApiRenderEngine.saveRenderStateRes"
-    "ponse\022x\n\017loadRenderState\0221.octaneapi.Api"
-    "RenderEngine.loadRenderStateRequest\0322.oc"
-    "taneapi.ApiRenderEngine.loadRenderStateR"
-    "esponse\022x\n\017previewMaterial\0221.octaneapi.A"
-    "piRenderEngine.previewMaterialRequest\0322."
-    "octaneapi.ApiRenderEngine.previewMateria"
-    "lResponse\022\201\001\n\022previewMaterialHdr\0224.octan"
-    "eapi.ApiRenderEngine.previewMaterialHdrR"
-    "equest\0325.octaneapi.ApiRenderEngine.previ"
-    "ewMaterialHdrResponse\022{\n\020previewMaterial"
-    "1\0222.octaneapi.ApiRenderEngine.previewMat"
-    "erial1Request\0323.octaneapi.ApiRenderEngin"
-    "e.previewMaterial1Response\022u\n\016getMemoryU"
-    "sage\0220.octaneapi.ApiRenderEngine.getMemo"
-    "ryUsageRequest\0321.octaneapi.ApiRenderEngi"
-    "ne.getMemoryUsageResponse\022\212\001\n\025getResourc"
-    "eStatistics\0227.octaneapi.ApiRenderEngine."
-    "getResourceStatisticsRequest\0328.octaneapi"
-    ".ApiRenderEngine.getResourceStatisticsRe"
-    "sponse\022\212\001\n\025getGeometryStatistics\0227.octan"
-    "eapi.ApiRenderEngine.getGeometryStatisti"
-    "csRequest\0328.octaneapi.ApiRenderEngine.ge"
-    "tGeometryStatisticsResponse\022\212\001\n\025getTextu"
-    "resStatistics\0227.octaneapi.ApiRenderEngin"
-    "e.getTexturesStatisticsRequest\0328.octanea"
-    "pi.ApiRenderEngine.getTexturesStatistics"
-    "Response\022u\n\016getSceneBounds\0220.octaneapi.A"
-    "piRenderEngine.getSceneBoundsRequest\0321.o"
-    "ctaneapi.ApiRenderEngine.getSceneBoundsR"
-    "esponse\022u\n\016getDeviceCount\0220.octaneapi.Ap"
-    "iRenderEngine.getDeviceCountRequest\0321.oc"
-    "taneapi.ApiRenderEngine.getDeviceCountRe"
-    "sponse\022\212\001\n\025getDeviceComputeModel\0227.octan"
-    "eapi.ApiRenderEngine.getDeviceComputeMod"
-    "elRequest\0328.octaneapi.ApiRenderEngine.ge"
-    "tDeviceComputeModelResponse\022r\n\rgetDevice"
-    "Name\022/.octaneapi.ApiRenderEngine.getDevi"
-    "ceNameRequest\0320.octaneapi.ApiRenderEngin"
-    "e.getDeviceNameResponse\022~\n\021isSupportedDe"
-    "vice\0223.octaneapi.ApiRenderEngine.isSuppo"
-    "rtedDeviceRequest\0324.octaneapi.ApiRenderE"
-    "ngine.isSupportedDeviceResponse\022x\n\017devic"
-    "eCanRender\0221.octaneapi.ApiRenderEngine.d"
-    "eviceCanRenderRequest\0322.octaneapi.ApiRen"
-    "derEngine.deviceCanRenderResponse\022{\n\020dev"
-    "iceCanDenoise\0222.octaneapi.ApiRenderEngin"
-    "e.deviceCanDenoiseRequest\0323.octaneapi.Ap"
-    "iRenderEngine.deviceCanDenoiseResponse\022\253"
-    "\001\n deviceSupportsHardwareRayTracing\022B.oc"
-    "taneapi.ApiRenderEngine.deviceSupportsHa"
-    "rdwareRayTracingRequest\032C.octaneapi.ApiR"
-    "enderEngine.deviceSupportsHardwareRayTra"
-    "cingResponse\022\220\001\n\027deviceSharedSurfaceInfo"
-    "\0229.octaneapi.ApiRenderEngine.deviceShare"
-    "dSurfaceInfoRequest\032:.octaneapi.ApiRende"
-    "rEngine.deviceSharedSurfaceInfoResponse\022"
-    "\234\001\n\033getAvailablePeerToPeerPairs\022=.octane"
-    "api.ApiRenderEngine.getAvailablePeerToPe"
-    "erPairsRequest\032>.octaneapi.ApiRenderEngi"
-    "ne.getAvailablePeerToPeerPairsResponse\022\201"
-    "\001\n\022setDevicesActivity\0224.octaneapi.ApiRen"
-    "derEngine.setDevicesActivityRequest\0325.oc"
-    "taneapi.ApiRenderEngine.setDevicesActivi"
-    "tyResponse\022\223\001\n\030isDeviceUsedForRendering\022"
-    ":.octaneapi.ApiRenderEngine.isDeviceUsed"
-    "ForRenderingRequest\032;.octaneapi.ApiRende"
-    "rEngine.isDeviceUsedForRenderingResponse"
-    "\022\201\001\n\022deviceUsesPriority\0224.octaneapi.ApiR"
-    "enderEngine.deviceUsesPriorityRequest\0325."
-    "octaneapi.ApiRenderEngine.deviceUsesPrio"
-    "rityResponse\022\237\001\n\034deviceUsesHardwareRayTr"
-    "acing\022>.octaneapi.ApiRenderEngine.device"
-    "UsesHardwareRayTracingRequest\032\?.octaneap"
-    "i.ApiRenderEngine.deviceUsesHardwareRayT"
-    "racingResponse\022{\n\020imageDeviceIndex\0222.oct"
-    "aneapi.ApiRenderEngine.imageDeviceIndexR"
-    "equest\0323.octaneapi.ApiRenderEngine.image"
-    "DeviceIndexResponse\022\223\001\n\030isDeviceUsedForD"
-    "enoising\022:.octaneapi.ApiRenderEngine.isD"
-    "eviceUsedForDenoisingRequest\032;.octaneapi"
-    ".ApiRenderEngine.isDeviceUsedForDenoisin"
-    "gResponse\022u\n\016renderPriority\0220.octaneapi."
-    "ApiRenderEngine.renderPriorityRequest\0321."
-    "octaneapi.ApiRenderEngine.renderPriority"
-    "Response\022`\n\021setRenderPriority\0223.octaneap"
-    "i.ApiRenderEngine.setRenderPriorityReque"
-    "st\032\026.google.protobuf.Empty\022\220\001\n\027currentPe"
-    "erToPeerGroups\0229.octaneapi.ApiRenderEngi"
-    "ne.currentPeerToPeerGroupsRequest\032:.octa"
-    "neapi.ApiRenderEngine.currentPeerToPeerG"
-    "roupsResponse\022\226\001\n\031hardwareRayTracingEnab"
-    "led\022;.octaneapi.ApiRenderEngine.hardware"
-    "RayTracingEnabledRequest\032<.octaneapi.Api"
-    "RenderEngine.hardwareRayTracingEnabledRe"
-    "sponse\022b\n\022openDeviceSettings\0224.octaneapi"
-    ".ApiRenderEngine.openDeviceSettingsReque"
-    "st\032\026.google.protobuf.Empty\022~\n\021renderDevi"
-    "ceState\0223.octaneapi.ApiRenderEngine.rend"
-    "erDeviceStateRequest\0324.octaneapi.ApiRend"
-    "erEngine.renderDeviceStateResponse\022\212\001\n\025r"
-    "enderDeviceErrorCode\0227.octaneapi.ApiRend"
-    "erEngine.renderDeviceErrorCodeRequest\0328."
-    "octaneapi.ApiRenderEngine.renderDeviceEr"
-    "rorCodeResponse\022~\n\021errorcodeToString\0223.o"
-    "ctaneapi.ApiRenderEngine.errorcodeToStri"
-    "ngRequest\0324.octaneapi.ApiRenderEngine.er"
-    "rorcodeToStringResponse\022\223\001\n\030renderDevice"
-    "ErrorMessage\022:.octaneapi.ApiRenderEngine"
-    ".renderDeviceErrorMessageRequest\032;.octan"
-    "eapi.ApiRenderEngine.renderDeviceErrorMe"
-    "ssageResponse\022j\n\026saveRenderDeviceConfig\022"
-    "8.octaneapi.ApiRenderEngine.saveRenderDe"
-    "viceConfigRequest\032\026.google.protobuf.Empt"
-    "y\022{\n\020outOfCoreEnabled\0222.octaneapi.ApiRen"
-    "derEngine.outOfCoreEnabledRequest\0323.octa"
-    "neapi.ApiRenderEngine.outOfCoreEnabledRe"
-    "sponse\022\\\n\017enableOutOfCore\0221.octaneapi.Ap"
-    "iRenderEngine.enableOutOfCoreRequest\032\026.g"
-    "oogle.protobuf.Empty\022^\n\020disableOutOfCore"
-    "\0222.octaneapi.ApiRenderEngine.disableOutO"
-    "fCoreRequest\032\026.google.protobuf.Empty\022\220\001\n"
-    "\027getOutOfCoreMemoryUsage\0229.octaneapi.Api"
-    "RenderEngine.getOutOfCoreMemoryUsageRequ"
-    "est\032:.octaneapi.ApiRenderEngine.getOutOf"
-    "CoreMemoryUsageResponse\022Z\n\016setGpuHeadroo"
-    "m\0220.octaneapi.ApiRenderEngine.setGpuHead"
-    "roomRequest\032\026.google.protobuf.Empty\022u\n\016g"
-    "etGpuHeadroom\0220.octaneapi.ApiRenderEngin"
-    "e.getGpuHeadroomRequest\0321.octaneapi.ApiR"
-    "enderEngine.getGpuHeadroomResponse\022V\n\014se"
-    "tCoreLimit\022..octaneapi.ApiRenderEngine.s"
-    "etCoreLimitRequest\032\026.google.protobuf.Emp"
-    "ty\022^\n\020disableCoreLimit\0222.octaneapi.ApiRe"
-    "nderEngine.disableCoreLimitRequest\032\026.goo"
-    "gle.protobuf.Empty\022\231\001\n\032registerInputShar"
-    "edSurface\022<.octaneapi.ApiRenderEngine.re"
-    "gisterInputSharedSurfaceRequest\032=.octane"
-    "api.ApiRenderEngine.registerInputSharedS"
-    "urfaceResponse\022v\n\034unregisterInputSharedS"
-    "urface\022>.octaneapi.ApiRenderEngine.unreg"
-    "isterInputSharedSurfaceRequest\032\026.google."
-    "protobuf.Empty\022d\n\023triggerAsyncTonemap\0225."
-    "octaneapi.ApiRenderEngine.triggerAsyncTo"
-    "nemapRequest\032\026.google.protobuf.Empty\022r\n\032"
-    "setSharedSurfaceOutputType\022<.octaneapi.A"
-    "piRenderEngine.setSharedSurfaceOutputTyp"
-    "eRequest\032\026.google.protobuf.Empty\022\231\001\n\032get"
-    "SharedSurfaceOutputType\022<.octaneapi.ApiR"
-    "enderEngine.getSharedSurfaceOutputTypeRe"
-    "quest\032=.octaneapi.ApiRenderEngine.getSha"
-    "redSurfaceOutputTypeResponse\022l\n\013getRealT"
-    "ime\022-.octaneapi.ApiRenderEngine.getRealT"
-    "imeRequest\032..octaneapi.ApiRenderEngine.g"
-    "etRealTimeResponse\022Z\n\016pauseRendering\0220.o"
-    "ctaneapi.ApiRenderEngine.pauseRenderingR"
-    "equest\032\026.google.protobuf.Empty\022`\n\021contin"
-    "ueRendering\0223.octaneapi.ApiRenderEngine."
-    "continueRenderingRequest\032\026.google.protob"
-    "uf.Empty\022~\n\021isRenderingPaused\0223.octaneap"
-    "i.ApiRenderEngine.isRenderingPausedReque"
-    "st\0324.octaneapi.ApiRenderEngine.isRenderi"
-    "ngPausedResponse\022^\n\020restartRendering\0222.o"
-    "ctaneapi.ApiRenderEngine.restartRenderin"
-    "gRequest\032\026.google.protobuf.Empty\022X\n\rstop"
-    "Rendering\022/.octaneapi.ApiRenderEngine.st"
-    "opRenderingRequest\032\026.google.protobuf.Emp"
-    "ty\022W\n\004pick\022&.octaneapi.ApiRenderEngine.p"
-    "ickRequest\032\'.octaneapi.ApiRenderEngine.p"
-    "ickResponse\022u\n\016pickWhitePoint\0220.octaneap"
-    "i.ApiRenderEngine.pickWhitePointRequest\032"
-    "1.octaneapi.ApiRenderEngine.pickWhitePoi"
-    "ntResponse\022\207\001\n\024pickImagerWhitePoint\0226.oc"
-    "taneapi.ApiRenderEngine.pickImagerWhiteP"
-    "ointRequest\0327.octaneapi.ApiRenderEngine."
-    "pickImagerWhitePointResponse\022\242\001\n\035isOutpu"
-    "tAovWhitePointPickable\022\?.octaneapi.ApiRe"
-    "nderEngine.isOutputAovWhitePointPickable"
-    "Request\032@.octaneapi.ApiRenderEngine.isOu"
-    "tputAovWhitePointPickableResponse\022\220\001\n\027pi"
-    "ckOutputAovWhitePoint\0229.octaneapi.ApiRen"
-    "derEngine.pickOutputAovWhitePointRequest"
-    "\032:.octaneapi.ApiRenderEngine.pickOutputA"
-    "ovWhitePointResponse\022\207\001\n\024pickCryptomatte"
-    "Matte\0226.octaneapi.ApiRenderEngine.pickCr"
-    "yptomatteMatteRequest\0327.octaneapi.ApiRen"
-    "derEngine.pickCryptomatteMatteResponse\022\250"
-    "\001\n\037modifyCryptomatteMatteSelection\022A.oct"
-    "aneapi.ApiRenderEngine.modifyCryptomatte"
-    "MatteSelectionRequest\032B.octaneapi.ApiRen"
-    "derEngine.modifyCryptomatteMatteSelectio"
-    "nResponse\022c\n\010toString\022*.octaneapi.ApiRen"
-    "derEngine.toStringRequest\032+.octaneapi.Ap"
-    "iRenderEngine.toStringResponse\022x\n\017getDev"
-    "icePciIds\0221.octaneapi.ApiRenderEngine.ge"
-    "tDevicePciIdsRequest\0322.octaneapi.ApiRend"
-    "erEngine.getDevicePciIdsResponse2\321\001\n\025Api"
-    "RenderImageService\022^\n\007isEmpty\022(.octaneap"
-    "i.ApiRenderImage.isEmptyRequest\032).octane"
-    "api.ApiRenderImage.isEmptyResponse\022X\n\005is"
-    "Hdr\022&.octaneapi.ApiRenderImage.isHdrRequ"
-    "est\032\'.octaneapi.ApiRenderImage.isHdrResp"
-    "onseB\002H\002b\006proto3"
+    "mapAllRenderPasses1Response\022\204\001\n\023getRende"
+    "rStatistics\0225.octaneapi.ApiRenderEngine."
+    "getRenderStatisticsRequest\0326.octaneapi.A"
+    "piRenderEngine.getRenderStatisticsRespon"
+    "se\022\226\001\n\031getRenderResultStatistics\022;.octan"
+    "eapi.ApiRenderEngine.getRenderResultStat"
+    "isticsRequest\032<.octaneapi.ApiRenderEngin"
+    "e.getRenderResultStatisticsResponse\022f\n\ts"
+    "aveImage\022+.octaneapi.ApiRenderEngine.sav"
+    "eImageRequest\032,.octaneapi.ApiRenderEngin"
+    "e.saveImageResponse\022i\n\nsaveImage1\022,.octa"
+    "neapi.ApiRenderEngine.saveImage1Request\032"
+    "-.octaneapi.ApiRenderEngine.saveImage1Re"
+    "sponse\022i\n\nsaveImage2\022,.octaneapi.ApiRend"
+    "erEngine.saveImage2Request\032-.octaneapi.A"
+    "piRenderEngine.saveImage2Response\022{\n\020sav"
+    "eRenderPasses\0222.octaneapi.ApiRenderEngin"
+    "e.saveRenderPassesRequest\0323.octaneapi.Ap"
+    "iRenderEngine.saveRenderPassesResponse\022~"
+    "\n\021saveRenderPasses1\0223.octaneapi.ApiRende"
+    "rEngine.saveRenderPasses1Request\0324.octan"
+    "eapi.ApiRenderEngine.saveRenderPasses1Re"
+    "sponse\022~\n\021saveRenderPasses2\0223.octaneapi."
+    "ApiRenderEngine.saveRenderPasses2Request"
+    "\0324.octaneapi.ApiRenderEngine.saveRenderP"
+    "asses2Response\022\223\001\n\030saveRenderPassesMulti"
+    "Exr\022:.octaneapi.ApiRenderEngine.saveRend"
+    "erPassesMultiExrRequest\032;.octaneapi.ApiR"
+    "enderEngine.saveRenderPassesMultiExrResp"
+    "onse\022\226\001\n\031saveRenderPassesMultiExr1\022;.oct"
+    "aneapi.ApiRenderEngine.saveRenderPassesM"
+    "ultiExr1Request\032<.octaneapi.ApiRenderEng"
+    "ine.saveRenderPassesMultiExr1Response\022\220\001"
+    "\n\027saveRenderPassesDeepExr\0229.octaneapi.Ap"
+    "iRenderEngine.saveRenderPassesDeepExrReq"
+    "uest\032:.octaneapi.ApiRenderEngine.saveRen"
+    "derPassesDeepExrResponse\022{\n\020deepImageEna"
+    "bled\0222.octaneapi.ApiRenderEngine.deepIma"
+    "geEnabledRequest\0323.octaneapi.ApiRenderEn"
+    "gine.deepImageEnabledResponse\022~\n\021deepIma"
+    "geEnabled1\0223.octaneapi.ApiRenderEngine.d"
+    "eepImageEnabled1Request\0324.octaneapi.ApiR"
+    "enderEngine.deepImageEnabled1Response\022~\n"
+    "\021deepPassesEnabled\0223.octaneapi.ApiRender"
+    "Engine.deepPassesEnabledRequest\0324.octane"
+    "api.ApiRenderEngine.deepPassesEnabledRes"
+    "ponse\022{\n\020canSaveDeepImage\0222.octaneapi.Ap"
+    "iRenderEngine.canSaveDeepImageRequest\0323."
+    "octaneapi.ApiRenderEngine.canSaveDeepIma"
+    "geResponse\022r\n\rsaveDeepImage\022/.octaneapi."
+    "ApiRenderEngine.saveDeepImageRequest\0320.o"
+    "ctaneapi.ApiRenderEngine.saveDeepImageRe"
+    "sponse\022x\n\017saveRenderState\0221.octaneapi.Ap"
+    "iRenderEngine.saveRenderStateRequest\0322.o"
+    "ctaneapi.ApiRenderEngine.saveRenderState"
+    "Response\022x\n\017loadRenderState\0221.octaneapi."
+    "ApiRenderEngine.loadRenderStateRequest\0322"
+    ".octaneapi.ApiRenderEngine.loadRenderSta"
+    "teResponse\022x\n\017previewMaterial\0221.octaneap"
+    "i.ApiRenderEngine.previewMaterialRequest"
+    "\0322.octaneapi.ApiRenderEngine.previewMate"
+    "rialResponse\022\201\001\n\022previewMaterialHdr\0224.oc"
+    "taneapi.ApiRenderEngine.previewMaterialH"
+    "drRequest\0325.octaneapi.ApiRenderEngine.pr"
+    "eviewMaterialHdrResponse\022{\n\020previewMater"
+    "ial1\0222.octaneapi.ApiRenderEngine.preview"
+    "Material1Request\0323.octaneapi.ApiRenderEn"
+    "gine.previewMaterial1Response\022u\n\016getMemo"
+    "ryUsage\0220.octaneapi.ApiRenderEngine.getM"
+    "emoryUsageRequest\0321.octaneapi.ApiRenderE"
+    "ngine.getMemoryUsageResponse\022\212\001\n\025getReso"
+    "urceStatistics\0227.octaneapi.ApiRenderEngi"
+    "ne.getResourceStatisticsRequest\0328.octane"
+    "api.ApiRenderEngine.getResourceStatistic"
+    "sResponse\022\212\001\n\025getGeometryStatistics\0227.oc"
+    "taneapi.ApiRenderEngine.getGeometryStati"
+    "sticsRequest\0328.octaneapi.ApiRenderEngine"
+    ".getGeometryStatisticsResponse\022\212\001\n\025getTe"
+    "xturesStatistics\0227.octaneapi.ApiRenderEn"
+    "gine.getTexturesStatisticsRequest\0328.octa"
+    "neapi.ApiRenderEngine.getTexturesStatist"
+    "icsResponse\022u\n\016getSceneBounds\0220.octaneap"
+    "i.ApiRenderEngine.getSceneBoundsRequest\032"
+    "1.octaneapi.ApiRenderEngine.getSceneBoun"
+    "dsResponse\022u\n\016getDeviceCount\0220.octaneapi"
+    ".ApiRenderEngine.getDeviceCountRequest\0321"
+    ".octaneapi.ApiRenderEngine.getDeviceCoun"
+    "tResponse\022\212\001\n\025getDeviceComputeModel\0227.oc"
+    "taneapi.ApiRenderEngine.getDeviceCompute"
+    "ModelRequest\0328.octaneapi.ApiRenderEngine"
+    ".getDeviceComputeModelResponse\022r\n\rgetDev"
+    "iceName\022/.octaneapi.ApiRenderEngine.getD"
+    "eviceNameRequest\0320.octaneapi.ApiRenderEn"
+    "gine.getDeviceNameResponse\022~\n\021isSupporte"
+    "dDevice\0223.octaneapi.ApiRenderEngine.isSu"
+    "pportedDeviceRequest\0324.octaneapi.ApiRend"
+    "erEngine.isSupportedDeviceResponse\022x\n\017de"
+    "viceCanRender\0221.octaneapi.ApiRenderEngin"
+    "e.deviceCanRenderRequest\0322.octaneapi.Api"
+    "RenderEngine.deviceCanRenderResponse\022{\n\020"
+    "deviceCanDenoise\0222.octaneapi.ApiRenderEn"
+    "gine.deviceCanDenoiseRequest\0323.octaneapi"
+    ".ApiRenderEngine.deviceCanDenoiseRespons"
+    "e\022\253\001\n deviceSupportsHardwareRayTracing\022B"
+    ".octaneapi.ApiRenderEngine.deviceSupport"
+    "sHardwareRayTracingRequest\032C.octaneapi.A"
+    "piRenderEngine.deviceSupportsHardwareRay"
+    "TracingResponse\022\220\001\n\027deviceSharedSurfaceI"
+    "nfo\0229.octaneapi.ApiRenderEngine.deviceSh"
+    "aredSurfaceInfoRequest\032:.octaneapi.ApiRe"
+    "nderEngine.deviceSharedSurfaceInfoRespon"
+    "se\022\234\001\n\033getAvailablePeerToPeerPairs\022=.oct"
+    "aneapi.ApiRenderEngine.getAvailablePeerT"
+    "oPeerPairsRequest\032>.octaneapi.ApiRenderE"
+    "ngine.getAvailablePeerToPeerPairsRespons"
+    "e\022\201\001\n\022setDevicesActivity\0224.octaneapi.Api"
+    "RenderEngine.setDevicesActivityRequest\0325"
+    ".octaneapi.ApiRenderEngine.setDevicesAct"
+    "ivityResponse\022\223\001\n\030isDeviceUsedForRenderi"
+    "ng\022:.octaneapi.ApiRenderEngine.isDeviceU"
+    "sedForRenderingRequest\032;.octaneapi.ApiRe"
+    "nderEngine.isDeviceUsedForRenderingRespo"
+    "nse\022\201\001\n\022deviceUsesPriority\0224.octaneapi.A"
+    "piRenderEngine.deviceUsesPriorityRequest"
+    "\0325.octaneapi.ApiRenderEngine.deviceUsesP"
+    "riorityResponse\022\237\001\n\034deviceUsesHardwareRa"
+    "yTracing\022>.octaneapi.ApiRenderEngine.dev"
+    "iceUsesHardwareRayTracingRequest\032\?.octan"
+    "eapi.ApiRenderEngine.deviceUsesHardwareR"
+    "ayTracingResponse\022{\n\020imageDeviceIndex\0222."
+    "octaneapi.ApiRenderEngine.imageDeviceInd"
+    "exRequest\0323.octaneapi.ApiRenderEngine.im"
+    "ageDeviceIndexResponse\022\223\001\n\030isDeviceUsedF"
+    "orDenoising\022:.octaneapi.ApiRenderEngine."
+    "isDeviceUsedForDenoisingRequest\032;.octane"
+    "api.ApiRenderEngine.isDeviceUsedForDenoi"
+    "singResponse\022u\n\016renderPriority\0220.octanea"
+    "pi.ApiRenderEngine.renderPriorityRequest"
+    "\0321.octaneapi.ApiRenderEngine.renderPrior"
+    "ityResponse\022`\n\021setRenderPriority\0223.octan"
+    "eapi.ApiRenderEngine.setRenderPriorityRe"
+    "quest\032\026.google.protobuf.Empty\022\220\001\n\027curren"
+    "tPeerToPeerGroups\0229.octaneapi.ApiRenderE"
+    "ngine.currentPeerToPeerGroupsRequest\032:.o"
+    "ctaneapi.ApiRenderEngine.currentPeerToPe"
+    "erGroupsResponse\022b\n\022openDeviceSettings\0224"
+    ".octaneapi.ApiRenderEngine.openDeviceSet"
+    "tingsRequest\032\026.google.protobuf.Empty\022~\n\021"
+    "renderDeviceState\0223.octaneapi.ApiRenderE"
+    "ngine.renderDeviceStateRequest\0324.octanea"
+    "pi.ApiRenderEngine.renderDeviceStateResp"
+    "onse\022\212\001\n\025renderDeviceErrorCode\0227.octanea"
+    "pi.ApiRenderEngine.renderDeviceErrorCode"
+    "Request\0328.octaneapi.ApiRenderEngine.rend"
+    "erDeviceErrorCodeResponse\022~\n\021errorcodeTo"
+    "String\0223.octaneapi.ApiRenderEngine.error"
+    "codeToStringRequest\0324.octaneapi.ApiRende"
+    "rEngine.errorcodeToStringResponse\022\223\001\n\030re"
+    "nderDeviceErrorMessage\022:.octaneapi.ApiRe"
+    "nderEngine.renderDeviceErrorMessageReque"
+    "st\032;.octaneapi.ApiRenderEngine.renderDev"
+    "iceErrorMessageResponse\022j\n\026saveRenderDev"
+    "iceConfig\0228.octaneapi.ApiRenderEngine.sa"
+    "veRenderDeviceConfigRequest\032\026.google.pro"
+    "tobuf.Empty\022{\n\020outOfCoreEnabled\0222.octane"
+    "api.ApiRenderEngine.outOfCoreEnabledRequ"
+    "est\0323.octaneapi.ApiRenderEngine.outOfCor"
+    "eEnabledResponse\022\\\n\017enableOutOfCore\0221.oc"
+    "taneapi.ApiRenderEngine.enableOutOfCoreR"
+    "equest\032\026.google.protobuf.Empty\022^\n\020disabl"
+    "eOutOfCore\0222.octaneapi.ApiRenderEngine.d"
+    "isableOutOfCoreRequest\032\026.google.protobuf"
+    ".Empty\022\220\001\n\027getOutOfCoreMemoryUsage\0229.oct"
+    "aneapi.ApiRenderEngine.getOutOfCoreMemor"
+    "yUsageRequest\032:.octaneapi.ApiRenderEngin"
+    "e.getOutOfCoreMemoryUsageResponse\022Z\n\016set"
+    "GpuHeadroom\0220.octaneapi.ApiRenderEngine."
+    "setGpuHeadroomRequest\032\026.google.protobuf."
+    "Empty\022u\n\016getGpuHeadroom\0220.octaneapi.ApiR"
+    "enderEngine.getGpuHeadroomRequest\0321.octa"
+    "neapi.ApiRenderEngine.getGpuHeadroomResp"
+    "onse\022V\n\014setCoreLimit\022..octaneapi.ApiRend"
+    "erEngine.setCoreLimitRequest\032\026.google.pr"
+    "otobuf.Empty\022^\n\020disableCoreLimit\0222.octan"
+    "eapi.ApiRenderEngine.disableCoreLimitReq"
+    "uest\032\026.google.protobuf.Empty\022\231\001\n\032registe"
+    "rInputSharedSurface\022<.octaneapi.ApiRende"
+    "rEngine.registerInputSharedSurfaceReques"
+    "t\032=.octaneapi.ApiRenderEngine.registerIn"
+    "putSharedSurfaceResponse\022v\n\034unregisterIn"
+    "putSharedSurface\022>.octaneapi.ApiRenderEn"
+    "gine.unregisterInputSharedSurfaceRequest"
+    "\032\026.google.protobuf.Empty\022d\n\023triggerAsync"
+    "Tonemap\0225.octaneapi.ApiRenderEngine.trig"
+    "gerAsyncTonemapRequest\032\026.google.protobuf"
+    ".Empty\022r\n\032setSharedSurfaceOutputType\022<.o"
+    "ctaneapi.ApiRenderEngine.setSharedSurfac"
+    "eOutputTypeRequest\032\026.google.protobuf.Emp"
+    "ty\022\231\001\n\032getSharedSurfaceOutputType\022<.octa"
+    "neapi.ApiRenderEngine.getSharedSurfaceOu"
+    "tputTypeRequest\032=.octaneapi.ApiRenderEng"
+    "ine.getSharedSurfaceOutputTypeResponse\022l"
+    "\n\013getRealTime\022-.octaneapi.ApiRenderEngin"
+    "e.getRealTimeRequest\032..octaneapi.ApiRend"
+    "erEngine.getRealTimeResponse\022Z\n\016pauseRen"
+    "dering\0220.octaneapi.ApiRenderEngine.pause"
+    "RenderingRequest\032\026.google.protobuf.Empty"
+    "\022`\n\021continueRendering\0223.octaneapi.ApiRen"
+    "derEngine.continueRenderingRequest\032\026.goo"
+    "gle.protobuf.Empty\022~\n\021isRenderingPaused\022"
+    "3.octaneapi.ApiRenderEngine.isRenderingP"
+    "ausedRequest\0324.octaneapi.ApiRenderEngine"
+    ".isRenderingPausedResponse\022^\n\020restartRen"
+    "dering\0222.octaneapi.ApiRenderEngine.resta"
+    "rtRenderingRequest\032\026.google.protobuf.Emp"
+    "ty\022X\n\rstopRendering\022/.octaneapi.ApiRende"
+    "rEngine.stopRenderingRequest\032\026.google.pr"
+    "otobuf.Empty\022W\n\004pick\022&.octaneapi.ApiRend"
+    "erEngine.pickRequest\032\'.octaneapi.ApiRend"
+    "erEngine.pickResponse\022u\n\016pickWhitePoint\022"
+    "0.octaneapi.ApiRenderEngine.pickWhitePoi"
+    "ntRequest\0321.octaneapi.ApiRenderEngine.pi"
+    "ckWhitePointResponse\022\207\001\n\024pickImagerWhite"
+    "Point\0226.octaneapi.ApiRenderEngine.pickIm"
+    "agerWhitePointRequest\0327.octaneapi.ApiRen"
+    "derEngine.pickImagerWhitePointResponse\022\242"
+    "\001\n\035isOutputAovWhitePointPickable\022\?.octan"
+    "eapi.ApiRenderEngine.isOutputAovWhitePoi"
+    "ntPickableRequest\032@.octaneapi.ApiRenderE"
+    "ngine.isOutputAovWhitePointPickableRespo"
+    "nse\022\220\001\n\027pickOutputAovWhitePoint\0229.octane"
+    "api.ApiRenderEngine.pickOutputAovWhitePo"
+    "intRequest\032:.octaneapi.ApiRenderEngine.p"
+    "ickOutputAovWhitePointResponse\022\207\001\n\024pickC"
+    "ryptomatteMatte\0226.octaneapi.ApiRenderEng"
+    "ine.pickCryptomatteMatteRequest\0327.octane"
+    "api.ApiRenderEngine.pickCryptomatteMatte"
+    "Response\022\250\001\n\037modifyCryptomatteMatteSelec"
+    "tion\022A.octaneapi.ApiRenderEngine.modifyC"
+    "ryptomatteMatteSelectionRequest\032B.octane"
+    "api.ApiRenderEngine.modifyCryptomatteMat"
+    "teSelectionResponse\022c\n\010toString\022*.octane"
+    "api.ApiRenderEngine.toStringRequest\032+.oc"
+    "taneapi.ApiRenderEngine.toStringResponse"
+    "\022x\n\017getDevicePciIds\0221.octaneapi.ApiRende"
+    "rEngine.getDevicePciIdsRequest\0322.octanea"
+    "pi.ApiRenderEngine.getDevicePciIdsRespon"
+    "se2\321\001\n\025ApiRenderImageService\022^\n\007isEmpty\022"
+    "(.octaneapi.ApiRenderImage.isEmptyReques"
+    "t\032).octaneapi.ApiRenderImage.isEmptyResp"
+    "onse\022X\n\005isHdr\022&.octaneapi.ApiRenderImage"
+    ".isHdrRequest\032\'.octaneapi.ApiRenderImage"
+    ".isHdrResponseB\002H\002b\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_apirender_2eproto_deps[5] = {
@@ -8871,13 +8808,13 @@ static ::absl::once_flag descriptor_table_apirender_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apirender_2eproto = {
     false,
     false,
-    37336,
+    37066,
     descriptor_table_protodef_apirender_2eproto,
     "apirender.proto",
     &descriptor_table_apirender_2eproto_once,
     descriptor_table_apirender_2eproto_deps,
     5,
-    242,
+    240,
     schemas,
     file_default_instances,
     TableStruct_apirender_2eproto::offsets,
@@ -33845,9 +33782,9 @@ ApiRenderEngine_setDevicesActivityRequest::ApiRenderEngine_setDevicesActivityReq
                offsetof(Impl_, renderdevicecount_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, renderdevicecount_),
-           offsetof(Impl_, usemetalraytracing_) -
+           offsetof(Impl_, peertopeergroupcount_) -
                offsetof(Impl_, renderdevicecount_) +
-               sizeof(Impl_::usemetalraytracing_));
+               sizeof(Impl_::peertopeergroupcount_));
 
   // @@protoc_insertion_point(copy_constructor:octaneapi.ApiRenderEngine.setDevicesActivityRequest)
 }
@@ -33861,9 +33798,9 @@ inline void ApiRenderEngine_setDevicesActivityRequest::SharedCtor(::_pb::Arena* 
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, renderdeviceixs_),
            0,
-           offsetof(Impl_, usemetalraytracing_) -
+           offsetof(Impl_, peertopeergroupcount_) -
                offsetof(Impl_, renderdeviceixs_) +
-               sizeof(Impl_::usemetalraytracing_));
+               sizeof(Impl_::peertopeergroupcount_));
 }
 ApiRenderEngine_setDevicesActivityRequest::~ApiRenderEngine_setDevicesActivityRequest() {
   // @@protoc_insertion_point(destructor:octaneapi.ApiRenderEngine.setDevicesActivityRequest)
@@ -33924,16 +33861,16 @@ ApiRenderEngine_setDevicesActivityRequest::GetClassData() const {
   return ApiRenderEngine_setDevicesActivityRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 10, 4, 0, 2>
+const ::_pbi::TcParseTable<4, 9, 4, 0, 2>
 ApiRenderEngine_setDevicesActivityRequest::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(ApiRenderEngine_setDevicesActivityRequest, _impl_._has_bits_),
     0, // no _extensions_
-    10, 120,  // max_field_number, fast_idx_mask
+    9, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294966272,  // skipmap
+    4294966784,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    10,  // num_field_entries
+    9,  // num_field_entries
     4,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     ApiRenderEngine_setDevicesActivityRequest_class_data_.base(),
@@ -33971,9 +33908,7 @@ ApiRenderEngine_setDevicesActivityRequest::_table_ = {
     // uint32 peerToPeerGroupCount = 9;
     {::_pbi::TcParser::FastV32S1,
      {72, 8, 0, PROTOBUF_FIELD_OFFSET(ApiRenderEngine_setDevicesActivityRequest, _impl_.peertopeergroupcount_)}},
-    // bool useMetalRayTracing = 10;
-    {::_pbi::TcParser::FastV8S1,
-     {80, 9, 0, PROTOBUF_FIELD_OFFSET(ApiRenderEngine_setDevicesActivityRequest, _impl_.usemetalraytracing_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -34009,9 +33944,6 @@ ApiRenderEngine_setDevicesActivityRequest::_table_ = {
     // uint32 peerToPeerGroupCount = 9;
     {PROTOBUF_FIELD_OFFSET(ApiRenderEngine_setDevicesActivityRequest, _impl_.peertopeergroupcount_), _Internal::kHasBitsOffset + 8, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
-    // bool useMetalRayTracing = 10;
-    {PROTOBUF_FIELD_OFFSET(ApiRenderEngine_setDevicesActivityRequest, _impl_.usemetalraytracing_), _Internal::kHasBitsOffset + 9, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
   }},
   {{
       {::_pbi::TcParser::GetTable<::octaneapi::UintArrayT>()},
@@ -36147,244 +36079,6 @@ void ApiRenderEngine_currentPeerToPeerGroupsResponse::InternalSwap(ApiRenderEngi
   GetReflection()->Swap(this, other);}
 
 ::google::protobuf::Metadata ApiRenderEngine_currentPeerToPeerGroupsResponse::GetMetadata() const {
-  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
-}
-// ===================================================================
-
-class ApiRenderEngine_hardwareRayTracingEnabledRequest::_Internal {
- public:
-};
-
-ApiRenderEngine_hardwareRayTracingEnabledRequest::ApiRenderEngine_hardwareRayTracingEnabledRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(arena, ApiRenderEngine_hardwareRayTracingEnabledRequest_class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiRenderEngine.hardwareRayTracingEnabledRequest)
-}
-ApiRenderEngine_hardwareRayTracingEnabledRequest::ApiRenderEngine_hardwareRayTracingEnabledRequest(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const ApiRenderEngine_hardwareRayTracingEnabledRequest& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(arena, ApiRenderEngine_hardwareRayTracingEnabledRequest_class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  ApiRenderEngine_hardwareRayTracingEnabledRequest* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-
-  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiRenderEngine.hardwareRayTracingEnabledRequest)
-}
-
-inline void* PROTOBUF_NONNULL ApiRenderEngine_hardwareRayTracingEnabledRequest::PlacementNew_(
-    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) ApiRenderEngine_hardwareRayTracingEnabledRequest(arena);
-}
-constexpr auto ApiRenderEngine_hardwareRayTracingEnabledRequest::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiRenderEngine_hardwareRayTracingEnabledRequest),
-                                            alignof(ApiRenderEngine_hardwareRayTracingEnabledRequest));
-}
-constexpr auto ApiRenderEngine_hardwareRayTracingEnabledRequest::InternalGenerateClassData_() {
-  return ::google::protobuf::internal::ClassDataFull{
-      ::google::protobuf::internal::ClassData{
-          &_ApiRenderEngine_hardwareRayTracingEnabledRequest_default_instance_._instance,
-          &_table_.header,
-          nullptr,  // OnDemandRegisterArenaDtor
-          nullptr,  // IsInitialized
-          &ApiRenderEngine_hardwareRayTracingEnabledRequest::MergeImpl,
-          ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<ApiRenderEngine_hardwareRayTracingEnabledRequest>(),
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-          &ApiRenderEngine_hardwareRayTracingEnabledRequest::SharedDtor,
-          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiRenderEngine_hardwareRayTracingEnabledRequest::ClearImpl),
-              ::google::protobuf::internal::ZeroFieldsBase::ByteSizeLongImpl, ::google::protobuf::internal::ZeroFieldsBase::_InternalSerializeImpl
-              ,
-#endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(ApiRenderEngine_hardwareRayTracingEnabledRequest, _impl_._cached_size_),
-          false,
-      },
-      &ApiRenderEngine_hardwareRayTracingEnabledRequest::kDescriptorMethods,
-      &descriptor_table_apirender_2eproto,
-      nullptr,  // tracker
-  };
-}
-
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull ApiRenderEngine_hardwareRayTracingEnabledRequest_class_data_ =
-        ApiRenderEngine_hardwareRayTracingEnabledRequest::InternalGenerateClassData_();
-
-PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-ApiRenderEngine_hardwareRayTracingEnabledRequest::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&ApiRenderEngine_hardwareRayTracingEnabledRequest_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(ApiRenderEngine_hardwareRayTracingEnabledRequest_class_data_.tc_table);
-  return ApiRenderEngine_hardwareRayTracingEnabledRequest_class_data_.base();
-}
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 0, 0, 0, 2>
-ApiRenderEngine_hardwareRayTracingEnabledRequest::_table_ = {
-  {
-    0,  // no _has_bits_
-    0, // no _extensions_
-    0, 0,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967295,  // skipmap
-    offsetof(decltype(_table_), field_names),  // no field_entries
-    0,  // num_field_entries
-    0,  // num_aux_entries
-    offsetof(decltype(_table_), field_names),  // no aux_entries
-    ApiRenderEngine_hardwareRayTracingEnabledRequest_class_data_.base(),
-    nullptr,  // post_loop_handler
-    ::_pbi::TcParser::GenericFallback,  // fallback
-    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest>(),  // to_prefetch
-    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
-  }, {{
-    {::_pbi::TcParser::MiniParse, {}},
-  }}, {{
-    65535, 65535
-  }}, // no field_entries, or aux_entries
-  {{
-  }},
-};
-
-::google::protobuf::Metadata ApiRenderEngine_hardwareRayTracingEnabledRequest::GetMetadata() const {
-  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
-}
-// ===================================================================
-
-class ApiRenderEngine_hardwareRayTracingEnabledResponse::_Internal {
- public:
-  using HasBits =
-      decltype(::std::declval<ApiRenderEngine_hardwareRayTracingEnabledResponse>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(ApiRenderEngine_hardwareRayTracingEnabledResponse, _impl_._has_bits_);
-};
-
-ApiRenderEngine_hardwareRayTracingEnabledResponse::ApiRenderEngine_hardwareRayTracingEnabledResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiRenderEngine_hardwareRayTracingEnabledResponse_class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiRenderEngine.hardwareRayTracingEnabledResponse)
-}
-ApiRenderEngine_hardwareRayTracingEnabledResponse::ApiRenderEngine_hardwareRayTracingEnabledResponse(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const ApiRenderEngine_hardwareRayTracingEnabledResponse& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiRenderEngine_hardwareRayTracingEnabledResponse_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-}
-PROTOBUF_NDEBUG_INLINE ApiRenderEngine_hardwareRayTracingEnabledResponse::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-      : _cached_size_{0} {}
-
-inline void ApiRenderEngine_hardwareRayTracingEnabledResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.result_ = {};
-}
-ApiRenderEngine_hardwareRayTracingEnabledResponse::~ApiRenderEngine_hardwareRayTracingEnabledResponse() {
-  // @@protoc_insertion_point(destructor:octaneapi.ApiRenderEngine.hardwareRayTracingEnabledResponse)
-  SharedDtor(*this);
-}
-inline void ApiRenderEngine_hardwareRayTracingEnabledResponse::SharedDtor(MessageLite& self) {
-  ApiRenderEngine_hardwareRayTracingEnabledResponse& this_ = static_cast<ApiRenderEngine_hardwareRayTracingEnabledResponse&>(self);
-  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
-  ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.~Impl_();
-}
-
-inline void* PROTOBUF_NONNULL ApiRenderEngine_hardwareRayTracingEnabledResponse::PlacementNew_(
-    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) ApiRenderEngine_hardwareRayTracingEnabledResponse(arena);
-}
-constexpr auto ApiRenderEngine_hardwareRayTracingEnabledResponse::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiRenderEngine_hardwareRayTracingEnabledResponse),
-                                            alignof(ApiRenderEngine_hardwareRayTracingEnabledResponse));
-}
-constexpr auto ApiRenderEngine_hardwareRayTracingEnabledResponse::InternalGenerateClassData_() {
-  return ::google::protobuf::internal::ClassDataFull{
-      ::google::protobuf::internal::ClassData{
-          &_ApiRenderEngine_hardwareRayTracingEnabledResponse_default_instance_._instance,
-          &_table_.header,
-          nullptr,  // OnDemandRegisterArenaDtor
-          nullptr,  // IsInitialized
-          &ApiRenderEngine_hardwareRayTracingEnabledResponse::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<ApiRenderEngine_hardwareRayTracingEnabledResponse>(),
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-          &ApiRenderEngine_hardwareRayTracingEnabledResponse::SharedDtor,
-          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiRenderEngine_hardwareRayTracingEnabledResponse::ClearImpl),
-              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
-              ,
-#endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(ApiRenderEngine_hardwareRayTracingEnabledResponse, _impl_._cached_size_),
-          false,
-      },
-      &ApiRenderEngine_hardwareRayTracingEnabledResponse::kDescriptorMethods,
-      &descriptor_table_apirender_2eproto,
-      nullptr,  // tracker
-  };
-}
-
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull ApiRenderEngine_hardwareRayTracingEnabledResponse_class_data_ =
-        ApiRenderEngine_hardwareRayTracingEnabledResponse::InternalGenerateClassData_();
-
-PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-ApiRenderEngine_hardwareRayTracingEnabledResponse::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&ApiRenderEngine_hardwareRayTracingEnabledResponse_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(ApiRenderEngine_hardwareRayTracingEnabledResponse_class_data_.tc_table);
-  return ApiRenderEngine_hardwareRayTracingEnabledResponse_class_data_.base();
-}
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 0, 2>
-ApiRenderEngine_hardwareRayTracingEnabledResponse::_table_ = {
-  {
-    PROTOBUF_FIELD_OFFSET(ApiRenderEngine_hardwareRayTracingEnabledResponse, _impl_._has_bits_),
-    0, // no _extensions_
-    1, 0,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967294,  // skipmap
-    offsetof(decltype(_table_), field_entries),
-    1,  // num_field_entries
-    0,  // num_aux_entries
-    offsetof(decltype(_table_), field_names),  // no aux_entries
-    ApiRenderEngine_hardwareRayTracingEnabledResponse_class_data_.base(),
-    nullptr,  // post_loop_handler
-    ::_pbi::TcParser::GenericFallback,  // fallback
-    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse>(),  // to_prefetch
-    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
-  }, {{
-    // bool result = 1;
-    {::_pbi::TcParser::FastV8S1,
-     {8, 0, 0, PROTOBUF_FIELD_OFFSET(ApiRenderEngine_hardwareRayTracingEnabledResponse, _impl_.result_)}},
-  }}, {{
-    65535, 65535
-  }}, {{
-    // bool result = 1;
-    {PROTOBUF_FIELD_OFFSET(ApiRenderEngine_hardwareRayTracingEnabledResponse, _impl_.result_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
-  }},
-  // no aux_entries
-  {{
-  }},
-};
-void ApiRenderEngine_hardwareRayTracingEnabledResponse::InternalSwap(ApiRenderEngine_hardwareRayTracingEnabledResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
-  using ::std::swap;
-  GetReflection()->Swap(this, other);}
-
-::google::protobuf::Metadata ApiRenderEngine_hardwareRayTracingEnabledResponse::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 //////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
@@ -121,7 +121,8 @@ octaneapi::ApiItem::getArrayResponse callGetArrayByIx(
     return response;
 }
 
-octaneapi::ApiItem::getValueResponse callGetByAttrID(
+
+octaneapi::ApiItem::getValueResponse callGetValueByAttrID(
     const ApiItemProxy&                   proxy,
     const Octane::AttributeId             id,
     octaneapi::AttributeTypeId            expectedType)
@@ -141,10 +142,10 @@ octaneapi::ApiItem::getValueResponse callGetByAttrID(
     auto stub = octaneapi::ApiItemService::NewStub(proxy.getGRPCSettings().getChannel());
     auto context = std::make_unique<grpc::ClientContext>();
 
-    grpc::Status status = stub->getByAttrID(context.get(), request, &response);
+    grpc::Status status = stub->getValueByAttrID(context.get(), request, &response);
     if (!status.ok())
     {
-        throw std::runtime_error("gRPC getByAttrID error (" +
+        throw std::runtime_error("gRPC getValueByAttrID error (" +
                                     std::to_string(status.error_code()) + "): " +
                                     status.error_message());
     }
@@ -152,7 +153,7 @@ octaneapi::ApiItem::getValueResponse callGetByAttrID(
 }
 
 
-octaneapi::ApiItem::getValueResponse callGetByName(
+octaneapi::ApiItem::getValueResponse callGetValueByName(
         const ApiItemProxy&                   proxy,
         const std::string &                   name,
         octaneapi::AttributeTypeId            expectedType)
@@ -169,10 +170,10 @@ octaneapi::ApiItem::getValueResponse callGetByName(
     auto stub = octaneapi::ApiItemService::NewStub(proxy.getGRPCSettings().getChannel());
     auto context = std::make_unique<grpc::ClientContext>();
 
-    grpc::Status status = stub->getByName(context.get(), request, &response);
+    grpc::Status status = stub->getValueByName(context.get(), request, &response);
     if (!status.ok())
     {
-        throw std::runtime_error("gRPC getByName error (" +
+        throw std::runtime_error("gRPC getValueByName error (" +
                                     std::to_string(status.error_code()) + "): " +
                                     status.error_message());
     }
@@ -180,7 +181,7 @@ octaneapi::ApiItem::getValueResponse callGetByName(
 }
 
 
-octaneapi::ApiItem::getValueResponse callGetByIx(
+octaneapi::ApiItem::getValueResponse callGetValueByIx(
         const ApiItemProxy&                   proxy,
         uint32_t                              index,
         octaneapi::AttributeTypeId            expectedType)
@@ -197,10 +198,10 @@ octaneapi::ApiItem::getValueResponse callGetByIx(
     auto stub = octaneapi::ApiItemService::NewStub(proxy.getGRPCSettings().getChannel());
     auto context = std::make_unique<grpc::ClientContext>();
 
-    grpc::Status status = stub->getByIx(context.get(), request, &response);
+    grpc::Status status = stub->getValueByIx(context.get(), request, &response);
     if (!status.ok())
     {
-        throw std::runtime_error("gRPC getByIx error (" +
+        throw std::runtime_error("gRPC getValueByIx error (" +
                                     std::to_string(status.error_code()) + "): " +
                                     status.error_message());
     }
@@ -294,7 +295,7 @@ octaneapi::ApiItem::getAnimArrayResponse callGetAnimByIx(
     return response;
 }
 
-octaneapi::ApiItem::setValueResponse callSetByAttrID(
+octaneapi::ApiItem::setValueResponse callSetValueByAttrID(
         const ApiItemProxy&                          proxy,
         const Octane::AttributeId                    id,
         const octaneapi::ApiItem::setValueByIDRequest& request
@@ -313,10 +314,10 @@ octaneapi::ApiItem::setValueResponse callSetByAttrID(
     auto stub = octaneapi::ApiItemService::NewStub(proxy.getGRPCSettings().getChannel());
     auto context = std::make_unique<grpc::ClientContext>();
 
-    grpc::Status status = stub->setByAttrID(context.get(), req, &response);
+    grpc::Status status = stub->setValueByAttrID(context.get(), req, &response);
     if (!status.ok())
     {
-        throw std::runtime_error("gRPC setByAttrID error (" +
+        throw std::runtime_error("gRPC setValueByAttrID error (" +
                                     std::to_string(status.error_code()) + "): " +
                                     status.error_message());
     }
@@ -325,7 +326,7 @@ octaneapi::ApiItem::setValueResponse callSetByAttrID(
 }
 
 
-octaneapi::ApiItem::setValueResponse callSetByName(
+octaneapi::ApiItem::setValueResponse callSetValueByName(
         const ApiItemProxy&                          proxy,
         const std::string&                           name,
         const octaneapi::ApiItem::setValueByNameRequest& request
@@ -343,10 +344,10 @@ octaneapi::ApiItem::setValueResponse callSetByName(
     auto stub = octaneapi::ApiItemService::NewStub(proxy.getGRPCSettings().getChannel());
     auto context = std::make_unique<grpc::ClientContext>();
 
-    grpc::Status status = stub->setByName(context.get(), req, &response);
+    grpc::Status status = stub->setValueByName(context.get(), req, &response);
     if (!status.ok())
     {
-        throw std::runtime_error("gRPC setByName error (" +
+        throw std::runtime_error("gRPC setValueByName error (" +
                                     std::to_string(status.error_code()) + "): " +
                                     status.error_message());
     }
@@ -355,7 +356,7 @@ octaneapi::ApiItem::setValueResponse callSetByName(
 }
 
 
-octaneapi::ApiItem::setValueResponse callSetByIx(
+octaneapi::ApiItem::setValueResponse callSetValueByIx(
         const ApiItemProxy&                          proxy,
         uint32_t                                     index,
         const octaneapi::ApiItem::setValueByIxRequest& request
@@ -373,10 +374,10 @@ octaneapi::ApiItem::setValueResponse callSetByIx(
     auto stub = octaneapi::ApiItemService::NewStub(proxy.getGRPCSettings().getChannel());
     auto context = std::make_unique<grpc::ClientContext>();
 
-    grpc::Status status = stub->setByIx(context.get(), req, &response);
+    grpc::Status status = stub->setValueByIx(context.get(), req, &response);
     if (!status.ok())
     {
-        throw std::runtime_error("gRPC setByIx error (" +
+        throw std::runtime_error("gRPC setValueByIx error (" +
                                     std::to_string(status.error_code()) + "): " +
                                     status.error_message());
     }
@@ -594,18 +595,15 @@ void ApiItemProxy::destroy()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -644,18 +642,15 @@ std::string ApiItemProxy::name() const
         // param.mType = const char *
         retVal =  resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -697,18 +692,15 @@ void ApiItemProxy::setName(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -747,18 +739,15 @@ OctaneVec::float_2 ApiItemProxy::position() const
         retVal.x = resultOut.x();
         retVal.y = resultOut.y();
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -801,18 +790,15 @@ void ApiItemProxy::setPosition(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -853,18 +839,15 @@ void ApiItemProxy::setUIOperationFlags(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -902,18 +885,15 @@ Octane::enum_t ApiItemProxy::uiOperationFlags() const
         octaneapi::enum_t resultOut = response.result();
         retVal = resultOut.id();
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -947,18 +927,15 @@ void ApiItemProxy::select() const
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -996,18 +973,15 @@ Octane::TimeT ApiItemProxy::time() const
         octaneapi::TimeT resultOut = response.result();
         retVal = resultOut.value();
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1046,18 +1020,15 @@ Octane::NodePinType ApiItemProxy::outType() const
         octaneapi::NodePinType resultOut = response.result();
         retVal = static_cast<Octane::NodePinType>(resultOut);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1096,18 +1067,15 @@ uint64_t ApiItemProxy::persistentId() const
         uint64_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1146,18 +1114,15 @@ uint32_t ApiItemProxy::uniqueId() const
         uint32_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1206,18 +1171,15 @@ void ApiItemProxy::collectItemTree(
         octaneapi::ObjectRef treeItemsOut = response.treeitems();
         treeItems.attachObjectHandle(treeItemsOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1250,18 +1212,15 @@ void ApiItemProxy::deleteUnconnectedItems() const
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1302,18 +1261,15 @@ void ApiItemProxy::switchToFileData(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -1351,18 +1307,15 @@ Octane::VersionT ApiItemProxy::version() const
         uint32_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1401,18 +1354,15 @@ bool ApiItemProxy::isGraph() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1451,18 +1401,15 @@ bool ApiItemProxy::isNode() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1501,18 +1448,15 @@ bool ApiItemProxy::isLinker() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1551,18 +1495,15 @@ bool ApiItemProxy::isInputLinker() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1601,18 +1542,15 @@ bool ApiItemProxy::isOutputLinker() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1655,18 +1593,15 @@ ApiNodeGraphProxy ApiItemProxy::toGraph() const
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiNodeGraphProxy retVal;
         return retVal;
     }
@@ -1710,18 +1645,15 @@ ApiNodeProxy ApiItemProxy::toNode() const
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiNodeProxy retVal;
         return retVal;
     }
@@ -1765,18 +1697,15 @@ ApiNodeGraphProxy ApiItemProxy::toGraph()
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiNodeGraphProxy retVal;
         return retVal;
     }
@@ -1820,18 +1749,15 @@ ApiNodeProxy ApiItemProxy::toNode()
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiNodeProxy retVal;
         return retVal;
     }
@@ -1871,18 +1797,15 @@ bool ApiItemProxy::hasOwner() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1921,18 +1844,15 @@ bool ApiItemProxy::graphOwned() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -1971,18 +1891,15 @@ bool ApiItemProxy::pinOwned() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2025,18 +1942,15 @@ ApiNodeGraphProxy ApiItemProxy::graphOwner() const
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiNodeGraphProxy retVal;
         return retVal;
     }
@@ -2087,18 +2001,15 @@ ApiNodeProxy ApiItemProxy::pinOwner(
         pinIx = pinIxOut;
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiNodeProxy retVal;
         return retVal;
     }
@@ -2142,18 +2053,15 @@ ApiRootNodeGraphProxy ApiItemProxy::rootGraph() const
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiRootNodeGraphProxy retVal;
         return retVal;
     }
@@ -2197,18 +2105,15 @@ ApiRootNodeGraphProxy ApiItemProxy::rootGraph()
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiRootNodeGraphProxy retVal;
         return retVal;
     }
@@ -2248,18 +2153,15 @@ uint32_t ApiItemProxy::attrCount() const
         uint32_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2306,18 +2208,15 @@ bool ApiItemProxy::hasAttr(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2364,18 +2263,15 @@ bool ApiItemProxy::hasAttr(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2428,18 +2324,15 @@ bool ApiItemProxy::findAttr(
         uint32_t foundIndexOut = response.foundindex();
         foundIndex = foundIndexOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2492,18 +2385,15 @@ bool ApiItemProxy::findAttr(
         uint32_t foundIndexOut = response.foundindex();
         foundIndex = foundIndexOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2550,18 +2440,15 @@ Octane::AttributeId ApiItemProxy::attrId(
         octaneapi::AttributeId resultOut = response.result();
         retVal = static_cast<Octane::AttributeId>(resultOut);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2608,18 +2495,15 @@ Octane::AttributeId ApiItemProxy::attrIdIx(
         octaneapi::AttributeId resultOut = response.result();
         retVal = static_cast<Octane::AttributeId>(resultOut);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2667,18 +2551,15 @@ std::string ApiItemProxy::attrName(
         // param.mType = const char *
         retVal =  resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2726,18 +2607,15 @@ std::string ApiItemProxy::attrNameIx(
         // param.mType = const char *
         retVal =  resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2784,18 +2662,15 @@ Octane::AttributeType ApiItemProxy::attrType(
         octaneapi::AttributeType resultOut = response.result();
         retVal = static_cast<Octane::AttributeType>(resultOut);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2842,18 +2717,15 @@ Octane::AttributeType ApiItemProxy::attrType(
         octaneapi::AttributeType resultOut = response.result();
         retVal = static_cast<Octane::AttributeType>(resultOut);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2900,18 +2772,15 @@ Octane::AttributeType ApiItemProxy::attrTypeIx(
         octaneapi::AttributeType resultOut = response.result();
         retVal = static_cast<Octane::AttributeType>(resultOut);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -2958,18 +2827,15 @@ const Octane::ApiAttributeInfo ApiItemProxy::attrInfo(
         octaneapi::ApiAttributeInfo resultOut = response.result();
         ApiAttributeInfoConverter::convert(resultOut, retVal);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -3016,18 +2882,15 @@ const Octane::ApiAttributeInfo ApiItemProxy::attrInfo(
         octaneapi::ApiAttributeInfo resultOut = response.result();
         ApiAttributeInfoConverter::convert(resultOut, retVal);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -3074,18 +2937,15 @@ const Octane::ApiAttributeInfo ApiItemProxy::attrInfoIx(
         octaneapi::ApiAttributeInfo resultOut = response.result();
         ApiAttributeInfoConverter::convert(resultOut, retVal);
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -3124,18 +2984,15 @@ bool ApiItemProxy::attrAreDirty() const
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -3182,18 +3039,15 @@ bool ApiItemProxy::isDirtyAttr(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -3240,18 +3094,15 @@ bool ApiItemProxy::isDirtyAttr(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -3298,18 +3149,15 @@ bool ApiItemProxy::isDirtyAttrIx(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -3375,18 +3223,15 @@ void ApiItemProxy::copyAttrFrom(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -3451,18 +3296,15 @@ void ApiItemProxy::copyAttrFrom(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -3527,18 +3369,15 @@ void ApiItemProxy::copyAttrFromIx(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -3589,18 +3428,15 @@ void ApiItemProxy::copyAttrFrom(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -3641,18 +3477,15 @@ void ApiItemProxy::clearAllAttr(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -3700,18 +3533,15 @@ void ApiItemProxy::clearAttr(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -3759,18 +3589,15 @@ void ApiItemProxy::clearAttr(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -3818,18 +3645,15 @@ void ApiItemProxy::clearAttrIx(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -3840,7 +3664,7 @@ bool ApiItemProxy::getBool(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_BOOL);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_BOOL);
     return response.bool_value();
 };
 
@@ -3851,7 +3675,7 @@ int32_t ApiItemProxy::getInt(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_INT);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_INT);
     return response.int_value();
 
 };
@@ -3863,7 +3687,7 @@ OctaneVec::int32_2 ApiItemProxy::getInt2(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_INT2);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_INT2);
     OctaneVec::int32_2 result;
     result.x = response.int2_value().x();
     result.y = response.int2_value().y();
@@ -3878,7 +3702,7 @@ OctaneVec::int32_3 ApiItemProxy::getInt3(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_INT3);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_INT3);
     OctaneVec::int32_3 result;
     result.x = response.int3_value().x();
     result.y = response.int3_value().y();
@@ -3894,7 +3718,7 @@ OctaneVec::int32_4 ApiItemProxy::getInt4(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_INT4);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_INT4);
     OctaneVec::int32_4 result;
     result.x = response.int4_value().x();
     result.y = response.int4_value().y();
@@ -3911,7 +3735,7 @@ int64_t ApiItemProxy::getLong(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_LONG);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_LONG);
     return response.long_value();
 
 };
@@ -3923,7 +3747,7 @@ OctaneVec::int64_2 ApiItemProxy::getLong2(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_LONG2);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_LONG2);
     OctaneVec::int64_2 result;
     result.x = response.long2_value().x();
     result.y = response.long2_value().y();
@@ -3938,7 +3762,7 @@ float ApiItemProxy::getFloat(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_FLOAT);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_FLOAT);
     return response.float_value();
 
 };
@@ -3950,7 +3774,7 @@ OctaneVec::float_2 ApiItemProxy::getFloat2(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_FLOAT2);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_FLOAT2);
     OctaneVec::float_2 result;
     result.x = response.float2_value().x();
     result.y = response.float2_value().y();
@@ -3965,7 +3789,7 @@ OctaneVec::float_3 ApiItemProxy::getFloat3(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_FLOAT3);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_FLOAT3);
     OctaneVec::float_3 result;
     result.x = response.float3_value().x();
     result.y = response.float3_value().y();
@@ -3981,7 +3805,7 @@ OctaneVec::float_4 ApiItemProxy::getFloat4(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_FLOAT4);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_FLOAT4);
     OctaneVec::float_4 result;
     result.x = response.float4_value().x();
     result.y = response.float4_value().y();
@@ -3998,7 +3822,7 @@ OctaneVec::MatrixF ApiItemProxy::getMatrix(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_MATRIX);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_MATRIX);
     OctaneVec::MatrixF result;
     MatrixConverter::convertMatrixToOctane(response.matrix_value(), result);
     return result;
@@ -4012,7 +3836,7 @@ std::string ApiItemProxy::getString(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByAttrID(*this, id, octaneapi::ATTR_ID_STRING);
+auto response = callGetValueByAttrID(*this, id, octaneapi::ATTR_ID_STRING);
     return response.string_value();
 
 };
@@ -4276,7 +4100,7 @@ bool ApiItemProxy::getBool(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_BOOL);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_BOOL);
     return response.bool_value();
 };
 
@@ -4288,7 +4112,7 @@ int32_t ApiItemProxy::getInt(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_INT);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_INT);
     return response.int_value();
 
 };
@@ -4301,7 +4125,7 @@ OctaneVec::int32_2 ApiItemProxy::getInt2(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_INT2);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_INT2);
     OctaneVec::int32_2 result;
     result.x = response.int2_value().x();
     result.y = response.int2_value().y();
@@ -4317,7 +4141,7 @@ OctaneVec::int32_3 ApiItemProxy::getInt3(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_INT3);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_INT3);
     OctaneVec::int32_3 result;
     result.x = response.int3_value().x();
     result.y = response.int3_value().y();
@@ -4334,7 +4158,7 @@ OctaneVec::int32_4 ApiItemProxy::getInt4(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_INT4);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_INT4);
     OctaneVec::int32_4 result;
     result.x = response.int4_value().x();
     result.y = response.int4_value().y();
@@ -4352,7 +4176,7 @@ int64_t ApiItemProxy::getLong(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_LONG);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_LONG);
     return response.long_value();
 
 };
@@ -4365,7 +4189,7 @@ OctaneVec::int64_2 ApiItemProxy::getLong2(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_LONG2);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_LONG2);
     OctaneVec::int64_2 result;
     result.x = response.long2_value().x();
     result.y = response.long2_value().y();
@@ -4381,7 +4205,7 @@ float ApiItemProxy::getFloat(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_FLOAT);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_FLOAT);
     return response.float_value();
 
 };
@@ -4394,7 +4218,7 @@ OctaneVec::float_2 ApiItemProxy::getFloat2(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_FLOAT2);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_FLOAT2);
     OctaneVec::float_2 result;
     result.x = response.float2_value().x();
     result.y = response.float2_value().y();
@@ -4410,7 +4234,7 @@ OctaneVec::float_3 ApiItemProxy::getFloat3(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_FLOAT3);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_FLOAT3);
     OctaneVec::float_3 result;
     result.x = response.float3_value().x();
     result.y = response.float3_value().y();
@@ -4427,7 +4251,7 @@ OctaneVec::float_4 ApiItemProxy::getFloat4(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_FLOAT4);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_FLOAT4);
     OctaneVec::float_4 result;
     result.x = response.float4_value().x();
     result.y = response.float4_value().y();
@@ -4445,7 +4269,7 @@ OctaneVec::MatrixF ApiItemProxy::getMatrix(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_MATRIX);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_MATRIX);
     OctaneVec::MatrixF result;
     MatrixConverter::convertMatrixToOctane(response.matrix_value(), result);
     return result;
@@ -4460,7 +4284,7 @@ std::string ApiItemProxy::getString(
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
-auto response = callGetByName(*this, strName, octaneapi::ATTR_ID_STRING);
+auto response = callGetValueByName(*this, strName, octaneapi::ATTR_ID_STRING);
     return response.string_value();
 
 };
@@ -4737,7 +4561,7 @@ bool ApiItemProxy::getBoolIx(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_BOOL);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_BOOL);
     return response.bool_value();
 };
 
@@ -4748,7 +4572,7 @@ int32_t ApiItemProxy::getIntIx(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_INT);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_INT);
     return response.int_value();
 
 };
@@ -4760,7 +4584,7 @@ OctaneVec::int32_2 ApiItemProxy::getInt2Ix(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_INT2);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_INT2);
     OctaneVec::int32_2 result;
     result.x = response.int2_value().x();
     result.y = response.int2_value().y();
@@ -4775,7 +4599,7 @@ OctaneVec::int32_3 ApiItemProxy::getInt3Ix(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_INT3);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_INT3);
     OctaneVec::int32_3 result;
     result.x = response.int3_value().x();
     result.y = response.int3_value().y();
@@ -4791,7 +4615,7 @@ OctaneVec::int32_4 ApiItemProxy::getInt4Ix(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_INT4);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_INT4);
     OctaneVec::int32_4 result;
     result.x = response.int4_value().x();
     result.y = response.int4_value().y();
@@ -4808,7 +4632,7 @@ int64_t ApiItemProxy::getLongIx(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_LONG);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_LONG);
     return response.long_value();
 
 };
@@ -4820,7 +4644,7 @@ OctaneVec::int64_2 ApiItemProxy::getLong2Ix(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_LONG2);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_LONG2);
     OctaneVec::int64_2 result;
     result.x = response.long2_value().x();
     result.y = response.long2_value().y();
@@ -4835,7 +4659,7 @@ float ApiItemProxy::getFloatIx(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_FLOAT);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_FLOAT);
     return response.float_value();
 
 };
@@ -4847,7 +4671,7 @@ OctaneVec::float_2 ApiItemProxy::getFloat2Ix(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_FLOAT2);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_FLOAT2);
     OctaneVec::float_2 result;
     result.x = response.float2_value().x();
     result.y = response.float2_value().y();
@@ -4862,7 +4686,7 @@ OctaneVec::float_3 ApiItemProxy::getFloat3Ix(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_FLOAT3);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_FLOAT3);
     OctaneVec::float_3 result;
     result.x = response.float3_value().x();
     result.y = response.float3_value().y();
@@ -4878,7 +4702,7 @@ OctaneVec::float_4 ApiItemProxy::getFloat4Ix(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_FLOAT4);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_FLOAT4);
     OctaneVec::float_4 result;
     result.x = response.float4_value().x();
     result.y = response.float4_value().y();
@@ -4895,7 +4719,7 @@ OctaneVec::MatrixF ApiItemProxy::getMatrixIx(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_MATRIX);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_MATRIX);
     OctaneVec::MatrixF result;
     MatrixConverter::convertMatrixToOctane(response.matrix_value(), result);
     return result;
@@ -4909,7 +4733,7 @@ std::string ApiItemProxy::getStringIx(
 {
     grpc::Status status = grpc::Status::OK;
     // Call the generic helper that wraps gRPC
-auto response = callGetByIx(*this, index, octaneapi::ATTR_ID_STRING);
+auto response = callGetValueByIx(*this, index, octaneapi::ATTR_ID_STRING);
     return response.string_value();
 
 };
@@ -5175,8 +4999,9 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     request.set_bool_value(value);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5190,8 +5015,9 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     request.set_int_value(value);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5205,10 +5031,11 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_int2_value();
     v->set_x(value.x);
     v->set_y(value.y);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5222,11 +5049,12 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_int3_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5240,12 +5068,13 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_int4_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
     v->set_w(value.w);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5259,8 +5088,9 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     request.set_long_value(value);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5274,10 +5104,11 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_long2_value();
     v->set_x(value.x);
     v->set_y(value.y);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5291,8 +5122,9 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     request.set_float_value(value);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5306,10 +5138,11 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_float2_value();
     v->set_x(value.x);
     v->set_y(value.y);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5323,11 +5156,12 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_float3_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5341,12 +5175,13 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_float4_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
     v->set_w(value.w);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5360,8 +5195,9 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     MatrixConverter::convertMatrixToProto(value, *request.mutable_matrix_value());
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5375,8 +5211,9 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIDRequest request;
+    request.set_evaluate(evaluate);
     request.set_string_value(value);
-    auto response = callSetByAttrID(*this, id, request);
+    auto response = callSetValueByAttrID(*this, id, request);
 
 };
 
@@ -5391,6 +5228,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_bool_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5411,6 +5249,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5431,6 +5270,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int2_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5453,6 +5293,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int3_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5476,6 +5317,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int4_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5500,6 +5342,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5520,6 +5363,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long2_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5542,6 +5386,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5562,6 +5407,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float2_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5584,6 +5430,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float3_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5607,6 +5454,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float4_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5631,6 +5479,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_matrix_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5652,6 +5501,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_string_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5672,6 +5522,7 @@ void ApiItemProxy::set(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIDRequest request;
+    request.set_evaluate(evaluate);
     request.mutable_byte_array()->set_data(reinterpret_cast<const char*>(arr), size);
     auto response = callSetArrayByAttrID(*this, id, request);
 
@@ -5688,8 +5539,9 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     request.set_bool_value(value);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5704,8 +5556,9 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     request.set_int_value(value);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5720,10 +5573,11 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_int2_value();
     v->set_x(value.x);
     v->set_y(value.y);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5738,11 +5592,12 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_int3_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5757,12 +5612,13 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_int4_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
     v->set_w(value.w);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5777,8 +5633,9 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     request.set_long_value(value);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5793,10 +5650,11 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_long2_value();
     v->set_x(value.x);
     v->set_y(value.y);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5811,8 +5669,9 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     request.set_float_value(value);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5827,10 +5686,11 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_float2_value();
     v->set_x(value.x);
     v->set_y(value.y);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5845,11 +5705,12 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_float3_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5864,12 +5725,13 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_float4_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
     v->set_w(value.w);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5884,8 +5746,9 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     MatrixConverter::convertMatrixToProto(value, *request.mutable_matrix_value());
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5900,8 +5763,9 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setValueByNameRequest request;
+    request.set_evaluate(evaluate);
     request.set_string_value(value);
-    auto response = callSetByName(*this, strName, request);
+    auto response = callSetValueByName(*this, strName, request);
 
 };
 
@@ -5917,6 +5781,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_bool_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5938,6 +5803,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5959,6 +5825,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int2_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -5982,6 +5849,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int3_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6006,6 +5874,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int4_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6031,6 +5900,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6052,6 +5922,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long2_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6075,6 +5946,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6096,6 +5968,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float2_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6119,6 +5992,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float3_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6143,6 +6017,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float4_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6168,6 +6043,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_matrix_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6190,6 +6066,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_string_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6211,6 +6088,7 @@ void ApiItemProxy::set(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setArrayByNameRequest request;
+    request.set_evaluate(evaluate);
     request.mutable_byte_array()->set_data(reinterpret_cast<const char*>(arr), size);
     auto response = callSetArrayByName(*this, strName, request);
 
@@ -6226,8 +6104,9 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     request.set_bool_value(value);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6241,8 +6120,9 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     request.set_int_value(value);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6256,10 +6136,11 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_int2_value();
     v->set_x(value.x);
     v->set_y(value.y);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6273,11 +6154,12 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_int3_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6291,12 +6173,13 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_int4_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
     v->set_w(value.w);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6310,8 +6193,9 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     request.set_long_value(value);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6325,10 +6209,11 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_long2_value();
     v->set_x(value.x);
     v->set_y(value.y);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6342,8 +6227,9 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     request.set_float_value(value);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6357,10 +6243,11 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_float2_value();
     v->set_x(value.x);
     v->set_y(value.y);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6374,11 +6261,12 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_float3_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6392,12 +6280,13 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * v = request.mutable_float4_value();
     v->set_x(value.x);
     v->set_y(value.y);
     v->set_z(value.z);
     v->set_w(value.w);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6411,8 +6300,9 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     MatrixConverter::convertMatrixToProto(value, *request.mutable_matrix_value());
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6426,8 +6316,9 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setValueByIxRequest request;
+    request.set_evaluate(evaluate);
     request.set_string_value(value);
-    auto response = callSetByIx(*this, index, request);
+    auto response = callSetValueByIx(*this, index, request);
 
 };
 
@@ -6442,6 +6333,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_bool_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6462,6 +6354,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6482,6 +6375,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int2_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6504,6 +6398,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int3_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6527,6 +6422,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int4_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6551,6 +6447,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6571,6 +6468,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long2_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6593,6 +6491,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6613,6 +6512,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float2_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6635,6 +6535,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float3_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6658,6 +6559,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float4_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6682,6 +6584,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_matrix_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6703,6 +6606,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_string_array();
     for (size_t i = 0; i < size; ++i)
     {
@@ -6723,6 +6627,7 @@ void ApiItemProxy::setIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setArrayByIxRequest request;
+    request.set_evaluate(evaluate);
     request.mutable_byte_array()->set_data(reinterpret_cast<const char*>(arr), size);
     auto response = callSetArrayByIx(*this, index, request);
 
@@ -8610,6 +8515,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_bool_array();
@@ -8633,6 +8539,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int_array();
@@ -8656,6 +8563,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int2_array();
@@ -8681,6 +8589,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int3_array();
@@ -8707,6 +8616,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int4_array();
@@ -8734,6 +8644,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long_array();
@@ -8757,6 +8668,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long2_array();
@@ -8782,6 +8694,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float_array();
@@ -8805,6 +8718,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float2_array();
@@ -8830,6 +8744,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float3_array();
@@ -8856,6 +8771,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float4_array();
@@ -8883,6 +8799,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_matrix_array();
@@ -8907,6 +8824,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_string_array();
@@ -8930,6 +8848,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     request.mutable_byte_array()->set_data(reinterpret_cast<const char*>(values), numValues);
@@ -8950,6 +8869,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -8975,6 +8895,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9000,6 +8921,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9027,6 +8949,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9055,6 +8978,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9084,6 +9008,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9109,6 +9034,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9136,6 +9062,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9161,6 +9088,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9188,6 +9116,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9216,6 +9145,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9245,6 +9175,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9271,6 +9202,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9296,6 +9228,7 @@ void ApiItemProxy::setAnim(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIDRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9317,6 +9250,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_bool_array();
@@ -9341,6 +9275,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int_array();
@@ -9365,6 +9300,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int2_array();
@@ -9391,6 +9327,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int3_array();
@@ -9418,6 +9355,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int4_array();
@@ -9446,6 +9384,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long_array();
@@ -9470,6 +9409,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long2_array();
@@ -9496,6 +9436,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float_array();
@@ -9520,6 +9461,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float2_array();
@@ -9546,6 +9488,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float3_array();
@@ -9573,6 +9516,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float4_array();
@@ -9601,6 +9545,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_matrix_array();
@@ -9626,6 +9571,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_string_array();
@@ -9650,6 +9596,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     request.mutable_byte_array()->set_data(reinterpret_cast<const char*>(values), numValues);
@@ -9671,6 +9618,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9697,6 +9645,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9723,6 +9672,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9751,6 +9701,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9780,6 +9731,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9810,6 +9762,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9836,6 +9789,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9864,6 +9818,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9890,6 +9845,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9918,6 +9874,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9947,6 +9904,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -9977,6 +9935,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10004,6 +9963,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10030,6 +9990,7 @@ void ApiItemProxy::setAnim(
     // Call the generic set() helper that wraps gRPC
     std::string strName = (name == nullptr ? "" : name);
     octaneapi::ApiItem::setAnimByNameRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10050,6 +10011,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_bool_array();
@@ -10073,6 +10035,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int_array();
@@ -10096,6 +10059,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int2_array();
@@ -10121,6 +10085,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int3_array();
@@ -10147,6 +10112,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_int4_array();
@@ -10174,6 +10140,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long_array();
@@ -10197,6 +10164,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_long2_array();
@@ -10222,6 +10190,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float_array();
@@ -10245,6 +10214,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float2_array();
@@ -10270,6 +10240,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float3_array();
@@ -10296,6 +10267,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_float4_array();
@@ -10323,6 +10295,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_matrix_array();
@@ -10347,6 +10320,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     auto * arrMsg = request.mutable_string_array();
@@ -10370,6 +10344,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_evaluate(evaluate);
     request.mutable_byte_array()->set_data(reinterpret_cast<const char*>(values), numValues);
@@ -10390,6 +10365,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10415,6 +10391,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10440,6 +10417,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10467,6 +10445,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10495,6 +10474,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10524,6 +10504,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10549,6 +10530,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10576,6 +10558,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10601,6 +10584,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10628,6 +10612,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10656,6 +10641,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10685,6 +10671,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10711,6 +10698,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10736,6 +10724,7 @@ void ApiItemProxy::setAnimIx(
     grpc::Status status = grpc::Status::OK;
     // Call the generic set() helper that wraps gRPC
     octaneapi::ApiItem::setAnimByIxRequest request;
+    request.set_evaluate(evaluate);
     ApiTimeSamplingConverter::convert(times, *request.mutable_times());
     request.set_num_time_samples(static_cast<uint32_t>(numTimes));
     request.set_evaluate(evaluate);
@@ -10781,18 +10770,15 @@ void ApiItemProxy::clearAnim(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -10833,18 +10819,15 @@ void ApiItemProxy::clearAnim(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -10885,18 +10868,15 @@ void ApiItemProxy::clearAnimIx(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -10942,18 +10922,15 @@ bool ApiItemProxy::isAnimated(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -11000,18 +10977,15 @@ bool ApiItemProxy::isAnimated(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -11058,18 +11032,15 @@ bool ApiItemProxy::isAnimatedIx(
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -11103,18 +11074,15 @@ void ApiItemProxy::evaluate()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -11147,18 +11115,15 @@ void ApiItemProxy::expand()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -11200,18 +11165,15 @@ ApiItemProxy ApiItemProxy::expandOutOfPin()
         retVal.attachObjectHandle(resultOut.handle());
         return retVal;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
         ApiItemProxy retVal;
         return retVal;
     }
@@ -11251,18 +11213,15 @@ bool ApiItemProxy::collapse()
         bool resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -11304,18 +11263,15 @@ void ApiItemProxy::dumpAttributes(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 

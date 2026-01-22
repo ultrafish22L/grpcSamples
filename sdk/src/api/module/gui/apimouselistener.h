@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef _API_GUI_MOUSE_LISTENER_H_
 #define _API_GUI_MOUSE_LISTENER_H_   1

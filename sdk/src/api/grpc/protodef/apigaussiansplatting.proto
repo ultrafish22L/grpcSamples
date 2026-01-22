@@ -9,42 +9,28 @@ option optimize_for = CODE_SIZE;
 
 import "common.proto";
 
- // GRPC proto definitions for 'ApiGaussianSplatCloudNode' class from 'apigaussiansplatting.h'
-message ApiGaussianSplatCloudNode
+ // GRPC proto definitions for 'ApiGaussianSplatting' class from 'apigaussiansplatting.h'
+message ApiGaussianSplatting
 {
-    // Request packet corresponding to '[in] parameters in ApiGaussianSplatCloudNode::create'
+    // Request packet corresponding to '[in] parameters in ApiGaussianSplatting::create'
     message createRequest
     {
         // Graph that will own the new ApiGaussianSplatCloudNode.
         ObjectRef ownerGraph = 1;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiGaussianSplatCloudNode::create'
+    // Response packet corresponding to '[out] parameters in 'ApiGaussianSplatting::create'
     message createResponse
     {
         //     Pointer to the created node or NULL if creation failed.
         ObjectRef result = 1;
     }
 
-    // Request packet corresponding to '[in] parameters in ApiGaussianSplatCloudNode::obtain'
-    message obtainRequest
-    {
-        // The node to obtain API for.
-        ObjectRef node = 1;
-    }
-
-    // Response packet corresponding to '[out] parameters in 'ApiGaussianSplatCloudNode::obtain'
-    message obtainResponse
-    {
-        //     The ApiGaussianSplatCloudNode object pointer if node type is NT_GEO_GAUSSIAN_SPLAT.
-        ObjectRef result = 1;
-    }
-
-    // Request packet corresponding to '[in] parameters in ApiGaussianSplatCloudNode::setAttributesFromPly'
+    // Request packet corresponding to '[in] parameters in ApiGaussianSplatting::setAttributesFromPly'
     message setAttributesFromPlyRequest
     {
-        // ID of the object on which to call the method
-        ObjectRef objectPtr = 1;
+        // The node to write attributes into. The node type must be NT_GEO_GAUSSIAN_SPLAT.
+        ObjectRef gaussianSplatNode = 1;
         // The number of points in the Gaussian splat cloud. If 0, the Gaussian splat
         uint32 numberOfPoints = 2;
         // The pointers to the corresponding PLY Gaussian splat attribute buffers.
@@ -83,25 +69,39 @@ message ApiGaussianSplatCloudNode
         bool evaluate = 19;
     }
 
-    // Response packet corresponding to '[out] parameters in 'ApiGaussianSplatCloudNode::setAttributesFromPly'
+    // Response packet corresponding to '[out] parameters in 'ApiGaussianSplatting::setAttributesFromPly'
     message setAttributesFromPlyResponse
     {
         //     TRUE if attributes were set successfully, FALSE otherwise
         bool result = 1;
     }
 
+    // Request packet corresponding to '[in] parameters in ApiGaussianSplatting::exportAsSpz'
+    message exportAsSpzRequest
+    {
+        // The node which attributes must be exported. Must be NT_GEO_GAUSSIANS_SPLAT.
+        ObjectRef gaussianSplatNode = 1;
+        // The full path of the file into which the gaussian splats shall be stored
+        string fileName = 2;
+    }
+
+    // Response packet corresponding to '[out] parameters in 'ApiGaussianSplatting::exportAsSpz'
+    message exportAsSpzResponse
+    {
+        //     TRUE if the file was exported successfully, FALSE otherwise
+        bool result = 1;
+    }
+
 }
 
 
-// GRPC interface definition for class 'ApiGaussianSplatCloudNode' from 'apigaussiansplatting.h'
-service ApiGaussianSplatCloudNodeService
+// GRPC interface definition for class 'ApiGaussianSplatting' from 'apigaussiansplatting.h'
+service ApiGaussianSplattingService
 {
     /// Creates a new node of the NT_GEO_GAUSSIAN_SPLAT type
-    rpc create(ApiGaussianSplatCloudNode.createRequest) returns (ApiGaussianSplatCloudNode.createResponse);
-    /// Returns ApiGaussianSplatCloudNode interface for the ApiNode of NT_GEO_GAUSSIAN_SPLAT type
-    /// 
-    /// 
-    rpc obtain(ApiGaussianSplatCloudNode.obtainRequest) returns (ApiGaussianSplatCloudNode.obtainResponse);
+    rpc create(ApiGaussianSplatting.createRequest) returns (ApiGaussianSplatting.createResponse);
     /// Writes the Gaussian splat PLY attribute arrays into the node attributes
-    rpc setAttributesFromPly(ApiGaussianSplatCloudNode.setAttributesFromPlyRequest) returns (ApiGaussianSplatCloudNode.setAttributesFromPlyResponse);
+    rpc setAttributesFromPly(ApiGaussianSplatting.setAttributesFromPlyRequest) returns (ApiGaussianSplatting.setAttributesFromPlyResponse);
+    /// Saves gaussian splat cloud node's geometry to disk in compressed SPZ format
+    rpc exportAsSpz(ApiGaussianSplatting.exportAsSpzRequest) returns (ApiGaussianSplatting.exportAsSpzResponse);
 }

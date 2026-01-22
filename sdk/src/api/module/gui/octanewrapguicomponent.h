@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef _GUI_COMPONENT_H_
 #define _GUI_COMPONENT_H_   1

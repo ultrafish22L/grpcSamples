@@ -63,34 +63,21 @@ service CallbackHandler
     rpc OnWindowClose (OnWindowCloseRequest) returns (CallbackAck);
 }
 
-
-service StreamCallbackService
+message BasicCallbackRequest
 {
-    rpc callbackChannel(google.protobuf.Empty) returns (stream StreamCallbackRequest);
+    string callback_source = 1;
+    int32 callback_id = 2;
+    uint64 user_data = 3;
 }
 
-
-message StreamCallbackRequest
+message OnNewImageRequest
 {
-    oneof payload
-    {
-        OnNewImageRequest      newImage = 10;
-        BasicCallbackRequest   renderFailure = 11;
-        BasicCallbackRequest   newStatistics = 12;
-        BasicCallbackRequest   projectManagerChanged = 13;
-    }
+    string callback_source = 1;
+    int32 callback_id = 2;
+    uint64 user_data = 3;
+    ApiArrayApiRenderImage render_images = 4;
 }
-
-
-//message StreamCallbackResponse
-//{
-   //string request_id = 1;
-   //bool success = 2;
-   //string stringValue = 3;
-   //int32 intValue = 4;
-   //bool boolValue = 5;
-//}
-
+ 
 
 message LoadRenderStateProjectRequest
 {
@@ -307,12 +294,7 @@ message CallbackAck
     bool success = 1;
 }
 
-message BasicCallbackRequest
-{
-    string callback_source = 1;
-    int32 callback_id = 2;
-    uint64 user_data = 3;
-}
+
 
 message CommandModuleRunFuncRequest
 {
@@ -350,13 +332,6 @@ message FinishRequest
     string scene_name = 8;
 }
 
-message OnNewImageRequest
-{
-    string callback_source = 1;
-    int32 callback_id = 2;
-    uint64 user_data = 3;
-    ApiArrayApiRenderImage render_images = 4;
-}
 
 message OnOcioErrorRequest
 {

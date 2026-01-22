@@ -17,5 +17,199 @@
     <ClCompile Include="render-example.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apichangemanager.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apichangemanager.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiprojectmanager.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiprojectmanager.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apirender.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apirender.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\common.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\common.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneenums.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneenums.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneids.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneids.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_3.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_3.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_7.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apinodesystem_7.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiinfo.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apiinfo.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\callbackstream.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\callbackstream.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitimesampling.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\apitimesampling.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneimageexport.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneimageexport.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneinfos.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octaneinfos.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanereferenceexport.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanereferenceexport.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanerenderpasses.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanerenderpasses.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanetime.grpc.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\grpc\protoc\octanetime.pb.cc">
+      <Filter>Source Files\sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_3.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_3.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_7.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apinodesystem_7.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apichangemanager.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apichangemanager.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiprojectmanager.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiprojectmanager.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apirender.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apirender.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\common.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\common.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneenums.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneenums.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneids.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneids.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiinfo.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apiinfo.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\callbackstream.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\callbackstream.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitimesampling.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\apitimesampling.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneimageexport.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneimageexport.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneinfos.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octaneinfos.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanereferenceexport.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanereferenceexport.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanerenderpasses.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanerenderpasses.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanetime.grpc.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\api\grpc\protoc\octanetime.pb.h">
+      <Filter>Source Files\sources</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

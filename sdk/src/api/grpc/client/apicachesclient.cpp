@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 //////////////////////////////////////////////////////////////////////////////
 // WARNING: This code is machine generated. Manual changes will be overridden.
@@ -56,18 +56,15 @@ uint64_t ApiCachesProxy::getMeshletCacheSize()
         uint64_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -97,18 +94,15 @@ uint64_t ApiCachesProxy::getMeshletCacheUsedSize()
         uint64_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -133,19 +127,178 @@ void ApiCachesProxy::clearMeshletCache()
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
+};
+
+
+bool ApiCachesProxy::hasMeshletCacheFile(
+            ApiNodeProxy *                            meshNode
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    /////////////////////////////////////////////////////////////////////
+    // Define the request packet to send to the gRPC server.
+    octaneapi::ApiCaches::hasMeshletCacheFileRequest request;
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'meshNode' [in] parameter to the request packet.
+    // The proxy object contains the ID of the remote object. Pass this ID to the server
+    // using a `ObjectRef` object.
+    octaneapi::ObjectRef * meshnodeIn = new octaneapi::ObjectRef();
+    meshnodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
+    meshnodeIn->set_handle(meshNode->getObjectHandle());
+    request.set_allocated_meshnode(meshnodeIn);
+
+    /////////////////////////////////////////////////////////////////////
+    // Make the call to the server
+    octaneapi::ApiCaches::hasMeshletCacheFileResponse response;
+    std::shared_ptr<grpc::ClientContext> context;
+    context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiCachesService::Stub> stub =
+        octaneapi::ApiCachesService::NewStub(getGRPCSettings().getChannel());
+    status = stub->hasMeshletCacheFile(context.get(), request, &response);
+
+    bool retVal = false;
+    if (status.ok())
+    {
+        /////////////////////////////////////////////////////////////////////
+        // Process 'result' [out] parameter from the gRPC response packet
+        bool resultOut = response.result();
+        retVal = resultOut;
+
+        /////////////////////////////////////////////////////////////////////
+        // Process 'meshNode' [out] parameter from the gRPC response packet
+        octaneapi::ObjectRef meshNodeOut = response.meshnode();
+        meshNode->attachObjectHandle(meshNodeOut.handle());
+    }
+    else if (!status.ok())
+    {
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
+    }
+    return retVal;
+};
+
+
+Octane::CacheStatus ApiCachesProxy::checkMeshletBuildStatus(
+            ApiNodeProxy *                            meshNode
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    /////////////////////////////////////////////////////////////////////
+    // Define the request packet to send to the gRPC server.
+    octaneapi::ApiCaches::checkMeshletBuildStatusRequest request;
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'meshNode' [in] parameter to the request packet.
+    // The proxy object contains the ID of the remote object. Pass this ID to the server
+    // using a `ObjectRef` object.
+    octaneapi::ObjectRef * meshnodeIn = new octaneapi::ObjectRef();
+    meshnodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
+    meshnodeIn->set_handle(meshNode->getObjectHandle());
+    request.set_allocated_meshnode(meshnodeIn);
+
+    /////////////////////////////////////////////////////////////////////
+    // Make the call to the server
+    octaneapi::ApiCaches::checkMeshletBuildStatusResponse response;
+    std::shared_ptr<grpc::ClientContext> context;
+    context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiCachesService::Stub> stub =
+        octaneapi::ApiCachesService::NewStub(getGRPCSettings().getChannel());
+    status = stub->checkMeshletBuildStatus(context.get(), request, &response);
+
+    Octane::CacheStatus retVal;
+    if (status.ok())
+    {
+        /////////////////////////////////////////////////////////////////////
+        // Process 'result' [out] parameter from the gRPC response packet
+        octaneapi::CacheStatus resultOut = response.result();
+        retVal = static_cast<Octane::CacheStatus>(resultOut);
+
+        /////////////////////////////////////////////////////////////////////
+        // Process 'meshNode' [out] parameter from the gRPC response packet
+        octaneapi::ObjectRef meshNodeOut = response.meshnode();
+        meshNode->attachObjectHandle(meshNodeOut.handle());
+    }
+    else if (!status.ok())
+    {
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
+    }
+    return retVal;
+};
+
+
+bool ApiCachesProxy::clearMeshletCacheFileForNode(
+            ApiNodeProxy *                            meshNode
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    /////////////////////////////////////////////////////////////////////
+    // Define the request packet to send to the gRPC server.
+    octaneapi::ApiCaches::clearMeshletCacheFileForNodeRequest request;
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'meshNode' [in] parameter to the request packet.
+    // The proxy object contains the ID of the remote object. Pass this ID to the server
+    // using a `ObjectRef` object.
+    octaneapi::ObjectRef * meshnodeIn = new octaneapi::ObjectRef();
+    meshnodeIn->set_type( octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
+    meshnodeIn->set_handle(meshNode->getObjectHandle());
+    request.set_allocated_meshnode(meshnodeIn);
+
+    /////////////////////////////////////////////////////////////////////
+    // Make the call to the server
+    octaneapi::ApiCaches::clearMeshletCacheFileForNodeResponse response;
+    std::shared_ptr<grpc::ClientContext> context;
+    context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiCachesService::Stub> stub =
+        octaneapi::ApiCachesService::NewStub(getGRPCSettings().getChannel());
+    status = stub->clearMeshletCacheFileForNode(context.get(), request, &response);
+
+    bool retVal = false;
+    if (status.ok())
+    {
+        /////////////////////////////////////////////////////////////////////
+        // Process 'result' [out] parameter from the gRPC response packet
+        bool resultOut = response.result();
+        retVal = resultOut;
+
+        /////////////////////////////////////////////////////////////////////
+        // Process 'meshNode' [out] parameter from the gRPC response packet
+        octaneapi::ObjectRef meshNodeOut = response.meshnode();
+        meshNode->attachObjectHandle(meshNodeOut.handle());
+    }
+    else if (!status.ok())
+    {
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
+    }
+    return retVal;
 };
 
 
@@ -173,18 +326,15 @@ uint64_t ApiCachesProxy::getVirtualTextureCacheSize()
         uint64_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -214,18 +364,15 @@ uint64_t ApiCachesProxy::getVirtualTextureCacheUsedSize()
         uint64_t resultOut = response.result();
         retVal = resultOut;
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -258,18 +405,15 @@ void ApiCachesProxy::pruneVirtualTextureCache(
     if (status.ok())
     {
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
 };
 
@@ -314,18 +458,15 @@ Octane::CacheStatus ApiCachesProxy::checkVirtualTextureStatus(
         octaneapi::ObjectRef nodeOut = response.node();
         node->attachObjectHandle(nodeOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };
@@ -371,18 +512,15 @@ bool ApiCachesProxy::clearVirtualTextureCacheForNode(
         octaneapi::ObjectRef nodeOut = response.node();
         node->attachObjectHandle(nodeOut.handle());
     }
-    else
+    else if (!status.ok())
     {
-        if (!status.ok())
-        {
-            switch (status.error_code())
-            {
-                case grpc::StatusCode::INVALID_ARGUMENT:
-                    throw std::invalid_argument(status.error_message());
-                default:
-                    throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
-            }
-        }
+       switch (status.error_code())
+       {
+           case grpc::StatusCode::INVALID_ARGUMENT:
+               throw std::invalid_argument(status.error_message());
+           default:
+               throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+       }
     }
     return retVal;
 };

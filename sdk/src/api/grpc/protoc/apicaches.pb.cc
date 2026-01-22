@@ -259,6 +259,57 @@ struct ApiCachesDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiCachesDefaultTypeInternal _ApiCaches_default_instance_;
 
+inline constexpr ApiCaches_hasMeshletCacheFileResponse::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        meshnode_{nullptr},
+        result_{false} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ApiCaches_hasMeshletCacheFileResponse::ApiCaches_hasMeshletCacheFileResponse(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(ApiCaches_hasMeshletCacheFileResponse_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ApiCaches_hasMeshletCacheFileResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiCaches_hasMeshletCacheFileResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiCaches_hasMeshletCacheFileResponseDefaultTypeInternal() {}
+  union {
+    ApiCaches_hasMeshletCacheFileResponse _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiCaches_hasMeshletCacheFileResponseDefaultTypeInternal _ApiCaches_hasMeshletCacheFileResponse_default_instance_;
+
+inline constexpr ApiCaches_hasMeshletCacheFileRequest::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        meshnode_{nullptr} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ApiCaches_hasMeshletCacheFileRequest::ApiCaches_hasMeshletCacheFileRequest(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(ApiCaches_hasMeshletCacheFileRequest_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ApiCaches_hasMeshletCacheFileRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiCaches_hasMeshletCacheFileRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiCaches_hasMeshletCacheFileRequestDefaultTypeInternal() {}
+  union {
+    ApiCaches_hasMeshletCacheFileRequest _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiCaches_hasMeshletCacheFileRequestDefaultTypeInternal _ApiCaches_hasMeshletCacheFileRequest_default_instance_;
+
 inline constexpr ApiCaches_clearVirtualTextureCacheForNodeResponse::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -310,6 +361,57 @@ struct ApiCaches_clearVirtualTextureCacheForNodeRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiCaches_clearVirtualTextureCacheForNodeRequestDefaultTypeInternal _ApiCaches_clearVirtualTextureCacheForNodeRequest_default_instance_;
 
+inline constexpr ApiCaches_clearMeshletCacheFileForNodeResponse::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        meshnode_{nullptr},
+        result_{false} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ApiCaches_clearMeshletCacheFileForNodeResponse::ApiCaches_clearMeshletCacheFileForNodeResponse(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(ApiCaches_clearMeshletCacheFileForNodeResponse_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ApiCaches_clearMeshletCacheFileForNodeResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiCaches_clearMeshletCacheFileForNodeResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiCaches_clearMeshletCacheFileForNodeResponseDefaultTypeInternal() {}
+  union {
+    ApiCaches_clearMeshletCacheFileForNodeResponse _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiCaches_clearMeshletCacheFileForNodeResponseDefaultTypeInternal _ApiCaches_clearMeshletCacheFileForNodeResponse_default_instance_;
+
+inline constexpr ApiCaches_clearMeshletCacheFileForNodeRequest::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        meshnode_{nullptr} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ApiCaches_clearMeshletCacheFileForNodeRequest::ApiCaches_clearMeshletCacheFileForNodeRequest(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(ApiCaches_clearMeshletCacheFileForNodeRequest_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ApiCaches_clearMeshletCacheFileForNodeRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiCaches_clearMeshletCacheFileForNodeRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiCaches_clearMeshletCacheFileForNodeRequestDefaultTypeInternal() {}
+  union {
+    ApiCaches_clearMeshletCacheFileForNodeRequest _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiCaches_clearMeshletCacheFileForNodeRequestDefaultTypeInternal _ApiCaches_clearMeshletCacheFileForNodeRequest_default_instance_;
+
 inline constexpr ApiCaches_checkVirtualTextureStatusResponse::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -360,6 +462,57 @@ struct ApiCaches_checkVirtualTextureStatusRequestDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiCaches_checkVirtualTextureStatusRequestDefaultTypeInternal _ApiCaches_checkVirtualTextureStatusRequest_default_instance_;
+
+inline constexpr ApiCaches_checkMeshletBuildStatusResponse::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        meshnode_{nullptr},
+        result_{static_cast< ::octaneapi::CacheStatus >(0)} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ApiCaches_checkMeshletBuildStatusResponse::ApiCaches_checkMeshletBuildStatusResponse(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(ApiCaches_checkMeshletBuildStatusResponse_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ApiCaches_checkMeshletBuildStatusResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiCaches_checkMeshletBuildStatusResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiCaches_checkMeshletBuildStatusResponseDefaultTypeInternal() {}
+  union {
+    ApiCaches_checkMeshletBuildStatusResponse _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiCaches_checkMeshletBuildStatusResponseDefaultTypeInternal _ApiCaches_checkMeshletBuildStatusResponse_default_instance_;
+
+inline constexpr ApiCaches_checkMeshletBuildStatusRequest::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        meshnode_{nullptr} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ApiCaches_checkMeshletBuildStatusRequest::ApiCaches_checkMeshletBuildStatusRequest(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(ApiCaches_checkMeshletBuildStatusRequest_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ApiCaches_checkMeshletBuildStatusRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiCaches_checkMeshletBuildStatusRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiCaches_checkMeshletBuildStatusRequestDefaultTypeInternal() {}
+  union {
+    ApiCaches_checkMeshletBuildStatusRequest _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiCaches_checkMeshletBuildStatusRequestDefaultTypeInternal _ApiCaches_checkMeshletBuildStatusRequest_default_instance_;
 }  // namespace octaneapi
 static constexpr const ::_pb::EnumDescriptor *PROTOBUF_NONNULL *PROTOBUF_NULLABLE
     file_level_enum_descriptors_apicaches_2eproto = nullptr;
@@ -381,6 +534,42 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_getMeshletCacheUsedSizeResponse, _impl_.result_),
         0,
         0x000, // bitmap
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_hasMeshletCacheFileRequest, _impl_._has_bits_),
+        4, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_hasMeshletCacheFileRequest, _impl_.meshnode_),
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_hasMeshletCacheFileResponse, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_hasMeshletCacheFileResponse, _impl_.result_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_hasMeshletCacheFileResponse, _impl_.meshnode_),
+        1,
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_checkMeshletBuildStatusRequest, _impl_._has_bits_),
+        4, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_checkMeshletBuildStatusRequest, _impl_.meshnode_),
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_checkMeshletBuildStatusResponse, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_checkMeshletBuildStatusResponse, _impl_.result_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_checkMeshletBuildStatusResponse, _impl_.meshnode_),
+        1,
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest, _impl_._has_bits_),
+        4, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest, _impl_.meshnode_),
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse, _impl_.result_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse, _impl_.meshnode_),
+        1,
+        0,
         0x000, // bitmap
         0x081, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiCaches_getVirtualTextureCacheSizeResponse, _impl_._has_bits_),
@@ -432,16 +621,22 @@ static const ::_pbi::MigrationSchema
         {6, sizeof(::octaneapi::ApiCaches_getMeshletCacheUsedSizeRequest)},
         {7, sizeof(::octaneapi::ApiCaches_getMeshletCacheUsedSizeResponse)},
         {12, sizeof(::octaneapi::ApiCaches_clearMeshletCacheRequest)},
-        {13, sizeof(::octaneapi::ApiCaches_getVirtualTextureCacheSizeRequest)},
-        {14, sizeof(::octaneapi::ApiCaches_getVirtualTextureCacheSizeResponse)},
-        {19, sizeof(::octaneapi::ApiCaches_getVirtualTextureCacheUsedSizeRequest)},
-        {20, sizeof(::octaneapi::ApiCaches_getVirtualTextureCacheUsedSizeResponse)},
-        {25, sizeof(::octaneapi::ApiCaches_pruneVirtualTextureCacheRequest)},
-        {30, sizeof(::octaneapi::ApiCaches_checkVirtualTextureStatusRequest)},
-        {35, sizeof(::octaneapi::ApiCaches_checkVirtualTextureStatusResponse)},
-        {42, sizeof(::octaneapi::ApiCaches_clearVirtualTextureCacheForNodeRequest)},
-        {47, sizeof(::octaneapi::ApiCaches_clearVirtualTextureCacheForNodeResponse)},
-        {54, sizeof(::octaneapi::ApiCaches)},
+        {13, sizeof(::octaneapi::ApiCaches_hasMeshletCacheFileRequest)},
+        {18, sizeof(::octaneapi::ApiCaches_hasMeshletCacheFileResponse)},
+        {25, sizeof(::octaneapi::ApiCaches_checkMeshletBuildStatusRequest)},
+        {30, sizeof(::octaneapi::ApiCaches_checkMeshletBuildStatusResponse)},
+        {37, sizeof(::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest)},
+        {42, sizeof(::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse)},
+        {49, sizeof(::octaneapi::ApiCaches_getVirtualTextureCacheSizeRequest)},
+        {50, sizeof(::octaneapi::ApiCaches_getVirtualTextureCacheSizeResponse)},
+        {55, sizeof(::octaneapi::ApiCaches_getVirtualTextureCacheUsedSizeRequest)},
+        {56, sizeof(::octaneapi::ApiCaches_getVirtualTextureCacheUsedSizeResponse)},
+        {61, sizeof(::octaneapi::ApiCaches_pruneVirtualTextureCacheRequest)},
+        {66, sizeof(::octaneapi::ApiCaches_checkVirtualTextureStatusRequest)},
+        {71, sizeof(::octaneapi::ApiCaches_checkVirtualTextureStatusResponse)},
+        {78, sizeof(::octaneapi::ApiCaches_clearVirtualTextureCacheForNodeRequest)},
+        {83, sizeof(::octaneapi::ApiCaches_clearVirtualTextureCacheForNodeResponse)},
+        {90, sizeof(::octaneapi::ApiCaches)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::octaneapi::_ApiCaches_getMeshletCacheSizeRequest_default_instance_._instance,
@@ -449,6 +644,12 @@ static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::octaneapi::_ApiCaches_getMeshletCacheUsedSizeRequest_default_instance_._instance,
     &::octaneapi::_ApiCaches_getMeshletCacheUsedSizeResponse_default_instance_._instance,
     &::octaneapi::_ApiCaches_clearMeshletCacheRequest_default_instance_._instance,
+    &::octaneapi::_ApiCaches_hasMeshletCacheFileRequest_default_instance_._instance,
+    &::octaneapi::_ApiCaches_hasMeshletCacheFileResponse_default_instance_._instance,
+    &::octaneapi::_ApiCaches_checkMeshletBuildStatusRequest_default_instance_._instance,
+    &::octaneapi::_ApiCaches_checkMeshletBuildStatusResponse_default_instance_._instance,
+    &::octaneapi::_ApiCaches_clearMeshletCacheFileForNodeRequest_default_instance_._instance,
+    &::octaneapi::_ApiCaches_clearMeshletCacheFileForNodeResponse_default_instance_._instance,
     &::octaneapi::_ApiCaches_getVirtualTextureCacheSizeRequest_default_instance_._instance,
     &::octaneapi::_ApiCaches_getVirtualTextureCacheSizeResponse_default_instance_._instance,
     &::octaneapi::_ApiCaches_getVirtualTextureCacheUsedSizeRequest_default_instance_._instance,
@@ -464,54 +665,77 @@ const char descriptor_table_protodef_apicaches_2eproto[] ABSL_ATTRIBUTE_SECTION_
     protodesc_cold) = {
     "\n\017apicaches.proto\022\toctaneapi\032\014common.pro"
     "to\032\033google/protobuf/empty.proto\032\021octanee"
-    "nums.proto\"\245\006\n\tApiCaches\032\034\n\032getMeshletCa"
+    "nums.proto\"\256\n\n\tApiCaches\032\034\n\032getMeshletCa"
     "cheSizeRequest\032-\n\033getMeshletCacheSizeRes"
     "ponse\022\016\n\006result\030\001 \001(\004\032 \n\036getMeshletCache"
     "UsedSizeRequest\0321\n\037getMeshletCacheUsedSi"
     "zeResponse\022\016\n\006result\030\001 \001(\004\032\032\n\030clearMeshl"
-    "etCacheRequest\032#\n!getVirtualTextureCache"
-    "SizeRequest\0324\n\"getVirtualTextureCacheSiz"
-    "eResponse\022\016\n\006result\030\001 \001(\004\032\'\n%getVirtualT"
-    "extureCacheUsedSizeRequest\0328\n&getVirtual"
-    "TextureCacheUsedSizeResponse\022\016\n\006result\030\001"
-    " \001(\004\0326\n\037pruneVirtualTextureCacheRequest\022"
-    "\023\n\013maximumSize\030\001 \001(\004\032F\n checkVirtualText"
-    "ureStatusRequest\022\"\n\004node\030\001 \001(\0132\024.octanea"
-    "pi.ObjectRef\032o\n!checkVirtualTextureStatu"
-    "sResponse\022&\n\006result\030\001 \001(\0162\026.octaneapi.Ca"
-    "cheStatus\022\"\n\004node\030\002 \001(\0132\024.octaneapi.Obje"
-    "ctRef\032L\n&clearVirtualTextureCacheForNode"
-    "Request\022\"\n\004node\030\001 \001(\0132\024.octaneapi.Object"
-    "Ref\032]\n\'clearVirtualTextureCacheForNodeRe"
-    "sponse\022\016\n\006result\030\001 \001(\010\022\"\n\004node\030\002 \001(\0132\024.o"
-    "ctaneapi.ObjectRef2\261\010\n\020ApiCachesService\022"
-    "x\n\023getMeshletCacheSize\022/.octaneapi.ApiCa"
-    "ches.getMeshletCacheSizeRequest\0320.octane"
-    "api.ApiCaches.getMeshletCacheSizeRespons"
-    "e\022\204\001\n\027getMeshletCacheUsedSize\0223.octaneap"
-    "i.ApiCaches.getMeshletCacheUsedSizeReque"
-    "st\0324.octaneapi.ApiCaches.getMeshletCache"
-    "UsedSizeResponse\022Z\n\021clearMeshletCache\022-."
-    "octaneapi.ApiCaches.clearMeshletCacheReq"
-    "uest\032\026.google.protobuf.Empty\022\215\001\n\032getVirt"
-    "ualTextureCacheSize\0226.octaneapi.ApiCache"
-    "s.getVirtualTextureCacheSizeRequest\0327.oc"
+    "etCacheRequest\032D\n\032hasMeshletCacheFileReq"
+    "uest\022&\n\010meshNode\030\001 \001(\0132\024.octaneapi.Objec"
+    "tRef\032U\n\033hasMeshletCacheFileResponse\022\016\n\006r"
+    "esult\030\001 \001(\010\022&\n\010meshNode\030\002 \001(\0132\024.octaneap"
+    "i.ObjectRef\032H\n\036checkMeshletBuildStatusRe"
+    "quest\022&\n\010meshNode\030\001 \001(\0132\024.octaneapi.Obje"
+    "ctRef\032q\n\037checkMeshletBuildStatusResponse"
+    "\022&\n\006result\030\001 \001(\0162\026.octaneapi.CacheStatus"
+    "\022&\n\010meshNode\030\002 \001(\0132\024.octaneapi.ObjectRef"
+    "\032M\n#clearMeshletCacheFileForNodeRequest\022"
+    "&\n\010meshNode\030\001 \001(\0132\024.octaneapi.ObjectRef\032"
+    "^\n$clearMeshletCacheFileForNodeResponse\022"
+    "\016\n\006result\030\001 \001(\010\022&\n\010meshNode\030\002 \001(\0132\024.octa"
+    "neapi.ObjectRef\032#\n!getVirtualTextureCach"
+    "eSizeRequest\0324\n\"getVirtualTextureCacheSi"
+    "zeResponse\022\016\n\006result\030\001 \001(\004\032\'\n%getVirtual"
+    "TextureCacheUsedSizeRequest\0328\n&getVirtua"
+    "lTextureCacheUsedSizeResponse\022\016\n\006result\030"
+    "\001 \001(\004\0326\n\037pruneVirtualTextureCacheRequest"
+    "\022\023\n\013maximumSize\030\001 \001(\004\032F\n checkVirtualTex"
+    "tureStatusRequest\022\"\n\004node\030\001 \001(\0132\024.octane"
+    "api.ObjectRef\032o\n!checkVirtualTextureStat"
+    "usResponse\022&\n\006result\030\001 \001(\0162\026.octaneapi.C"
+    "acheStatus\022\"\n\004node\030\002 \001(\0132\024.octaneapi.Obj"
+    "ectRef\032L\n&clearVirtualTextureCacheForNod"
+    "eRequest\022\"\n\004node\030\001 \001(\0132\024.octaneapi.Objec"
+    "tRef\032]\n\'clearVirtualTextureCacheForNodeR"
+    "esponse\022\016\n\006result\030\001 \001(\010\022\"\n\004node\030\002 \001(\0132\024."
+    "octaneapi.ObjectRef2\310\013\n\020ApiCachesService"
+    "\022x\n\023getMeshletCacheSize\022/.octaneapi.ApiC"
+    "aches.getMeshletCacheSizeRequest\0320.octan"
+    "eapi.ApiCaches.getMeshletCacheSizeRespon"
+    "se\022\204\001\n\027getMeshletCacheUsedSize\0223.octanea"
+    "pi.ApiCaches.getMeshletCacheUsedSizeRequ"
+    "est\0324.octaneapi.ApiCaches.getMeshletCach"
+    "eUsedSizeResponse\022Z\n\021clearMeshletCache\022-"
+    ".octaneapi.ApiCaches.clearMeshletCacheRe"
+    "quest\032\026.google.protobuf.Empty\022x\n\023hasMesh"
+    "letCacheFile\022/.octaneapi.ApiCaches.hasMe"
+    "shletCacheFileRequest\0320.octaneapi.ApiCac"
+    "hes.hasMeshletCacheFileResponse\022\204\001\n\027chec"
+    "kMeshletBuildStatus\0223.octaneapi.ApiCache"
+    "s.checkMeshletBuildStatusRequest\0324.octan"
+    "eapi.ApiCaches.checkMeshletBuildStatusRe"
+    "sponse\022\223\001\n\034clearMeshletCacheFileForNode\022"
+    "8.octaneapi.ApiCaches.clearMeshletCacheF"
+    "ileForNodeRequest\0329.octaneapi.ApiCaches."
+    "clearMeshletCacheFileForNodeResponse\022\215\001\n"
+    "\032getVirtualTextureCacheSize\0226.octaneapi."
+    "ApiCaches.getVirtualTextureCacheSizeRequ"
+    "est\0327.octaneapi.ApiCaches.getVirtualText"
+    "ureCacheSizeResponse\022\231\001\n\036getVirtualTextu"
+    "reCacheUsedSize\022:.octaneapi.ApiCaches.ge"
+    "tVirtualTextureCacheUsedSizeRequest\032;.oc"
     "taneapi.ApiCaches.getVirtualTextureCache"
-    "SizeResponse\022\231\001\n\036getVirtualTextureCacheU"
-    "sedSize\022:.octaneapi.ApiCaches.getVirtual"
-    "TextureCacheUsedSizeRequest\032;.octaneapi."
-    "ApiCaches.getVirtualTextureCacheUsedSize"
-    "Response\022h\n\030pruneVirtualTextureCache\0224.o"
-    "ctaneapi.ApiCaches.pruneVirtualTextureCa"
-    "cheRequest\032\026.google.protobuf.Empty\022\212\001\n\031c"
-    "heckVirtualTextureStatus\0225.octaneapi.Api"
-    "Caches.checkVirtualTextureStatusRequest\032"
-    "6.octaneapi.ApiCaches.checkVirtualTextur"
-    "eStatusResponse\022\234\001\n\037clearVirtualTextureC"
-    "acheForNode\022;.octaneapi.ApiCaches.clearV"
-    "irtualTextureCacheForNodeRequest\032<.octan"
-    "eapi.ApiCaches.clearVirtualTextureCacheF"
-    "orNodeResponseB\002H\002b\006proto3"
+    "UsedSizeResponse\022h\n\030pruneVirtualTextureC"
+    "ache\0224.octaneapi.ApiCaches.pruneVirtualT"
+    "extureCacheRequest\032\026.google.protobuf.Emp"
+    "ty\022\212\001\n\031checkVirtualTextureStatus\0225.octan"
+    "eapi.ApiCaches.checkVirtualTextureStatus"
+    "Request\0326.octaneapi.ApiCaches.checkVirtu"
+    "alTextureStatusResponse\022\234\001\n\037clearVirtual"
+    "TextureCacheForNode\022;.octaneapi.ApiCache"
+    "s.clearVirtualTextureCacheForNodeRequest"
+    "\032<.octaneapi.ApiCaches.clearVirtualTextu"
+    "reCacheForNodeResponseB\002H\002b\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_apicaches_2eproto_deps[3] = {
@@ -523,13 +747,13 @@ static ::absl::once_flag descriptor_table_apicaches_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apicaches_2eproto = {
     false,
     false,
-    1986,
+    2914,
     descriptor_table_protodef_apicaches_2eproto,
     "apicaches.proto",
     &descriptor_table_apicaches_2eproto_once,
     descriptor_table_apicaches_2eproto_deps,
     3,
-    15,
+    21,
     schemas,
     file_default_instances,
     TableStruct_apicaches_2eproto::offsets,
@@ -1116,6 +1340,990 @@ ApiCaches_clearMeshletCacheRequest::_table_ = {
 
 ::google::protobuf::Metadata ApiCaches_clearMeshletCacheRequest::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ApiCaches_hasMeshletCacheFileRequest::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<ApiCaches_hasMeshletCacheFileRequest>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileRequest, _impl_._has_bits_);
+};
+
+void ApiCaches_hasMeshletCacheFileRequest::clear_meshnode() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meshnode_ != nullptr) _impl_.meshnode_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+ApiCaches_hasMeshletCacheFileRequest::ApiCaches_hasMeshletCacheFileRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_hasMeshletCacheFileRequest_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiCaches.hasMeshletCacheFileRequest)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_hasMeshletCacheFileRequest::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::octaneapi::ApiCaches_hasMeshletCacheFileRequest& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+ApiCaches_hasMeshletCacheFileRequest::ApiCaches_hasMeshletCacheFileRequest(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const ApiCaches_hasMeshletCacheFileRequest& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_hasMeshletCacheFileRequest_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ApiCaches_hasMeshletCacheFileRequest* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.meshnode_ = ((cached_has_bits & 0x00000001u) != 0)
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.meshnode_)
+                : nullptr;
+
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiCaches.hasMeshletCacheFileRequest)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_hasMeshletCacheFileRequest::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0} {}
+
+inline void ApiCaches_hasMeshletCacheFileRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.meshnode_ = {};
+}
+ApiCaches_hasMeshletCacheFileRequest::~ApiCaches_hasMeshletCacheFileRequest() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiCaches.hasMeshletCacheFileRequest)
+  SharedDtor(*this);
+}
+inline void ApiCaches_hasMeshletCacheFileRequest::SharedDtor(MessageLite& self) {
+  ApiCaches_hasMeshletCacheFileRequest& this_ = static_cast<ApiCaches_hasMeshletCacheFileRequest&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.meshnode_;
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL ApiCaches_hasMeshletCacheFileRequest::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) ApiCaches_hasMeshletCacheFileRequest(arena);
+}
+constexpr auto ApiCaches_hasMeshletCacheFileRequest::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiCaches_hasMeshletCacheFileRequest),
+                                            alignof(ApiCaches_hasMeshletCacheFileRequest));
+}
+constexpr auto ApiCaches_hasMeshletCacheFileRequest::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_ApiCaches_hasMeshletCacheFileRequest_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &ApiCaches_hasMeshletCacheFileRequest::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiCaches_hasMeshletCacheFileRequest>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &ApiCaches_hasMeshletCacheFileRequest::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiCaches_hasMeshletCacheFileRequest::ClearImpl),
+              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
+              ,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileRequest, _impl_._cached_size_),
+          false,
+      },
+      &ApiCaches_hasMeshletCacheFileRequest::kDescriptorMethods,
+      &descriptor_table_apicaches_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull ApiCaches_hasMeshletCacheFileRequest_class_data_ =
+        ApiCaches_hasMeshletCacheFileRequest::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+ApiCaches_hasMeshletCacheFileRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiCaches_hasMeshletCacheFileRequest_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiCaches_hasMeshletCacheFileRequest_class_data_.tc_table);
+  return ApiCaches_hasMeshletCacheFileRequest_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 1, 0, 2>
+ApiCaches_hasMeshletCacheFileRequest::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileRequest, _impl_._has_bits_),
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    ApiCaches_hasMeshletCacheFileRequest_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiCaches_hasMeshletCacheFileRequest>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // .octaneapi.ObjectRef meshNode = 1;
+    {::_pbi::TcParser::FastMtS1,
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileRequest, _impl_.meshnode_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // .octaneapi.ObjectRef meshNode = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileRequest, _impl_.meshnode_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::octaneapi::ObjectRef>()},
+  }},
+  {{
+  }},
+};
+void ApiCaches_hasMeshletCacheFileRequest::InternalSwap(ApiCaches_hasMeshletCacheFileRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  GetReflection()->Swap(this, other);}
+
+::google::protobuf::Metadata ApiCaches_hasMeshletCacheFileRequest::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ApiCaches_hasMeshletCacheFileResponse::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<ApiCaches_hasMeshletCacheFileResponse>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileResponse, _impl_._has_bits_);
+};
+
+void ApiCaches_hasMeshletCacheFileResponse::clear_meshnode() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meshnode_ != nullptr) _impl_.meshnode_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+ApiCaches_hasMeshletCacheFileResponse::ApiCaches_hasMeshletCacheFileResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_hasMeshletCacheFileResponse_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiCaches.hasMeshletCacheFileResponse)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_hasMeshletCacheFileResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::octaneapi::ApiCaches_hasMeshletCacheFileResponse& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+ApiCaches_hasMeshletCacheFileResponse::ApiCaches_hasMeshletCacheFileResponse(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const ApiCaches_hasMeshletCacheFileResponse& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_hasMeshletCacheFileResponse_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ApiCaches_hasMeshletCacheFileResponse* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.meshnode_ = ((cached_has_bits & 0x00000001u) != 0)
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.meshnode_)
+                : nullptr;
+  _impl_.result_ = from._impl_.result_;
+
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiCaches.hasMeshletCacheFileResponse)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_hasMeshletCacheFileResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0} {}
+
+inline void ApiCaches_hasMeshletCacheFileResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, meshnode_),
+           0,
+           offsetof(Impl_, result_) -
+               offsetof(Impl_, meshnode_) +
+               sizeof(Impl_::result_));
+}
+ApiCaches_hasMeshletCacheFileResponse::~ApiCaches_hasMeshletCacheFileResponse() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiCaches.hasMeshletCacheFileResponse)
+  SharedDtor(*this);
+}
+inline void ApiCaches_hasMeshletCacheFileResponse::SharedDtor(MessageLite& self) {
+  ApiCaches_hasMeshletCacheFileResponse& this_ = static_cast<ApiCaches_hasMeshletCacheFileResponse&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.meshnode_;
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL ApiCaches_hasMeshletCacheFileResponse::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) ApiCaches_hasMeshletCacheFileResponse(arena);
+}
+constexpr auto ApiCaches_hasMeshletCacheFileResponse::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiCaches_hasMeshletCacheFileResponse),
+                                            alignof(ApiCaches_hasMeshletCacheFileResponse));
+}
+constexpr auto ApiCaches_hasMeshletCacheFileResponse::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_ApiCaches_hasMeshletCacheFileResponse_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &ApiCaches_hasMeshletCacheFileResponse::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiCaches_hasMeshletCacheFileResponse>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &ApiCaches_hasMeshletCacheFileResponse::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiCaches_hasMeshletCacheFileResponse::ClearImpl),
+              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
+              ,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileResponse, _impl_._cached_size_),
+          false,
+      },
+      &ApiCaches_hasMeshletCacheFileResponse::kDescriptorMethods,
+      &descriptor_table_apicaches_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull ApiCaches_hasMeshletCacheFileResponse_class_data_ =
+        ApiCaches_hasMeshletCacheFileResponse::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+ApiCaches_hasMeshletCacheFileResponse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiCaches_hasMeshletCacheFileResponse_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiCaches_hasMeshletCacheFileResponse_class_data_.tc_table);
+  return ApiCaches_hasMeshletCacheFileResponse_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 1, 0, 2>
+ApiCaches_hasMeshletCacheFileResponse::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileResponse, _impl_._has_bits_),
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    ApiCaches_hasMeshletCacheFileResponse_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiCaches_hasMeshletCacheFileResponse>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // .octaneapi.ObjectRef meshNode = 2;
+    {::_pbi::TcParser::FastMtS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileResponse, _impl_.meshnode_)}},
+    // bool result = 1;
+    {::_pbi::TcParser::FastV8S1,
+     {8, 1, 0, PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileResponse, _impl_.result_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // bool result = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileResponse, _impl_.result_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+    // .octaneapi.ObjectRef meshNode = 2;
+    {PROTOBUF_FIELD_OFFSET(ApiCaches_hasMeshletCacheFileResponse, _impl_.meshnode_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::octaneapi::ObjectRef>()},
+  }},
+  {{
+  }},
+};
+void ApiCaches_hasMeshletCacheFileResponse::InternalSwap(ApiCaches_hasMeshletCacheFileResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  GetReflection()->Swap(this, other);}
+
+::google::protobuf::Metadata ApiCaches_hasMeshletCacheFileResponse::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ApiCaches_checkMeshletBuildStatusRequest::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<ApiCaches_checkMeshletBuildStatusRequest>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusRequest, _impl_._has_bits_);
+};
+
+void ApiCaches_checkMeshletBuildStatusRequest::clear_meshnode() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meshnode_ != nullptr) _impl_.meshnode_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+ApiCaches_checkMeshletBuildStatusRequest::ApiCaches_checkMeshletBuildStatusRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_checkMeshletBuildStatusRequest_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiCaches.checkMeshletBuildStatusRequest)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_checkMeshletBuildStatusRequest::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::octaneapi::ApiCaches_checkMeshletBuildStatusRequest& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+ApiCaches_checkMeshletBuildStatusRequest::ApiCaches_checkMeshletBuildStatusRequest(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const ApiCaches_checkMeshletBuildStatusRequest& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_checkMeshletBuildStatusRequest_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ApiCaches_checkMeshletBuildStatusRequest* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.meshnode_ = ((cached_has_bits & 0x00000001u) != 0)
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.meshnode_)
+                : nullptr;
+
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiCaches.checkMeshletBuildStatusRequest)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_checkMeshletBuildStatusRequest::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0} {}
+
+inline void ApiCaches_checkMeshletBuildStatusRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.meshnode_ = {};
+}
+ApiCaches_checkMeshletBuildStatusRequest::~ApiCaches_checkMeshletBuildStatusRequest() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiCaches.checkMeshletBuildStatusRequest)
+  SharedDtor(*this);
+}
+inline void ApiCaches_checkMeshletBuildStatusRequest::SharedDtor(MessageLite& self) {
+  ApiCaches_checkMeshletBuildStatusRequest& this_ = static_cast<ApiCaches_checkMeshletBuildStatusRequest&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.meshnode_;
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL ApiCaches_checkMeshletBuildStatusRequest::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) ApiCaches_checkMeshletBuildStatusRequest(arena);
+}
+constexpr auto ApiCaches_checkMeshletBuildStatusRequest::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiCaches_checkMeshletBuildStatusRequest),
+                                            alignof(ApiCaches_checkMeshletBuildStatusRequest));
+}
+constexpr auto ApiCaches_checkMeshletBuildStatusRequest::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_ApiCaches_checkMeshletBuildStatusRequest_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &ApiCaches_checkMeshletBuildStatusRequest::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiCaches_checkMeshletBuildStatusRequest>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &ApiCaches_checkMeshletBuildStatusRequest::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiCaches_checkMeshletBuildStatusRequest::ClearImpl),
+              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
+              ,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusRequest, _impl_._cached_size_),
+          false,
+      },
+      &ApiCaches_checkMeshletBuildStatusRequest::kDescriptorMethods,
+      &descriptor_table_apicaches_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull ApiCaches_checkMeshletBuildStatusRequest_class_data_ =
+        ApiCaches_checkMeshletBuildStatusRequest::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+ApiCaches_checkMeshletBuildStatusRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiCaches_checkMeshletBuildStatusRequest_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiCaches_checkMeshletBuildStatusRequest_class_data_.tc_table);
+  return ApiCaches_checkMeshletBuildStatusRequest_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 1, 0, 2>
+ApiCaches_checkMeshletBuildStatusRequest::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusRequest, _impl_._has_bits_),
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    ApiCaches_checkMeshletBuildStatusRequest_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiCaches_checkMeshletBuildStatusRequest>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // .octaneapi.ObjectRef meshNode = 1;
+    {::_pbi::TcParser::FastMtS1,
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusRequest, _impl_.meshnode_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // .octaneapi.ObjectRef meshNode = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusRequest, _impl_.meshnode_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::octaneapi::ObjectRef>()},
+  }},
+  {{
+  }},
+};
+void ApiCaches_checkMeshletBuildStatusRequest::InternalSwap(ApiCaches_checkMeshletBuildStatusRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  GetReflection()->Swap(this, other);}
+
+::google::protobuf::Metadata ApiCaches_checkMeshletBuildStatusRequest::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ApiCaches_checkMeshletBuildStatusResponse::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<ApiCaches_checkMeshletBuildStatusResponse>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusResponse, _impl_._has_bits_);
+};
+
+void ApiCaches_checkMeshletBuildStatusResponse::clear_meshnode() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meshnode_ != nullptr) _impl_.meshnode_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+ApiCaches_checkMeshletBuildStatusResponse::ApiCaches_checkMeshletBuildStatusResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_checkMeshletBuildStatusResponse_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiCaches.checkMeshletBuildStatusResponse)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_checkMeshletBuildStatusResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::octaneapi::ApiCaches_checkMeshletBuildStatusResponse& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+ApiCaches_checkMeshletBuildStatusResponse::ApiCaches_checkMeshletBuildStatusResponse(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const ApiCaches_checkMeshletBuildStatusResponse& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_checkMeshletBuildStatusResponse_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ApiCaches_checkMeshletBuildStatusResponse* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.meshnode_ = ((cached_has_bits & 0x00000001u) != 0)
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.meshnode_)
+                : nullptr;
+  _impl_.result_ = from._impl_.result_;
+
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiCaches.checkMeshletBuildStatusResponse)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_checkMeshletBuildStatusResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0} {}
+
+inline void ApiCaches_checkMeshletBuildStatusResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, meshnode_),
+           0,
+           offsetof(Impl_, result_) -
+               offsetof(Impl_, meshnode_) +
+               sizeof(Impl_::result_));
+}
+ApiCaches_checkMeshletBuildStatusResponse::~ApiCaches_checkMeshletBuildStatusResponse() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiCaches.checkMeshletBuildStatusResponse)
+  SharedDtor(*this);
+}
+inline void ApiCaches_checkMeshletBuildStatusResponse::SharedDtor(MessageLite& self) {
+  ApiCaches_checkMeshletBuildStatusResponse& this_ = static_cast<ApiCaches_checkMeshletBuildStatusResponse&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.meshnode_;
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL ApiCaches_checkMeshletBuildStatusResponse::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) ApiCaches_checkMeshletBuildStatusResponse(arena);
+}
+constexpr auto ApiCaches_checkMeshletBuildStatusResponse::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiCaches_checkMeshletBuildStatusResponse),
+                                            alignof(ApiCaches_checkMeshletBuildStatusResponse));
+}
+constexpr auto ApiCaches_checkMeshletBuildStatusResponse::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_ApiCaches_checkMeshletBuildStatusResponse_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &ApiCaches_checkMeshletBuildStatusResponse::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiCaches_checkMeshletBuildStatusResponse>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &ApiCaches_checkMeshletBuildStatusResponse::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiCaches_checkMeshletBuildStatusResponse::ClearImpl),
+              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
+              ,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusResponse, _impl_._cached_size_),
+          false,
+      },
+      &ApiCaches_checkMeshletBuildStatusResponse::kDescriptorMethods,
+      &descriptor_table_apicaches_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull ApiCaches_checkMeshletBuildStatusResponse_class_data_ =
+        ApiCaches_checkMeshletBuildStatusResponse::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+ApiCaches_checkMeshletBuildStatusResponse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiCaches_checkMeshletBuildStatusResponse_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiCaches_checkMeshletBuildStatusResponse_class_data_.tc_table);
+  return ApiCaches_checkMeshletBuildStatusResponse_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 1, 0, 2>
+ApiCaches_checkMeshletBuildStatusResponse::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusResponse, _impl_._has_bits_),
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    ApiCaches_checkMeshletBuildStatusResponse_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiCaches_checkMeshletBuildStatusResponse>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // .octaneapi.ObjectRef meshNode = 2;
+    {::_pbi::TcParser::FastMtS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusResponse, _impl_.meshnode_)}},
+    // .octaneapi.CacheStatus result = 1;
+    {::_pbi::TcParser::FastV32S1,
+     {8, 1, 0, PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusResponse, _impl_.result_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // .octaneapi.CacheStatus result = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusResponse, _impl_.result_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kOpenEnum)},
+    // .octaneapi.ObjectRef meshNode = 2;
+    {PROTOBUF_FIELD_OFFSET(ApiCaches_checkMeshletBuildStatusResponse, _impl_.meshnode_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::octaneapi::ObjectRef>()},
+  }},
+  {{
+  }},
+};
+void ApiCaches_checkMeshletBuildStatusResponse::InternalSwap(ApiCaches_checkMeshletBuildStatusResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  GetReflection()->Swap(this, other);}
+
+::google::protobuf::Metadata ApiCaches_checkMeshletBuildStatusResponse::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ApiCaches_clearMeshletCacheFileForNodeRequest::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<ApiCaches_clearMeshletCacheFileForNodeRequest>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeRequest, _impl_._has_bits_);
+};
+
+void ApiCaches_clearMeshletCacheFileForNodeRequest::clear_meshnode() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meshnode_ != nullptr) _impl_.meshnode_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+ApiCaches_clearMeshletCacheFileForNodeRequest::ApiCaches_clearMeshletCacheFileForNodeRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_clearMeshletCacheFileForNodeRequest_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiCaches.clearMeshletCacheFileForNodeRequest)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_clearMeshletCacheFileForNodeRequest::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+ApiCaches_clearMeshletCacheFileForNodeRequest::ApiCaches_clearMeshletCacheFileForNodeRequest(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const ApiCaches_clearMeshletCacheFileForNodeRequest& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_clearMeshletCacheFileForNodeRequest_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ApiCaches_clearMeshletCacheFileForNodeRequest* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.meshnode_ = ((cached_has_bits & 0x00000001u) != 0)
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.meshnode_)
+                : nullptr;
+
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiCaches.clearMeshletCacheFileForNodeRequest)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_clearMeshletCacheFileForNodeRequest::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0} {}
+
+inline void ApiCaches_clearMeshletCacheFileForNodeRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.meshnode_ = {};
+}
+ApiCaches_clearMeshletCacheFileForNodeRequest::~ApiCaches_clearMeshletCacheFileForNodeRequest() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiCaches.clearMeshletCacheFileForNodeRequest)
+  SharedDtor(*this);
+}
+inline void ApiCaches_clearMeshletCacheFileForNodeRequest::SharedDtor(MessageLite& self) {
+  ApiCaches_clearMeshletCacheFileForNodeRequest& this_ = static_cast<ApiCaches_clearMeshletCacheFileForNodeRequest&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.meshnode_;
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL ApiCaches_clearMeshletCacheFileForNodeRequest::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) ApiCaches_clearMeshletCacheFileForNodeRequest(arena);
+}
+constexpr auto ApiCaches_clearMeshletCacheFileForNodeRequest::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiCaches_clearMeshletCacheFileForNodeRequest),
+                                            alignof(ApiCaches_clearMeshletCacheFileForNodeRequest));
+}
+constexpr auto ApiCaches_clearMeshletCacheFileForNodeRequest::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_ApiCaches_clearMeshletCacheFileForNodeRequest_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &ApiCaches_clearMeshletCacheFileForNodeRequest::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiCaches_clearMeshletCacheFileForNodeRequest>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &ApiCaches_clearMeshletCacheFileForNodeRequest::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiCaches_clearMeshletCacheFileForNodeRequest::ClearImpl),
+              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
+              ,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeRequest, _impl_._cached_size_),
+          false,
+      },
+      &ApiCaches_clearMeshletCacheFileForNodeRequest::kDescriptorMethods,
+      &descriptor_table_apicaches_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull ApiCaches_clearMeshletCacheFileForNodeRequest_class_data_ =
+        ApiCaches_clearMeshletCacheFileForNodeRequest::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+ApiCaches_clearMeshletCacheFileForNodeRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiCaches_clearMeshletCacheFileForNodeRequest_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiCaches_clearMeshletCacheFileForNodeRequest_class_data_.tc_table);
+  return ApiCaches_clearMeshletCacheFileForNodeRequest_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 1, 0, 2>
+ApiCaches_clearMeshletCacheFileForNodeRequest::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeRequest, _impl_._has_bits_),
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    ApiCaches_clearMeshletCacheFileForNodeRequest_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiCaches_clearMeshletCacheFileForNodeRequest>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // .octaneapi.ObjectRef meshNode = 1;
+    {::_pbi::TcParser::FastMtS1,
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeRequest, _impl_.meshnode_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // .octaneapi.ObjectRef meshNode = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeRequest, _impl_.meshnode_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::octaneapi::ObjectRef>()},
+  }},
+  {{
+  }},
+};
+void ApiCaches_clearMeshletCacheFileForNodeRequest::InternalSwap(ApiCaches_clearMeshletCacheFileForNodeRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  GetReflection()->Swap(this, other);}
+
+::google::protobuf::Metadata ApiCaches_clearMeshletCacheFileForNodeRequest::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ApiCaches_clearMeshletCacheFileForNodeResponse::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<ApiCaches_clearMeshletCacheFileForNodeResponse>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeResponse, _impl_._has_bits_);
+};
+
+void ApiCaches_clearMeshletCacheFileForNodeResponse::clear_meshnode() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meshnode_ != nullptr) _impl_.meshnode_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+ApiCaches_clearMeshletCacheFileForNodeResponse::ApiCaches_clearMeshletCacheFileForNodeResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_clearMeshletCacheFileForNodeResponse_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiCaches.clearMeshletCacheFileForNodeResponse)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_clearMeshletCacheFileForNodeResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+ApiCaches_clearMeshletCacheFileForNodeResponse::ApiCaches_clearMeshletCacheFileForNodeResponse(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const ApiCaches_clearMeshletCacheFileForNodeResponse& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiCaches_clearMeshletCacheFileForNodeResponse_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ApiCaches_clearMeshletCacheFileForNodeResponse* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.meshnode_ = ((cached_has_bits & 0x00000001u) != 0)
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.meshnode_)
+                : nullptr;
+  _impl_.result_ = from._impl_.result_;
+
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiCaches.clearMeshletCacheFileForNodeResponse)
+}
+PROTOBUF_NDEBUG_INLINE ApiCaches_clearMeshletCacheFileForNodeResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0} {}
+
+inline void ApiCaches_clearMeshletCacheFileForNodeResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, meshnode_),
+           0,
+           offsetof(Impl_, result_) -
+               offsetof(Impl_, meshnode_) +
+               sizeof(Impl_::result_));
+}
+ApiCaches_clearMeshletCacheFileForNodeResponse::~ApiCaches_clearMeshletCacheFileForNodeResponse() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiCaches.clearMeshletCacheFileForNodeResponse)
+  SharedDtor(*this);
+}
+inline void ApiCaches_clearMeshletCacheFileForNodeResponse::SharedDtor(MessageLite& self) {
+  ApiCaches_clearMeshletCacheFileForNodeResponse& this_ = static_cast<ApiCaches_clearMeshletCacheFileForNodeResponse&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.meshnode_;
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL ApiCaches_clearMeshletCacheFileForNodeResponse::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) ApiCaches_clearMeshletCacheFileForNodeResponse(arena);
+}
+constexpr auto ApiCaches_clearMeshletCacheFileForNodeResponse::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiCaches_clearMeshletCacheFileForNodeResponse),
+                                            alignof(ApiCaches_clearMeshletCacheFileForNodeResponse));
+}
+constexpr auto ApiCaches_clearMeshletCacheFileForNodeResponse::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_ApiCaches_clearMeshletCacheFileForNodeResponse_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &ApiCaches_clearMeshletCacheFileForNodeResponse::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiCaches_clearMeshletCacheFileForNodeResponse>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &ApiCaches_clearMeshletCacheFileForNodeResponse::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiCaches_clearMeshletCacheFileForNodeResponse::ClearImpl),
+              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
+              ,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeResponse, _impl_._cached_size_),
+          false,
+      },
+      &ApiCaches_clearMeshletCacheFileForNodeResponse::kDescriptorMethods,
+      &descriptor_table_apicaches_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull ApiCaches_clearMeshletCacheFileForNodeResponse_class_data_ =
+        ApiCaches_clearMeshletCacheFileForNodeResponse::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+ApiCaches_clearMeshletCacheFileForNodeResponse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiCaches_clearMeshletCacheFileForNodeResponse_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiCaches_clearMeshletCacheFileForNodeResponse_class_data_.tc_table);
+  return ApiCaches_clearMeshletCacheFileForNodeResponse_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 1, 0, 2>
+ApiCaches_clearMeshletCacheFileForNodeResponse::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeResponse, _impl_._has_bits_),
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    ApiCaches_clearMeshletCacheFileForNodeResponse_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiCaches_clearMeshletCacheFileForNodeResponse>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // .octaneapi.ObjectRef meshNode = 2;
+    {::_pbi::TcParser::FastMtS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeResponse, _impl_.meshnode_)}},
+    // bool result = 1;
+    {::_pbi::TcParser::FastV8S1,
+     {8, 1, 0, PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeResponse, _impl_.result_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // bool result = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeResponse, _impl_.result_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+    // .octaneapi.ObjectRef meshNode = 2;
+    {PROTOBUF_FIELD_OFFSET(ApiCaches_clearMeshletCacheFileForNodeResponse, _impl_.meshnode_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::octaneapi::ObjectRef>()},
+  }},
+  {{
+  }},
+};
+void ApiCaches_clearMeshletCacheFileForNodeResponse::InternalSwap(ApiCaches_clearMeshletCacheFileForNodeResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  GetReflection()->Swap(this, other);}
+
+::google::protobuf::Metadata ApiCaches_clearMeshletCacheFileForNodeResponse::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 

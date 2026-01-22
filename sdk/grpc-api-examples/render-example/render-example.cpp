@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 // system headers
 #include <grpcpp/grpcpp.h>
@@ -13,31 +13,28 @@
 #include <random>
 #include <string>
 #include <thread>
-// application headers
-#include "grpcsettings.h"
-#include "apiinfoclient.h"
-#include "apibase64client.h"
-#include "apiprojectmanagerclient.h"
-#include "apinodeclient.h"
-#include "apicontrol.h"
-#include "apirenderengineclient.h"
-#include "apichangemanagerclient.h"
-#include "apirootnodegraphclient.h"
-#include "convertapiarrayapirenderimage.h"
-#include "callback.grpc.pb.h"
+// protoc generated headers
+#include "apiprojectmanager.grpc.pb.h"
+// apiItem
+#include "apinodesystem_3.grpc.pb.h"
+// apiNode
+#include "apinodesystem_7.grpc.pb.h"
+#include "apirender.grpc.pb.h"
+#include "apichangemanager.grpc.pb.h"
+#include "callbackstream.grpc.pb.h"
+#include "apirender.h"
 
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::ClientReaderWriter;
 using grpc::Status;
 using namespace octaneapi;
-using namespace OctaneGRPC;
+
 
 /// Determines the size of a 1D C array in elements.
 #define ARRAY_WIDTH(a)  (sizeof(a) / sizeof(a[0]))
 
 std::string gServerURL = "127.0.0.1:50051";
-std::string gClientURL = "127.0.0.1:50052";
 std::string gImageDumpPath;
 
 
@@ -50,29 +47,92 @@ std::string gImageDumpPath;
 #include <mach-o/dyld.h>
 #endif
 
-class GRPCAPIEvents
-{
+#pragma once
+#include <cmath>
+#include <iostream>
+
+#pragma once
+#include <cmath>
+#include <iostream>
+
+class Float3 {
 public:
-    GRPCAPIEvents(std::shared_ptr<grpc::Channel> channel)
-        : mStub(StreamCallbackService::NewStub(channel)) {}
+    float x;
+    float y;
+    float z;
 
-    void initConnection();
+    // Constructors
+    constexpr Float3() : x(0.0f), y(0.0f), z(0.0f) {}
 
-    void waitForEvents();
+    constexpr Float3(float x_, float y_, float z_) : x(x_), y(y_), z(z_) {}
 
-    void shutdown();
-
-private:
-    std::unique_ptr<StreamCallbackService::Stub> mStub;
-    std::unique_ptr<grpc::ClientContext> mContext;
-    std::unique_ptr<grpc::ClientReader<StreamCallbackRequest>> mStream;
-    std::thread mReaderThread;
-    std::atomic<bool> mShutdownRequested = false;
-    void HandleCallback(
-        const StreamCallbackRequest & request);
 };
 
-static Octane::float_3 SPHERE_VERTICES[43] =
+
+//--------------------------------------------------------------------------------------------------
+/// Stores the reference and statistics of a render result, which can be of LDR or HDR. The first
+/// pixel in the buffer is of the top-left corner.
+struct RenderedImage
+{
+    //--- Basic image fields ---
+
+    /// The image type of the result. Currently only these types are used:
+    ///
+    /// - IMAGE_TYPE_LDR_RGBA
+    /// - IMAGE_TYPE_HDR_RGBA
+    /// - IMAGE_TYPE_HALF_RGBA (macOS/iOS only)
+    /// - IMAGE_TYPE_LDR_MONO_ALPHA
+    /// - IMAGE_TYPE_HDR_MONO_ALPHA
+    /// - IMAGE_TYPE_HALF_MONO_ALPHA (macOS/iOS only)
+    octaneapi::ImageType     mType;
+    /// The color space of the result.
+    octaneapi::NamedColorSpace mColorSpace;
+    /// The value of this is implied by mColorSpace unless it's NAMED_COLOR_SPACE_OTHER or
+    /// NAMED_COLOR_SPACE_OCIO.
+    bool          mIsLinear;
+ 
+    /// The size in pixels, or zero if this image refers to a shared surface.
+    uint32_t      mSizeX = 0;
+    uint32_t      mSizeY = 0;
+    /// The number of pixels allocated on a single image row, or zero if this image refers to a
+    /// shared surface.
+    uint32_t      mPitch;
+    /// The pixel buffer storing the result in row-order, or null if this image refers to a shared
+    /// surface.
+    ///
+    /// The pixel format for each image type is:
+    /// - IMAGE_TYPE_LDR_RGBA       : each pixel is stored in 4 bytes  (red, green, blue, alpha)
+    /// - IMAGE_TYPE_HDR_RGBA       : each pixel is stored in 4 floats (red, green, blue, alpha)
+    /// - IMAGE_TYPE_HALF_RGBA      : each pixel is stored in 4 half-floats (red, green, blue, alpha)
+    /// - IMAGE_TYPE_LDR_MONO_ALPHA : each pixel is stored in 2 bytes  (y, alpha)
+    /// - IMAGE_TYPE_HDR_MONO_ALPHA : each pixel is stored in 2 floats (y, alpha)
+    /// - IMAGE_TYPE_HALF_MONO_ALPHA: each pixel is stored in 2 half-floats (y, alpha)
+    const void    *mBuffer;
+
+    //--- Additional render stats ---
+
+    /// The render pass that this result represents.
+    RenderPassId  mRenderPassId;
+    /// The blended samples per pixel, i.e. the samples you can see in the result.
+    float         mTonemappedSamplesPerPixel;
+    /// The actually calculated samples per pixel, which can be higher than
+    /// mTonemappedSamplesPerPixel, because they haven't been blended or received from the render
+    /// nodes yet.
+    float         mCalculatedSamplesPerPixel;
+    /// The blended samples/px rendered for the current region. 0 when no region is active.
+    float         mRegionSamplesPerPixel;
+    /// The maximum samples per pixel that has been set in the render target while this result was
+    /// rendered.
+    float         mMaxSamplesPerPixel;
+    /// The render speed in samples per second, which got measured between the last two render
+    /// results.
+    float         mSamplesPerSecond;
+    /// The total render time (in seconds) we have spent since the last restart up to when this
+    /// image was blended.
+};
+
+
+static Float3 SPHERE_VERTICES[43] =
 {
     { 0.0000f,0.0000f,0.0000f     } ,
     { 0.0000f,0.0000f,1.0000f     } , { 0.5257f,0.0000f,0.8507f    } ,  { 0.1625f,0.5000f,0.8507f    } ,
@@ -91,6 +151,7 @@ static Octane::float_3 SPHERE_VERTICES[43] =
     { -0.5257f,-0.0000f,-0.8507f  } , { -0.1625f,-0.5000f,-0.8507f } , { 0.4253f,-0.3090f,-0.8507f   }
 };
 
+
 static int32_t SPHERE_FACES[240] =
 {
     1,2,3,2,4,5,2,5,3,3,5,6,1,3,7,3,6,8,3,8,7,7,8,9,1,7,10,7,9,11,7,11,10,10,11,12,1,10,13,10,12,14,
@@ -104,7 +165,7 @@ static int32_t SPHERE_FACES[240] =
 };
 
 
-static Octane::float_3 CUBE_VERTICES[] =
+static Float3 CUBE_VERTICES[] =
 {
     { -0.500000f, 0.000000f,  0.500000f },
     {  0.500000f, 0.000000f,  0.500000f },
@@ -136,25 +197,52 @@ static int32_t CUBE_FACES[] =
 #define IMGTEXAMOUNT        5
 
 
-static ApiNodeProxy       gImageTextures[IMGTEXAMOUNT];
-static ApiNodeProxy       gRgbTextures[RGBTEXAMOUNT];
-static ApiNodeProxy       gDiffuseMaterials[DIFFUSEMATAMOUNT];
-static ApiNodeProxy       gGlossyMaterials[GLOSSYMATAMOUNT];
-static ApiNodeProxy       gMaterialMaps[OBJECTAMOUNT + CUBEAMOUNT];
-static ApiNodeProxy       gSphereMesh;
-static ApiNodeProxy       gSpinCube;
-static ApiNodeProxy       gRenderTarget;
-static ApiNodeProxy       gRenderPasses;
-static Octane::float_3    gCubeInitTranslate = { 0, -2.2f, 0 };
-static ApiNodeProxy       gCubePlacementNode;
-static ApiNodeProxy       gCubeMat;
+static octaneapi::ObjectRef        gImageTextures[IMGTEXAMOUNT];
+static octaneapi::ObjectRef        gRgbTextures[RGBTEXAMOUNT];
+static octaneapi::ObjectRef        gDiffuseMaterials[DIFFUSEMATAMOUNT];
+static octaneapi::ObjectRef        gGlossyMaterials[GLOSSYMATAMOUNT];
+static octaneapi::ObjectRef        gMaterialMaps[OBJECTAMOUNT + CUBEAMOUNT];
+static octaneapi::ObjectRef        gSphereMesh;
+static octaneapi::ObjectRef        gSpinCube;
+static octaneapi::ObjectRef        gRenderTarget;
+static octaneapi::ObjectRef        gRenderPasses;
+static Float3                      gCubeInitTranslate = { 0, -2.2f, 0 };
+static octaneapi::ObjectRef        gCubePlacementNode;
+static octaneapi::ObjectRef        gCubeMat;
 
 grpc::ServerBuilder  mBuilder;
 std::unique_ptr<grpc::Server> mServer;
 
-
 static const uint32_t INIT_LCG_SEED = 123456789;
 static uint32_t       gRandomState = INIT_LCG_SEED;
+
+// Class for receiving events streamed from the server
+class GRPCAPIEvents
+{
+public:
+    GRPCAPIEvents(std::shared_ptr<grpc::Channel> channel)
+:
+    mStub(StreamCallbackService::NewStub(channel)),
+    mChannel(channel)  {}
+
+    void initConnection();
+
+    void waitForEvents();
+
+    void shutdown();
+
+private:
+    std::shared_ptr<grpc::Channel> & mChannel;
+    std::unique_ptr<StreamCallbackService::Stub> mStub;
+    std::unique_ptr<grpc::ClientContext> mContext;
+    std::unique_ptr<grpc::ClientReader<StreamCallbackRequest>> mStream;
+    std::thread mReaderThread;
+    std::atomic<bool> mShutdownRequested = false;
+
+    void HandleCallback(
+        const StreamCallbackRequest & request);
+};
+
 
 // Calculates a new LCG random number.
 static inline void updateLcgRandom()
@@ -166,6 +254,18 @@ static inline void updateLcgRandom()
 void resetLcg()
 {
     gRandomState = INIT_LCG_SEED;
+}
+
+
+std::tuple<float, float, float> normalized(float x, float y, float z)
+{
+    float lenSq = x*x + y*y + z*z;
+    if (lenSq > 1e-16f) // guard against zero length
+    {
+        float invLen = 1.0f / std::sqrt(lenSq);
+        return { x * invLen, y * invLen, z * invLen };
+    }
+    return { 0.0f, 0.0f, 0.0f };
 }
 
 
@@ -242,31 +342,19 @@ inline T* vectorBuffer(
 }
 
 
-// hack required to compile, else we get unresolved external errors
-Octane::ApiTextureValueTypeSet::ApiTextureValueTypeSet(uint32_t bitfield)
+static octaneapi::ObjectRef & getRandomRgbTexture()
 {
-
+    return gRgbTextures[lcgRandomRange(RGBTEXAMOUNT)];
 }
 
 
-Octane::ApiCompatibilityModeInfoSet::ApiCompatibilityModeInfoSet(void)
+static octaneapi::ObjectRef & getRandomImgTexture()
 {
-
-}
-
-static ApiNodeProxy * getRandomRgbTexture()
-{
-    return &(gRgbTextures[lcgRandomRange(RGBTEXAMOUNT)]);
+    return gImageTextures[lcgRandomRange(IMGTEXAMOUNT)];
 }
 
 
-static ApiNodeProxy * getRandomImgTexture()
-{
-    return &(gImageTextures[lcgRandomRange(IMGTEXAMOUNT)]);
-}
-
-
-static ApiNodeProxy * getRandomTexture()
+static octaneapi::ObjectRef & getRandomTexture()
 {
     if (lcgRandomBool())
     {
@@ -279,21 +367,15 @@ static ApiNodeProxy * getRandomTexture()
 }
 
 
-static ApiNodeProxy * getRandomMaterialMap()
+static octaneapi::ObjectRef & getRandomDiffuseMat()
 {
-    return &(gMaterialMaps[lcgRandomRange(OBJECTAMOUNT)]);
+    return gDiffuseMaterials[lcgRandomRange(DIFFUSEMATAMOUNT)];
 }
 
 
-static ApiNodeProxy * getRandomDiffuseMat()
+static octaneapi::ObjectRef & getRandomGlossyMat()
 {
-    return &(gDiffuseMaterials[lcgRandomRange(DIFFUSEMATAMOUNT)]);
-}
-
-
-static ApiNodeProxy * getRandomGlossyMat()
-{
-    return &(gGlossyMaterials[lcgRandomRange(GLOSSYMATAMOUNT)]);
+    return gGlossyMaterials[lcgRandomRange(GLOSSYMATAMOUNT)];
 }
 
 
@@ -323,21 +405,714 @@ std::filesystem::path getExecutablePath()
 }
 
 
-ApiNodeProxy createSphere( const unsigned int matCount)
+bool setRenderTargetNode(
+            std::shared_ptr<grpc::Channel> & channel,
+            octaneapi::ObjectRef &           targetNode
+            )
 {
-    ApiRootNodeGraphProxy  projectRoot = ApiProjectManagerProxy::rootNodeGraph();
+    grpc::Status status = grpc::Status::OK;
+    /////////////////////////////////////////////////////////////////////
+    // Define the request packet to send to the gRPC server.
+    octaneapi::ApiRenderEngine::setRenderTargetNodeRequest request;
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'targetNode' [in] parameter to the request packet.
+    // The proxy object contains the ID of the remote object. Pass this ID to the server
+    // using a `ObjectRef` object.
+    auto * targetnodeIn = request.mutable_targetnode();
+    targetnodeIn->set_type(targetNode.type());
+    targetnodeIn->set_handle(targetNode.handle());
+
+    /////////////////////////////////////////////////////////////////////
+    // Make the call to the server
+    octaneapi::ApiRenderEngine::setRenderTargetNodeResponse response;
+    std::shared_ptr<grpc::ClientContext> context;
+    context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiRenderEngineService::Stub> stub =
+        octaneapi::ApiRenderEngineService::NewStub(channel);
+    status = stub->setRenderTargetNode(context.get(), request, &response);
+    if (status.ok())
+    {
+        return response.result(); 
+    } 
+    return false;
+};
+
+
+octaneapi::ObjectRef createNode(
+    std::shared_ptr<grpc::Channel> & channel,
+    octaneapi::ObjectRef &           source,
+    octaneapi::NodeType              nodeType,
+    bool                             configurepinsIn)
+{
+    octaneapi::ObjectRef newNode;
+    octaneapi::ApiNode::createRequest  createRequest;
+    octaneapi::ApiNode::createResponse createResponse;
+    createRequest.set_type(nodeType);
+
+    auto * ownergraphIn = createRequest.mutable_ownergraph();
+    ownergraphIn->set_type(source.type());
+    ownergraphIn->set_handle(source.handle());
+
+    createRequest.set_configurepins(configurepinsIn);
+
+    std::shared_ptr<grpc::ClientContext> context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiNodeService::Stub> stub =
+        octaneapi::ApiNodeService::NewStub(channel);
+    auto status = stub->create(context.get(), createRequest, &createResponse);
+    if (status.ok())
+    {
+        return createResponse.result();
+    }
+    return newNode;
+}
+
+
+bool connectTo(std::shared_ptr<grpc::Channel> & channel,
+               octaneapi::ObjectRef &           thisObject,
+               const octaneapi::PinId           pinId,
+               octaneapi::ObjectRef &           source,
+               bool                             evaluate,
+               bool                             doCycleCheck)
+{
+    octaneapi::ApiNode::connectToRequest connectToRequest;
+
+    auto * objectptrIn = connectToRequest.mutable_objectptr();
+    objectptrIn->set_type(thisObject.type());
+    objectptrIn->set_handle(thisObject.handle());
+
+    auto * src = connectToRequest.mutable_sourcenode();
+    *src = source;
+    
+    connectToRequest.set_pinid(pinId);
+    connectToRequest.set_evaluate(evaluate);
+    connectToRequest.set_docyclecheck(doCycleCheck);
+    google::protobuf::Empty response;
+
+    std::shared_ptr<grpc::ClientContext> context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiNodeService::Stub> stub = octaneapi::ApiNodeService::NewStub(channel);
+    auto status = stub->connectTo(context.get(), connectToRequest, &response);
+    if (status.ok())
+    {
+        return true;
+    }
+    return false;
+}
+
+
+bool changeManagerUpdate(
+    std::shared_ptr<grpc::Channel> & channel)
+{
+    grpc::Status status = grpc::Status::OK;
+    /////////////////////////////////////////////////////////////////////
+    // Define the request packet to send to the gRPC server.
+    octaneapi::ApiChangeManager::updateRequest updateRequest;
+
+    /////////////////////////////////////////////////////////////////////
+    // Make the call to the server
+    google::protobuf::Empty response;
+    std::shared_ptr<grpc::ClientContext> context;
+    context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiChangeManagerService::Stub> stub =
+        octaneapi::ApiChangeManagerService::NewStub(channel);
+    status = stub->update(context.get(), updateRequest, &response);
+
+    if (status.ok())
+    {
+        return true;
+    }
+    return false;
+};
+
+
+bool rootNodeGraph(
+    std::shared_ptr<grpc::Channel> & channel,
+    octaneapi::ObjectRef &           ref)
+{
+    octaneapi::ApiProjectManager::rootNodeGraphRequest   rootNodeGraphRequest;
+    octaneapi::ApiProjectManager::rootNodeGraphResponse  rootNodeGraphResponse;
+    std::shared_ptr<grpc::ClientContext> context;
+    context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
+        octaneapi::ApiProjectManagerService::NewStub(channel);
+    auto  status = stub->rootNodeGraph(context.get(), rootNodeGraphRequest, &rootNodeGraphResponse);
+    if (status.ok())
+    {
+         ref = rootNodeGraphResponse.result();
+         return true;
+    }
+    return false;
+}
+
+
+bool resetProject(
+    std::shared_ptr<grpc::Channel> & channel )
+{
+    octaneapi::ApiProjectManager::resetProjectRequest   resetProjectRequest;
+    octaneapi::ApiProjectManager::resetProjectResponse  resetProjectResponse;
+
+    resetProjectRequest.set_suppressui(true);
+    std::shared_ptr<grpc::ClientContext> context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiProjectManagerService::Stub> stub =
+        octaneapi::ApiProjectManagerService::NewStub(channel);
+    auto status = stub->resetProject(context.get(), resetProjectRequest, &resetProjectResponse);
+    if (status.ok())
+    {
+        return resetProjectResponse.result();
+    }
+    return false;
+}
+
+
+bool connectedNode(
+            std::shared_ptr<grpc::Channel> & channel,
+            const octaneapi::ObjectRef &     thisObject,
+            const octaneapi::PinId           pinId,
+            const bool                       enterWrapperNode,
+            octaneapi::ObjectRef &           refOut
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    /////////////////////////////////////////////////////////////////////
+    // Define the request packet to send to the gRPC server.
+    octaneapi::ApiNode::connectedNodeRequest connectedNodeRequest;
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'objectPtr' [in] parameter to the request packet.
+    // The proxy object contains the ID of the remote object. Pass this ID to the server
+    // using a `ObjectRef` object.
+    auto * objectptrIn = connectedNodeRequest.mutable_objectptr();
+    objectptrIn->set_type(thisObject.type());
+    objectptrIn->set_handle(thisObject.handle());
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'pinId' [in] parameter to the request packet.
+    octaneapi::PinId pinidIn;
+        pinidIn = static_cast<octaneapi::PinId>(pinId);
+    connectedNodeRequest.set_pinid(pinidIn);
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'enterWrapperNode' [in] parameter to the request packet.
+    bool enterwrappernodeIn;
+    enterwrappernodeIn = enterWrapperNode;
+    connectedNodeRequest.set_enterwrappernode(enterwrappernodeIn);
+
+    /////////////////////////////////////////////////////////////////////
+    // Make the call to the server
+    octaneapi::ApiNode::connectedNodeResponse connectedNodeResponse;
+    std::shared_ptr<grpc::ClientContext> context;
+    context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiNodeService::Stub> stub =
+        octaneapi::ApiNodeService::NewStub(channel);
+    status = stub->connectedNode(context.get(), connectedNodeRequest, &connectedNodeResponse);
+
+    if (status.ok())
+    {
+        /////////////////////////////////////////////////////////////////////
+        // Process 'result' [out] parameter from the gRPC response packet
+        refOut = connectedNodeResponse.result();
+        return true;
+    }
+    return false;
+};
+
+
+bool set(std::shared_ptr<grpc::Channel> &          channel,
+         octaneapi::ObjectRef &                    renderTargetNode,
+         const octaneapi::AttributeId              id,
+         octaneapi::ApiItem::setValueByIDRequest & request,
+         bool                                      evaluate)
+{
+    octaneapi::ApiItem::setValueResponse setValueResponse;
+
+    // make a copy of request with item_ref + attribute_id filled
+ 
+    request.set_evaluate(evaluate);
+    auto * ref = request.mutable_item_ref();
+    ref->set_type(renderTargetNode.type());
+    ref->set_handle(renderTargetNode.handle());
+
+    request.set_attribute_id(static_cast<octaneapi::AttributeId>(id));
+    auto stub = octaneapi::ApiItemService::NewStub(channel);
+    auto context = std::make_unique<grpc::ClientContext>();
+    grpc::Status status = stub->setValueByAttrID(context.get(), request, &setValueResponse);
+    if (status.ok())
+    {
+        return true;
+    }
+    return false;
+}
+
+
+int staticPinCount(std::shared_ptr<grpc::Channel> & channel,
+                   octaneapi::ObjectRef &           thisObject)
+{
+    octaneapi::ApiNode::staticPinCountRequest request;
+    auto * objPtr = request.mutable_objectptr();
+    objPtr->set_type(octaneapi::ObjectRef_ObjectType::ObjectRef_ObjectType_ApiNode);
+    objPtr->set_handle(thisObject.handle());
+
+    octaneapi::ApiNode::staticPinCountResponse response;
+    auto context = std::make_unique<grpc::ClientContext>();
+    auto stub    = octaneapi::ApiNodeService::NewStub(channel);
+    grpc::Status status = stub->staticPinCount(context.get(), request, &response);
+    if (!status.ok())
+    {
+        return -1;
+    }
+    return response.result();
+}
+
+
+bool setPinValue(
+            std::shared_ptr<grpc::Channel> &             channel,
+            octaneapi::ObjectRef &                       thisObject,
+            const octaneapi::PinId                       id,
+            octaneapi::ApiNode::setPinValueByIDRequest & request,
+            const bool                                   evaluate
+            )
+{
+    grpc::Status status = grpc::Status::OK; 
+    octaneapi::ApiNode::setPinValueResponse response;
+    octaneapi::ApiNode::setPinValueByIDRequest req = request;
+    req.set_evaluate(evaluate);
+
+    auto* ref = req.mutable_item_ref();
+    ref->set_type(thisObject.type());
+    ref->set_handle(thisObject.handle());
+    req.set_pin_id(id);
+
+    auto stub = octaneapi::ApiNodeService::NewStub(channel);
+    auto context = std::make_unique<grpc::ClientContext>();
+
+    status = stub->setPinValueByPinID(context.get(), req, &response);
+    if (status.ok())
+    {
+        return true;
+    }
+
+    return false;
+};
+
+
+bool connectToIx(
+            std::shared_ptr<grpc::Channel> & channel,
+            const octaneapi::ObjectRef &     thisObject,
+            const uint32_t                   pinIdx,
+            octaneapi::ObjectRef &           sourceNode,
+            const bool                       evaluate,
+            const bool                       doCycleCheck
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    /////////////////////////////////////////////////////////////////////
+    // Define the request packet to send to the gRPC server.
+    octaneapi::ApiNode::connectToIxRequest request;
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'objectPtr' [in] parameter to the request packet.
+    // The proxy object contains the ID of the remote object. Pass this ID to the server
+    // using a `ObjectRef` object.
+    auto * objectptrIn = request.mutable_objectptr();
+    objectptrIn->set_type(thisObject.type());
+    objectptrIn->set_handle(thisObject.handle());
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'pinIdx' [in] parameter to the request packet.
+    request.set_pinidx(pinIdx);
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'sourceNode' [in] parameter to the request packet.
+    // The proxy object contains the ID of the remote object. Pass this ID to the server
+    // using a `ObjectRef` object.
+    auto * sourcenodeIn = request.mutable_sourcenode();
+    sourcenodeIn->set_type(sourceNode.type());
+    sourcenodeIn->set_handle(sourceNode.handle());
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'evaluate' [in] parameter to the request packet.
+    request.set_evaluate(evaluate);
+
+    /////////////////////////////////////////////////////////////////////
+    // Add the 'doCycleCheck' [in] parameter to the request packet.
+    request.set_docyclecheck(doCycleCheck);
+
+    /////////////////////////////////////////////////////////////////////
+    // Make the call to the server
+    google::protobuf::Empty response;
+    std::shared_ptr<grpc::ClientContext> context;
+    context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiNodeService::Stub> stub =
+        octaneapi::ApiNodeService::NewStub(channel);
+    status = stub->connectToIx(context.get(), request, &response);
+
+    if (status.ok())
+    {
+        return true;
+    }
+    return false;
+};
+
+
+bool evaluate(
+            std::shared_ptr<grpc::Channel> &  channel,
+            octaneapi::ObjectRef &            thisObject
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    octaneapi::ApiItem::evaluateRequest  request;
+    google::protobuf::Empty response;
+    auto * ref = request.mutable_objectptr();
+    ref->set_type(thisObject.type());
+    ref->set_handle(thisObject.handle());
+
+    auto stub = octaneapi::ApiItemService::NewStub(channel);
+    auto context = std::make_unique<grpc::ClientContext>();
+
+    status = stub->evaluate(context.get(), request, &response);
+    if (status.ok())
+    {
+        return true;
+    }
+
+    return false;
+};
+
+
+bool createInternal(
+            std::shared_ptr<grpc::Channel> & channel,
+            octaneapi::ObjectRef &           thisObject,
+            const octaneapi::PinId           id,
+            const octaneapi::NodeType        nodeType,
+            const bool                       configurePins,
+            const bool                       evaluate
+            )
+{
+    grpc::Status status = grpc::Status::OK; 
+    octaneapi::ApiNode::createInternalResponse response;
+    octaneapi::ApiNode::createInternalRequest  request;
+    request.set_evaluate(evaluate);
+    request.set_configurepins(configurePins);
+    request.set_pinid(id);
+    request.set_type(nodeType);
+
+    auto * ref = request.mutable_objectptr();
+    ref->set_type(thisObject.type());
+    ref->set_handle(thisObject.handle());
+    
+    auto stub = octaneapi::ApiNodeService::NewStub(channel);
+    auto context = std::make_unique<grpc::ClientContext>();
+
+    status = stub->createInternal(context.get(), request, &response);
+    if (status.ok())
+    {
+        return true;
+    }
+
+    return false;
+};
+
+
+octaneapi::MatrixF makeTranslationMatrix(float tx, float ty, float tz)
+{
+    octaneapi::MatrixF mat;
+
+    // Row 0
+    auto* r0 = mat.add_m();
+    r0->set_x(1.0f); r0->set_y(0.0f); r0->set_z(0.0f); r0->set_w(tx);
+
+    // Row 1
+    auto* r1 = mat.add_m();
+    r1->set_x(0.0f); r1->set_y(1.0f); r1->set_z(0.0f); r1->set_w(ty);
+
+    // Row 2
+    auto* r2 = mat.add_m();
+    r2->set_x(0.0f); r2->set_y(0.0f); r2->set_z(1.0f); r2->set_w(tz);
+
+    return mat;
+}
+
+
+void convertImage(
+    const octaneapi::ApiArrayApiRenderImage & in,
+    std::vector<RenderedImage> & out)
+{
+
+    for (int i = 0; i < in.data_size(); ++i)
+    {
+        const ::octaneapi::ApiRenderImage & image = in.data(i);
+        int imagesize = image.buffer().size();
+        const char * imagedata = image.buffer().data().data();
+        int imageSizeX = image.size().x();
+        int imageSizeY = image.size().y();
+
+        RenderedImage img;
+
+        img.mCalculatedSamplesPerPixel = image.calculatedsamplesperpixel(); 
+        img.mType = image.type();
+        img.mColorSpace = image.colorspace();
+        img.mIsLinear = image.islinear();
+        img.mSizeX = image.size().x();
+        img.mSizeY = image.size().y();
+        img.mPitch = image.pitch();
+
+        //buffer
+        img.mBuffer = nullptr;
+        size_t imgSize = img.mSizeX * img.mSizeY * img.mPitch;// image.mbuffer().size();
+        if (imgSize > 0)
+        {
+            img.mBuffer = new char[imgSize];
+            memcpy((void*)img.mBuffer, (char*)image.buffer().data().data(), image.buffer().size());
+        }
+        else
+        {
+            assert(false);
+        }
+
+        img.mTonemappedSamplesPerPixel = image.tonemappedsamplesperpixel();
+        img.mCalculatedSamplesPerPixel = image.calculatedsamplesperpixel();
+        img.mRegionSamplesPerPixel = image.regionsamplesperpixel();
+        img.mMaxSamplesPerPixel = image.maxsamplesperpixel();
+        img.mSamplesPerSecond = image.samplespersecond();
+      
+        out.push_back(img);
+    }
+}
+
+
+bool grabRenderResult(
+            std::shared_ptr<grpc::Channel> &      channel,
+            std::vector<RenderedImage> & renderImages
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    /////////////////////////////////////////////////////////////////////
+    // Define the request packet to send to the gRPC server.
+    octaneapi::ApiRenderEngine::grabRenderResultRequest request;
+
+    /////////////////////////////////////////////////////////////////////
+    // Make the call to the server
+    octaneapi::ApiRenderEngine::grabRenderResultResponse response;
+    std::shared_ptr<grpc::ClientContext> context;
+    context = std::make_unique<grpc::ClientContext>();
+    std::unique_ptr<octaneapi::ApiRenderEngineService::Stub> stub =
+        octaneapi::ApiRenderEngineService::NewStub(channel);
+    status = stub->grabRenderResult(context.get(), request, &response);
+
+    bool retVal = false;
+    if (status.ok())
+    {
+        /////////////////////////////////////////////////////////////////////
+        // Process 'result' [out] parameter from the gRPC response packet
+        bool resultOut = response.result();
+        retVal = resultOut;
+
+        /////////////////////////////////////////////////////////////////////
+        // Process 'renderImages' [out] parameter from the gRPC response packet
+        octaneapi::ApiArrayApiRenderImage renderImagesOut = response.renderimages();
+        convertImage(renderImagesOut, renderImages);
+    }
+    else
+    {
+        switch (status.error_code())
+        {
+            case grpc::StatusCode::INVALID_ARGUMENT:
+                throw std::invalid_argument(status.error_message());
+            default:
+                throw std::runtime_error("gRPC error (" + std::to_string(status.error_code()) + "): " + status.error_message());
+        } 
+    }
+    return retVal;
+};
+
+
+bool callSetArrayByAttrID(
+        std::shared_ptr<grpc::Channel> &               channel,
+        const octaneapi::AttributeId                   id,
+        const octaneapi::ApiItem::setArrayByIDRequest & request
+        )
+{
+    octaneapi::ApiItem::setArrayResponse response;
+
+    // copy request so we can fill extra required fields
+    octaneapi::ApiItem::setArrayByIDRequest req = request;
+    req.set_attribute_id(static_cast<octaneapi::AttributeId>(id));
+
+    auto stub = octaneapi::ApiItemService::NewStub(channel);
+    auto context = std::make_unique<grpc::ClientContext>();
+
+    grpc::Status status = stub->setArrayByAttrID(context.get(), req, &response);
+    if (status.ok())
+    {
+        return true;
+    }
+    return false;
+}
+
+
+void setArray(
+            std::shared_ptr<grpc::Channel> &     channel,
+            octaneapi::ObjectRef &                    thisObject,
+            const octaneapi::AttributeId              id,
+            const octaneapi::MatrixF *                arr,
+            const size_t                              size,
+            const bool                                evaluate
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    // Call the generic set() helper that wraps gRPC
+    octaneapi::ApiItem::setArrayByIDRequest request;
+    auto* ref = request.mutable_item_ref();
+    ref->set_type(thisObject.type());
+    ref->set_handle(thisObject.handle());
+    request.set_evaluate(evaluate);
+    auto * arrMsg = request.mutable_matrix_array();
+    for (size_t i = 0; i < size; ++i)
+    {
+        auto * m = arrMsg->add_data();
+        m->CopyFrom(arr[i]);
+    }
+    auto response = callSetArrayByAttrID(channel, id, request);
+
+};
+
+
+void setArray(
+            std::shared_ptr<grpc::Channel> &     channel,
+            octaneapi::ObjectRef &                    thisObject,
+            const octaneapi::AttributeId              id,
+            const char *const *                       arr,
+            const size_t                              size,
+            const bool                                evaluate
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    // Call the generic set() helper that wraps gRPC
+    octaneapi::ApiItem::setArrayByIDRequest request;
+    auto* ref = request.mutable_item_ref();
+    ref->set_type(thisObject.type());
+    ref->set_handle(thisObject.handle());
+    request.set_evaluate(evaluate);
+    auto * arrMsg = request.mutable_string_array();
+    for (size_t i = 0; i < size; ++i)
+    {
+        arrMsg->add_data(arr[i] ? arr[i] : "");
+    }
+    auto response = callSetArrayByAttrID(channel, id, request);
+};
+
+
+void setArray(
+            std::shared_ptr<grpc::Channel> &     channel,
+            octaneapi::ObjectRef &                    thisObject,
+            const octaneapi::AttributeId              id,
+            const int32_t *                           arr,
+            const size_t                              size,
+            const bool                                evaluate
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    // Call the generic set() helper that wraps gRPC
+    octaneapi::ApiItem::setArrayByIDRequest request;
+    auto* ref = request.mutable_item_ref();
+    ref->set_type(thisObject.type());
+    ref->set_handle(thisObject.handle());
+    request.set_evaluate(evaluate);
+    auto * arrMsg = request.mutable_int_array();
+    for (size_t i = 0; i < size; ++i)
+    {
+        arrMsg->add_data(arr[i]);
+    }
+    auto response = callSetArrayByAttrID(channel, id, request);
+};
+
+
+void setArray(
+            std::shared_ptr<grpc::Channel> &     channel,
+            octaneapi::ObjectRef &                    thisObject,
+            const octaneapi::AttributeId              id,
+            const Float3 *                            arr,
+            const size_t                              size,
+            const bool                                evaluate
+            )
+{
+    grpc::Status status = grpc::Status::OK;
+    // Call the generic set() helper that wraps gRPC
+    octaneapi::ApiItem::setArrayByIDRequest request;
+    auto* ref = request.mutable_item_ref();
+    ref->set_type(thisObject.type());
+    ref->set_handle(thisObject.handle());
+    request.set_evaluate(evaluate);
+    //request.set_attribute_id(octaneapi::AttributeId::float)
+    auto * arrMsg = request.mutable_float3_array();
+    for (size_t i = 0; i < size; ++i)
+    {
+        auto * e = arrMsg->add_data();
+        e->set_x(arr[i].x);
+        e->set_y(arr[i].y);
+        e->set_z(arr[i].z);
+    }
+    auto response = callSetArrayByAttrID(channel, id, request);
+};
+
+
+octaneapi::ObjectRef createCube(
+    std::shared_ptr<grpc::Channel> &  channel)
+{
+    octaneapi::ObjectRef projectRoot;
+    rootNodeGraph(channel, projectRoot);
+
+    octaneapi::ObjectRef meshNode = createNode(channel,projectRoot,  octaneapi::NT_GEO_MESH, true);
+
+    // set cube geometry
+    const std::vector<int32_t> vertsPerPoly(ARRAY_WIDTH(CUBE_FACES) / 3, 3);
+    setArray(channel, meshNode, octaneapi::A_VERTICES_PER_POLY,   vectorBuffer(vertsPerPoly), vertsPerPoly.size(),        false);
+    setArray(channel, meshNode, octaneapi::A_VERTICES,            CUBE_VERTICES,              ARRAY_WIDTH(CUBE_VERTICES), false);
+    setArray(channel, meshNode, octaneapi::A_UVWS,                CUBE_VERTICES,              ARRAY_WIDTH(CUBE_VERTICES), false);
+    setArray(channel, meshNode, octaneapi::A_NORMALS,             CUBE_VERTICES,              ARRAY_WIDTH(CUBE_VERTICES), false);
+    setArray(channel, meshNode, octaneapi::A_POLY_VERTEX_INDICES, CUBE_FACES,                 ARRAY_WIDTH(CUBE_FACES),    false);
+    setArray(channel, meshNode, octaneapi::A_POLY_UVW_INDICES,    CUBE_FACES,                 ARRAY_WIDTH(CUBE_FACES),    false);
+    setArray(channel, meshNode, octaneapi::A_POLY_NORMAL_INDICES, CUBE_FACES,                 ARRAY_WIDTH(CUBE_FACES),    false);
+
+    // set material names
+    std::vector<const char*> matNames;
+    matNames.push_back("Material 1");
+    setArray(channel, meshNode, octaneapi::A_MATERIAL_NAMES, vectorBuffer(matNames), 1, false);
+
+    // assign materials to faces
+    std::vector<int32_t> polyMatIndices(vertsPerPoly.size());
+    for (int32_t i = 0; i < polyMatIndices.size(); ++i)
+    {
+        polyMatIndices[i] = 0;
+    }
+    setArray(channel, meshNode, octaneapi::A_POLY_MATERIAL_INDICES, vectorBuffer(polyMatIndices), polyMatIndices.size(), false);
+
+    // evaluate the mesh
+    evaluate(channel, meshNode);
+
+    return meshNode;
+}
+
+
+octaneapi::ObjectRef createSphere(
+    std::shared_ptr<grpc::Channel> &  channel,
+    const unsigned int                matCount)
+{
+    octaneapi::ObjectRef projectRoot;
+    rootNodeGraph(channel, projectRoot);
 
     // create sphere
-    ApiNodeProxy meshNode = ApiNodeProxy::create(Octane::NT_GEO_MESH, projectRoot, true);
+    octaneapi::ObjectRef meshNode = createNode(channel, projectRoot, octaneapi::NT_GEO_MESH, true);
+
     // set sphere geometry
     const std::vector<int32_t> vertsPerPoly(ARRAY_WIDTH(SPHERE_FACES) / 3, 3);
-    meshNode.set(Octane::A_VERTICES_PER_POLY, vectorBuffer(vertsPerPoly), vertsPerPoly.size(), false);
-    meshNode.set(Octane::A_VERTICES, SPHERE_VERTICES, ARRAY_WIDTH(SPHERE_VERTICES), false);
-    meshNode.set(Octane::A_UVWS, SPHERE_VERTICES, ARRAY_WIDTH(SPHERE_VERTICES), false);
-    meshNode.set(Octane::A_NORMALS, SPHERE_VERTICES, ARRAY_WIDTH(SPHERE_VERTICES), false);
-    meshNode.set(Octane::A_POLY_VERTEX_INDICES, SPHERE_FACES, ARRAY_WIDTH(SPHERE_FACES), false);
-    meshNode.set(Octane::A_POLY_UVW_INDICES, SPHERE_FACES, ARRAY_WIDTH(SPHERE_FACES), false);
-    meshNode.set(Octane::A_POLY_NORMAL_INDICES, SPHERE_FACES, ARRAY_WIDTH(SPHERE_FACES), false);
+    setArray(channel, meshNode, octaneapi::A_VERTICES_PER_POLY, vectorBuffer(vertsPerPoly), vertsPerPoly.size(), false);
+    setArray(channel, meshNode, octaneapi::A_VERTICES, SPHERE_VERTICES, ARRAY_WIDTH(SPHERE_VERTICES), false);
+    setArray(channel, meshNode, octaneapi::A_UVWS, SPHERE_VERTICES, ARRAY_WIDTH(SPHERE_VERTICES), false);
+    setArray(channel, meshNode, octaneapi::A_NORMALS, SPHERE_VERTICES, ARRAY_WIDTH(SPHERE_VERTICES), false);
+    setArray(channel, meshNode, octaneapi::A_POLY_VERTEX_INDICES, SPHERE_FACES, ARRAY_WIDTH(SPHERE_FACES), false);
+    setArray(channel, meshNode, octaneapi::A_POLY_UVW_INDICES, SPHERE_FACES, ARRAY_WIDTH(SPHERE_FACES), false);
+    setArray(channel, meshNode, octaneapi::A_POLY_NORMAL_INDICES, SPHERE_FACES, ARRAY_WIDTH(SPHERE_FACES), false);
 
     // set material names
     std::vector<const char*> matNames;
@@ -351,204 +1126,218 @@ ApiNodeProxy createSphere( const unsigned int matCount)
     matNames.push_back("Material 8");
     matNames.push_back("Material 9");
     matNames.push_back("Material 10");
-    meshNode.set(Octane::A_MATERIAL_NAMES, vectorBuffer(matNames), matCount, false);
+    setArray(channel, meshNode, octaneapi::A_MATERIAL_NAMES, vectorBuffer(matNames), matCount, false);
 
     // assign materials to faces
     std::vector<int32_t> polyMatIndices(vertsPerPoly.size());
-    for (int32_t i=0; i<polyMatIndices.size(); ++i) { polyMatIndices[i] = i % matCount; }
-    meshNode.set(Octane::A_POLY_MATERIAL_INDICES, vectorBuffer(polyMatIndices), polyMatIndices.size(), false);
-
-    // evaluate the mesh
-    meshNode.evaluate();
-
-    return meshNode;
-}
-
-
-ApiNodeProxy createCube()
-{
-    ApiRootNodeGraphProxy projectRoot = ApiProjectManagerProxy::rootNodeGraph();
-    ApiNodeProxy meshNode = ApiNodeProxy::create(Octane::NT_GEO_MESH, projectRoot, true);
-
-    // set cube geometry
-    const std::vector<int32_t> vertsPerPoly(ARRAY_WIDTH(CUBE_FACES) / 3, 3);
-    meshNode.set(Octane::A_VERTICES_PER_POLY,   vectorBuffer(vertsPerPoly), vertsPerPoly.size(),        false);
-    meshNode.set(Octane::A_VERTICES,            CUBE_VERTICES,              ARRAY_WIDTH(CUBE_VERTICES), false);
-    meshNode.set(Octane::A_UVWS,                CUBE_VERTICES,              ARRAY_WIDTH(CUBE_VERTICES), false);
-    meshNode.set(Octane::A_NORMALS,             CUBE_VERTICES,              ARRAY_WIDTH(CUBE_VERTICES), false);
-    meshNode.set(Octane::A_POLY_VERTEX_INDICES, CUBE_FACES,                 ARRAY_WIDTH(CUBE_FACES),    false);
-    meshNode.set(Octane::A_POLY_UVW_INDICES,    CUBE_FACES,                 ARRAY_WIDTH(CUBE_FACES),    false);
-    meshNode.set(Octane::A_POLY_NORMAL_INDICES, CUBE_FACES,                 ARRAY_WIDTH(CUBE_FACES),    false);
-
-    // set material names
-    std::vector<const char*> matNames;
-    matNames.push_back("Material 1");
-    meshNode.set(Octane::A_MATERIAL_NAMES, vectorBuffer(matNames), 1, false);
-
-    // assign materials to faces
-    std::vector<int32_t> polyMatIndices(vertsPerPoly.size());
-    for (int32_t i = 0; i < polyMatIndices.size(); ++i)
+    for (int32_t i=0; i<polyMatIndices.size(); ++i)
     {
-        polyMatIndices[i] = 0;
+        polyMatIndices[i] = i % matCount;
     }
-    meshNode.set(Octane::A_POLY_MATERIAL_INDICES, vectorBuffer(polyMatIndices), polyMatIndices.size(), false);
+    setArray(channel, meshNode, octaneapi::A_POLY_MATERIAL_INDICES, vectorBuffer(polyMatIndices), polyMatIndices.size(), false);
 
     // evaluate the mesh
-    meshNode.evaluate();
+    evaluate(channel, meshNode);
 
     return meshNode;
 }
 
 
-void initMaterials()
+void initMaterials(
+    std::shared_ptr<grpc::Channel >& channel)
 {
     std::string texFiles[IMGTEXAMOUNT] =
     {
-        "textures\\Bokeh2.jpg",
-        "textures\\Mineral.jpg",
-        "textures\\MultiScatter8.jpg",
-        "textures\\OctaneDLDiffuse.jpg",
-        "textures\\OctaneLogo.png"
+        "textures/Bokeh2.jpg",
+        "textures/Mineral.jpg",
+        "textures/MultiScatter8.jpg",
+        "textures/OctaneDLDiffuse.jpg",
+        "textures/OctaneLogo.png"
     };
 
-    ApiRootNodeGraphProxy projectRoot = ApiProjectManagerProxy::rootNodeGraph();
-    
+    octaneapi::ObjectRef projectRoot;
+    rootNodeGraph(channel, projectRoot);
+
     std::filesystem::path exePath = getExecutablePath();
     std::filesystem::path parentDir = exePath.parent_path().parent_path().parent_path();
     for (int i = 0; i < IMGTEXAMOUNT; ++i)
     {
-        gImageTextures[i] = ApiNodeProxy::create(Octane::NT_TEX_IMAGE, projectRoot, true);
-
+        gImageTextures[i] = createNode(channel, projectRoot, octaneapi::NT_TEX_IMAGE, true);
         std::filesystem::path texFilePath = parentDir / texFiles[i];
-        std::string fullPath = texFilePath.string();  // Converts to platform-native string
-
-        gImageTextures[i].set(Octane::A_FILENAME, fullPath.c_str(), true);
+        std::string fullPath = texFilePath.string();
+        octaneapi::ApiItem::setValueByIDRequest request; 
+        request.set_string_value(fullPath);
+        set(channel, gImageTextures[i], octaneapi::A_FILENAME, request, true);
     }
 
     for (int i = 0; i < RGBTEXAMOUNT; ++i)
     {
-        gRgbTextures[i] = ApiNodeProxy::create(Octane::NT_TEX_RGB, projectRoot, true);
-        gRgbTextures[i].set(Octane::A_VALUE,
-            Octane::float_3::make(lcgRandomFloat(),
-                lcgRandomFloat(),
-                lcgRandomFloat()), true);
+        gRgbTextures[i] = createNode(channel, projectRoot, octaneapi::NT_TEX_RGB, true);
+        octaneapi::ApiItem::setValueByIDRequest request;
+        octaneapi::float_3 * v3 = request.mutable_float3_value();
+        float b = lcgRandomFloat();
+        float g = lcgRandomFloat();
+        float r = lcgRandomFloat();
+        v3->set_x(r);
+        v3->set_y(g);
+        v3->set_z(b);
+        set(channel, gRgbTextures[i], octaneapi::A_VALUE, request, true);
     }
 
     for (int i = 0; i < DIFFUSEMATAMOUNT; ++i)
     {
-        gDiffuseMaterials[i] = ApiNodeProxy::create(Octane::NT_MAT_DIFFUSE, projectRoot, true);
-        gDiffuseMaterials[i].connectTo(Octane::P_DIFFUSE, getRandomTexture(), true, false);
+        gDiffuseMaterials[i] = createNode(channel, projectRoot, octaneapi::NT_MAT_DIFFUSE, true);
+        connectTo(channel, gDiffuseMaterials[i], octaneapi::P_DIFFUSE, getRandomTexture(), true, false);
     }
 
     for (int i = 0; i < GLOSSYMATAMOUNT; ++i)
     {
-        gGlossyMaterials[i] = ApiNodeProxy::create(Octane::NT_MAT_DIFFUSE, projectRoot, true);
-        gGlossyMaterials[i].connectTo(Octane::P_DIFFUSE, getRandomTexture(), true, false);
+        gGlossyMaterials[i] = createNode(channel, projectRoot, octaneapi::NT_MAT_DIFFUSE, true);
+        connectTo(channel, gGlossyMaterials[i], octaneapi::P_DIFFUSE, getRandomTexture(), true, false);
     }
 
-    if (gSphereMesh.isNull())
+    if (!gSphereMesh.handle())
     {
-        gSphereMesh = createSphere(2);
+        gSphereMesh = createSphere(channel, 2);
         for (int i = 0; i < OBJECTAMOUNT; ++i)
         {
-            gMaterialMaps[i] = ApiNodeProxy::create(Octane::NT_MAT_MAP, projectRoot, true);
-            gMaterialMaps[i].connectTo(Octane::P_GEOMETRY, &gSphereMesh, true, false);
+            gMaterialMaps[i] = createNode(channel, projectRoot, octaneapi::NT_MAT_MAP, true);
+            connectTo(channel, gMaterialMaps[i], octaneapi::P_GEOMETRY, gSphereMesh, true, false);
         }
     }
 
-    if (gSpinCube.isNull())
+    if (!gSpinCube.handle())
     {
-        gSpinCube = createCube();
+        gSpinCube = createCube(channel);
         for (int c = 0; c < CUBEAMOUNT; ++c)
         {
-            gMaterialMaps[OBJECTAMOUNT+c] =  ApiNodeProxy::create(Octane::NT_MAT_MAP, projectRoot, true);
-            gMaterialMaps[OBJECTAMOUNT+c].connectTo(Octane::P_GEOMETRY, &gSpinCube, true, false);
+            gMaterialMaps[OBJECTAMOUNT+c] = createNode(channel, projectRoot, octaneapi::NT_MAT_MAP, true);
+            connectTo(channel, gMaterialMaps[OBJECTAMOUNT+c], octaneapi::P_GEOMETRY, gSpinCube, true, false);
         }
 
-        gCubePlacementNode =  ApiNodeProxy::create(Octane::NT_GEO_PLACEMENT,projectRoot, true);
+        gCubePlacementNode = createNode(channel, projectRoot, octaneapi::NT_GEO_PLACEMENT, true);
 
-        ApiNodeProxy cubeTexture =  ApiNodeProxy::create(Octane::NT_TEX_RGB, projectRoot, true);
-        cubeTexture.set(Octane::A_VALUE, Octane::float_3::make(0, 1, 0), true);
-        gCubeMat = ApiNodeProxy::create(Octane::NT_MAT_DIFFUSE, projectRoot, true);
-        gCubeMat.connectTo(Octane::P_DIFFUSE, &cubeTexture, true, false);
+        octaneapi::ObjectRef cubeTexture = createNode(channel, projectRoot, octaneapi::NT_TEX_RGB, true);
+        octaneapi::ApiItem::setValueByIDRequest request;
+        octaneapi::float_3 * v3 = request.mutable_float3_value();
+        v3->set_x(0);
+        v3->set_y(1);
+        v3->set_z(0);
+        set(channel, cubeTexture, octaneapi::A_VALUE, request, true);
+        gCubeMat = createNode(channel, projectRoot, octaneapi::NT_MAT_DIFFUSE, true);
+        connectTo(channel, gCubeMat, octaneapi::P_DIFFUSE, cubeTexture, true, false);
     }
 
     for (int i = 0; i < OBJECTAMOUNT; ++i)
     {
-        ApiNodeProxy * matMap = &gMaterialMaps[i];
-        matMap->connectToIx(matMap->staticPinCount() + 0, getRandomDiffuseMat(), true, false);
-        matMap->connectToIx(matMap->staticPinCount() + 1, getRandomGlossyMat(), true, false);
+        octaneapi::ObjectRef matMap = gMaterialMaps[i];
+        int base = staticPinCount(channel, matMap);
+        connectToIx(channel, matMap, base + 0, getRandomDiffuseMat(), true, false);
+        connectToIx(channel, matMap, base + 1, getRandomGlossyMat(), true, false);
     }
 
     for (int c = 0; c < CUBEAMOUNT; ++c)
     {
-        ApiNodeProxy * matMap = &gMaterialMaps[OBJECTAMOUNT+c];
-        matMap->connectToIx(matMap->staticPinCount() + 0, &gCubeMat, true, false);
+        octaneapi::ObjectRef matMap = gMaterialMaps[OBJECTAMOUNT+c];
+        connectToIx(channel, matMap, staticPinCount(channel, matMap) + 0, gCubeMat, true, false);
     }
 }
 
 
 void makeSimpleScene(
-    ApiNodeProxy * renderTargetNpde)
+    std::shared_ptr<grpc::Channel> & channel,
+    octaneapi::ObjectRef &           renderTargetNode)
 {
-    ApiRootNodeGraphProxy projectRoot = ApiProjectManagerProxy::rootNodeGraph();
-    ApiNodeProxy geoGroup = renderTargetNpde->connectedNode(Octane::P_MESH, false);
-    geoGroup.set(Octane::A_PIN_COUNT, OBJECTAMOUNT+CUBEAMOUNT, true);
+    octaneapi::ObjectRef projectRoot;
+    rootNodeGraph(channel, projectRoot);
+    octaneapi::ObjectRef geoGroup;
+    if (connectedNode(channel, renderTargetNode, octaneapi::P_MESH, false, geoGroup))
+    {
+        octaneapi::ApiItem::setValueByIDRequest request;
+        request.set_int_value(OBJECTAMOUNT + CUBEAMOUNT);
+        set(channel, geoGroup, octaneapi::A_PIN_COUNT, request, true);
+    }
 
-    try
-    {
-        initMaterials();
-    }
-    catch (const std::exception & e)
-    {
-        std::cerr << "initMaterials exception: " << e.what() << std::endl;
-    }
+    initMaterials(channel);
 
     // creates instances of the meshes and connects them with the geometry group
     for (int i = 0; i < OBJECTAMOUNT; ++i)
     {
         const float t = sqrtf(i * 0.001f);
-
-        ApiNodeProxy scatter = ApiNodeProxy::create(Octane::NT_GEO_SCATTER, projectRoot, true);
-        const Octane::float_3 translation = { sinf(120.0f * t) * t * 30.0f,
+        auto scatter = createNode(channel, projectRoot, octaneapi::NT_GEO_SCATTER, true);
+        const Float3 translation = { sinf(120.0f * t) * t * 30.0f,
             t * 15.0f,
             cosf(120.0f * t) * t * 30.0f };
-
-        const OctaneVec::MatrixF mat = Octane::MatrixF::makeTranslation(translation);
-        scatter.set(Octane::A_TRANSFORMS, &mat, 1, true);
-
-        scatter.connectTo(Octane::P_GEOMETRY, &(gMaterialMaps[i]), true, false);
-        geoGroup.connectToIx(i, &scatter, true, false);
+        const octaneapi::MatrixF mat = makeTranslationMatrix(translation.x, translation.y, translation.z);
+        setArray(channel, scatter, octaneapi::A_TRANSFORMS, &mat, 1, true);
+        connectTo(channel, scatter, octaneapi::P_GEOMETRY, gMaterialMaps[i], true, false);
+        connectToIx(channel, geoGroup, i, scatter, true, false);
     }
-    {
-        const Octane::MatrixF mat = Octane::MatrixF::makeTranslation(gCubeInitTranslate);
-        gCubePlacementNode.setPinValue(Octane::P_TRANSFORM, mat, true);
 
-        gCubePlacementNode.connectTo(Octane::P_GEOMETRY, &(gMaterialMaps[OBJECTAMOUNT]), true, false);
-        geoGroup.connectToIx(OBJECTAMOUNT, &gCubePlacementNode, true, false);
+    {
+        const octaneapi::MatrixF mat = makeTranslationMatrix(gCubeInitTranslate.x, gCubeInitTranslate.y, gCubeInitTranslate.z);
+        octaneapi::ApiNode::setPinValueByIDRequest request;
+        auto * v = request.mutable_matrix_value();
+        *v = mat;
+        setPinValue(channel, gCubePlacementNode, octaneapi::P_TRANSFORM, request, true);
+        connectTo(channel, gCubePlacementNode, octaneapi::P_GEOMETRY, gMaterialMaps[OBJECTAMOUNT], true, false);
+        connectToIx(channel, geoGroup, OBJECTAMOUNT, gCubePlacementNode, true, false);
     }
 
     // set up camera
-    ApiNodeProxy camera = ApiNodeProxy::create(Octane::NT_CAM_THINLENS, projectRoot, true);
-    camera.setPinValue(Octane::P_TARGET, Octane::float_3::make(0.0f, 0.0f, 0.0f), true);
-    camera.setPinValue(Octane::P_POSITION, Octane::float_3::make(10.0f, -2.0f, 10.0f), true);
-    renderTargetNpde->connectTo(Octane::P_CAMERA, &camera, true, false);
+    auto camera = createNode(channel, projectRoot, octaneapi::NT_CAM_THINLENS, true);
+
+    {
+        octaneapi::ApiNode::setPinValueByIDRequest request1;
+        auto * v = request1.mutable_float3_value();
+        v->set_x(0.0f);
+        v->set_y(0.0f);
+        v->set_z(0.0f);
+        setPinValue(channel, camera, octaneapi::P_TARGET, request1, true);
+    }
+
+    {
+        octaneapi::ApiNode::setPinValueByIDRequest request;
+        auto * v = request.mutable_float3_value();
+        v->set_x(10.0f);
+        v->set_y(-2.0f);
+        v->set_z(10.0f);
+        setPinValue(channel, camera, octaneapi::P_POSITION, request, true);
+    }
+    connectTo(channel, renderTargetNode, octaneapi::P_CAMERA, camera, true, false);
 
     // set up environment
-    ApiNodeProxy env = ApiNodeProxy::create(Octane::NT_ENV_DAYLIGHT, projectRoot, true);
-    env.createInternal(Octane::P_SUN_DIR, Octane::NT_FLOAT, true, true);
-    env.setPinValue(Octane::P_SUN_DIR, normalized(Octane::float_3::make(-10.0f, 0.1f, -5.0f)), true);
-    env.setPinValue(Octane::P_MODEL, Octane::DAYLIGHTMODEL_OCTANE, true);
-    renderTargetNpde->connectTo(Octane::P_ENVIRONMENT, &env, true, false);
+    auto env = createNode(channel, projectRoot, octaneapi::NT_ENV_DAYLIGHT, true);
+    createInternal(channel, env, octaneapi::P_SUN_DIR, octaneapi::NT_FLOAT, true, true);
+
+    {
+        octaneapi::ApiNode::setPinValueByIDRequest request;
+        auto [nx, ny, nz] = normalized(-10.0f, 0.1f, -5.0f);
+        auto * v = request.mutable_float3_value();
+        v->set_x(nx);
+        v->set_y(ny);
+        v->set_z(nz);
+        setPinValue(channel, env, octaneapi::P_SUN_DIR, request, true);
+    }
+
+    {
+        octaneapi::ApiNode::setPinValueByIDRequest request;
+        request.set_int_value(octaneapi::DAYLIGHTMODEL_OCTANE);
+        setPinValue(channel, env, octaneapi::P_MODEL, request, true);
+    }
+    connectTo(channel, renderTargetNode, octaneapi::P_ENVIRONMENT, env, true, false);
 
     // set up kernel
-    ApiNodeProxy kernel = ApiNodeProxy::create(Octane::NT_KERN_PATHTRACING, projectRoot, true);
-    kernel.setPinValue(Octane::P_MAX_SAMPLES, 1000, true);
-    renderTargetNpde->connectTo(Octane::P_KERNEL, &kernel, true, false);
+    auto kernel = createNode(channel, projectRoot, octaneapi::NT_KERN_PATHTRACING, true);
+
+    {
+        octaneapi::ApiNode::setPinValueByIDRequest request;
+        request.set_int_value(1000);
+        setPinValue(channel, kernel, octaneapi::P_MAX_SAMPLES, request, true);
+    }
+    connectTo(channel, renderTargetNode, octaneapi::P_KERNEL, kernel, true, false);
 }
 
-// Assumes pixelData is RGB, 8 bits per channel (i.e., 3 bytes per pixel)
-// Total buffer size: width * height * 3
 
 void saveAsBMP(
     const std::string & filename,
@@ -561,7 +1350,8 @@ void saveAsBMP(
     const uint32_t fileSize = 14 + 40 + imageSize;
 
     std::ofstream out(filename, std::ios::binary);
-    if (!out) {
+    if (!out)
+    {
         throw std::runtime_error("Unable to open file for writing");
     }
 
@@ -616,191 +1406,34 @@ void saveAsBMP(
 }
 
 
-void OnNewImageCallback(
-    const  ApiArray<Octane::ApiRenderImage> & renderImages,
-    void *                                    userData)
+void renderScene(
+    std::shared_ptr<grpc::Channel> & channel)
 {
+    grpc::Status status = grpc::Status::OK;
 
-    //Octane::ApiArray<Octane::ApiRenderImage> renderImages;
-    //if (!ApiRenderEngineProxy::grabRenderResult(renderImages)) 
-    //{
-    //    // call releaseRenderResult on the server inside grabRenderResult and try to change to vector istnead of ApiArray
-    //    return; 
-    //}
+    resetProject(channel);
 
-    // process all the rendered images
-    for (size_t i = 0; i < renderImages.mSize; ++i)
-    {
-        const Octane::ApiRenderImage & renderImage = renderImages.mData[i]; 
+    octaneapi::ObjectRef projectRoot;
+    rootNodeGraph(channel, projectRoot);
+    octaneapi::ObjectRef renderTarget = createNode(channel, projectRoot, octaneapi::NT_RENDERTARGET, true);
+    setRenderTargetNode(channel, renderTarget);
 
-        // create new ARGB image
-        const size_t            dstPitch = renderImage.mSize.x * 4;// imgData.lineStride;
-        uint8_t * pixelData = new uint8_t[renderImage.mSize.x * renderImage.mSize.y * 4];
-        uint8_t * dst = pixelData;
-        switch (renderImage.mType)
-        {
-            case  Octane::IMAGE_TYPE_LDR_RGBA:
-            {
-                const unsigned char *src = (const unsigned char*)renderImage.mBuffer;
-                const size_t        srcPitch = renderImage.mPitch * 4;
-                for (unsigned int y=0; y<renderImage.mSize.y; ++y, src+=srcPitch, dst+=dstPitch)
-                {
-                    const unsigned char *srcPixel = src;
-                    unsigned char       *dstPixel = dst;
-                    for (unsigned int x = 0; x < renderImage.mSize.x; ++x, srcPixel += 4, dstPixel += 4)
-                    {
-                        dstPixel[0] = srcPixel[0];
-                        dstPixel[1] = srcPixel[1];
-                        dstPixel[2] = srcPixel[2];
-                        dstPixel[3] = 0xff;
-                    }
-                }
-                break;
-            }
-            case  Octane::IMAGE_TYPE_LDR_MONO_ALPHA:
-            {
-                const unsigned char *src = (const unsigned char*)renderImage.mBuffer;
-                const size_t        srcPitch = renderImage.mPitch * 2;
-                for (unsigned int y=0; y<renderImage.mSize.y; ++y, src+=srcPitch, dst+=dstPitch)
-                {
-                    const unsigned char *srcPixel = src;
-                    unsigned char       *dstPixel = dst;
-                    for (unsigned int x=0; x<renderImage.mSize.x; ++x, srcPixel+=2, dstPixel+=4)
-                    {
-                        dstPixel[0] = srcPixel[0];
-                        dstPixel[1] = srcPixel[0];
-                        dstPixel[2] = srcPixel[0];
-                        dstPixel[3] = 0xff;
-                    }
-                }
-                break;
-            }
-            case  Octane::IMAGE_TYPE_HDR_RGBA:
-            {
-                const float  *src = (const float*)renderImage.mBuffer;
-                const size_t srcPitch = renderImage.mPitch * 4;
-                for (unsigned int y = 0; y < renderImage.mSize.y; ++y, src+=srcPitch, dst+=dstPitch)
-                {
-                    const float   *srcPixel = src;
-                    unsigned char *dstPixel = dst;
-                    for (unsigned int x=0; x<renderImage.mSize.x; ++x, srcPixel+=4, dstPixel+=4)
-                    {
-                        dstPixel[0] = (unsigned char)std::clamp(srcPixel[0] * 255.f, 0.f, 255.f);
-                        dstPixel[1] = (unsigned char)std::clamp(srcPixel[1] * 255.f, 0.f, 255.f);
-                        dstPixel[2] = (unsigned char)std::clamp(srcPixel[2] * 255.f, 0.f, 255.f);
-                        dstPixel[3] = 0xff;
-                    }
-                }
-                break;
-            }
-            case  Octane::IMAGE_TYPE_HDR_MONO_ALPHA:
-            {
-                const float  *src = (const float*)renderImage.mBuffer;
-                const size_t srcPitch = renderImage.mPitch * 2;
-                for (unsigned int y=0; y<renderImage.mSize.y; ++y, src+=srcPitch, dst+=dstPitch)
-                {
-                    const float   *srcPixel = src;
-                    unsigned char *dstPixel = dst;
-                    for (unsigned int x = 0; x < renderImage.mSize.x; ++x, srcPixel += 2, dstPixel += 4)
-                    {
-                        dstPixel[0] = (unsigned char)std::clamp(srcPixel[0] * 255.f, 0.f, 255.f);
-                        dstPixel[1] = (unsigned char)std::clamp(srcPixel[0] * 255.f, 0.f, 255.f);
-                        dstPixel[2] = (unsigned char)std::clamp(srcPixel[0] * 255.f, 0.f, 255.f);
-                        dstPixel[3] = 0xff;
-                    }
-                }
-            }
-        }
+    octaneapi::ObjectRef geoNode = createNode(channel, projectRoot, octaneapi::NT_GEO_GROUP, true);
+    connectTo(channel, renderTarget, octaneapi::P_MESH, geoNode, true, false);
 
-        if (gImageDumpPath != "")
-        {
-            std::string path = gImageDumpPath;
-            path.append("/__test.bmp");
-            saveAsBMP(path, pixelData, renderImage.mSize.x, renderImage.mSize.y);
-        }
-        
-        // delete the data
-        if (pixelData)
-        {
-            delete[] pixelData;
-        }
-        if (renderImage.mBuffer)
-        {
-            delete[] renderImage.mBuffer;
-        }
-    }
+    makeSimpleScene(channel, renderTarget);
+
+    octaneapi::ObjectRef renderPasses = createNode(channel, projectRoot, octaneapi::NT_RENDER_PASSES, true); 
+    connectTo(channel, renderTarget, octaneapi::P_RENDER_PASSES, renderPasses, true, false);
+    changeManagerUpdate(channel);
 }
 
 
-void OnNewStatisticsCallback(
-    void * userData)
-{
-
-}
-
-
-void OnRenderFailureCallback(
-    void * userData)
-{
-
-}
-
-
-void OnApiProjectManagerChange(
-    void * userData)
-{
-
-}
-
-
-void renderScene()
-{
-    try
-    {
-        // set callback functions.
-        // When not running as a module using the modulesdk, then only the following callbacks are supported
-        ApiRenderEngineProxy::setOnNewImageCallback(OnNewImageCallback, 0);
-        ApiRenderEngineProxy::setOnNewStatisticsCallback(OnNewStatisticsCallback, 0);
-        ApiRenderEngineProxy::setOnRenderFailureCallback(OnRenderFailureCallback, 0);
-        CallbackStorage::registerGRPCProjectManagerObserver(0, OnApiProjectManagerChange);
-        /*  alternateively ,call these instead
-        CallbackStorage::registerOnNewImageCallback( 0, OnNewImageCallback);
-        CallbackStorage::registerOnNewStatisticsCallback( 0, OnNewStatisticsCallback);
-        CallbackStorage::registerOnRenderFailureCallback( 0, OnRenderFailureCallback);
-        */
-
-        ApiProjectManagerProxy::resetProject();
-        ApiRootNodeGraphProxy projectRoot = ApiProjectManagerProxy::rootNodeGraph();
-        gRenderTarget = ApiNodeProxy::create(Octane::NT_RENDERTARGET, projectRoot, true);
-        ApiRenderEngineProxy::setRenderTargetNode(&gRenderTarget);
-        ApiNodeProxy  geoNode = ApiNodeProxy::create(Octane::NT_GEO_GROUP, projectRoot, true);
-        gRenderTarget.connectTo(Octane::P_MESH, &geoNode, true, false);
- 
-        makeSimpleScene(&gRenderTarget);
-        gRenderPasses = ApiNodeProxy::create(Octane::NT_RENDER_PASSES, projectRoot, true);
-        gRenderTarget.connectTo(Octane::P_RENDER_PASSES, &gRenderPasses, true, false);
-        ApiChangeManagerProxy::update();
-    }
-    catch (const std::runtime_error & e)
-    {
-        std::cerr << "Runtime error: " << e.what() << std::endl;
-    }
-    catch (const std::exception & e)
-    {
-        std::cerr << "General exception: " << e.what() << std::endl;
-    }
-    catch (...)
-    {
-        std::cerr << "Unknown exception occurred." << std::endl;
-    }
-}
-
-
-void testApi()
+void testApi(std::shared_ptr<grpc::Channel> & channel)
 {
     try {
 
-        std::string cpuVendor_;
+       /* std::string cpuVendor_;
         std::string cpuModel_;
         uint32_t clockSpeedMhz_;
         uint32_t nbCores_;
@@ -817,7 +1450,7 @@ void testApi()
         int version = ApiInfoProxy::octaneVersion();
         std::vector<Octane::NodePinType> pinTypes;
         size_t numPinTypes = 0;
-        ApiInfoProxy::getPinTypes(pinTypes, numPinTypes);
+        ApiInfoProxy::getPinTypes(pinTypes, numPinTypes);*/
     }
     catch (const std::runtime_error& e)
     {
@@ -857,50 +1490,42 @@ int main(int    argc,
     }
  
     gServerURL = std::string(argv[1]);
-    gImageDumpPath = std::string(argv[2]);
-
-    std::cout << "Attempting to connect to: " << gServerURL << "\n";
-    if (!canConnectToServer(gServerURL)) {
-        std::cout << "Failed to connect to gRPC server at " << gServerURL << ". Exiting.\n";
-        return 1;
+    if (argc >= 2 && argv[2])
+    {
+        gImageDumpPath = std::string(argv[2]);
     }
 
-    std::cout << "Connecting to octane.exe on "<<gServerURL<<"\n";
-    GRPCSettings::getInstance().setServerAddress(gServerURL);
-    auto channel = grpc::CreateChannel(gServerURL, grpc::InsecureChannelCredentials());
-    
-    // Optionally save debug events to a log
-    std::string path = "E:\\grpcdebuglog_rendertest.txt";
-    if (path != "")
     {
-        try
+        std::cout << "Attempting to connect to: " << gServerURL << "\n";
+        if (!canConnectToServer(gServerURL))
         {
-            ApiControlService::setApiLogPath(true, path);
-        }
-        catch (const std::exception& e)
-        {
-            std::cout << "Failed to connect to GRPC server. Exiting.\n";
+            std::cout << "Failed to connect to gRPC server at " << gServerURL << ". Exiting.\n";
             return 1;
         }
+
+        std::cout << "Connecting to octane.exe on " << gServerURL << "\n";
+
+        auto channel = grpc::CreateChannel(gServerURL, grpc::InsecureChannelCredentials());
+
+        {
+            GRPCAPIEvents serverEvents(channel);
+            serverEvents.initConnection();
+            serverEvents.waitForEvents();
+
+            // call some methods on the API and render a scene
+            testApi(channel);
+
+            // render a scene in octane.exe
+            renderScene(channel);
+
+            // pause before shutting down events so we can get the last newImage event
+            // optionally wait until the render is complete
+            std::this_thread::sleep_for(std::chrono::seconds(5));
+
+            serverEvents.shutdown();
+        }
+        std::cout << "Server stopped. Exiting.\n";
     }
-    {
-        GRPCAPIEvents serverEvents(channel);
-        serverEvents.initConnection();
-        serverEvents.waitForEvents();
-
-        // call some methods on the API and render a scene
-        testApi();
-
-        // render a scene in octane.exe
-        renderScene();
-
-        // pause before shutting down events so we can get the last newImage event
-        // optionally wait until the render is complete
-        std::this_thread::sleep_for(std::chrono::seconds(5));
-
-        serverEvents.shutdown();
-    }
-    std::cout << "Server stopped. Exiting.\n";
     return 0;
 }
 
@@ -969,46 +1594,144 @@ void GRPCAPIEvents::HandleCallback(
         return;
     }
 
-    
     switch (request.payload_case())
     {
         case octaneapi::StreamCallbackRequest::kNewStatistics:
         {
             std::cout << "[Client] Received callback of type: kNewStatistics \n";
             auto reqData = request.newstatistics();
-            CallbackStorage::invokeOnNewStatisticsCallback(0, (void*) reqData.user_data());
+         //   CallbackStorage::invokeOnNewStatisticsCallback(0, (void*) reqData.user_data());
             break;
         }
         case octaneapi::StreamCallbackRequest::kRenderFailure:
         {
             std::cout << "[Client] Received callback of type: kRenderFailure \n";
             auto reqData = request.renderfailure();
-            CallbackStorage::invokeOnRenderFailureCallback(0, (void*) reqData.user_data());
+         //  CallbackStorage::invokeOnRenderFailureCallback(0, (void*) reqData.user_data());
             break;
         }
         case octaneapi::StreamCallbackRequest::kProjectManagerChanged:
         {
             std::cout << "[Client] Received callback of type: kProjectManagerChanged \n";
             auto reqData = request.projectmanagerchanged();
-            CallbackStorage::invokeGRPCProjectManagerObserver(0, (void*) reqData.user_data());
+           // CallbackStorage::invokeGRPCProjectManagerObserver(0, (void*) reqData.user_data());
             break;
         }
         case octaneapi::StreamCallbackRequest::kNewImage:
         {
             std::cout << "[Client] Received callback of type: kNewImage \n";
+            std::vector<RenderedImage> renderImages;
+            if (!grabRenderResult(mChannel, renderImages))
+            {
+                // call releaseRenderResult on the server inside grabRenderResult and try to change to vector instead of ApiArray
+                return;
+            }
+            // process all the rendered images
+            for (size_t i = 0; i < renderImages.size(); ++i)
+            {
+                const RenderedImage & renderImage = renderImages[i]; 
 
-            const OnNewImageRequest & img = request.newimage(); //  use correct field name
-            std::vector<Octane::ApiRenderImage> renderedImages;
-            ApiArrayApiRenderImageConverter::convert(img.render_images(), renderedImages);
-            Octane::ApiArray<Octane::ApiRenderImage> images(renderedImages.data(), renderedImages.size());
-            CallbackStorage::invokeOnNewImageCallback(0, images, 0);
+                // create new ARGB image
+                const size_t            dstPitch = renderImage.mSizeX * 4;// imgData.lineStride;
+                uint8_t * pixelData = new uint8_t[renderImage.mSizeX * renderImage.mSizeY * 4];
+                uint8_t * dst = pixelData;
+                switch (renderImage.mType)
+                {
+                    case  Octane::IMAGE_TYPE_LDR_RGBA:
+                    {
+                        const unsigned char *src = (const unsigned char*)renderImage.mBuffer;
+                        const size_t        srcPitch = renderImage.mPitch * 4;
+                        for (unsigned int y=0; y<renderImage.mSizeY; ++y, src+=srcPitch, dst+=dstPitch)
+                        {
+                            const unsigned char *srcPixel = src;
+                            unsigned char       *dstPixel = dst;
+                            for (unsigned int x = 0; x < renderImage.mSizeX; ++x, srcPixel += 4, dstPixel += 4)
+                            {
+                                dstPixel[0] = srcPixel[0];
+                                dstPixel[1] = srcPixel[1];
+                                dstPixel[2] = srcPixel[2];
+                                dstPixel[3] = 0xff;
+                            }
+                        }
+                        break;
+                    }
+                    case  Octane::IMAGE_TYPE_LDR_MONO_ALPHA:
+                    {
+                        const unsigned char *src = (const unsigned char*)renderImage.mBuffer;
+                        const size_t        srcPitch = renderImage.mPitch * 2;
+                        for (unsigned int y=0; y<renderImage.mSizeY; ++y, src+=srcPitch, dst+=dstPitch)
+                        {
+                            const unsigned char *srcPixel = src;
+                            unsigned char       *dstPixel = dst;
+                            for (unsigned int x=0; x<renderImage.mSizeX; ++x, srcPixel+=2, dstPixel+=4)
+                            {
+                                dstPixel[0] = srcPixel[0];
+                                dstPixel[1] = srcPixel[0];
+                                dstPixel[2] = srcPixel[0];
+                                dstPixel[3] = 0xff;
+                            }
+                        }
+                        break;
+                    }
+                    case  Octane::IMAGE_TYPE_HDR_RGBA:
+                    {
+                        const float  *src = (const float*)renderImage.mBuffer;
+                        const size_t srcPitch = renderImage.mPitch * 4;
+                        for (unsigned int y = 0; y < renderImage.mSizeY; ++y, src+=srcPitch, dst+=dstPitch)
+                        {
+                            const float   *srcPixel = src;
+                            unsigned char *dstPixel = dst;
+                            for (unsigned int x=0; x<renderImage.mSizeX; ++x, srcPixel+=4, dstPixel+=4)
+                            {
+                                dstPixel[0] = (unsigned char)std::clamp(srcPixel[0] * 255.f, 0.f, 255.f);
+                                dstPixel[1] = (unsigned char)std::clamp(srcPixel[1] * 255.f, 0.f, 255.f);
+                                dstPixel[2] = (unsigned char)std::clamp(srcPixel[2] * 255.f, 0.f, 255.f);
+                                dstPixel[3] = 0xff;
+                            }
+                        }
+                        break;
+                    }
+                    case  Octane::IMAGE_TYPE_HDR_MONO_ALPHA:
+                    {
+                        const float  *src = (const float*)renderImage.mBuffer;
+                        const size_t srcPitch = renderImage.mPitch * 2;
+                        for (unsigned int y=0; y<renderImage.mSizeY; ++y, src+=srcPitch, dst+=dstPitch)
+                        {
+                            const float   *srcPixel = src;
+                            unsigned char *dstPixel = dst;
+                            for (unsigned int x = 0; x < renderImage.mSizeX; ++x, srcPixel += 2, dstPixel += 4)
+                            {
+                                dstPixel[0] = (unsigned char)std::clamp(srcPixel[0] * 255.f, 0.f, 255.f);
+                                dstPixel[1] = (unsigned char)std::clamp(srcPixel[0] * 255.f, 0.f, 255.f);
+                                dstPixel[2] = (unsigned char)std::clamp(srcPixel[0] * 255.f, 0.f, 255.f);
+                                dstPixel[3] = 0xff;
+                            }
+                        }
+                    }
+                }
+
+                if (gImageDumpPath != "")
+                {
+                    std::string path = gImageDumpPath;
+                    path.append("/__test.bmp");
+                    saveAsBMP(path, pixelData, renderImage.mSizeX, renderImage.mSizeY);
+                }
+        
+                // delete the data
+                if (pixelData)
+                {
+                    delete[] pixelData;
+                }
+                if (renderImage.mBuffer)
+                {
+                    delete[] renderImage.mBuffer;
+                }
+            }
+
             break;
         }
         default:
             std::cerr << "[Client] Unknown callback type received.\n"; 
             break;
     }
-
-    // Send back response
-    //stream->Write(response);
 }

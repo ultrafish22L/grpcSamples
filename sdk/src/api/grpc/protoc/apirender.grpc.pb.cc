@@ -115,7 +115,6 @@ static const char* ApiRenderEngineService_method_names[] = {
   "/octaneapi.ApiRenderEngineService/renderPriority",
   "/octaneapi.ApiRenderEngineService/setRenderPriority",
   "/octaneapi.ApiRenderEngineService/currentPeerToPeerGroups",
-  "/octaneapi.ApiRenderEngineService/hardwareRayTracingEnabled",
   "/octaneapi.ApiRenderEngineService/openDeviceSettings",
   "/octaneapi.ApiRenderEngineService/renderDeviceState",
   "/octaneapi.ApiRenderEngineService/renderDeviceErrorCode",
@@ -251,41 +250,40 @@ ApiRenderEngineService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterfa
   , rpcmethod_renderPriority_(ApiRenderEngineService_method_names[89], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_setRenderPriority_(ApiRenderEngineService_method_names[90], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_currentPeerToPeerGroups_(ApiRenderEngineService_method_names[91], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_hardwareRayTracingEnabled_(ApiRenderEngineService_method_names[92], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_openDeviceSettings_(ApiRenderEngineService_method_names[93], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_renderDeviceState_(ApiRenderEngineService_method_names[94], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_renderDeviceErrorCode_(ApiRenderEngineService_method_names[95], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_errorcodeToString_(ApiRenderEngineService_method_names[96], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_renderDeviceErrorMessage_(ApiRenderEngineService_method_names[97], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_saveRenderDeviceConfig_(ApiRenderEngineService_method_names[98], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_outOfCoreEnabled_(ApiRenderEngineService_method_names[99], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_enableOutOfCore_(ApiRenderEngineService_method_names[100], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_disableOutOfCore_(ApiRenderEngineService_method_names[101], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_getOutOfCoreMemoryUsage_(ApiRenderEngineService_method_names[102], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_setGpuHeadroom_(ApiRenderEngineService_method_names[103], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_getGpuHeadroom_(ApiRenderEngineService_method_names[104], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_setCoreLimit_(ApiRenderEngineService_method_names[105], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_disableCoreLimit_(ApiRenderEngineService_method_names[106], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_registerInputSharedSurface_(ApiRenderEngineService_method_names[107], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_unregisterInputSharedSurface_(ApiRenderEngineService_method_names[108], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_triggerAsyncTonemap_(ApiRenderEngineService_method_names[109], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_setSharedSurfaceOutputType_(ApiRenderEngineService_method_names[110], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_getSharedSurfaceOutputType_(ApiRenderEngineService_method_names[111], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_getRealTime_(ApiRenderEngineService_method_names[112], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_pauseRendering_(ApiRenderEngineService_method_names[113], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_continueRendering_(ApiRenderEngineService_method_names[114], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_isRenderingPaused_(ApiRenderEngineService_method_names[115], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_restartRendering_(ApiRenderEngineService_method_names[116], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_stopRendering_(ApiRenderEngineService_method_names[117], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_pick_(ApiRenderEngineService_method_names[118], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_pickWhitePoint_(ApiRenderEngineService_method_names[119], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_pickImagerWhitePoint_(ApiRenderEngineService_method_names[120], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_isOutputAovWhitePointPickable_(ApiRenderEngineService_method_names[121], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_pickOutputAovWhitePoint_(ApiRenderEngineService_method_names[122], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_pickCryptomatteMatte_(ApiRenderEngineService_method_names[123], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_modifyCryptomatteMatteSelection_(ApiRenderEngineService_method_names[124], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_toString_(ApiRenderEngineService_method_names[125], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_getDevicePciIds_(ApiRenderEngineService_method_names[126], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_openDeviceSettings_(ApiRenderEngineService_method_names[92], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_renderDeviceState_(ApiRenderEngineService_method_names[93], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_renderDeviceErrorCode_(ApiRenderEngineService_method_names[94], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_errorcodeToString_(ApiRenderEngineService_method_names[95], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_renderDeviceErrorMessage_(ApiRenderEngineService_method_names[96], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_saveRenderDeviceConfig_(ApiRenderEngineService_method_names[97], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_outOfCoreEnabled_(ApiRenderEngineService_method_names[98], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_enableOutOfCore_(ApiRenderEngineService_method_names[99], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_disableOutOfCore_(ApiRenderEngineService_method_names[100], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getOutOfCoreMemoryUsage_(ApiRenderEngineService_method_names[101], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_setGpuHeadroom_(ApiRenderEngineService_method_names[102], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getGpuHeadroom_(ApiRenderEngineService_method_names[103], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_setCoreLimit_(ApiRenderEngineService_method_names[104], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_disableCoreLimit_(ApiRenderEngineService_method_names[105], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_registerInputSharedSurface_(ApiRenderEngineService_method_names[106], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_unregisterInputSharedSurface_(ApiRenderEngineService_method_names[107], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_triggerAsyncTonemap_(ApiRenderEngineService_method_names[108], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_setSharedSurfaceOutputType_(ApiRenderEngineService_method_names[109], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getSharedSurfaceOutputType_(ApiRenderEngineService_method_names[110], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getRealTime_(ApiRenderEngineService_method_names[111], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_pauseRendering_(ApiRenderEngineService_method_names[112], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_continueRendering_(ApiRenderEngineService_method_names[113], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_isRenderingPaused_(ApiRenderEngineService_method_names[114], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_restartRendering_(ApiRenderEngineService_method_names[115], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_stopRendering_(ApiRenderEngineService_method_names[116], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_pick_(ApiRenderEngineService_method_names[117], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_pickWhitePoint_(ApiRenderEngineService_method_names[118], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_pickImagerWhitePoint_(ApiRenderEngineService_method_names[119], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_isOutputAovWhitePointPickable_(ApiRenderEngineService_method_names[120], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_pickOutputAovWhitePoint_(ApiRenderEngineService_method_names[121], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_pickCryptomatteMatte_(ApiRenderEngineService_method_names[122], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_modifyCryptomatteMatteSelection_(ApiRenderEngineService_method_names[123], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_toString_(ApiRenderEngineService_method_names[124], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getDevicePciIds_(ApiRenderEngineService_method_names[125], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status ApiRenderEngineService::Stub::setRenderTargetNode(::grpc::ClientContext* context, const ::octaneapi::ApiRenderEngine_setRenderTargetNodeRequest& request, ::octaneapi::ApiRenderEngine_setRenderTargetNodeResponse* response) {
@@ -2404,29 +2402,6 @@ void ApiRenderEngineService::Stub::async::currentPeerToPeerGroups(::grpc::Client
   return result;
 }
 
-::grpc::Status ApiRenderEngineService::Stub::hardwareRayTracingEnabled(::grpc::ClientContext* context, const ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest& request, ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest, ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_hardwareRayTracingEnabled_, context, request, response);
-}
-
-void ApiRenderEngineService::Stub::async::hardwareRayTracingEnabled(::grpc::ClientContext* context, const ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest* request, ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest, ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_hardwareRayTracingEnabled_, context, request, response, std::move(f));
-}
-
-void ApiRenderEngineService::Stub::async::hardwareRayTracingEnabled(::grpc::ClientContext* context, const ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest* request, ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_hardwareRayTracingEnabled_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse>* ApiRenderEngineService::Stub::PrepareAsynchardwareRayTracingEnabledRaw(::grpc::ClientContext* context, const ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse, ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_hardwareRayTracingEnabled_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse>* ApiRenderEngineService::Stub::AsynchardwareRayTracingEnabledRaw(::grpc::ClientContext* context, const ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsynchardwareRayTracingEnabledRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
-
 ::grpc::Status ApiRenderEngineService::Stub::openDeviceSettings(::grpc::ClientContext* context, const ::octaneapi::ApiRenderEngine_openDeviceSettingsRequest& request, ::google::protobuf::Empty* response) {
   return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiRenderEngine_openDeviceSettingsRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_openDeviceSettings_, context, request, response);
 }
@@ -4133,16 +4108,6 @@ ApiRenderEngineService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ApiRenderEngineService_method_names[92],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest, ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](ApiRenderEngineService::Service* service,
-             ::grpc::ServerContext* ctx,
-             const ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest* req,
-             ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse* resp) {
-               return service->hardwareRayTracingEnabled(ctx, req, resp);
-             }, this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[93],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_openDeviceSettingsRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
              ::grpc::ServerContext* ctx,
@@ -4151,7 +4116,7 @@ ApiRenderEngineService::Service::Service() {
                return service->openDeviceSettings(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[94],
+      ApiRenderEngineService_method_names[93],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_renderDeviceStateRequest, ::octaneapi::ApiRenderEngine_renderDeviceStateResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4161,7 +4126,7 @@ ApiRenderEngineService::Service::Service() {
                return service->renderDeviceState(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[95],
+      ApiRenderEngineService_method_names[94],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_renderDeviceErrorCodeRequest, ::octaneapi::ApiRenderEngine_renderDeviceErrorCodeResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4171,7 +4136,7 @@ ApiRenderEngineService::Service::Service() {
                return service->renderDeviceErrorCode(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[96],
+      ApiRenderEngineService_method_names[95],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_errorcodeToStringRequest, ::octaneapi::ApiRenderEngine_errorcodeToStringResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4181,7 +4146,7 @@ ApiRenderEngineService::Service::Service() {
                return service->errorcodeToString(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[97],
+      ApiRenderEngineService_method_names[96],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_renderDeviceErrorMessageRequest, ::octaneapi::ApiRenderEngine_renderDeviceErrorMessageResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4191,7 +4156,7 @@ ApiRenderEngineService::Service::Service() {
                return service->renderDeviceErrorMessage(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[98],
+      ApiRenderEngineService_method_names[97],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_saveRenderDeviceConfigRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4201,7 +4166,7 @@ ApiRenderEngineService::Service::Service() {
                return service->saveRenderDeviceConfig(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[99],
+      ApiRenderEngineService_method_names[98],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_outOfCoreEnabledRequest, ::octaneapi::ApiRenderEngine_outOfCoreEnabledResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4211,7 +4176,7 @@ ApiRenderEngineService::Service::Service() {
                return service->outOfCoreEnabled(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[100],
+      ApiRenderEngineService_method_names[99],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_enableOutOfCoreRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4221,7 +4186,7 @@ ApiRenderEngineService::Service::Service() {
                return service->enableOutOfCore(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[101],
+      ApiRenderEngineService_method_names[100],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_disableOutOfCoreRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4231,7 +4196,7 @@ ApiRenderEngineService::Service::Service() {
                return service->disableOutOfCore(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[102],
+      ApiRenderEngineService_method_names[101],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_getOutOfCoreMemoryUsageRequest, ::octaneapi::ApiRenderEngine_getOutOfCoreMemoryUsageResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4241,7 +4206,7 @@ ApiRenderEngineService::Service::Service() {
                return service->getOutOfCoreMemoryUsage(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[103],
+      ApiRenderEngineService_method_names[102],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_setGpuHeadroomRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4251,7 +4216,7 @@ ApiRenderEngineService::Service::Service() {
                return service->setGpuHeadroom(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[104],
+      ApiRenderEngineService_method_names[103],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_getGpuHeadroomRequest, ::octaneapi::ApiRenderEngine_getGpuHeadroomResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4261,7 +4226,7 @@ ApiRenderEngineService::Service::Service() {
                return service->getGpuHeadroom(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[105],
+      ApiRenderEngineService_method_names[104],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_setCoreLimitRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4271,7 +4236,7 @@ ApiRenderEngineService::Service::Service() {
                return service->setCoreLimit(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[106],
+      ApiRenderEngineService_method_names[105],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_disableCoreLimitRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4281,7 +4246,7 @@ ApiRenderEngineService::Service::Service() {
                return service->disableCoreLimit(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[107],
+      ApiRenderEngineService_method_names[106],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_registerInputSharedSurfaceRequest, ::octaneapi::ApiRenderEngine_registerInputSharedSurfaceResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4291,7 +4256,7 @@ ApiRenderEngineService::Service::Service() {
                return service->registerInputSharedSurface(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[108],
+      ApiRenderEngineService_method_names[107],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_unregisterInputSharedSurfaceRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4301,7 +4266,7 @@ ApiRenderEngineService::Service::Service() {
                return service->unregisterInputSharedSurface(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[109],
+      ApiRenderEngineService_method_names[108],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_triggerAsyncTonemapRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4311,7 +4276,7 @@ ApiRenderEngineService::Service::Service() {
                return service->triggerAsyncTonemap(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[110],
+      ApiRenderEngineService_method_names[109],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_setSharedSurfaceOutputTypeRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4321,7 +4286,7 @@ ApiRenderEngineService::Service::Service() {
                return service->setSharedSurfaceOutputType(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[111],
+      ApiRenderEngineService_method_names[110],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_getSharedSurfaceOutputTypeRequest, ::octaneapi::ApiRenderEngine_getSharedSurfaceOutputTypeResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4331,7 +4296,7 @@ ApiRenderEngineService::Service::Service() {
                return service->getSharedSurfaceOutputType(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[112],
+      ApiRenderEngineService_method_names[111],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_getRealTimeRequest, ::octaneapi::ApiRenderEngine_getRealTimeResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4341,7 +4306,7 @@ ApiRenderEngineService::Service::Service() {
                return service->getRealTime(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[113],
+      ApiRenderEngineService_method_names[112],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_pauseRenderingRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4351,7 +4316,7 @@ ApiRenderEngineService::Service::Service() {
                return service->pauseRendering(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[114],
+      ApiRenderEngineService_method_names[113],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_continueRenderingRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4361,7 +4326,7 @@ ApiRenderEngineService::Service::Service() {
                return service->continueRendering(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[115],
+      ApiRenderEngineService_method_names[114],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_isRenderingPausedRequest, ::octaneapi::ApiRenderEngine_isRenderingPausedResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4371,7 +4336,7 @@ ApiRenderEngineService::Service::Service() {
                return service->isRenderingPaused(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[116],
+      ApiRenderEngineService_method_names[115],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_restartRenderingRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4381,7 +4346,7 @@ ApiRenderEngineService::Service::Service() {
                return service->restartRendering(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[117],
+      ApiRenderEngineService_method_names[116],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_stopRenderingRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4391,7 +4356,7 @@ ApiRenderEngineService::Service::Service() {
                return service->stopRendering(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[118],
+      ApiRenderEngineService_method_names[117],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_pickRequest, ::octaneapi::ApiRenderEngine_pickResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4401,7 +4366,7 @@ ApiRenderEngineService::Service::Service() {
                return service->pick(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[119],
+      ApiRenderEngineService_method_names[118],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_pickWhitePointRequest, ::octaneapi::ApiRenderEngine_pickWhitePointResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4411,7 +4376,7 @@ ApiRenderEngineService::Service::Service() {
                return service->pickWhitePoint(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[120],
+      ApiRenderEngineService_method_names[119],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_pickImagerWhitePointRequest, ::octaneapi::ApiRenderEngine_pickImagerWhitePointResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4421,7 +4386,7 @@ ApiRenderEngineService::Service::Service() {
                return service->pickImagerWhitePoint(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[121],
+      ApiRenderEngineService_method_names[120],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_isOutputAovWhitePointPickableRequest, ::octaneapi::ApiRenderEngine_isOutputAovWhitePointPickableResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4431,7 +4396,7 @@ ApiRenderEngineService::Service::Service() {
                return service->isOutputAovWhitePointPickable(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[122],
+      ApiRenderEngineService_method_names[121],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_pickOutputAovWhitePointRequest, ::octaneapi::ApiRenderEngine_pickOutputAovWhitePointResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4441,7 +4406,7 @@ ApiRenderEngineService::Service::Service() {
                return service->pickOutputAovWhitePoint(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[123],
+      ApiRenderEngineService_method_names[122],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_pickCryptomatteMatteRequest, ::octaneapi::ApiRenderEngine_pickCryptomatteMatteResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4451,7 +4416,7 @@ ApiRenderEngineService::Service::Service() {
                return service->pickCryptomatteMatte(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[124],
+      ApiRenderEngineService_method_names[123],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_modifyCryptomatteMatteSelectionRequest, ::octaneapi::ApiRenderEngine_modifyCryptomatteMatteSelectionResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4461,7 +4426,7 @@ ApiRenderEngineService::Service::Service() {
                return service->modifyCryptomatteMatteSelection(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[125],
+      ApiRenderEngineService_method_names[124],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_toStringRequest, ::octaneapi::ApiRenderEngine_toStringResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -4471,7 +4436,7 @@ ApiRenderEngineService::Service::Service() {
                return service->toString(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiRenderEngineService_method_names[126],
+      ApiRenderEngineService_method_names[125],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ApiRenderEngineService::Service, ::octaneapi::ApiRenderEngine_getDevicePciIdsRequest, ::octaneapi::ApiRenderEngine_getDevicePciIdsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ApiRenderEngineService::Service* service,
@@ -5123,13 +5088,6 @@ ApiRenderEngineService::Service::~Service() {
 }
 
 ::grpc::Status ApiRenderEngineService::Service::currentPeerToPeerGroups(::grpc::ServerContext* context, const ::octaneapi::ApiRenderEngine_currentPeerToPeerGroupsRequest* request, ::octaneapi::ApiRenderEngine_currentPeerToPeerGroupsResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status ApiRenderEngineService::Service::hardwareRayTracingEnabled(::grpc::ServerContext* context, const ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledRequest* request, ::octaneapi::ApiRenderEngine_hardwareRayTracingEnabledResponse* response) {
   (void) context;
   (void) request;
   (void) response;

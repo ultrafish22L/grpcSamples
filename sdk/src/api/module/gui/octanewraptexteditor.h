@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef _OCTANE_WRAP_TEXT_EDITOR_H_
 #define _OCTANE_WRAP_TEXT_EDITOR_H_   1

@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
  
 
@@ -15,8 +15,8 @@
 #include "grpccallbacks.h"
 //#include "grpcstreaming.h"
 #include "callback.grpc.pb.h"
+#include "callbackstream.grpc.pb.h"
 
- 
 
 template<typename RequestType,
     typename ResponseType,
@@ -1721,7 +1721,7 @@ void GRPCCallbackMgr::OnNewImageCallback(
     request.set_callback_id(callbackId);
     request.set_user_data(reinterpret_cast<uint64_t>(userData));
 
-    //auto* apiImages = new octaneapi::ApiArrayApiRenderImage();
+    //auto * apiImages = new octaneapi::ApiArrayApiRenderImage();
     auto * apiImages = request.mutable_render_images();
     for (size_t i = 0; i < renderImages.mSize; ++i)
     {
@@ -1785,6 +1785,8 @@ void GRPCCallbackMgr::OnNewImageCallback(
 
     if (mModuleServer)
     {
+        octaneapi::OnNewImageData request;
+        request.set_user_data(reinterpret_cast<uint64_t>(userData));
         status = mModuleServer->sendNewImageUpdates(request);
         return;
     }

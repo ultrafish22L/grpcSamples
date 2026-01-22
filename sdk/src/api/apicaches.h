@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #pragma once
 
@@ -16,6 +16,8 @@ class OCTANEAPI_DECL ApiCaches
 {
 public:
 
+    //--- MESHLETS ---
+
     /// Returns the maximum size of the meshlet cache in bytes. It is the same value that is stored
     /// in A_MESHLET_CACHE_SIZE in the application preferences node.
     static uint64_t getMeshletCacheSize();
@@ -25,6 +27,57 @@ public:
 
     /// Deletes all meshlet cache files that are currently not in use.
     static void clearMeshletCache();
+
+    /// Returns TRUE if a cache file can be found for the given geometry import preferences and
+    /// filename / meshlet ID attribute and FALSE if not. If a meshlet cache file exists it will be
+    /// opened and kept open by the mesh node.
+    ///
+    /// This function can be used before or after the mesh node is evaluated. When you call it
+    /// before evaluation you don't have to populate the actual geometry attributes yet. This allows
+    /// you to check whether you need to populate the geometry data or not and thus save a bit of
+    /// memory and time.
+    /// 
+    /// If the meshlet cache file exists and the node was not evaluated yet you still have to
+    /// evaluate the mesh node to populate the material / object layer names and pins and bring the
+    /// node into a consistent state.
+    /// 
+    /// If the meshlet cache file does not exist you will have to completely populate the geometry
+    /// attributes and then evaluate the mesh node. This will then kick off the meshlet build in the
+    /// background. You can check the state of that build using checkMeshletBuildStatus().
+    /// 
+    /// @param  meshNode
+    ///     Pointer to the mesh node to check. Must be a valid pointer to a node of type NT_GEO_MESH.
+    /// @return
+    ///     TRUE if a valid meshlet cache file exists for the mesh node, FALSE if not.
+    static bool hasMeshletCacheFile(
+        Octane::ApiNode * meshNode);
+
+    /// Check the status of the cached meshlet mesh for the given mesh node. This should be run
+    /// *after* the mesh node got evaluated and any meshlet data was loaded or its build was started.
+    ///
+    /// @param  meshNode
+    ///     Pointer to the mesh node to check. Must be a valid pointer to a node of type NT_GEO_MESH.
+    /// @return
+    ///     CACHE_NONE if meshNode is not a valid pointer to a mesh node, or to a mesh node that has
+    ///     A_CONVERT_TO_MESHLETS set to FALSE. Otherwise returns one of the other enums in
+    ///     CacheStatus.
+    static Octane::CacheStatus checkMeshletBuildStatus(
+        Octane::ApiNode * meshNode);
+
+    /// Deletes the meshlet cache file of the given node if the file isn't used anywhere else. This
+    /// can be called before or after evaluation of the mesh node.
+    ///
+    /// @param  meshNode
+    ///     Pointer to the mesh node of which the meshlet cache file should be deleted. Must be a
+    ///     valid pointer to a node of type NT_GEO_MESH.
+    /// @return
+    ///     TRUE if either the node pointer didn't represent a mesh node with a valid meshlet cache
+    ///     file, or if the cache file for the node was deleted. FALSE if there still exists a cache
+    ///     file for the mesh node.
+    static bool clearMeshletCacheFileForNode(
+        Octane::ApiNode * meshNode);
+
+    //--- VIRTUAL TEXTURES ---
 
     /// Returns the maximum size of the virtual texture cache in bytes. It is the same value that
     /// is stored in A_VIRTUAL_TEXTURE_CACHE_SIZE in the application preferences node.

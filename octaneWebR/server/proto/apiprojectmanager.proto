@@ -119,6 +119,7 @@ message ApiProjectManager
     // Request packet corresponding to '[in] parameters in ApiProjectManager::resetProject'
     message resetProjectRequest
     {
+        bool suppressUI = 1;
     }
 
     // Response packet corresponding to '[out] parameters in 'ApiProjectManager::resetProject'

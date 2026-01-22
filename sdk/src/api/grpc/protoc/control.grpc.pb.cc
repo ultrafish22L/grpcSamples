@@ -25,6 +25,8 @@ namespace octaneapi {
 static const char* ApiControlService_method_names[] = {
   "/octaneapi.ApiControlService/startBlockingOperation",
   "/octaneapi.ApiControlService/setApiLogFilePath",
+  "/octaneapi.ApiControlService/getWebRTCStatus",
+  "/octaneapi.ApiControlService/closeOctane",
 };
 
 std::unique_ptr< ApiControlService::Stub> ApiControlService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -36,6 +38,8 @@ std::unique_ptr< ApiControlService::Stub> ApiControlService::NewStub(const std::
 ApiControlService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
   : channel_(channel), rpcmethod_startBlockingOperation_(ApiControlService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_setApiLogFilePath_(ApiControlService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getWebRTCStatus_(ApiControlService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_closeOctane_(ApiControlService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status ApiControlService::Stub::startBlockingOperation(::grpc::ClientContext* context, const ::octaneapi::ApiControl_StartBlockingRequest& request, ::octaneapi::ApiControl_ControlResponse* response) {
@@ -84,6 +88,52 @@ void ApiControlService::Stub::async::setApiLogFilePath(::grpc::ClientContext* co
   return result;
 }
 
+::grpc::Status ApiControlService::Stub::getWebRTCStatus(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::octaneapi::ApiControl_WebRTCStatusResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::google::protobuf::Empty, ::octaneapi::ApiControl_WebRTCStatusResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_getWebRTCStatus_, context, request, response);
+}
+
+void ApiControlService::Stub::async::getWebRTCStatus(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::octaneapi::ApiControl_WebRTCStatusResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::google::protobuf::Empty, ::octaneapi::ApiControl_WebRTCStatusResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getWebRTCStatus_, context, request, response, std::move(f));
+}
+
+void ApiControlService::Stub::async::getWebRTCStatus(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::octaneapi::ApiControl_WebRTCStatusResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getWebRTCStatus_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiControl_WebRTCStatusResponse>* ApiControlService::Stub::PrepareAsyncgetWebRTCStatusRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiControl_WebRTCStatusResponse, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_getWebRTCStatus_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiControl_WebRTCStatusResponse>* ApiControlService::Stub::AsyncgetWebRTCStatusRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncgetWebRTCStatusRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status ApiControlService::Stub::closeOctane(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::google::protobuf::Empty* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::google::protobuf::Empty, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_closeOctane_, context, request, response);
+}
+
+void ApiControlService::Stub::async::closeOctane(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::google::protobuf::Empty, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_closeOctane_, context, request, response, std::move(f));
+}
+
+void ApiControlService::Stub::async::closeOctane(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_closeOctane_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* ApiControlService::Stub::PrepareAsynccloseOctaneRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::google::protobuf::Empty, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_closeOctane_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* ApiControlService::Stub::AsynccloseOctaneRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsynccloseOctaneRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 ApiControlService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ApiControlService_method_names[0],
@@ -105,6 +155,26 @@ ApiControlService::Service::Service() {
              ::octaneapi::ApiControl_ControlResponse* resp) {
                return service->setApiLogFilePath(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ApiControlService_method_names[2],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ApiControlService::Service, ::google::protobuf::Empty, ::octaneapi::ApiControl_WebRTCStatusResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ApiControlService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::google::protobuf::Empty* req,
+             ::octaneapi::ApiControl_WebRTCStatusResponse* resp) {
+               return service->getWebRTCStatus(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ApiControlService_method_names[3],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ApiControlService::Service, ::google::protobuf::Empty, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ApiControlService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::google::protobuf::Empty* req,
+             ::google::protobuf::Empty* resp) {
+               return service->closeOctane(ctx, req, resp);
+             }, this)));
 }
 
 ApiControlService::Service::~Service() {
@@ -118,6 +188,20 @@ ApiControlService::Service::~Service() {
 }
 
 ::grpc::Status ApiControlService::Service::setApiLogFilePath(::grpc::ServerContext* context, const ::octaneapi::ApiControl_ApiLogRequest* request, ::octaneapi::ApiControl_ControlResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ApiControlService::Service::getWebRTCStatus(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::octaneapi::ApiControl_WebRTCStatusResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ApiControlService::Service::closeOctane(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::google::protobuf::Empty* response) {
   (void) context;
   (void) request;
   (void) response;

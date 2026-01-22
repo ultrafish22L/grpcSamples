@@ -246,14 +246,21 @@ struct ApiProjectManager_resetProjectResponseDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiProjectManager_resetProjectResponseDefaultTypeInternal _ApiProjectManager_resetProjectResponse_default_instance_;
+
+inline constexpr ApiProjectManager_resetProjectRequest::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        suppressui_{false} {}
+
 template <typename>
 PROTOBUF_CONSTEXPR ApiProjectManager_resetProjectRequest::ApiProjectManager_resetProjectRequest(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(ApiProjectManager_resetProjectRequest_class_data_.base()){}
+    : ::google::protobuf::Message(ApiProjectManager_resetProjectRequest_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase() {
-}
+    : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
 struct ApiProjectManager_resetProjectRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ApiProjectManager_resetProjectRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
   ~ApiProjectManager_resetProjectRequestDefaultTypeInternal() {}
@@ -944,7 +951,11 @@ const ::uint32_t
         4, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiProjectManager_getCurrentProjectResponse, _impl_.result_),
         0,
-        0x000, // bitmap
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiProjectManager_resetProjectRequest, _impl_._has_bits_),
+        4, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiProjectManager_resetProjectRequest, _impl_.suppressui_),
+        0,
         0x081, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiProjectManager_resetProjectResponse, _impl_._has_bits_),
         4, // hasbit index offset
@@ -1060,25 +1071,25 @@ static const ::_pbi::MigrationSchema
         {49, sizeof(::octaneapi::ApiProjectManager_getCurrentProjectRequest)},
         {50, sizeof(::octaneapi::ApiProjectManager_getCurrentProjectResponse)},
         {55, sizeof(::octaneapi::ApiProjectManager_resetProjectRequest)},
-        {56, sizeof(::octaneapi::ApiProjectManager_resetProjectResponse)},
-        {61, sizeof(::octaneapi::ApiProjectManager_loadProjectRequest)},
-        {72, sizeof(::octaneapi::ApiProjectManager_loadProjectResponse)},
-        {79, sizeof(::octaneapi::ApiProjectManager_loadedFromPackageRequest)},
-        {80, sizeof(::octaneapi::ApiProjectManager_loadedFromPackageResponse)},
-        {85, sizeof(::octaneapi::ApiProjectManager_loadedOcsVersionRequest)},
-        {86, sizeof(::octaneapi::ApiProjectManager_loadedOcsVersionResponse)},
-        {91, sizeof(::octaneapi::ApiProjectManager_saveProjectRequest)},
-        {92, sizeof(::octaneapi::ApiProjectManager_saveProjectResponse)},
-        {97, sizeof(::octaneapi::ApiProjectManager_saveProjectAsRequest)},
-        {102, sizeof(::octaneapi::ApiProjectManager_saveProjectAsResponse)},
-        {107, sizeof(::octaneapi::ApiProjectManager_saveProjectAsReferencePackageRequest)},
-        {114, sizeof(::octaneapi::ApiProjectManager_saveProjectAsReferencePackageResponse)},
-        {119, sizeof(::octaneapi::ApiProjectManager_unpackPackageRequest)},
-        {128, sizeof(::octaneapi::ApiProjectManager_unpackPackageResponse)},
-        {133, sizeof(::octaneapi::ApiProjectManager_addObserverRequest)},
-        {138, sizeof(::octaneapi::ApiProjectManager_addObserverResponse)},
-        {143, sizeof(::octaneapi::ApiProjectManager_removeObserverRequest)},
-        {148, sizeof(::octaneapi::ApiProjectManager)},
+        {60, sizeof(::octaneapi::ApiProjectManager_resetProjectResponse)},
+        {65, sizeof(::octaneapi::ApiProjectManager_loadProjectRequest)},
+        {76, sizeof(::octaneapi::ApiProjectManager_loadProjectResponse)},
+        {83, sizeof(::octaneapi::ApiProjectManager_loadedFromPackageRequest)},
+        {84, sizeof(::octaneapi::ApiProjectManager_loadedFromPackageResponse)},
+        {89, sizeof(::octaneapi::ApiProjectManager_loadedOcsVersionRequest)},
+        {90, sizeof(::octaneapi::ApiProjectManager_loadedOcsVersionResponse)},
+        {95, sizeof(::octaneapi::ApiProjectManager_saveProjectRequest)},
+        {96, sizeof(::octaneapi::ApiProjectManager_saveProjectResponse)},
+        {101, sizeof(::octaneapi::ApiProjectManager_saveProjectAsRequest)},
+        {106, sizeof(::octaneapi::ApiProjectManager_saveProjectAsResponse)},
+        {111, sizeof(::octaneapi::ApiProjectManager_saveProjectAsReferencePackageRequest)},
+        {118, sizeof(::octaneapi::ApiProjectManager_saveProjectAsReferencePackageResponse)},
+        {123, sizeof(::octaneapi::ApiProjectManager_unpackPackageRequest)},
+        {132, sizeof(::octaneapi::ApiProjectManager_unpackPackageResponse)},
+        {137, sizeof(::octaneapi::ApiProjectManager_addObserverRequest)},
+        {142, sizeof(::octaneapi::ApiProjectManager_addObserverResponse)},
+        {147, sizeof(::octaneapi::ApiProjectManager_removeObserverRequest)},
+        {152, sizeof(::octaneapi::ApiProjectManager)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::octaneapi::_ApiProjectManager_ApiProjectManager_Observer_default_instance_._instance,
@@ -1123,7 +1134,7 @@ const char descriptor_table_protodef_apiprojectmanager_2eproto[] ABSL_ATTRIBUTE_
     protodesc_cold) = {
     "\n\027apiprojectmanager.proto\022\toctaneapi\032\014co"
     "mmon.proto\032\033google/protobuf/empty.proto\032"
-    "\033octanereferenceexport.proto\"\333\016\n\021ApiProj"
+    "\033octanereferenceexport.proto\"\357\016\n\021ApiProj"
     "ectManager\032Z\n\032ApiProjectManager_Observer"
     "\022*\n\014onProjectNew\030\001 \001(\0132\024.octaneapi.OnCha"
     "ngeT\022\020\n\010userData\030\002 \001(\004\032\020\n\016isValidRequest"
@@ -1143,91 +1154,92 @@ const char descriptor_table_protodef_apiprojectmanager_2eproto[] ABSL_ATTRIBUTE_
     "BallRequest\032<\n\024materialBallResponse\022$\n\006r"
     "esult\030\001 \001(\0132\024.octaneapi.ObjectRef\032\032\n\030get"
     "CurrentProjectRequest\032+\n\031getCurrentProje"
-    "ctResponse\022\016\n\006result\030\001 \001(\t\032\025\n\023resetProje"
-    "ctRequest\032&\n\024resetProjectResponse\022\016\n\006res"
-    "ult\030\001 \001(\010\032\231\001\n\022loadProjectRequest\022\023\n\013proj"
-    "ectPath\030\001 \001(\t\022>\n\024assetMissingcallback\030\002 "
-    "\001(\0132 .octaneapi.AssetMissingCallbackT\022\034\n"
-    "\024assetMissinguserData\030\003 \001(\004\022\020\n\010evaluate\030"
-    "\004 \001(\010\0329\n\023loadProjectResponse\022\016\n\006result\030\001"
-    " \001(\010\022\022\n\ncallbackId\030\002 \001(\r\032\032\n\030loadedFromPa"
-    "ckageRequest\032+\n\031loadedFromPackageRespons"
-    "e\022\016\n\006result\030\001 \001(\010\032\031\n\027loadedOcsVersionReq"
-    "uest\032*\n\030loadedOcsVersionResponse\022\016\n\006resu"
-    "lt\030\001 \001(\r\032\024\n\022saveProjectRequest\032%\n\023savePr"
-    "ojectResponse\022\016\n\006result\030\001 \001(\010\032$\n\024savePro"
-    "jectAsRequest\022\014\n\004path\030\001 \001(\t\032\'\n\025saveProje"
-    "ctAsResponse\022\016\n\006result\030\001 \001(\010\032\201\001\n$savePro"
-    "jectAsReferencePackageRequest\022\014\n\004path\030\001 "
-    "\001(\t\022K\n\030referencePackageSettings\030\002 \001(\0132)."
-    "octaneapi.ReferencePackageExportSettings"
-    "\0327\n%saveProjectAsReferencePackageRespons"
-    "e\022\016\n\006result\030\001 \001(\010\032R\n\024unpackPackageReques"
-    "t\022\021\n\tunpackDir\030\001 \001(\t\022\023\n\013packagePath\030\002 \001("
-    "\t\022\022\n\nunpackName\030\003 \001(\t\032\'\n\025unpackPackageRe"
-    "sponse\022\016\n\006result\030\001 \001(\010\032N\n\022addObserverReq"
-    "uest\0228\n\010observer\030\001 \001(\0132&.octaneapi.GRPCP"
-    "rojectManagerObserverT\032)\n\023addObserverRes"
-    "ponse\022\022\n\ncallbackId\030\001 \001(\r\032W\n\025removeObser"
-    "verRequest\022>\n\016removeObserver\030\001 \001(\0132&.oct"
-    "aneapi.GRPCProjectManagerObserverT2\325\021\n\030A"
-    "piProjectManagerService\022d\n\007isValid\022+.oct"
-    "aneapi.ApiProjectManager.isValidRequest\032"
-    ",.octaneapi.ApiProjectManager.isValidRes"
-    "ponse\022v\n\rrootNodeGraph\0221.octaneapi.ApiPr"
-    "ojectManager.rootNodeGraphRequest\0322.octa"
-    "neapi.ApiProjectManager.rootNodeGraphRes"
-    "ponse\022\221\001\n\026applicationPreferences\022:.octan"
+    "ctResponse\022\016\n\006result\030\001 \001(\t\032)\n\023resetProje"
+    "ctRequest\022\022\n\nsuppressUI\030\001 \001(\010\032&\n\024resetPr"
+    "ojectResponse\022\016\n\006result\030\001 \001(\010\032\231\001\n\022loadPr"
+    "ojectRequest\022\023\n\013projectPath\030\001 \001(\t\022>\n\024ass"
+    "etMissingcallback\030\002 \001(\0132 .octaneapi.Asse"
+    "tMissingCallbackT\022\034\n\024assetMissinguserDat"
+    "a\030\003 \001(\004\022\020\n\010evaluate\030\004 \001(\010\0329\n\023loadProject"
+    "Response\022\016\n\006result\030\001 \001(\010\022\022\n\ncallbackId\030\002"
+    " \001(\r\032\032\n\030loadedFromPackageRequest\032+\n\031load"
+    "edFromPackageResponse\022\016\n\006result\030\001 \001(\010\032\031\n"
+    "\027loadedOcsVersionRequest\032*\n\030loadedOcsVer"
+    "sionResponse\022\016\n\006result\030\001 \001(\r\032\024\n\022saveProj"
+    "ectRequest\032%\n\023saveProjectResponse\022\016\n\006res"
+    "ult\030\001 \001(\010\032$\n\024saveProjectAsRequest\022\014\n\004pat"
+    "h\030\001 \001(\t\032\'\n\025saveProjectAsResponse\022\016\n\006resu"
+    "lt\030\001 \001(\010\032\201\001\n$saveProjectAsReferencePacka"
+    "geRequest\022\014\n\004path\030\001 \001(\t\022K\n\030referencePack"
+    "ageSettings\030\002 \001(\0132).octaneapi.ReferenceP"
+    "ackageExportSettings\0327\n%saveProjectAsRef"
+    "erencePackageResponse\022\016\n\006result\030\001 \001(\010\032R\n"
+    "\024unpackPackageRequest\022\021\n\tunpackDir\030\001 \001(\t"
+    "\022\023\n\013packagePath\030\002 \001(\t\022\022\n\nunpackName\030\003 \001("
+    "\t\032\'\n\025unpackPackageResponse\022\016\n\006result\030\001 \001"
+    "(\010\032N\n\022addObserverRequest\0228\n\010observer\030\001 \001"
+    "(\0132&.octaneapi.GRPCProjectManagerObserve"
+    "rT\032)\n\023addObserverResponse\022\022\n\ncallbackId\030"
+    "\001 \001(\r\032W\n\025removeObserverRequest\022>\n\016remove"
+    "Observer\030\001 \001(\0132&.octaneapi.GRPCProjectMa"
+    "nagerObserverT2\325\021\n\030ApiProjectManagerServ"
+    "ice\022d\n\007isValid\022+.octaneapi.ApiProjectMan"
+    "ager.isValidRequest\032,.octaneapi.ApiProje"
+    "ctManager.isValidResponse\022v\n\rrootNodeGra"
+    "ph\0221.octaneapi.ApiProjectManager.rootNod"
+    "eGraphRequest\0322.octaneapi.ApiProjectMana"
+    "ger.rootNodeGraphResponse\022\221\001\n\026applicatio"
+    "nPreferences\022:.octaneapi.ApiProjectManag"
+    "er.applicationPreferencesRequest\032;.octan"
     "eapi.ApiProjectManager.applicationPrefer"
-    "encesRequest\032;.octaneapi.ApiProjectManag"
-    "er.applicationPreferencesResponse\022|\n\017pro"
-    "jectSettings\0223.octaneapi.ApiProjectManag"
-    "er.projectSettingsRequest\0324.octaneapi.Ap"
-    "iProjectManager.projectSettingsResponse\022"
-    "|\n\017projectMetadata\0223.octaneapi.ApiProjec"
-    "tManager.projectMetadataRequest\0324.octane"
-    "api.ApiProjectManager.projectMetadataRes"
-    "ponse\022\210\001\n\023previewRenderTarget\0227.octaneap"
-    "i.ApiProjectManager.previewRenderTargetR"
-    "equest\0328.octaneapi.ApiProjectManager.pre"
-    "viewRenderTargetResponse\022s\n\014materialBall"
-    "\0220.octaneapi.ApiProjectManager.materialB"
-    "allRequest\0321.octaneapi.ApiProjectManager"
-    ".materialBallResponse\022\202\001\n\021getCurrentProj"
-    "ect\0225.octaneapi.ApiProjectManager.getCur"
-    "rentProjectRequest\0326.octaneapi.ApiProjec"
-    "tManager.getCurrentProjectResponse\022s\n\014re"
-    "setProject\0220.octaneapi.ApiProjectManager"
-    ".resetProjectRequest\0321.octaneapi.ApiProj"
-    "ectManager.resetProjectResponse\022p\n\013loadP"
-    "roject\022/.octaneapi.ApiProjectManager.loa"
-    "dProjectRequest\0320.octaneapi.ApiProjectMa"
-    "nager.loadProjectResponse\022\202\001\n\021loadedFrom"
-    "Package\0225.octaneapi.ApiProjectManager.lo"
-    "adedFromPackageRequest\0326.octaneapi.ApiPr"
-    "ojectManager.loadedFromPackageResponse\022\177"
-    "\n\020loadedOcsVersion\0224.octaneapi.ApiProjec"
-    "tManager.loadedOcsVersionRequest\0325.octan"
-    "eapi.ApiProjectManager.loadedOcsVersionR"
-    "esponse\022p\n\013saveProject\022/.octaneapi.ApiPr"
-    "ojectManager.saveProjectRequest\0320.octane"
-    "api.ApiProjectManager.saveProjectRespons"
-    "e\022v\n\rsaveProjectAs\0221.octaneapi.ApiProjec"
-    "tManager.saveProjectAsRequest\0322.octaneap"
-    "i.ApiProjectManager.saveProjectAsRespons"
-    "e\022\246\001\n\035saveProjectAsReferencePackage\022A.oc"
-    "taneapi.ApiProjectManager.saveProjectAsR"
-    "eferencePackageRequest\032B.octaneapi.ApiPr"
-    "ojectManager.saveProjectAsReferencePacka"
-    "geResponse\022v\n\runpackPackage\0221.octaneapi."
-    "ApiProjectManager.unpackPackageRequest\0322"
-    ".octaneapi.ApiProjectManager.unpackPacka"
-    "geResponse\022p\n\013addObserver\022/.octaneapi.Ap"
-    "iProjectManager.addObserverRequest\0320.oct"
-    "aneapi.ApiProjectManager.addObserverResp"
-    "onse\022\\\n\016removeObserver\0222.octaneapi.ApiPr"
-    "ojectManager.removeObserverRequest\032\026.goo"
-    "gle.protobuf.EmptyB\002H\002b\006proto3"
+    "encesResponse\022|\n\017projectSettings\0223.octan"
+    "eapi.ApiProjectManager.projectSettingsRe"
+    "quest\0324.octaneapi.ApiProjectManager.proj"
+    "ectSettingsResponse\022|\n\017projectMetadata\0223"
+    ".octaneapi.ApiProjectManager.projectMeta"
+    "dataRequest\0324.octaneapi.ApiProjectManage"
+    "r.projectMetadataResponse\022\210\001\n\023previewRen"
+    "derTarget\0227.octaneapi.ApiProjectManager."
+    "previewRenderTargetRequest\0328.octaneapi.A"
+    "piProjectManager.previewRenderTargetResp"
+    "onse\022s\n\014materialBall\0220.octaneapi.ApiProj"
+    "ectManager.materialBallRequest\0321.octanea"
+    "pi.ApiProjectManager.materialBallRespons"
+    "e\022\202\001\n\021getCurrentProject\0225.octaneapi.ApiP"
+    "rojectManager.getCurrentProjectRequest\0326"
+    ".octaneapi.ApiProjectManager.getCurrentP"
+    "rojectResponse\022s\n\014resetProject\0220.octanea"
+    "pi.ApiProjectManager.resetProjectRequest"
+    "\0321.octaneapi.ApiProjectManager.resetProj"
+    "ectResponse\022p\n\013loadProject\022/.octaneapi.A"
+    "piProjectManager.loadProjectRequest\0320.oc"
+    "taneapi.ApiProjectManager.loadProjectRes"
+    "ponse\022\202\001\n\021loadedFromPackage\0225.octaneapi."
+    "ApiProjectManager.loadedFromPackageReque"
+    "st\0326.octaneapi.ApiProjectManager.loadedF"
+    "romPackageResponse\022\177\n\020loadedOcsVersion\0224"
+    ".octaneapi.ApiProjectManager.loadedOcsVe"
+    "rsionRequest\0325.octaneapi.ApiProjectManag"
+    "er.loadedOcsVersionResponse\022p\n\013saveProje"
+    "ct\022/.octaneapi.ApiProjectManager.savePro"
+    "jectRequest\0320.octaneapi.ApiProjectManage"
+    "r.saveProjectResponse\022v\n\rsaveProjectAs\0221"
+    ".octaneapi.ApiProjectManager.saveProject"
+    "AsRequest\0322.octaneapi.ApiProjectManager."
+    "saveProjectAsResponse\022\246\001\n\035saveProjectAsR"
+    "eferencePackage\022A.octaneapi.ApiProjectMa"
+    "nager.saveProjectAsReferencePackageReque"
+    "st\032B.octaneapi.ApiProjectManager.savePro"
+    "jectAsReferencePackageResponse\022v\n\runpack"
+    "Package\0221.octaneapi.ApiProjectManager.un"
+    "packPackageRequest\0322.octaneapi.ApiProjec"
+    "tManager.unpackPackageResponse\022p\n\013addObs"
+    "erver\022/.octaneapi.ApiProjectManager.addO"
+    "bserverRequest\0320.octaneapi.ApiProjectMan"
+    "ager.addObserverResponse\022\\\n\016removeObserv"
+    "er\0222.octaneapi.ApiProjectManager.removeO"
+    "bserverRequest\032\026.google.protobuf.EmptyB\002"
+    "H\002b\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_apiprojectmanager_2eproto_deps[3] = {
@@ -1239,7 +1251,7 @@ static ::absl::once_flag descriptor_table_apiprojectmanager_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apiprojectmanager_2eproto = {
     false,
     false,
-    4270,
+    4290,
     descriptor_table_protodef_apiprojectmanager_2eproto,
     "apiprojectmanager.proto",
     &descriptor_table_apiprojectmanager_2eproto_once,
@@ -3492,30 +3504,50 @@ void ApiProjectManager_getCurrentProjectResponse::InternalSwap(ApiProjectManager
 
 class ApiProjectManager_resetProjectRequest::_Internal {
  public:
+  using HasBits =
+      decltype(::std::declval<ApiProjectManager_resetProjectRequest>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ApiProjectManager_resetProjectRequest, _impl_._has_bits_);
 };
 
 ApiProjectManager_resetProjectRequest::ApiProjectManager_resetProjectRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(arena, ApiProjectManager_resetProjectRequest_class_data_.base()) {
+    : ::google::protobuf::Message(arena, ApiProjectManager_resetProjectRequest_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+    : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:octaneapi.ApiProjectManager.resetProjectRequest)
 }
 ApiProjectManager_resetProjectRequest::ApiProjectManager_resetProjectRequest(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const ApiProjectManager_resetProjectRequest& from)
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const ApiProjectManager_resetProjectRequest& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(arena, ApiProjectManager_resetProjectRequest_class_data_.base()) {
+    : ::google::protobuf::Message(arena, ApiProjectManager_resetProjectRequest_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+    : ::google::protobuf::Message(arena),
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  ApiProjectManager_resetProjectRequest* const _this = this;
-  (void)_this;
+      _impl_(from._impl_) {
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
+}
+PROTOBUF_NDEBUG_INLINE ApiProjectManager_resetProjectRequest::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0} {}
 
-  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiProjectManager.resetProjectRequest)
+inline void ApiProjectManager_resetProjectRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.suppressui_ = {};
+}
+ApiProjectManager_resetProjectRequest::~ApiProjectManager_resetProjectRequest() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiProjectManager.resetProjectRequest)
+  SharedDtor(*this);
+}
+inline void ApiProjectManager_resetProjectRequest::SharedDtor(MessageLite& self) {
+  ApiProjectManager_resetProjectRequest& this_ = static_cast<ApiProjectManager_resetProjectRequest&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
 }
 
 inline void* PROTOBUF_NONNULL ApiProjectManager_resetProjectRequest::PlacementNew_(
@@ -3535,11 +3567,11 @@ constexpr auto ApiProjectManager_resetProjectRequest::InternalGenerateClassData_
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
           &ApiProjectManager_resetProjectRequest::MergeImpl,
-          ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<ApiProjectManager_resetProjectRequest>(),
+          ::google::protobuf::Message::GetNewImpl<ApiProjectManager_resetProjectRequest>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
           &ApiProjectManager_resetProjectRequest::SharedDtor,
           static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiProjectManager_resetProjectRequest::ClearImpl),
-              ::google::protobuf::internal::ZeroFieldsBase::ByteSizeLongImpl, ::google::protobuf::internal::ZeroFieldsBase::_InternalSerializeImpl
+              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
               ,
 #endif  // PROTOBUF_CUSTOM_VTABLE
           PROTOBUF_FIELD_OFFSET(ApiProjectManager_resetProjectRequest, _impl_._cached_size_),
@@ -3562,16 +3594,16 @@ ApiProjectManager_resetProjectRequest::GetClassData() const {
   return ApiProjectManager_resetProjectRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 0, 0, 0, 2>
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2>
 ApiProjectManager_resetProjectRequest::_table_ = {
   {
-    0,  // no _has_bits_
+    PROTOBUF_FIELD_OFFSET(ApiProjectManager_resetProjectRequest, _impl_._has_bits_),
     0, // no _extensions_
-    0, 0,  // max_field_number, fast_idx_mask
+    1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967295,  // skipmap
-    offsetof(decltype(_table_), field_names),  // no field_entries
-    0,  // num_field_entries
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     ApiProjectManager_resetProjectRequest_class_data_.base(),
@@ -3581,16 +3613,26 @@ ApiProjectManager_resetProjectRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::octaneapi::ApiProjectManager_resetProjectRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    {::_pbi::TcParser::MiniParse, {}},
+    // bool suppressUI = 1;
+    {::_pbi::TcParser::FastV8S1,
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(ApiProjectManager_resetProjectRequest, _impl_.suppressui_)}},
   }}, {{
     65535, 65535
-  }}, // no field_entries, or aux_entries
+  }}, {{
+    // bool suppressUI = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiProjectManager_resetProjectRequest, _impl_.suppressui_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+  }},
+  // no aux_entries
   {{
   }},
 };
+void ApiProjectManager_resetProjectRequest::InternalSwap(ApiProjectManager_resetProjectRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  GetReflection()->Swap(this, other);}
 
 ::google::protobuf::Metadata ApiProjectManager_resetProjectRequest::GetMetadata() const {
-  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 

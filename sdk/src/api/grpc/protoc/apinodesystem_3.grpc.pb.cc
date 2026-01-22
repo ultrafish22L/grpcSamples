@@ -93,15 +93,15 @@ static const char* ApiItemService_method_names[] = {
   "/octaneapi.ApiItemService/expandOutOfPin",
   "/octaneapi.ApiItemService/collapse",
   "/octaneapi.ApiItemService/dumpAttributes",
-  "/octaneapi.ApiItemService/getByAttrID",
-  "/octaneapi.ApiItemService/getByName",
-  "/octaneapi.ApiItemService/getByIx",
+  "/octaneapi.ApiItemService/getValueByAttrID",
+  "/octaneapi.ApiItemService/getValueByName",
+  "/octaneapi.ApiItemService/getValueByIx",
   "/octaneapi.ApiItemService/getArrayByAttrID",
   "/octaneapi.ApiItemService/getArrayByName",
   "/octaneapi.ApiItemService/getArrayByIx",
-  "/octaneapi.ApiItemService/setByAttrID",
-  "/octaneapi.ApiItemService/setByName",
-  "/octaneapi.ApiItemService/setByIx",
+  "/octaneapi.ApiItemService/setValueByAttrID",
+  "/octaneapi.ApiItemService/setValueByName",
+  "/octaneapi.ApiItemService/setValueByIx",
   "/octaneapi.ApiItemService/setArrayByName",
   "/octaneapi.ApiItemService/setArrayByAttrID",
   "/octaneapi.ApiItemService/setArrayByIx",
@@ -190,15 +190,15 @@ ApiItemService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& cha
   , rpcmethod_expandOutOfPin_(ApiItemService_method_names[67], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_collapse_(ApiItemService_method_names[68], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_dumpAttributes_(ApiItemService_method_names[69], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_getByAttrID_(ApiItemService_method_names[70], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_getByName_(ApiItemService_method_names[71], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_getByIx_(ApiItemService_method_names[72], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getValueByAttrID_(ApiItemService_method_names[70], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getValueByName_(ApiItemService_method_names[71], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_getValueByIx_(ApiItemService_method_names[72], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_getArrayByAttrID_(ApiItemService_method_names[73], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_getArrayByName_(ApiItemService_method_names[74], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_getArrayByIx_(ApiItemService_method_names[75], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_setByAttrID_(ApiItemService_method_names[76], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_setByName_(ApiItemService_method_names[77], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_setByIx_(ApiItemService_method_names[78], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_setValueByAttrID_(ApiItemService_method_names[76], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_setValueByName_(ApiItemService_method_names[77], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_setValueByIx_(ApiItemService_method_names[78], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_setArrayByName_(ApiItemService_method_names[79], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_setArrayByAttrID_(ApiItemService_method_names[80], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_setArrayByIx_(ApiItemService_method_names[81], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
@@ -1820,71 +1820,71 @@ void ApiItemService::Stub::async::dumpAttributes(::grpc::ClientContext* context,
   return result;
 }
 
-::grpc::Status ApiItemService::Stub::getByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIDRequest& request, ::octaneapi::ApiItem_getValueResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_getValueByIDRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_getByAttrID_, context, request, response);
+::grpc::Status ApiItemService::Stub::getValueByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIDRequest& request, ::octaneapi::ApiItem_getValueResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_getValueByIDRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_getValueByAttrID_, context, request, response);
 }
 
-void ApiItemService::Stub::async::getByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIDRequest* request, ::octaneapi::ApiItem_getValueResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_getValueByIDRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getByAttrID_, context, request, response, std::move(f));
+void ApiItemService::Stub::async::getValueByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIDRequest* request, ::octaneapi::ApiItem_getValueResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_getValueByIDRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getValueByAttrID_, context, request, response, std::move(f));
 }
 
-void ApiItemService::Stub::async::getByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIDRequest* request, ::octaneapi::ApiItem_getValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getByAttrID_, context, request, response, reactor);
+void ApiItemService::Stub::async::getValueByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIDRequest* request, ::octaneapi::ApiItem_getValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getValueByAttrID_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::PrepareAsyncgetByAttrIDRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIDRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_getValueResponse, ::octaneapi::ApiItem_getValueByIDRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_getByAttrID_, context, request);
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::PrepareAsyncgetValueByAttrIDRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIDRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_getValueResponse, ::octaneapi::ApiItem_getValueByIDRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_getValueByAttrID_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::AsyncgetByAttrIDRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIDRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::AsyncgetValueByAttrIDRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIDRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
-    this->PrepareAsyncgetByAttrIDRaw(context, request, cq);
+    this->PrepareAsyncgetValueByAttrIDRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-::grpc::Status ApiItemService::Stub::getByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByNameRequest& request, ::octaneapi::ApiItem_getValueResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_getValueByNameRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_getByName_, context, request, response);
+::grpc::Status ApiItemService::Stub::getValueByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByNameRequest& request, ::octaneapi::ApiItem_getValueResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_getValueByNameRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_getValueByName_, context, request, response);
 }
 
-void ApiItemService::Stub::async::getByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByNameRequest* request, ::octaneapi::ApiItem_getValueResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_getValueByNameRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getByName_, context, request, response, std::move(f));
+void ApiItemService::Stub::async::getValueByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByNameRequest* request, ::octaneapi::ApiItem_getValueResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_getValueByNameRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getValueByName_, context, request, response, std::move(f));
 }
 
-void ApiItemService::Stub::async::getByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByNameRequest* request, ::octaneapi::ApiItem_getValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getByName_, context, request, response, reactor);
+void ApiItemService::Stub::async::getValueByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByNameRequest* request, ::octaneapi::ApiItem_getValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getValueByName_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::PrepareAsyncgetByNameRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByNameRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_getValueResponse, ::octaneapi::ApiItem_getValueByNameRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_getByName_, context, request);
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::PrepareAsyncgetValueByNameRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByNameRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_getValueResponse, ::octaneapi::ApiItem_getValueByNameRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_getValueByName_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::AsyncgetByNameRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByNameRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::AsyncgetValueByNameRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByNameRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
-    this->PrepareAsyncgetByNameRaw(context, request, cq);
+    this->PrepareAsyncgetValueByNameRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-::grpc::Status ApiItemService::Stub::getByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIxRequest& request, ::octaneapi::ApiItem_getValueResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_getValueByIxRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_getByIx_, context, request, response);
+::grpc::Status ApiItemService::Stub::getValueByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIxRequest& request, ::octaneapi::ApiItem_getValueResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_getValueByIxRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_getValueByIx_, context, request, response);
 }
 
-void ApiItemService::Stub::async::getByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIxRequest* request, ::octaneapi::ApiItem_getValueResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_getValueByIxRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getByIx_, context, request, response, std::move(f));
+void ApiItemService::Stub::async::getValueByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIxRequest* request, ::octaneapi::ApiItem_getValueResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_getValueByIxRequest, ::octaneapi::ApiItem_getValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getValueByIx_, context, request, response, std::move(f));
 }
 
-void ApiItemService::Stub::async::getByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIxRequest* request, ::octaneapi::ApiItem_getValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getByIx_, context, request, response, reactor);
+void ApiItemService::Stub::async::getValueByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIxRequest* request, ::octaneapi::ApiItem_getValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_getValueByIx_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::PrepareAsyncgetByIxRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIxRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_getValueResponse, ::octaneapi::ApiItem_getValueByIxRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_getByIx_, context, request);
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::PrepareAsyncgetValueByIxRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIxRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_getValueResponse, ::octaneapi::ApiItem_getValueByIxRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_getValueByIx_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::AsyncgetByIxRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIxRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_getValueResponse>* ApiItemService::Stub::AsyncgetValueByIxRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_getValueByIxRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
-    this->PrepareAsyncgetByIxRaw(context, request, cq);
+    this->PrepareAsyncgetValueByIxRaw(context, request, cq);
   result->StartCall();
   return result;
 }
@@ -1958,71 +1958,71 @@ void ApiItemService::Stub::async::getArrayByIx(::grpc::ClientContext* context, c
   return result;
 }
 
-::grpc::Status ApiItemService::Stub::setByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIDRequest& request, ::octaneapi::ApiItem_setValueResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_setValueByIDRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_setByAttrID_, context, request, response);
+::grpc::Status ApiItemService::Stub::setValueByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIDRequest& request, ::octaneapi::ApiItem_setValueResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_setValueByIDRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_setValueByAttrID_, context, request, response);
 }
 
-void ApiItemService::Stub::async::setByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIDRequest* request, ::octaneapi::ApiItem_setValueResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_setValueByIDRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setByAttrID_, context, request, response, std::move(f));
+void ApiItemService::Stub::async::setValueByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIDRequest* request, ::octaneapi::ApiItem_setValueResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_setValueByIDRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setValueByAttrID_, context, request, response, std::move(f));
 }
 
-void ApiItemService::Stub::async::setByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIDRequest* request, ::octaneapi::ApiItem_setValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setByAttrID_, context, request, response, reactor);
+void ApiItemService::Stub::async::setValueByAttrID(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIDRequest* request, ::octaneapi::ApiItem_setValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setValueByAttrID_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::PrepareAsyncsetByAttrIDRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIDRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_setValueResponse, ::octaneapi::ApiItem_setValueByIDRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_setByAttrID_, context, request);
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::PrepareAsyncsetValueByAttrIDRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIDRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_setValueResponse, ::octaneapi::ApiItem_setValueByIDRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_setValueByAttrID_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::AsyncsetByAttrIDRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIDRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::AsyncsetValueByAttrIDRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIDRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
-    this->PrepareAsyncsetByAttrIDRaw(context, request, cq);
+    this->PrepareAsyncsetValueByAttrIDRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-::grpc::Status ApiItemService::Stub::setByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByNameRequest& request, ::octaneapi::ApiItem_setValueResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_setValueByNameRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_setByName_, context, request, response);
+::grpc::Status ApiItemService::Stub::setValueByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByNameRequest& request, ::octaneapi::ApiItem_setValueResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_setValueByNameRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_setValueByName_, context, request, response);
 }
 
-void ApiItemService::Stub::async::setByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByNameRequest* request, ::octaneapi::ApiItem_setValueResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_setValueByNameRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setByName_, context, request, response, std::move(f));
+void ApiItemService::Stub::async::setValueByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByNameRequest* request, ::octaneapi::ApiItem_setValueResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_setValueByNameRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setValueByName_, context, request, response, std::move(f));
 }
 
-void ApiItemService::Stub::async::setByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByNameRequest* request, ::octaneapi::ApiItem_setValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setByName_, context, request, response, reactor);
+void ApiItemService::Stub::async::setValueByName(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByNameRequest* request, ::octaneapi::ApiItem_setValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setValueByName_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::PrepareAsyncsetByNameRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByNameRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_setValueResponse, ::octaneapi::ApiItem_setValueByNameRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_setByName_, context, request);
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::PrepareAsyncsetValueByNameRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByNameRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_setValueResponse, ::octaneapi::ApiItem_setValueByNameRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_setValueByName_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::AsyncsetByNameRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByNameRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::AsyncsetValueByNameRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByNameRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
-    this->PrepareAsyncsetByNameRaw(context, request, cq);
+    this->PrepareAsyncsetValueByNameRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-::grpc::Status ApiItemService::Stub::setByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIxRequest& request, ::octaneapi::ApiItem_setValueResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_setValueByIxRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_setByIx_, context, request, response);
+::grpc::Status ApiItemService::Stub::setValueByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIxRequest& request, ::octaneapi::ApiItem_setValueResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiItem_setValueByIxRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_setValueByIx_, context, request, response);
 }
 
-void ApiItemService::Stub::async::setByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIxRequest* request, ::octaneapi::ApiItem_setValueResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_setValueByIxRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setByIx_, context, request, response, std::move(f));
+void ApiItemService::Stub::async::setValueByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIxRequest* request, ::octaneapi::ApiItem_setValueResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiItem_setValueByIxRequest, ::octaneapi::ApiItem_setValueResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setValueByIx_, context, request, response, std::move(f));
 }
 
-void ApiItemService::Stub::async::setByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIxRequest* request, ::octaneapi::ApiItem_setValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setByIx_, context, request, response, reactor);
+void ApiItemService::Stub::async::setValueByIx(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIxRequest* request, ::octaneapi::ApiItem_setValueResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setValueByIx_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::PrepareAsyncsetByIxRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIxRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_setValueResponse, ::octaneapi::ApiItem_setValueByIxRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_setByIx_, context, request);
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::PrepareAsyncsetValueByIxRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIxRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiItem_setValueResponse, ::octaneapi::ApiItem_setValueByIxRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_setValueByIx_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::AsyncsetByIxRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIxRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiItem_setValueResponse>* ApiItemService::Stub::AsyncsetValueByIxRaw(::grpc::ClientContext* context, const ::octaneapi::ApiItem_setValueByIxRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
-    this->PrepareAsyncsetByIxRaw(context, request, cq);
+    this->PrepareAsyncsetValueByIxRaw(context, request, cq);
   result->StartCall();
   return result;
 }
@@ -2943,7 +2943,7 @@ ApiItemService::Service::Service() {
              ::grpc::ServerContext* ctx,
              const ::octaneapi::ApiItem_getValueByIDRequest* req,
              ::octaneapi::ApiItem_getValueResponse* resp) {
-               return service->getByAttrID(ctx, req, resp);
+               return service->getValueByAttrID(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ApiItemService_method_names[71],
@@ -2953,7 +2953,7 @@ ApiItemService::Service::Service() {
              ::grpc::ServerContext* ctx,
              const ::octaneapi::ApiItem_getValueByNameRequest* req,
              ::octaneapi::ApiItem_getValueResponse* resp) {
-               return service->getByName(ctx, req, resp);
+               return service->getValueByName(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ApiItemService_method_names[72],
@@ -2963,7 +2963,7 @@ ApiItemService::Service::Service() {
              ::grpc::ServerContext* ctx,
              const ::octaneapi::ApiItem_getValueByIxRequest* req,
              ::octaneapi::ApiItem_getValueResponse* resp) {
-               return service->getByIx(ctx, req, resp);
+               return service->getValueByIx(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ApiItemService_method_names[73],
@@ -3003,7 +3003,7 @@ ApiItemService::Service::Service() {
              ::grpc::ServerContext* ctx,
              const ::octaneapi::ApiItem_setValueByIDRequest* req,
              ::octaneapi::ApiItem_setValueResponse* resp) {
-               return service->setByAttrID(ctx, req, resp);
+               return service->setValueByAttrID(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ApiItemService_method_names[77],
@@ -3013,7 +3013,7 @@ ApiItemService::Service::Service() {
              ::grpc::ServerContext* ctx,
              const ::octaneapi::ApiItem_setValueByNameRequest* req,
              ::octaneapi::ApiItem_setValueResponse* resp) {
-               return service->setByName(ctx, req, resp);
+               return service->setValueByName(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ApiItemService_method_names[78],
@@ -3023,7 +3023,7 @@ ApiItemService::Service::Service() {
              ::grpc::ServerContext* ctx,
              const ::octaneapi::ApiItem_setValueByIxRequest* req,
              ::octaneapi::ApiItem_setValueResponse* resp) {
-               return service->setByIx(ctx, req, resp);
+               return service->setValueByIx(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ApiItemService_method_names[79],
@@ -3610,21 +3610,21 @@ ApiItemService::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ApiItemService::Service::getByAttrID(::grpc::ServerContext* context, const ::octaneapi::ApiItem_getValueByIDRequest* request, ::octaneapi::ApiItem_getValueResponse* response) {
+::grpc::Status ApiItemService::Service::getValueByAttrID(::grpc::ServerContext* context, const ::octaneapi::ApiItem_getValueByIDRequest* request, ::octaneapi::ApiItem_getValueResponse* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ApiItemService::Service::getByName(::grpc::ServerContext* context, const ::octaneapi::ApiItem_getValueByNameRequest* request, ::octaneapi::ApiItem_getValueResponse* response) {
+::grpc::Status ApiItemService::Service::getValueByName(::grpc::ServerContext* context, const ::octaneapi::ApiItem_getValueByNameRequest* request, ::octaneapi::ApiItem_getValueResponse* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ApiItemService::Service::getByIx(::grpc::ServerContext* context, const ::octaneapi::ApiItem_getValueByIxRequest* request, ::octaneapi::ApiItem_getValueResponse* response) {
+::grpc::Status ApiItemService::Service::getValueByIx(::grpc::ServerContext* context, const ::octaneapi::ApiItem_getValueByIxRequest* request, ::octaneapi::ApiItem_getValueResponse* response) {
   (void) context;
   (void) request;
   (void) response;
@@ -3652,21 +3652,21 @@ ApiItemService::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ApiItemService::Service::setByAttrID(::grpc::ServerContext* context, const ::octaneapi::ApiItem_setValueByIDRequest* request, ::octaneapi::ApiItem_setValueResponse* response) {
+::grpc::Status ApiItemService::Service::setValueByAttrID(::grpc::ServerContext* context, const ::octaneapi::ApiItem_setValueByIDRequest* request, ::octaneapi::ApiItem_setValueResponse* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ApiItemService::Service::setByName(::grpc::ServerContext* context, const ::octaneapi::ApiItem_setValueByNameRequest* request, ::octaneapi::ApiItem_setValueResponse* response) {
+::grpc::Status ApiItemService::Service::setValueByName(::grpc::ServerContext* context, const ::octaneapi::ApiItem_setValueByNameRequest* request, ::octaneapi::ApiItem_setValueResponse* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ApiItemService::Service::setByIx(::grpc::ServerContext* context, const ::octaneapi::ApiItem_setValueByIxRequest* request, ::octaneapi::ApiItem_setValueResponse* response) {
+::grpc::Status ApiItemService::Service::setValueByIx(::grpc::ServerContext* context, const ::octaneapi::ApiItem_setValueByIxRequest* request, ::octaneapi::ApiItem_setValueResponse* response) {
   (void) context;
   (void) request;
   (void) response;

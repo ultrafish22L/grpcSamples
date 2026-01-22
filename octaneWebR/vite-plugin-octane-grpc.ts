@@ -615,20 +615,7 @@ export function octaneGrpcPlugin(): Plugin {
           });
           return;
         }
-/*
-📤 ApiItem.getByAttrID {"item_ref":{"handle":"1000588","type":16},"attribute_id":185,"expected_type":"AT_FLOAT4"}
-📤 ApiItem.getByAttrID {"item_ref":{"handle":"1000590","type":16},"attribute_id":185,"expected_type":"AT_INT4"}
-📤 ApiItem.getByAttrID {"item_ref":{"handle":"1000592","type":16},"attribute_id":185,"expected_type":"AT_FLOAT4"}
-📤 ApiItem.getByAttrID {"item_ref":{"handle":"1000594","type":16},"attribute_id":185,"expected_type":"AT_FLOAT4"}
-📤 ApiItem.getByAttrID {"item_ref":{"handle":"1000596","type":16},"attribute_id":185,"expected_type":"AT_BOOL"}
-📤 ApiItem.getByAttrID {"item_ref":{"handle":"1000598","type":16},"attribute_id":185,"expected_type":"AT_FLOAT4"}
-❌ API error: ApiItem.getByAttrID: 3 INVALID_ARGUMENT: Unsupported or missing expected_type
-❌ API error: ApiItem.getByAttrID: 3 INVALID_ARGUMENT: Unsupported or missing expected_type
-❌ API error: ApiItem.getByAttrID: 3 INVALID_ARGUMENT: Unsupported or missing expected_type
-❌ API error: ApiItem.getByAttrID: 3 INVALID_ARGUMENT: Unsupported or missing expected_type
-❌ API error: ApiItem.getByAttrID: 3 INVALID_ARGUMENT: Unsupported or missing expected_type
-❌ API error: ApiItem.getByAttrID: 3 INVALID_ARGUMENT: Unsupported or missing expected_type
-*/        
+      
         // gRPC proxy endpoint
         const grpcMatch = url?.match(/^\/api\/grpc\/([^\/]+)\/([^\/\?]+)/);
         if (grpcMatch && req.method === 'POST') {
@@ -649,7 +636,7 @@ export function octaneGrpcPlugin(): Plugin {
                 if (service === 'ApiNodePinInfoEx' && method === 'getApiNodePinInfo') {
                   // GetNodePinInfoRequest uses nodePinInfoRef instead of objectPtr
                   params = { nodePinInfoRef: params.objectPtr };
-                } else if (method === 'getByAttrID' || method === 'setByAttrID' || method === 'getValue') {
+                } else if (method === 'getValueByAttrID' || method === 'setValueByAttrID' || method === 'getValue') {
                   // ApiItem methods use item_ref instead of objectPtr
                   params = { item_ref: params.objectPtr, ...params };
                   delete params.objectPtr;

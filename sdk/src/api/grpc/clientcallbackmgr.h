@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #pragma once
 #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)

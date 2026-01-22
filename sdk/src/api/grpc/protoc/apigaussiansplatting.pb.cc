@@ -26,54 +26,79 @@ namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace octaneapi {
 
-inline constexpr ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::Impl_::Impl_(
+inline constexpr ApiGaussianSplatting_setAttributesFromPlyResponse::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         result_{false} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR ApiGaussianSplatting_setAttributesFromPlyResponse::ApiGaussianSplatting_setAttributesFromPlyResponse(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_class_data_.base()),
+    : ::google::protobuf::Message(ApiGaussianSplatting_setAttributesFromPlyResponse_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct ApiGaussianSplatCloudNode_setAttributesFromPlyResponseDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_setAttributesFromPlyResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiGaussianSplatCloudNode_setAttributesFromPlyResponseDefaultTypeInternal() {}
+struct ApiGaussianSplatting_setAttributesFromPlyResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiGaussianSplatting_setAttributesFromPlyResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiGaussianSplatting_setAttributesFromPlyResponseDefaultTypeInternal() {}
   union {
-    ApiGaussianSplatCloudNode_setAttributesFromPlyResponse _instance;
+    ApiGaussianSplatting_setAttributesFromPlyResponse _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatCloudNode_setAttributesFromPlyResponseDefaultTypeInternal _ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatting_setAttributesFromPlyResponseDefaultTypeInternal _ApiGaussianSplatting_setAttributesFromPlyResponse_default_instance_;
+
+inline constexpr ApiGaussianSplatting_exportAsSpzResponse::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        result_{false} {}
+
 template <typename>
-PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode::ApiGaussianSplatCloudNode(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR ApiGaussianSplatting_exportAsSpzResponse::ApiGaussianSplatting_exportAsSpzResponse(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(ApiGaussianSplatCloudNode_class_data_.base()){}
+    : ::google::protobuf::Message(ApiGaussianSplatting_exportAsSpzResponse_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ApiGaussianSplatting_exportAsSpzResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiGaussianSplatting_exportAsSpzResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiGaussianSplatting_exportAsSpzResponseDefaultTypeInternal() {}
+  union {
+    ApiGaussianSplatting_exportAsSpzResponse _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatting_exportAsSpzResponseDefaultTypeInternal _ApiGaussianSplatting_exportAsSpzResponse_default_instance_;
+template <typename>
+PROTOBUF_CONSTEXPR ApiGaussianSplatting::ApiGaussianSplatting(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(ApiGaussianSplatting_class_data_.base()){}
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::internal::ZeroFieldsBase() {
 }
 #endif  // PROTOBUF_CUSTOM_VTABLE
-struct ApiGaussianSplatCloudNodeDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNodeDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiGaussianSplatCloudNodeDefaultTypeInternal() {}
+struct ApiGaussianSplattingDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiGaussianSplattingDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiGaussianSplattingDefaultTypeInternal() {}
   union {
-    ApiGaussianSplatCloudNode _instance;
+    ApiGaussianSplatting _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatCloudNodeDefaultTypeInternal _ApiGaussianSplatCloudNode_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplattingDefaultTypeInternal _ApiGaussianSplatting_default_instance_;
 
-inline constexpr ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::Impl_::Impl_(
+inline constexpr ApiGaussianSplatting_setAttributesFromPlyRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         restattributepointers_{},
-        objectptr_{nullptr},
+        gaussiansplatnode_{nullptr},
         x_{nullptr},
         y_{nullptr},
         z_{nullptr},
@@ -93,124 +118,102 @@ inline constexpr ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::Impl_::I
         evaluate_{false} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR ApiGaussianSplatting_setAttributesFromPlyRequest::ApiGaussianSplatting_setAttributesFromPlyRequest(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_class_data_.base()),
+    : ::google::protobuf::Message(ApiGaussianSplatting_setAttributesFromPlyRequest_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct ApiGaussianSplatCloudNode_setAttributesFromPlyRequestDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_setAttributesFromPlyRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiGaussianSplatCloudNode_setAttributesFromPlyRequestDefaultTypeInternal() {}
+struct ApiGaussianSplatting_setAttributesFromPlyRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiGaussianSplatting_setAttributesFromPlyRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiGaussianSplatting_setAttributesFromPlyRequestDefaultTypeInternal() {}
   union {
-    ApiGaussianSplatCloudNode_setAttributesFromPlyRequest _instance;
+    ApiGaussianSplatting_setAttributesFromPlyRequest _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatCloudNode_setAttributesFromPlyRequestDefaultTypeInternal _ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatting_setAttributesFromPlyRequestDefaultTypeInternal _ApiGaussianSplatting_setAttributesFromPlyRequest_default_instance_;
 
-inline constexpr ApiGaussianSplatCloudNode_obtainResponse::Impl_::Impl_(
+inline constexpr ApiGaussianSplatting_exportAsSpzRequest::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        filename_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        gaussiansplatnode_{nullptr} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ApiGaussianSplatting_exportAsSpzRequest::ApiGaussianSplatting_exportAsSpzRequest(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(ApiGaussianSplatting_exportAsSpzRequest_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ApiGaussianSplatting_exportAsSpzRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiGaussianSplatting_exportAsSpzRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiGaussianSplatting_exportAsSpzRequestDefaultTypeInternal() {}
+  union {
+    ApiGaussianSplatting_exportAsSpzRequest _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatting_exportAsSpzRequestDefaultTypeInternal _ApiGaussianSplatting_exportAsSpzRequest_default_instance_;
+
+inline constexpr ApiGaussianSplatting_createResponse::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         result_{nullptr} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_obtainResponse::ApiGaussianSplatCloudNode_obtainResponse(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR ApiGaussianSplatting_createResponse::ApiGaussianSplatting_createResponse(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(ApiGaussianSplatCloudNode_obtainResponse_class_data_.base()),
+    : ::google::protobuf::Message(ApiGaussianSplatting_createResponse_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct ApiGaussianSplatCloudNode_obtainResponseDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_obtainResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiGaussianSplatCloudNode_obtainResponseDefaultTypeInternal() {}
+struct ApiGaussianSplatting_createResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiGaussianSplatting_createResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiGaussianSplatting_createResponseDefaultTypeInternal() {}
   union {
-    ApiGaussianSplatCloudNode_obtainResponse _instance;
+    ApiGaussianSplatting_createResponse _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatCloudNode_obtainResponseDefaultTypeInternal _ApiGaussianSplatCloudNode_obtainResponse_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatting_createResponseDefaultTypeInternal _ApiGaussianSplatting_createResponse_default_instance_;
 
-inline constexpr ApiGaussianSplatCloudNode_obtainRequest::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : _cached_size_{0},
-        node_{nullptr} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_obtainRequest::ApiGaussianSplatCloudNode_obtainRequest(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(ApiGaussianSplatCloudNode_obtainRequest_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct ApiGaussianSplatCloudNode_obtainRequestDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_obtainRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiGaussianSplatCloudNode_obtainRequestDefaultTypeInternal() {}
-  union {
-    ApiGaussianSplatCloudNode_obtainRequest _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatCloudNode_obtainRequestDefaultTypeInternal _ApiGaussianSplatCloudNode_obtainRequest_default_instance_;
-
-inline constexpr ApiGaussianSplatCloudNode_createResponse::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : _cached_size_{0},
-        result_{nullptr} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_createResponse::ApiGaussianSplatCloudNode_createResponse(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(ApiGaussianSplatCloudNode_createResponse_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct ApiGaussianSplatCloudNode_createResponseDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_createResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiGaussianSplatCloudNode_createResponseDefaultTypeInternal() {}
-  union {
-    ApiGaussianSplatCloudNode_createResponse _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatCloudNode_createResponseDefaultTypeInternal _ApiGaussianSplatCloudNode_createResponse_default_instance_;
-
-inline constexpr ApiGaussianSplatCloudNode_createRequest::Impl_::Impl_(
+inline constexpr ApiGaussianSplatting_createRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         ownergraph_{nullptr} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_createRequest::ApiGaussianSplatCloudNode_createRequest(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR ApiGaussianSplatting_createRequest::ApiGaussianSplatting_createRequest(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(ApiGaussianSplatCloudNode_createRequest_class_data_.base()),
+    : ::google::protobuf::Message(ApiGaussianSplatting_createRequest_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(),
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct ApiGaussianSplatCloudNode_createRequestDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ApiGaussianSplatCloudNode_createRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ApiGaussianSplatCloudNode_createRequestDefaultTypeInternal() {}
+struct ApiGaussianSplatting_createRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ApiGaussianSplatting_createRequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ApiGaussianSplatting_createRequestDefaultTypeInternal() {}
   union {
-    ApiGaussianSplatCloudNode_createRequest _instance;
+    ApiGaussianSplatting_createRequest _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatCloudNode_createRequestDefaultTypeInternal _ApiGaussianSplatCloudNode_createRequest_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ApiGaussianSplatting_createRequestDefaultTypeInternal _ApiGaussianSplatting_createRequest_default_instance_;
 }  // namespace octaneapi
 static constexpr const ::_pb::EnumDescriptor *PROTOBUF_NONNULL *PROTOBUF_NULLABLE
     file_level_enum_descriptors_apigaussiansplatting_2eproto = nullptr;
@@ -220,47 +223,37 @@ const ::uint32_t
     TableStruct_apigaussiansplatting_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_createRequest, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_createRequest, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_createRequest, _impl_.ownergraph_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_createRequest, _impl_.ownergraph_),
         0,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_createResponse, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_createResponse, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_createResponse, _impl_.result_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_createResponse, _impl_.result_),
         0,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_obtainRequest, _impl_._has_bits_),
-        4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_obtainRequest, _impl_.node_),
-        0,
-        0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_obtainResponse, _impl_._has_bits_),
-        4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_obtainResponse, _impl_.result_),
-        0,
-        0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_._has_bits_),
         22, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.objectptr_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.numberofpoints_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.x_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.y_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.z_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.opacity_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.scale0_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.scale1_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.scale2_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot0_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot1_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot2_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot3_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.dc0_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.dc1_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.dc2_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.numberofrestattributes_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.restattributepointers_),
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.evaluate_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.gaussiansplatnode_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.numberofpoints_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.x_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.y_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.z_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.opacity_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.scale0_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.scale1_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.scale2_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot0_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot1_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot2_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot3_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.dc0_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.dc1_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.dc2_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.numberofrestattributes_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.restattributepointers_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.evaluate_),
         0,
         15,
         1,
@@ -281,73 +274,85 @@ const ::uint32_t
         ~0u,
         17,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, _impl_.result_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse, _impl_.result_),
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_exportAsSpzRequest, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_exportAsSpzRequest, _impl_.gaussiansplatnode_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_exportAsSpzRequest, _impl_.filename_),
+        1,
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_exportAsSpzResponse, _impl_._has_bits_),
+        4, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiGaussianSplatting_exportAsSpzResponse, _impl_.result_),
         0,
         0x000, // bitmap
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, sizeof(::octaneapi::ApiGaussianSplatCloudNode_createRequest)},
-        {5, sizeof(::octaneapi::ApiGaussianSplatCloudNode_createResponse)},
-        {10, sizeof(::octaneapi::ApiGaussianSplatCloudNode_obtainRequest)},
-        {15, sizeof(::octaneapi::ApiGaussianSplatCloudNode_obtainResponse)},
-        {20, sizeof(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest)},
-        {61, sizeof(::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse)},
-        {66, sizeof(::octaneapi::ApiGaussianSplatCloudNode)},
+        {0, sizeof(::octaneapi::ApiGaussianSplatting_createRequest)},
+        {5, sizeof(::octaneapi::ApiGaussianSplatting_createResponse)},
+        {10, sizeof(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest)},
+        {51, sizeof(::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse)},
+        {56, sizeof(::octaneapi::ApiGaussianSplatting_exportAsSpzRequest)},
+        {63, sizeof(::octaneapi::ApiGaussianSplatting_exportAsSpzResponse)},
+        {68, sizeof(::octaneapi::ApiGaussianSplatting)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
-    &::octaneapi::_ApiGaussianSplatCloudNode_createRequest_default_instance_._instance,
-    &::octaneapi::_ApiGaussianSplatCloudNode_createResponse_default_instance_._instance,
-    &::octaneapi::_ApiGaussianSplatCloudNode_obtainRequest_default_instance_._instance,
-    &::octaneapi::_ApiGaussianSplatCloudNode_obtainResponse_default_instance_._instance,
-    &::octaneapi::_ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_default_instance_._instance,
-    &::octaneapi::_ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_default_instance_._instance,
-    &::octaneapi::_ApiGaussianSplatCloudNode_default_instance_._instance,
+    &::octaneapi::_ApiGaussianSplatting_createRequest_default_instance_._instance,
+    &::octaneapi::_ApiGaussianSplatting_createResponse_default_instance_._instance,
+    &::octaneapi::_ApiGaussianSplatting_setAttributesFromPlyRequest_default_instance_._instance,
+    &::octaneapi::_ApiGaussianSplatting_setAttributesFromPlyResponse_default_instance_._instance,
+    &::octaneapi::_ApiGaussianSplatting_exportAsSpzRequest_default_instance_._instance,
+    &::octaneapi::_ApiGaussianSplatting_exportAsSpzResponse_default_instance_._instance,
+    &::octaneapi::_ApiGaussianSplatting_default_instance_._instance,
 };
 const char descriptor_table_protodef_apigaussiansplatting_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\032apigaussiansplatting.proto\022\toctaneapi\032"
-    "\014common.proto\"\206\010\n\031ApiGaussianSplatCloudN"
-    "ode\0329\n\rcreateRequest\022(\n\nownerGraph\030\001 \001(\013"
-    "2\024.octaneapi.ObjectRef\0326\n\016createResponse"
-    "\022$\n\006result\030\001 \001(\0132\024.octaneapi.ObjectRef\0323"
-    "\n\robtainRequest\022\"\n\004node\030\001 \001(\0132\024.octaneap"
-    "i.ObjectRef\0326\n\016obtainResponse\022$\n\006result\030"
-    "\001 \001(\0132\024.octaneapi.ObjectRef\032\330\005\n\033setAttri"
-    "butesFromPlyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024"
-    ".octaneapi.ObjectRef\022\026\n\016numberOfPoints\030\002"
-    " \001(\r\022!\n\001x\030\003 \001(\0132\026.octaneapi.FloatArrayT\022"
-    "!\n\001y\030\004 \001(\0132\026.octaneapi.FloatArrayT\022!\n\001z\030"
-    "\005 \001(\0132\026.octaneapi.FloatArrayT\022\'\n\007opacity"
-    "\030\006 \001(\0132\026.octaneapi.FloatArrayT\022&\n\006scale0"
-    "\030\007 \001(\0132\026.octaneapi.FloatArrayT\022&\n\006scale1"
-    "\030\010 \001(\0132\026.octaneapi.FloatArrayT\022&\n\006scale2"
-    "\030\t \001(\0132\026.octaneapi.FloatArrayT\022$\n\004rot0\030\n"
-    " \001(\0132\026.octaneapi.FloatArrayT\022$\n\004rot1\030\013 \001"
-    "(\0132\026.octaneapi.FloatArrayT\022$\n\004rot2\030\014 \001(\013"
-    "2\026.octaneapi.FloatArrayT\022$\n\004rot3\030\r \001(\0132\026"
-    ".octaneapi.FloatArrayT\022#\n\003dc0\030\016 \001(\0132\026.oc"
-    "taneapi.FloatArrayT\022#\n\003dc1\030\017 \001(\0132\026.octan"
-    "eapi.FloatArrayT\022#\n\003dc2\030\020 \001(\0132\026.octaneap"
-    "i.FloatArrayT\022\036\n\026numberOfRestAttributes\030"
-    "\021 \001(\r\0225\n\025restAttributePointers\030\022 \003(\0132\026.o"
-    "ctaneapi.FloatArrayT\022\020\n\010evaluate\030\023 \001(\010\032."
-    "\n\034setAttributesFromPlyResponse\022\016\n\006result"
-    "\030\001 \001(\0102\246\003\n ApiGaussianSplatCloudNodeServ"
-    "ice\022q\n\006create\0222.octaneapi.ApiGaussianSpl"
-    "atCloudNode.createRequest\0323.octaneapi.Ap"
-    "iGaussianSplatCloudNode.createResponse\022q"
-    "\n\006obtain\0222.octaneapi.ApiGaussianSplatClo"
-    "udNode.obtainRequest\0323.octaneapi.ApiGaus"
-    "sianSplatCloudNode.obtainResponse\022\233\001\n\024se"
-    "tAttributesFromPly\022@.octaneapi.ApiGaussi"
-    "anSplatCloudNode.setAttributesFromPlyReq"
-    "uest\032A.octaneapi.ApiGaussianSplatCloudNo"
-    "de.setAttributesFromPlyResponseB\002H\002b\006pro"
-    "to3"
+    "\014common.proto\"\234\010\n\024ApiGaussianSplatting\0329"
+    "\n\rcreateRequest\022(\n\nownerGraph\030\001 \001(\0132\024.oc"
+    "taneapi.ObjectRef\0326\n\016createResponse\022$\n\006r"
+    "esult\030\001 \001(\0132\024.octaneapi.ObjectRef\032\340\005\n\033se"
+    "tAttributesFromPlyRequest\022/\n\021gaussianSpl"
+    "atNode\030\001 \001(\0132\024.octaneapi.ObjectRef\022\026\n\016nu"
+    "mberOfPoints\030\002 \001(\r\022!\n\001x\030\003 \001(\0132\026.octaneap"
+    "i.FloatArrayT\022!\n\001y\030\004 \001(\0132\026.octaneapi.Flo"
+    "atArrayT\022!\n\001z\030\005 \001(\0132\026.octaneapi.FloatArr"
+    "ayT\022\'\n\007opacity\030\006 \001(\0132\026.octaneapi.FloatAr"
+    "rayT\022&\n\006scale0\030\007 \001(\0132\026.octaneapi.FloatAr"
+    "rayT\022&\n\006scale1\030\010 \001(\0132\026.octaneapi.FloatAr"
+    "rayT\022&\n\006scale2\030\t \001(\0132\026.octaneapi.FloatAr"
+    "rayT\022$\n\004rot0\030\n \001(\0132\026.octaneapi.FloatArra"
+    "yT\022$\n\004rot1\030\013 \001(\0132\026.octaneapi.FloatArrayT"
+    "\022$\n\004rot2\030\014 \001(\0132\026.octaneapi.FloatArrayT\022$"
+    "\n\004rot3\030\r \001(\0132\026.octaneapi.FloatArrayT\022#\n\003"
+    "dc0\030\016 \001(\0132\026.octaneapi.FloatArrayT\022#\n\003dc1"
+    "\030\017 \001(\0132\026.octaneapi.FloatArrayT\022#\n\003dc2\030\020 "
+    "\001(\0132\026.octaneapi.FloatArrayT\022\036\n\026numberOfR"
+    "estAttributes\030\021 \001(\r\0225\n\025restAttributePoin"
+    "ters\030\022 \003(\0132\026.octaneapi.FloatArrayT\022\020\n\010ev"
+    "aluate\030\023 \001(\010\032.\n\034setAttributesFromPlyResp"
+    "onse\022\016\n\006result\030\001 \001(\010\032W\n\022exportAsSpzReque"
+    "st\022/\n\021gaussianSplatNode\030\001 \001(\0132\024.octaneap"
+    "i.ObjectRef\022\020\n\010fileName\030\002 \001(\t\032%\n\023exportA"
+    "sSpzResponse\022\016\n\006result\030\001 \001(\0102\222\003\n\033ApiGaus"
+    "sianSplattingService\022g\n\006create\022-.octanea"
+    "pi.ApiGaussianSplatting.createRequest\032.."
+    "octaneapi.ApiGaussianSplatting.createRes"
+    "ponse\022\221\001\n\024setAttributesFromPly\022;.octanea"
+    "pi.ApiGaussianSplatting.setAttributesFro"
+    "mPlyRequest\032<.octaneapi.ApiGaussianSplat"
+    "ting.setAttributesFromPlyResponse\022v\n\013exp"
+    "ortAsSpz\0222.octaneapi.ApiGaussianSplattin"
+    "g.exportAsSpzRequest\0323.octaneapi.ApiGaus"
+    "sianSplatting.exportAsSpzResponseB\002H\002b\006p"
+    "roto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_apigaussiansplatting_2eproto_deps[1] = {
@@ -357,7 +362,7 @@ static ::absl::once_flag descriptor_table_apigaussiansplatting_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apigaussiansplatting_2eproto = {
     false,
     false,
-    1523,
+    1525,
     descriptor_table_protodef_apigaussiansplatting_2eproto,
     "apigaussiansplatting.proto",
     &descriptor_table_apigaussiansplatting_2eproto_once,
@@ -373,44 +378,44 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apigaussianspl
 namespace octaneapi {
 // ===================================================================
 
-class ApiGaussianSplatCloudNode_createRequest::_Internal {
+class ApiGaussianSplatting_createRequest::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<ApiGaussianSplatCloudNode_createRequest>()._impl_._has_bits_);
+      decltype(::std::declval<ApiGaussianSplatting_createRequest>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_createRequest, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_createRequest, _impl_._has_bits_);
 };
 
-void ApiGaussianSplatCloudNode_createRequest::clear_ownergraph() {
+void ApiGaussianSplatting_createRequest::clear_ownergraph() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.ownergraph_ != nullptr) _impl_.ownergraph_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-ApiGaussianSplatCloudNode_createRequest::ApiGaussianSplatCloudNode_createRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+ApiGaussianSplatting_createRequest::ApiGaussianSplatting_createRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_createRequest_class_data_.base()) {
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_createRequest_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatCloudNode.createRequest)
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatting.createRequest)
 }
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_createRequest::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE ApiGaussianSplatting_createRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::octaneapi::ApiGaussianSplatCloudNode_createRequest& from_msg)
+    const ::octaneapi::ApiGaussianSplatting_createRequest& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0} {}
 
-ApiGaussianSplatCloudNode_createRequest::ApiGaussianSplatCloudNode_createRequest(
+ApiGaussianSplatting_createRequest::ApiGaussianSplatting_createRequest(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const ApiGaussianSplatCloudNode_createRequest& from)
+    const ApiGaussianSplatting_createRequest& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_createRequest_class_data_.base()) {
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_createRequest_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  ApiGaussianSplatCloudNode_createRequest* const _this = this;
+  ApiGaussianSplatting_createRequest* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
@@ -420,77 +425,77 @@ ApiGaussianSplatCloudNode_createRequest::ApiGaussianSplatCloudNode_createRequest
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.ownergraph_)
                 : nullptr;
 
-  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatCloudNode.createRequest)
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatting.createRequest)
 }
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_createRequest::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE ApiGaussianSplatting_createRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0} {}
 
-inline void ApiGaussianSplatCloudNode_createRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void ApiGaussianSplatting_createRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.ownergraph_ = {};
 }
-ApiGaussianSplatCloudNode_createRequest::~ApiGaussianSplatCloudNode_createRequest() {
-  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatCloudNode.createRequest)
+ApiGaussianSplatting_createRequest::~ApiGaussianSplatting_createRequest() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatting.createRequest)
   SharedDtor(*this);
 }
-inline void ApiGaussianSplatCloudNode_createRequest::SharedDtor(MessageLite& self) {
-  ApiGaussianSplatCloudNode_createRequest& this_ = static_cast<ApiGaussianSplatCloudNode_createRequest&>(self);
+inline void ApiGaussianSplatting_createRequest::SharedDtor(MessageLite& self) {
+  ApiGaussianSplatting_createRequest& this_ = static_cast<ApiGaussianSplatting_createRequest&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   delete this_._impl_.ownergraph_;
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL ApiGaussianSplatCloudNode_createRequest::PlacementNew_(
+inline void* PROTOBUF_NONNULL ApiGaussianSplatting_createRequest::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) ApiGaussianSplatCloudNode_createRequest(arena);
+  return ::new (mem) ApiGaussianSplatting_createRequest(arena);
 }
-constexpr auto ApiGaussianSplatCloudNode_createRequest::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatCloudNode_createRequest),
-                                            alignof(ApiGaussianSplatCloudNode_createRequest));
+constexpr auto ApiGaussianSplatting_createRequest::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatting_createRequest),
+                                            alignof(ApiGaussianSplatting_createRequest));
 }
-constexpr auto ApiGaussianSplatCloudNode_createRequest::InternalGenerateClassData_() {
+constexpr auto ApiGaussianSplatting_createRequest::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_ApiGaussianSplatCloudNode_createRequest_default_instance_._instance,
+          &_ApiGaussianSplatting_createRequest_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &ApiGaussianSplatCloudNode_createRequest::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatCloudNode_createRequest>(),
+          &ApiGaussianSplatting_createRequest::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatting_createRequest>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &ApiGaussianSplatCloudNode_createRequest::SharedDtor,
-          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatCloudNode_createRequest::ClearImpl),
+          &ApiGaussianSplatting_createRequest::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatting_createRequest::ClearImpl),
               ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
               ,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_createRequest, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_createRequest, _impl_._cached_size_),
           false,
       },
-      &ApiGaussianSplatCloudNode_createRequest::kDescriptorMethods,
+      &ApiGaussianSplatting_createRequest::kDescriptorMethods,
       &descriptor_table_apigaussiansplatting_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatCloudNode_createRequest_class_data_ =
-        ApiGaussianSplatCloudNode_createRequest::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatting_createRequest_class_data_ =
+        ApiGaussianSplatting_createRequest::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-ApiGaussianSplatCloudNode_createRequest::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatCloudNode_createRequest_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatCloudNode_createRequest_class_data_.tc_table);
-  return ApiGaussianSplatCloudNode_createRequest_class_data_.base();
+ApiGaussianSplatting_createRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatting_createRequest_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatting_createRequest_class_data_.tc_table);
+  return ApiGaussianSplatting_createRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::_pbi::TcParseTable<0, 1, 1, 0, 2>
-ApiGaussianSplatCloudNode_createRequest::_table_ = {
+ApiGaussianSplatting_createRequest::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_createRequest, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_createRequest, _impl_._has_bits_),
     0, // no _extensions_
     1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -499,21 +504,21 @@ ApiGaussianSplatCloudNode_createRequest::_table_ = {
     1,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
-    ApiGaussianSplatCloudNode_createRequest_class_data_.base(),
+    ApiGaussianSplatting_createRequest_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatCloudNode_createRequest>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatting_createRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // .octaneapi.ObjectRef ownerGraph = 1;
     {::_pbi::TcParser::FastMtS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_createRequest, _impl_.ownergraph_)}},
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_createRequest, _impl_.ownergraph_)}},
   }}, {{
     65535, 65535
   }}, {{
     // .octaneapi.ObjectRef ownerGraph = 1;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_createRequest, _impl_.ownergraph_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_createRequest, _impl_.ownergraph_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }},
   {{
@@ -522,53 +527,53 @@ ApiGaussianSplatCloudNode_createRequest::_table_ = {
   {{
   }},
 };
-void ApiGaussianSplatCloudNode_createRequest::InternalSwap(ApiGaussianSplatCloudNode_createRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void ApiGaussianSplatting_createRequest::InternalSwap(ApiGaussianSplatting_createRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   GetReflection()->Swap(this, other);}
 
-::google::protobuf::Metadata ApiGaussianSplatCloudNode_createRequest::GetMetadata() const {
+::google::protobuf::Metadata ApiGaussianSplatting_createRequest::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class ApiGaussianSplatCloudNode_createResponse::_Internal {
+class ApiGaussianSplatting_createResponse::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<ApiGaussianSplatCloudNode_createResponse>()._impl_._has_bits_);
+      decltype(::std::declval<ApiGaussianSplatting_createResponse>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_createResponse, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_createResponse, _impl_._has_bits_);
 };
 
-void ApiGaussianSplatCloudNode_createResponse::clear_result() {
+void ApiGaussianSplatting_createResponse::clear_result() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.result_ != nullptr) _impl_.result_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-ApiGaussianSplatCloudNode_createResponse::ApiGaussianSplatCloudNode_createResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+ApiGaussianSplatting_createResponse::ApiGaussianSplatting_createResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_createResponse_class_data_.base()) {
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_createResponse_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatCloudNode.createResponse)
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatting.createResponse)
 }
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_createResponse::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE ApiGaussianSplatting_createResponse::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::octaneapi::ApiGaussianSplatCloudNode_createResponse& from_msg)
+    const ::octaneapi::ApiGaussianSplatting_createResponse& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0} {}
 
-ApiGaussianSplatCloudNode_createResponse::ApiGaussianSplatCloudNode_createResponse(
+ApiGaussianSplatting_createResponse::ApiGaussianSplatting_createResponse(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const ApiGaussianSplatCloudNode_createResponse& from)
+    const ApiGaussianSplatting_createResponse& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_createResponse_class_data_.base()) {
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_createResponse_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  ApiGaussianSplatCloudNode_createResponse* const _this = this;
+  ApiGaussianSplatting_createResponse* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
@@ -578,77 +583,77 @@ ApiGaussianSplatCloudNode_createResponse::ApiGaussianSplatCloudNode_createRespon
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.result_)
                 : nullptr;
 
-  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatCloudNode.createResponse)
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatting.createResponse)
 }
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_createResponse::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE ApiGaussianSplatting_createResponse::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0} {}
 
-inline void ApiGaussianSplatCloudNode_createResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void ApiGaussianSplatting_createResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.result_ = {};
 }
-ApiGaussianSplatCloudNode_createResponse::~ApiGaussianSplatCloudNode_createResponse() {
-  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatCloudNode.createResponse)
+ApiGaussianSplatting_createResponse::~ApiGaussianSplatting_createResponse() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatting.createResponse)
   SharedDtor(*this);
 }
-inline void ApiGaussianSplatCloudNode_createResponse::SharedDtor(MessageLite& self) {
-  ApiGaussianSplatCloudNode_createResponse& this_ = static_cast<ApiGaussianSplatCloudNode_createResponse&>(self);
+inline void ApiGaussianSplatting_createResponse::SharedDtor(MessageLite& self) {
+  ApiGaussianSplatting_createResponse& this_ = static_cast<ApiGaussianSplatting_createResponse&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   delete this_._impl_.result_;
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL ApiGaussianSplatCloudNode_createResponse::PlacementNew_(
+inline void* PROTOBUF_NONNULL ApiGaussianSplatting_createResponse::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) ApiGaussianSplatCloudNode_createResponse(arena);
+  return ::new (mem) ApiGaussianSplatting_createResponse(arena);
 }
-constexpr auto ApiGaussianSplatCloudNode_createResponse::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatCloudNode_createResponse),
-                                            alignof(ApiGaussianSplatCloudNode_createResponse));
+constexpr auto ApiGaussianSplatting_createResponse::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatting_createResponse),
+                                            alignof(ApiGaussianSplatting_createResponse));
 }
-constexpr auto ApiGaussianSplatCloudNode_createResponse::InternalGenerateClassData_() {
+constexpr auto ApiGaussianSplatting_createResponse::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_ApiGaussianSplatCloudNode_createResponse_default_instance_._instance,
+          &_ApiGaussianSplatting_createResponse_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &ApiGaussianSplatCloudNode_createResponse::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatCloudNode_createResponse>(),
+          &ApiGaussianSplatting_createResponse::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatting_createResponse>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &ApiGaussianSplatCloudNode_createResponse::SharedDtor,
-          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatCloudNode_createResponse::ClearImpl),
+          &ApiGaussianSplatting_createResponse::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatting_createResponse::ClearImpl),
               ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
               ,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_createResponse, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_createResponse, _impl_._cached_size_),
           false,
       },
-      &ApiGaussianSplatCloudNode_createResponse::kDescriptorMethods,
+      &ApiGaussianSplatting_createResponse::kDescriptorMethods,
       &descriptor_table_apigaussiansplatting_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatCloudNode_createResponse_class_data_ =
-        ApiGaussianSplatCloudNode_createResponse::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatting_createResponse_class_data_ =
+        ApiGaussianSplatting_createResponse::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-ApiGaussianSplatCloudNode_createResponse::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatCloudNode_createResponse_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatCloudNode_createResponse_class_data_.tc_table);
-  return ApiGaussianSplatCloudNode_createResponse_class_data_.base();
+ApiGaussianSplatting_createResponse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatting_createResponse_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatting_createResponse_class_data_.tc_table);
+  return ApiGaussianSplatting_createResponse_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::_pbi::TcParseTable<0, 1, 1, 0, 2>
-ApiGaussianSplatCloudNode_createResponse::_table_ = {
+ApiGaussianSplatting_createResponse::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_createResponse, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_createResponse, _impl_._has_bits_),
     0, // no _extensions_
     1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -657,21 +662,21 @@ ApiGaussianSplatCloudNode_createResponse::_table_ = {
     1,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
-    ApiGaussianSplatCloudNode_createResponse_class_data_.base(),
+    ApiGaussianSplatting_createResponse_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatCloudNode_createResponse>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatting_createResponse>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // .octaneapi.ObjectRef result = 1;
     {::_pbi::TcParser::FastMtS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_createResponse, _impl_.result_)}},
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_createResponse, _impl_.result_)}},
   }}, {{
     65535, 65535
   }}, {{
     // .octaneapi.ObjectRef result = 1;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_createResponse, _impl_.result_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_createResponse, _impl_.result_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }},
   {{
@@ -680,451 +685,135 @@ ApiGaussianSplatCloudNode_createResponse::_table_ = {
   {{
   }},
 };
-void ApiGaussianSplatCloudNode_createResponse::InternalSwap(ApiGaussianSplatCloudNode_createResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void ApiGaussianSplatting_createResponse::InternalSwap(ApiGaussianSplatting_createResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   GetReflection()->Swap(this, other);}
 
-::google::protobuf::Metadata ApiGaussianSplatCloudNode_createResponse::GetMetadata() const {
+::google::protobuf::Metadata ApiGaussianSplatting_createResponse::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class ApiGaussianSplatCloudNode_obtainRequest::_Internal {
+class ApiGaussianSplatting_setAttributesFromPlyRequest::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<ApiGaussianSplatCloudNode_obtainRequest>()._impl_._has_bits_);
+      decltype(::std::declval<ApiGaussianSplatting_setAttributesFromPlyRequest>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_obtainRequest, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_._has_bits_);
 };
 
-void ApiGaussianSplatCloudNode_obtainRequest::clear_node() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_gaussiansplatnode() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.node_ != nullptr) _impl_.node_->Clear();
+  if (_impl_.gaussiansplatnode_ != nullptr) _impl_.gaussiansplatnode_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-ApiGaussianSplatCloudNode_obtainRequest::ApiGaussianSplatCloudNode_obtainRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_obtainRequest_class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatCloudNode.obtainRequest)
-}
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_obtainRequest::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest& from_msg)
-      : _has_bits_{from._has_bits_},
-        _cached_size_{0} {}
-
-ApiGaussianSplatCloudNode_obtainRequest::ApiGaussianSplatCloudNode_obtainRequest(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const ApiGaussianSplatCloudNode_obtainRequest& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_obtainRequest_class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  ApiGaussianSplatCloudNode_obtainRequest* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
-  _impl_.node_ = ((cached_has_bits & 0x00000001u) != 0)
-                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.node_)
-                : nullptr;
-
-  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatCloudNode.obtainRequest)
-}
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_obtainRequest::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-      : _cached_size_{0} {}
-
-inline void ApiGaussianSplatCloudNode_obtainRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.node_ = {};
-}
-ApiGaussianSplatCloudNode_obtainRequest::~ApiGaussianSplatCloudNode_obtainRequest() {
-  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatCloudNode.obtainRequest)
-  SharedDtor(*this);
-}
-inline void ApiGaussianSplatCloudNode_obtainRequest::SharedDtor(MessageLite& self) {
-  ApiGaussianSplatCloudNode_obtainRequest& this_ = static_cast<ApiGaussianSplatCloudNode_obtainRequest&>(self);
-  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
-  ABSL_DCHECK(this_.GetArena() == nullptr);
-  delete this_._impl_.node_;
-  this_._impl_.~Impl_();
-}
-
-inline void* PROTOBUF_NONNULL ApiGaussianSplatCloudNode_obtainRequest::PlacementNew_(
-    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) ApiGaussianSplatCloudNode_obtainRequest(arena);
-}
-constexpr auto ApiGaussianSplatCloudNode_obtainRequest::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatCloudNode_obtainRequest),
-                                            alignof(ApiGaussianSplatCloudNode_obtainRequest));
-}
-constexpr auto ApiGaussianSplatCloudNode_obtainRequest::InternalGenerateClassData_() {
-  return ::google::protobuf::internal::ClassDataFull{
-      ::google::protobuf::internal::ClassData{
-          &_ApiGaussianSplatCloudNode_obtainRequest_default_instance_._instance,
-          &_table_.header,
-          nullptr,  // OnDemandRegisterArenaDtor
-          nullptr,  // IsInitialized
-          &ApiGaussianSplatCloudNode_obtainRequest::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatCloudNode_obtainRequest>(),
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-          &ApiGaussianSplatCloudNode_obtainRequest::SharedDtor,
-          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatCloudNode_obtainRequest::ClearImpl),
-              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
-              ,
-#endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_obtainRequest, _impl_._cached_size_),
-          false,
-      },
-      &ApiGaussianSplatCloudNode_obtainRequest::kDescriptorMethods,
-      &descriptor_table_apigaussiansplatting_2eproto,
-      nullptr,  // tracker
-  };
-}
-
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatCloudNode_obtainRequest_class_data_ =
-        ApiGaussianSplatCloudNode_obtainRequest::InternalGenerateClassData_();
-
-PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-ApiGaussianSplatCloudNode_obtainRequest::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatCloudNode_obtainRequest_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatCloudNode_obtainRequest_class_data_.tc_table);
-  return ApiGaussianSplatCloudNode_obtainRequest_class_data_.base();
-}
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 1, 0, 2>
-ApiGaussianSplatCloudNode_obtainRequest::_table_ = {
-  {
-    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_obtainRequest, _impl_._has_bits_),
-    0, // no _extensions_
-    1, 0,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967294,  // skipmap
-    offsetof(decltype(_table_), field_entries),
-    1,  // num_field_entries
-    1,  // num_aux_entries
-    offsetof(decltype(_table_), aux_entries),
-    ApiGaussianSplatCloudNode_obtainRequest_class_data_.base(),
-    nullptr,  // post_loop_handler
-    ::_pbi::TcParser::GenericFallback,  // fallback
-    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatCloudNode_obtainRequest>(),  // to_prefetch
-    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
-  }, {{
-    // .octaneapi.ObjectRef node = 1;
-    {::_pbi::TcParser::FastMtS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_obtainRequest, _impl_.node_)}},
-  }}, {{
-    65535, 65535
-  }}, {{
-    // .octaneapi.ObjectRef node = 1;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_obtainRequest, _impl_.node_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-  }},
-  {{
-      {::_pbi::TcParser::GetTable<::octaneapi::ObjectRef>()},
-  }},
-  {{
-  }},
-};
-void ApiGaussianSplatCloudNode_obtainRequest::InternalSwap(ApiGaussianSplatCloudNode_obtainRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
-  using ::std::swap;
-  GetReflection()->Swap(this, other);}
-
-::google::protobuf::Metadata ApiGaussianSplatCloudNode_obtainRequest::GetMetadata() const {
-  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
-}
-// ===================================================================
-
-class ApiGaussianSplatCloudNode_obtainResponse::_Internal {
- public:
-  using HasBits =
-      decltype(::std::declval<ApiGaussianSplatCloudNode_obtainResponse>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_obtainResponse, _impl_._has_bits_);
-};
-
-void ApiGaussianSplatCloudNode_obtainResponse::clear_result() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.result_ != nullptr) _impl_.result_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-ApiGaussianSplatCloudNode_obtainResponse::ApiGaussianSplatCloudNode_obtainResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_obtainResponse_class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatCloudNode.obtainResponse)
-}
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_obtainResponse::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse& from_msg)
-      : _has_bits_{from._has_bits_},
-        _cached_size_{0} {}
-
-ApiGaussianSplatCloudNode_obtainResponse::ApiGaussianSplatCloudNode_obtainResponse(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const ApiGaussianSplatCloudNode_obtainResponse& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_obtainResponse_class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  ApiGaussianSplatCloudNode_obtainResponse* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
-  _impl_.result_ = ((cached_has_bits & 0x00000001u) != 0)
-                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.result_)
-                : nullptr;
-
-  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatCloudNode.obtainResponse)
-}
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_obtainResponse::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-      : _cached_size_{0} {}
-
-inline void ApiGaussianSplatCloudNode_obtainResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.result_ = {};
-}
-ApiGaussianSplatCloudNode_obtainResponse::~ApiGaussianSplatCloudNode_obtainResponse() {
-  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatCloudNode.obtainResponse)
-  SharedDtor(*this);
-}
-inline void ApiGaussianSplatCloudNode_obtainResponse::SharedDtor(MessageLite& self) {
-  ApiGaussianSplatCloudNode_obtainResponse& this_ = static_cast<ApiGaussianSplatCloudNode_obtainResponse&>(self);
-  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
-  ABSL_DCHECK(this_.GetArena() == nullptr);
-  delete this_._impl_.result_;
-  this_._impl_.~Impl_();
-}
-
-inline void* PROTOBUF_NONNULL ApiGaussianSplatCloudNode_obtainResponse::PlacementNew_(
-    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) ApiGaussianSplatCloudNode_obtainResponse(arena);
-}
-constexpr auto ApiGaussianSplatCloudNode_obtainResponse::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatCloudNode_obtainResponse),
-                                            alignof(ApiGaussianSplatCloudNode_obtainResponse));
-}
-constexpr auto ApiGaussianSplatCloudNode_obtainResponse::InternalGenerateClassData_() {
-  return ::google::protobuf::internal::ClassDataFull{
-      ::google::protobuf::internal::ClassData{
-          &_ApiGaussianSplatCloudNode_obtainResponse_default_instance_._instance,
-          &_table_.header,
-          nullptr,  // OnDemandRegisterArenaDtor
-          nullptr,  // IsInitialized
-          &ApiGaussianSplatCloudNode_obtainResponse::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatCloudNode_obtainResponse>(),
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-          &ApiGaussianSplatCloudNode_obtainResponse::SharedDtor,
-          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatCloudNode_obtainResponse::ClearImpl),
-              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
-              ,
-#endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_obtainResponse, _impl_._cached_size_),
-          false,
-      },
-      &ApiGaussianSplatCloudNode_obtainResponse::kDescriptorMethods,
-      &descriptor_table_apigaussiansplatting_2eproto,
-      nullptr,  // tracker
-  };
-}
-
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatCloudNode_obtainResponse_class_data_ =
-        ApiGaussianSplatCloudNode_obtainResponse::InternalGenerateClassData_();
-
-PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-ApiGaussianSplatCloudNode_obtainResponse::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatCloudNode_obtainResponse_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatCloudNode_obtainResponse_class_data_.tc_table);
-  return ApiGaussianSplatCloudNode_obtainResponse_class_data_.base();
-}
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 1, 0, 2>
-ApiGaussianSplatCloudNode_obtainResponse::_table_ = {
-  {
-    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_obtainResponse, _impl_._has_bits_),
-    0, // no _extensions_
-    1, 0,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967294,  // skipmap
-    offsetof(decltype(_table_), field_entries),
-    1,  // num_field_entries
-    1,  // num_aux_entries
-    offsetof(decltype(_table_), aux_entries),
-    ApiGaussianSplatCloudNode_obtainResponse_class_data_.base(),
-    nullptr,  // post_loop_handler
-    ::_pbi::TcParser::GenericFallback,  // fallback
-    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatCloudNode_obtainResponse>(),  // to_prefetch
-    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
-  }, {{
-    // .octaneapi.ObjectRef result = 1;
-    {::_pbi::TcParser::FastMtS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_obtainResponse, _impl_.result_)}},
-  }}, {{
-    65535, 65535
-  }}, {{
-    // .octaneapi.ObjectRef result = 1;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_obtainResponse, _impl_.result_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-  }},
-  {{
-      {::_pbi::TcParser::GetTable<::octaneapi::ObjectRef>()},
-  }},
-  {{
-  }},
-};
-void ApiGaussianSplatCloudNode_obtainResponse::InternalSwap(ApiGaussianSplatCloudNode_obtainResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
-  using ::std::swap;
-  GetReflection()->Swap(this, other);}
-
-::google::protobuf::Metadata ApiGaussianSplatCloudNode_obtainResponse::GetMetadata() const {
-  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
-}
-// ===================================================================
-
-class ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::_Internal {
- public:
-  using HasBits =
-      decltype(::std::declval<ApiGaussianSplatCloudNode_setAttributesFromPlyRequest>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_._has_bits_);
-};
-
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_objectptr() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.objectptr_ != nullptr) _impl_.objectptr_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_x() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.x_ != nullptr) _impl_.x_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_y() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.y_ != nullptr) _impl_.y_->Clear();
   _impl_._has_bits_[0] &= ~0x00000004u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_z() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_z() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.z_ != nullptr) _impl_.z_->Clear();
   _impl_._has_bits_[0] &= ~0x00000008u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_opacity() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_opacity() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.opacity_ != nullptr) _impl_.opacity_->Clear();
   _impl_._has_bits_[0] &= ~0x00000010u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_scale0() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_scale0() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.scale0_ != nullptr) _impl_.scale0_->Clear();
   _impl_._has_bits_[0] &= ~0x00000020u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_scale1() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_scale1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.scale1_ != nullptr) _impl_.scale1_->Clear();
   _impl_._has_bits_[0] &= ~0x00000040u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_scale2() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_scale2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.scale2_ != nullptr) _impl_.scale2_->Clear();
   _impl_._has_bits_[0] &= ~0x00000080u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_rot0() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_rot0() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.rot0_ != nullptr) _impl_.rot0_->Clear();
   _impl_._has_bits_[0] &= ~0x00000100u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_rot1() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_rot1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.rot1_ != nullptr) _impl_.rot1_->Clear();
   _impl_._has_bits_[0] &= ~0x00000200u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_rot2() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_rot2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.rot2_ != nullptr) _impl_.rot2_->Clear();
   _impl_._has_bits_[0] &= ~0x00000400u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_rot3() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_rot3() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.rot3_ != nullptr) _impl_.rot3_->Clear();
   _impl_._has_bits_[0] &= ~0x00000800u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_dc0() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_dc0() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.dc0_ != nullptr) _impl_.dc0_->Clear();
   _impl_._has_bits_[0] &= ~0x00001000u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_dc1() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_dc1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.dc1_ != nullptr) _impl_.dc1_->Clear();
   _impl_._has_bits_[0] &= ~0x00002000u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_dc2() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_dc2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.dc2_ != nullptr) _impl_.dc2_->Clear();
   _impl_._has_bits_[0] &= ~0x00004000u;
 }
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::clear_restattributepointers() {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::clear_restattributepointers() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.restattributepointers_.Clear();
 }
-ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+ApiGaussianSplatting_setAttributesFromPlyRequest::ApiGaussianSplatting_setAttributesFromPlyRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_class_data_.base()) {
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_setAttributesFromPlyRequest_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatCloudNode.setAttributesFromPlyRequest)
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatting.setAttributesFromPlyRequest)
 }
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE ApiGaussianSplatting_setAttributesFromPlyRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    const ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest& from_msg)
+    const ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         restattributepointers_{visibility, arena, from.restattributepointers_} {}
 
-ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest(
+ApiGaussianSplatting_setAttributesFromPlyRequest::ApiGaussianSplatting_setAttributesFromPlyRequest(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const ApiGaussianSplatCloudNode_setAttributesFromPlyRequest& from)
+    const ApiGaussianSplatting_setAttributesFromPlyRequest& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_class_data_.base()) {
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_setAttributesFromPlyRequest_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  ApiGaussianSplatCloudNode_setAttributesFromPlyRequest* const _this = this;
+  ApiGaussianSplatting_setAttributesFromPlyRequest* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
-  _impl_.objectptr_ = ((cached_has_bits & 0x00000001u) != 0)
-                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.objectptr_)
+  _impl_.gaussiansplatnode_ = ((cached_has_bits & 0x00000001u) != 0)
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.gaussiansplatnode_)
                 : nullptr;
   _impl_.x_ = ((cached_has_bits & 0x00000002u) != 0)
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.x_)
@@ -1176,32 +865,32 @@ ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::ApiGaussianSplatCloudNode
                offsetof(Impl_, numberofpoints_) +
                sizeof(Impl_::evaluate_));
 
-  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatCloudNode.setAttributesFromPlyRequest)
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatting.setAttributesFromPlyRequest)
 }
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE ApiGaussianSplatting_setAttributesFromPlyRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0},
         restattributepointers_{visibility, arena} {}
 
-inline void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void ApiGaussianSplatting_setAttributesFromPlyRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, objectptr_),
+               offsetof(Impl_, gaussiansplatnode_),
            0,
            offsetof(Impl_, evaluate_) -
-               offsetof(Impl_, objectptr_) +
+               offsetof(Impl_, gaussiansplatnode_) +
                sizeof(Impl_::evaluate_));
 }
-ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::~ApiGaussianSplatCloudNode_setAttributesFromPlyRequest() {
-  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatCloudNode.setAttributesFromPlyRequest)
+ApiGaussianSplatting_setAttributesFromPlyRequest::~ApiGaussianSplatting_setAttributesFromPlyRequest() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatting.setAttributesFromPlyRequest)
   SharedDtor(*this);
 }
-inline void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::SharedDtor(MessageLite& self) {
-  ApiGaussianSplatCloudNode_setAttributesFromPlyRequest& this_ = static_cast<ApiGaussianSplatCloudNode_setAttributesFromPlyRequest&>(self);
+inline void ApiGaussianSplatting_setAttributesFromPlyRequest::SharedDtor(MessageLite& self) {
+  ApiGaussianSplatting_setAttributesFromPlyRequest& this_ = static_cast<ApiGaussianSplatting_setAttributesFromPlyRequest&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
-  delete this_._impl_.objectptr_;
+  delete this_._impl_.gaussiansplatnode_;
   delete this_._impl_.x_;
   delete this_._impl_.y_;
   delete this_._impl_.z_;
@@ -1219,66 +908,66 @@ inline void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::SharedDtor(Me
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::PlacementNew_(
+inline void* PROTOBUF_NONNULL ApiGaussianSplatting_setAttributesFromPlyRequest::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) ApiGaussianSplatCloudNode_setAttributesFromPlyRequest(arena);
+  return ::new (mem) ApiGaussianSplatting_setAttributesFromPlyRequest(arena);
 }
-constexpr auto ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::InternalNewImpl_() {
+constexpr auto ApiGaussianSplatting_setAttributesFromPlyRequest::InternalNewImpl_() {
   constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
-      PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.restattributepointers_) +
-          decltype(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::_impl_.restattributepointers_)::
+      PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.restattributepointers_) +
+          decltype(ApiGaussianSplatting_setAttributesFromPlyRequest::_impl_.restattributepointers_)::
               InternalGetArenaOffset(
                   ::google::protobuf::Message::internal_visibility()),
   });
   if (arena_bits.has_value()) {
     return ::google::protobuf::internal::MessageCreator::ZeroInit(
-        sizeof(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest), alignof(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest), *arena_bits);
+        sizeof(ApiGaussianSplatting_setAttributesFromPlyRequest), alignof(ApiGaussianSplatting_setAttributesFromPlyRequest), *arena_bits);
   } else {
-    return ::google::protobuf::internal::MessageCreator(&ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::PlacementNew_,
-                                 sizeof(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest),
-                                 alignof(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest));
+    return ::google::protobuf::internal::MessageCreator(&ApiGaussianSplatting_setAttributesFromPlyRequest::PlacementNew_,
+                                 sizeof(ApiGaussianSplatting_setAttributesFromPlyRequest),
+                                 alignof(ApiGaussianSplatting_setAttributesFromPlyRequest));
   }
 }
-constexpr auto ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::InternalGenerateClassData_() {
+constexpr auto ApiGaussianSplatting_setAttributesFromPlyRequest::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_default_instance_._instance,
+          &_ApiGaussianSplatting_setAttributesFromPlyRequest_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatCloudNode_setAttributesFromPlyRequest>(),
+          &ApiGaussianSplatting_setAttributesFromPlyRequest::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatting_setAttributesFromPlyRequest>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::SharedDtor,
-          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::ClearImpl),
+          &ApiGaussianSplatting_setAttributesFromPlyRequest::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatting_setAttributesFromPlyRequest::ClearImpl),
               ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
               ,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_._cached_size_),
           false,
       },
-      &ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::kDescriptorMethods,
+      &ApiGaussianSplatting_setAttributesFromPlyRequest::kDescriptorMethods,
       &descriptor_table_apigaussiansplatting_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_class_data_ =
-        ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatting_setAttributesFromPlyRequest_class_data_ =
+        ApiGaussianSplatting_setAttributesFromPlyRequest::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_class_data_.tc_table);
-  return ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_class_data_.base();
+ApiGaussianSplatting_setAttributesFromPlyRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatting_setAttributesFromPlyRequest_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatting_setAttributesFromPlyRequest_class_data_.tc_table);
+  return ApiGaussianSplatting_setAttributesFromPlyRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::_pbi::TcParseTable<5, 19, 16, 0, 2>
-ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::_table_ = {
+ApiGaussianSplatting_setAttributesFromPlyRequest::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_._has_bits_),
     0, // no _extensions_
     19, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -1287,71 +976,71 @@ ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::_table_ = {
     19,  // num_field_entries
     16,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
-    ApiGaussianSplatCloudNode_setAttributesFromPlyRequest_class_data_.base(),
+    ApiGaussianSplatting_setAttributesFromPlyRequest_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // .octaneapi.ObjectRef objectPtr = 1;
+    // .octaneapi.ObjectRef gaussianSplatNode = 1;
     {::_pbi::TcParser::FastMtS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.objectptr_)}},
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.gaussiansplatnode_)}},
     // uint32 numberOfPoints = 2;
     {::_pbi::TcParser::FastV32S1,
-     {16, 15, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.numberofpoints_)}},
+     {16, 15, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.numberofpoints_)}},
     // .octaneapi.FloatArrayT x = 3;
     {::_pbi::TcParser::FastMtS1,
-     {26, 1, 1, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.x_)}},
+     {26, 1, 1, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.x_)}},
     // .octaneapi.FloatArrayT y = 4;
     {::_pbi::TcParser::FastMtS1,
-     {34, 2, 2, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.y_)}},
+     {34, 2, 2, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.y_)}},
     // .octaneapi.FloatArrayT z = 5;
     {::_pbi::TcParser::FastMtS1,
-     {42, 3, 3, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.z_)}},
+     {42, 3, 3, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.z_)}},
     // .octaneapi.FloatArrayT opacity = 6;
     {::_pbi::TcParser::FastMtS1,
-     {50, 4, 4, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.opacity_)}},
+     {50, 4, 4, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.opacity_)}},
     // .octaneapi.FloatArrayT scale0 = 7;
     {::_pbi::TcParser::FastMtS1,
-     {58, 5, 5, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.scale0_)}},
+     {58, 5, 5, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.scale0_)}},
     // .octaneapi.FloatArrayT scale1 = 8;
     {::_pbi::TcParser::FastMtS1,
-     {66, 6, 6, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.scale1_)}},
+     {66, 6, 6, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.scale1_)}},
     // .octaneapi.FloatArrayT scale2 = 9;
     {::_pbi::TcParser::FastMtS1,
-     {74, 7, 7, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.scale2_)}},
+     {74, 7, 7, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.scale2_)}},
     // .octaneapi.FloatArrayT rot0 = 10;
     {::_pbi::TcParser::FastMtS1,
-     {82, 8, 8, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot0_)}},
+     {82, 8, 8, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot0_)}},
     // .octaneapi.FloatArrayT rot1 = 11;
     {::_pbi::TcParser::FastMtS1,
-     {90, 9, 9, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot1_)}},
+     {90, 9, 9, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot1_)}},
     // .octaneapi.FloatArrayT rot2 = 12;
     {::_pbi::TcParser::FastMtS1,
-     {98, 10, 10, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot2_)}},
+     {98, 10, 10, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot2_)}},
     // .octaneapi.FloatArrayT rot3 = 13;
     {::_pbi::TcParser::FastMtS1,
-     {106, 11, 11, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot3_)}},
+     {106, 11, 11, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot3_)}},
     // .octaneapi.FloatArrayT dc0 = 14;
     {::_pbi::TcParser::FastMtS1,
-     {114, 12, 12, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.dc0_)}},
+     {114, 12, 12, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.dc0_)}},
     // .octaneapi.FloatArrayT dc1 = 15;
     {::_pbi::TcParser::FastMtS1,
-     {122, 13, 13, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.dc1_)}},
+     {122, 13, 13, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.dc1_)}},
     // .octaneapi.FloatArrayT dc2 = 16;
     {::_pbi::TcParser::FastMtS2,
-     {386, 14, 14, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.dc2_)}},
+     {386, 14, 14, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.dc2_)}},
     // uint32 numberOfRestAttributes = 17;
     {::_pbi::TcParser::FastV32S2,
-     {392, 16, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.numberofrestattributes_)}},
+     {392, 16, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.numberofrestattributes_)}},
     // repeated .octaneapi.FloatArrayT restAttributePointers = 18;
     {::_pbi::TcParser::FastMtR2,
-     {402, 63, 15, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.restattributepointers_)}},
+     {402, 63, 15, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.restattributepointers_)}},
     // bool evaluate = 19;
     {::_pbi::TcParser::FastV8S2,
-     {408, 17, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.evaluate_)}},
+     {408, 17, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.evaluate_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -1367,62 +1056,62 @@ ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // .octaneapi.ObjectRef objectPtr = 1;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.objectptr_), _Internal::kHasBitsOffset + 0, 0,
+    // .octaneapi.ObjectRef gaussianSplatNode = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.gaussiansplatnode_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // uint32 numberOfPoints = 2;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.numberofpoints_), _Internal::kHasBitsOffset + 15, 0,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.numberofpoints_), _Internal::kHasBitsOffset + 15, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
     // .octaneapi.FloatArrayT x = 3;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.x_), _Internal::kHasBitsOffset + 1, 1,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.x_), _Internal::kHasBitsOffset + 1, 1,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT y = 4;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.y_), _Internal::kHasBitsOffset + 2, 2,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.y_), _Internal::kHasBitsOffset + 2, 2,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT z = 5;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.z_), _Internal::kHasBitsOffset + 3, 3,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.z_), _Internal::kHasBitsOffset + 3, 3,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT opacity = 6;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.opacity_), _Internal::kHasBitsOffset + 4, 4,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.opacity_), _Internal::kHasBitsOffset + 4, 4,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT scale0 = 7;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.scale0_), _Internal::kHasBitsOffset + 5, 5,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.scale0_), _Internal::kHasBitsOffset + 5, 5,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT scale1 = 8;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.scale1_), _Internal::kHasBitsOffset + 6, 6,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.scale1_), _Internal::kHasBitsOffset + 6, 6,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT scale2 = 9;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.scale2_), _Internal::kHasBitsOffset + 7, 7,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.scale2_), _Internal::kHasBitsOffset + 7, 7,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT rot0 = 10;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot0_), _Internal::kHasBitsOffset + 8, 8,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot0_), _Internal::kHasBitsOffset + 8, 8,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT rot1 = 11;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot1_), _Internal::kHasBitsOffset + 9, 9,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot1_), _Internal::kHasBitsOffset + 9, 9,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT rot2 = 12;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot2_), _Internal::kHasBitsOffset + 10, 10,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot2_), _Internal::kHasBitsOffset + 10, 10,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT rot3 = 13;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.rot3_), _Internal::kHasBitsOffset + 11, 11,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.rot3_), _Internal::kHasBitsOffset + 11, 11,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT dc0 = 14;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.dc0_), _Internal::kHasBitsOffset + 12, 12,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.dc0_), _Internal::kHasBitsOffset + 12, 12,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT dc1 = 15;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.dc1_), _Internal::kHasBitsOffset + 13, 13,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.dc1_), _Internal::kHasBitsOffset + 13, 13,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .octaneapi.FloatArrayT dc2 = 16;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.dc2_), _Internal::kHasBitsOffset + 14, 14,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.dc2_), _Internal::kHasBitsOffset + 14, 14,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // uint32 numberOfRestAttributes = 17;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.numberofrestattributes_), _Internal::kHasBitsOffset + 16, 0,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.numberofrestattributes_), _Internal::kHasBitsOffset + 16, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
     // repeated .octaneapi.FloatArrayT restAttributePointers = 18;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.restattributepointers_), -1, 15,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.restattributepointers_), -1, 15,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
     // bool evaluate = 19;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, _impl_.evaluate_), _Internal::kHasBitsOffset + 17, 0,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyRequest, _impl_.evaluate_), _Internal::kHasBitsOffset + 17, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kBool)},
   }},
   {{
@@ -1446,36 +1135,36 @@ ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::_table_ = {
   {{
   }},
 };
-void ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::InternalSwap(ApiGaussianSplatCloudNode_setAttributesFromPlyRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void ApiGaussianSplatting_setAttributesFromPlyRequest::InternalSwap(ApiGaussianSplatting_setAttributesFromPlyRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   GetReflection()->Swap(this, other);}
 
-::google::protobuf::Metadata ApiGaussianSplatCloudNode_setAttributesFromPlyRequest::GetMetadata() const {
+::google::protobuf::Metadata ApiGaussianSplatting_setAttributesFromPlyRequest::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::_Internal {
+class ApiGaussianSplatting_setAttributesFromPlyResponse::_Internal {
  public:
   using HasBits =
-      decltype(::std::declval<ApiGaussianSplatCloudNode_setAttributesFromPlyResponse>()._impl_._has_bits_);
+      decltype(::std::declval<ApiGaussianSplatting_setAttributesFromPlyResponse>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyResponse, _impl_._has_bits_);
 };
 
-ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+ApiGaussianSplatting_setAttributesFromPlyResponse::ApiGaussianSplatting_setAttributesFromPlyResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_class_data_.base()) {
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_setAttributesFromPlyResponse_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatCloudNode.setAttributesFromPlyResponse)
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatting.setAttributesFromPlyResponse)
 }
-ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const ApiGaussianSplatCloudNode_setAttributesFromPlyResponse& from)
+ApiGaussianSplatting_setAttributesFromPlyResponse::ApiGaussianSplatting_setAttributesFromPlyResponse(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const ApiGaussianSplatting_setAttributesFromPlyResponse& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_class_data_.base()),
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_setAttributesFromPlyResponse_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena),
 #endif  // PROTOBUF_CUSTOM_VTABLE
@@ -1483,74 +1172,74 @@ ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::ApiGaussianSplatCloudNod
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
 }
-PROTOBUF_NDEBUG_INLINE ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE ApiGaussianSplatting_setAttributesFromPlyResponse::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0} {}
 
-inline void ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void ApiGaussianSplatting_setAttributesFromPlyResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.result_ = {};
 }
-ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::~ApiGaussianSplatCloudNode_setAttributesFromPlyResponse() {
-  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatCloudNode.setAttributesFromPlyResponse)
+ApiGaussianSplatting_setAttributesFromPlyResponse::~ApiGaussianSplatting_setAttributesFromPlyResponse() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatting.setAttributesFromPlyResponse)
   SharedDtor(*this);
 }
-inline void ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::SharedDtor(MessageLite& self) {
-  ApiGaussianSplatCloudNode_setAttributesFromPlyResponse& this_ = static_cast<ApiGaussianSplatCloudNode_setAttributesFromPlyResponse&>(self);
+inline void ApiGaussianSplatting_setAttributesFromPlyResponse::SharedDtor(MessageLite& self) {
+  ApiGaussianSplatting_setAttributesFromPlyResponse& this_ = static_cast<ApiGaussianSplatting_setAttributesFromPlyResponse&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::PlacementNew_(
+inline void* PROTOBUF_NONNULL ApiGaussianSplatting_setAttributesFromPlyResponse::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) ApiGaussianSplatCloudNode_setAttributesFromPlyResponse(arena);
+  return ::new (mem) ApiGaussianSplatting_setAttributesFromPlyResponse(arena);
 }
-constexpr auto ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatCloudNode_setAttributesFromPlyResponse),
-                                            alignof(ApiGaussianSplatCloudNode_setAttributesFromPlyResponse));
+constexpr auto ApiGaussianSplatting_setAttributesFromPlyResponse::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatting_setAttributesFromPlyResponse),
+                                            alignof(ApiGaussianSplatting_setAttributesFromPlyResponse));
 }
-constexpr auto ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::InternalGenerateClassData_() {
+constexpr auto ApiGaussianSplatting_setAttributesFromPlyResponse::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_default_instance_._instance,
+          &_ApiGaussianSplatting_setAttributesFromPlyResponse_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatCloudNode_setAttributesFromPlyResponse>(),
+          &ApiGaussianSplatting_setAttributesFromPlyResponse::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatting_setAttributesFromPlyResponse>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::SharedDtor,
-          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::ClearImpl),
+          &ApiGaussianSplatting_setAttributesFromPlyResponse::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatting_setAttributesFromPlyResponse::ClearImpl),
               ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
               ,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyResponse, _impl_._cached_size_),
           false,
       },
-      &ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::kDescriptorMethods,
+      &ApiGaussianSplatting_setAttributesFromPlyResponse::kDescriptorMethods,
       &descriptor_table_apigaussiansplatting_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_class_data_ =
-        ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatting_setAttributesFromPlyResponse_class_data_ =
+        ApiGaussianSplatting_setAttributesFromPlyResponse::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_class_data_.tc_table);
-  return ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_class_data_.base();
+ApiGaussianSplatting_setAttributesFromPlyResponse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatting_setAttributesFromPlyResponse_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatting_setAttributesFromPlyResponse_class_data_.tc_table);
+  return ApiGaussianSplatting_setAttributesFromPlyResponse_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::_pbi::TcParseTable<0, 1, 0, 0, 2>
-ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::_table_ = {
+ApiGaussianSplatting_setAttributesFromPlyResponse::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyResponse, _impl_._has_bits_),
     0, // no _extensions_
     1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -1559,110 +1248,414 @@ ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::_table_ = {
     1,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    ApiGaussianSplatCloudNode_setAttributesFromPlyResponse_class_data_.base(),
+    ApiGaussianSplatting_setAttributesFromPlyResponse_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // bool result = 1;
     {::_pbi::TcParser::FastV8S1,
-     {8, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, _impl_.result_)}},
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyResponse, _impl_.result_)}},
   }}, {{
     65535, 65535
   }}, {{
     // bool result = 1;
-    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, _impl_.result_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_setAttributesFromPlyResponse, _impl_.result_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kBool)},
   }},
   // no aux_entries
   {{
   }},
 };
-void ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::InternalSwap(ApiGaussianSplatCloudNode_setAttributesFromPlyResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void ApiGaussianSplatting_setAttributesFromPlyResponse::InternalSwap(ApiGaussianSplatting_setAttributesFromPlyResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   GetReflection()->Swap(this, other);}
 
-::google::protobuf::Metadata ApiGaussianSplatCloudNode_setAttributesFromPlyResponse::GetMetadata() const {
+::google::protobuf::Metadata ApiGaussianSplatting_setAttributesFromPlyResponse::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class ApiGaussianSplatCloudNode::_Internal {
+class ApiGaussianSplatting_exportAsSpzRequest::_Internal {
  public:
+  using HasBits =
+      decltype(::std::declval<ApiGaussianSplatting_exportAsSpzRequest>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzRequest, _impl_._has_bits_);
 };
 
-ApiGaussianSplatCloudNode::ApiGaussianSplatCloudNode(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(arena, ApiGaussianSplatCloudNode_class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatCloudNode)
+void ApiGaussianSplatting_exportAsSpzRequest::clear_gaussiansplatnode() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.gaussiansplatnode_ != nullptr) _impl_.gaussiansplatnode_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
-ApiGaussianSplatCloudNode::ApiGaussianSplatCloudNode(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const ApiGaussianSplatCloudNode& from)
+ApiGaussianSplatting_exportAsSpzRequest::ApiGaussianSplatting_exportAsSpzRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::internal::ZeroFieldsBase(arena, ApiGaussianSplatCloudNode_class_data_.base()) {
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_exportAsSpzRequest_class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+    : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  ApiGaussianSplatCloudNode* const _this = this;
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatting.exportAsSpzRequest)
+}
+PROTOBUF_NDEBUG_INLINE ApiGaussianSplatting_exportAsSpzRequest::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        filename_(arena, from.filename_) {}
+
+ApiGaussianSplatting_exportAsSpzRequest::ApiGaussianSplatting_exportAsSpzRequest(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const ApiGaussianSplatting_exportAsSpzRequest& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_exportAsSpzRequest_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ApiGaussianSplatting_exportAsSpzRequest* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.gaussiansplatnode_ = ((cached_has_bits & 0x00000002u) != 0)
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.gaussiansplatnode_)
+                : nullptr;
 
-  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatCloudNode)
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatting.exportAsSpzRequest)
+}
+PROTOBUF_NDEBUG_INLINE ApiGaussianSplatting_exportAsSpzRequest::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        filename_(arena) {}
+
+inline void ApiGaussianSplatting_exportAsSpzRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.gaussiansplatnode_ = {};
+}
+ApiGaussianSplatting_exportAsSpzRequest::~ApiGaussianSplatting_exportAsSpzRequest() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatting.exportAsSpzRequest)
+  SharedDtor(*this);
+}
+inline void ApiGaussianSplatting_exportAsSpzRequest::SharedDtor(MessageLite& self) {
+  ApiGaussianSplatting_exportAsSpzRequest& this_ = static_cast<ApiGaussianSplatting_exportAsSpzRequest&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.filename_.Destroy();
+  delete this_._impl_.gaussiansplatnode_;
+  this_._impl_.~Impl_();
 }
 
-inline void* PROTOBUF_NONNULL ApiGaussianSplatCloudNode::PlacementNew_(
+inline void* PROTOBUF_NONNULL ApiGaussianSplatting_exportAsSpzRequest::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) ApiGaussianSplatCloudNode(arena);
+  return ::new (mem) ApiGaussianSplatting_exportAsSpzRequest(arena);
 }
-constexpr auto ApiGaussianSplatCloudNode::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatCloudNode),
-                                            alignof(ApiGaussianSplatCloudNode));
+constexpr auto ApiGaussianSplatting_exportAsSpzRequest::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(ApiGaussianSplatting_exportAsSpzRequest),
+                                            alignof(ApiGaussianSplatting_exportAsSpzRequest));
 }
-constexpr auto ApiGaussianSplatCloudNode::InternalGenerateClassData_() {
+constexpr auto ApiGaussianSplatting_exportAsSpzRequest::InternalGenerateClassData_() {
   return ::google::protobuf::internal::ClassDataFull{
       ::google::protobuf::internal::ClassData{
-          &_ApiGaussianSplatCloudNode_default_instance_._instance,
+          &_ApiGaussianSplatting_exportAsSpzRequest_default_instance_._instance,
           &_table_.header,
           nullptr,  // OnDemandRegisterArenaDtor
           nullptr,  // IsInitialized
-          &ApiGaussianSplatCloudNode::MergeImpl,
-          ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<ApiGaussianSplatCloudNode>(),
+          &ApiGaussianSplatting_exportAsSpzRequest::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatting_exportAsSpzRequest>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &ApiGaussianSplatCloudNode::SharedDtor,
-          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatCloudNode::ClearImpl),
-              ::google::protobuf::internal::ZeroFieldsBase::ByteSizeLongImpl, ::google::protobuf::internal::ZeroFieldsBase::_InternalSerializeImpl
+          &ApiGaussianSplatting_exportAsSpzRequest::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatting_exportAsSpzRequest::ClearImpl),
+              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
               ,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatCloudNode, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzRequest, _impl_._cached_size_),
           false,
       },
-      &ApiGaussianSplatCloudNode::kDescriptorMethods,
+      &ApiGaussianSplatting_exportAsSpzRequest::kDescriptorMethods,
       &descriptor_table_apigaussiansplatting_2eproto,
       nullptr,  // tracker
   };
 }
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatCloudNode_class_data_ =
-        ApiGaussianSplatCloudNode::InternalGenerateClassData_();
+    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatting_exportAsSpzRequest_class_data_ =
+        ApiGaussianSplatting_exportAsSpzRequest::InternalGenerateClassData_();
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-ApiGaussianSplatCloudNode::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatCloudNode_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatCloudNode_class_data_.tc_table);
-  return ApiGaussianSplatCloudNode_class_data_.base();
+ApiGaussianSplatting_exportAsSpzRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatting_exportAsSpzRequest_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatting_exportAsSpzRequest_class_data_.tc_table);
+  return ApiGaussianSplatting_exportAsSpzRequest_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 1, 66, 2>
+ApiGaussianSplatting_exportAsSpzRequest::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzRequest, _impl_._has_bits_),
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    ApiGaussianSplatting_exportAsSpzRequest_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatting_exportAsSpzRequest>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // string fileName = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzRequest, _impl_.filename_)}},
+    // .octaneapi.ObjectRef gaussianSplatNode = 1;
+    {::_pbi::TcParser::FastMtS1,
+     {10, 1, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzRequest, _impl_.gaussiansplatnode_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // .octaneapi.ObjectRef gaussianSplatNode = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzRequest, _impl_.gaussiansplatnode_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // string fileName = 2;
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzRequest, _impl_.filename_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::octaneapi::ObjectRef>()},
+  }},
+  {{
+    "\61\0\10\0\0\0\0\0"
+    "octaneapi.ApiGaussianSplatting.exportAsSpzRequest"
+    "fileName"
+  }},
+};
+void ApiGaussianSplatting_exportAsSpzRequest::InternalSwap(ApiGaussianSplatting_exportAsSpzRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  GetReflection()->Swap(this, other);}
+
+::google::protobuf::Metadata ApiGaussianSplatting_exportAsSpzRequest::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ApiGaussianSplatting_exportAsSpzResponse::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<ApiGaussianSplatting_exportAsSpzResponse>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzResponse, _impl_._has_bits_);
+};
+
+ApiGaussianSplatting_exportAsSpzResponse::ApiGaussianSplatting_exportAsSpzResponse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_exportAsSpzResponse_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatting.exportAsSpzResponse)
+}
+ApiGaussianSplatting_exportAsSpzResponse::ApiGaussianSplatting_exportAsSpzResponse(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const ApiGaussianSplatting_exportAsSpzResponse& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, ApiGaussianSplatting_exportAsSpzResponse_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(from._impl_) {
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+PROTOBUF_NDEBUG_INLINE ApiGaussianSplatting_exportAsSpzResponse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0} {}
+
+inline void ApiGaussianSplatting_exportAsSpzResponse::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.result_ = {};
+}
+ApiGaussianSplatting_exportAsSpzResponse::~ApiGaussianSplatting_exportAsSpzResponse() {
+  // @@protoc_insertion_point(destructor:octaneapi.ApiGaussianSplatting.exportAsSpzResponse)
+  SharedDtor(*this);
+}
+inline void ApiGaussianSplatting_exportAsSpzResponse::SharedDtor(MessageLite& self) {
+  ApiGaussianSplatting_exportAsSpzResponse& this_ = static_cast<ApiGaussianSplatting_exportAsSpzResponse&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL ApiGaussianSplatting_exportAsSpzResponse::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) ApiGaussianSplatting_exportAsSpzResponse(arena);
+}
+constexpr auto ApiGaussianSplatting_exportAsSpzResponse::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatting_exportAsSpzResponse),
+                                            alignof(ApiGaussianSplatting_exportAsSpzResponse));
+}
+constexpr auto ApiGaussianSplatting_exportAsSpzResponse::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_ApiGaussianSplatting_exportAsSpzResponse_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &ApiGaussianSplatting_exportAsSpzResponse::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<ApiGaussianSplatting_exportAsSpzResponse>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &ApiGaussianSplatting_exportAsSpzResponse::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatting_exportAsSpzResponse::ClearImpl),
+              ::google::protobuf::Message::ByteSizeLongImpl, ::google::protobuf::Message::_InternalSerializeImpl
+              ,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzResponse, _impl_._cached_size_),
+          false,
+      },
+      &ApiGaussianSplatting_exportAsSpzResponse::kDescriptorMethods,
+      &descriptor_table_apigaussiansplatting_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatting_exportAsSpzResponse_class_data_ =
+        ApiGaussianSplatting_exportAsSpzResponse::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+ApiGaussianSplatting_exportAsSpzResponse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatting_exportAsSpzResponse_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatting_exportAsSpzResponse_class_data_.tc_table);
+  return ApiGaussianSplatting_exportAsSpzResponse_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2>
+ApiGaussianSplatting_exportAsSpzResponse::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzResponse, _impl_._has_bits_),
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    ApiGaussianSplatting_exportAsSpzResponse_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatting_exportAsSpzResponse>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // bool result = 1;
+    {::_pbi::TcParser::FastV8S1,
+     {8, 0, 0, PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzResponse, _impl_.result_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // bool result = 1;
+    {PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting_exportAsSpzResponse, _impl_.result_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+void ApiGaussianSplatting_exportAsSpzResponse::InternalSwap(ApiGaussianSplatting_exportAsSpzResponse* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  GetReflection()->Swap(this, other);}
+
+::google::protobuf::Metadata ApiGaussianSplatting_exportAsSpzResponse::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ApiGaussianSplatting::_Internal {
+ public:
+};
+
+ApiGaussianSplatting::ApiGaussianSplatting(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, ApiGaussianSplatting_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:octaneapi.ApiGaussianSplatting)
+}
+ApiGaussianSplatting::ApiGaussianSplatting(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const ApiGaussianSplatting& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, ApiGaussianSplatting_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ApiGaussianSplatting* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:octaneapi.ApiGaussianSplatting)
+}
+
+inline void* PROTOBUF_NONNULL ApiGaussianSplatting::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) ApiGaussianSplatting(arena);
+}
+constexpr auto ApiGaussianSplatting::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ApiGaussianSplatting),
+                                            alignof(ApiGaussianSplatting));
+}
+constexpr auto ApiGaussianSplatting::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_ApiGaussianSplatting_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &ApiGaussianSplatting::MergeImpl,
+          ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<ApiGaussianSplatting>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &ApiGaussianSplatting::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&ApiGaussianSplatting::ClearImpl),
+              ::google::protobuf::internal::ZeroFieldsBase::ByteSizeLongImpl, ::google::protobuf::internal::ZeroFieldsBase::_InternalSerializeImpl
+              ,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(ApiGaussianSplatting, _impl_._cached_size_),
+          false,
+      },
+      &ApiGaussianSplatting::kDescriptorMethods,
+      &descriptor_table_apigaussiansplatting_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull ApiGaussianSplatting_class_data_ =
+        ApiGaussianSplatting::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+ApiGaussianSplatting::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&ApiGaussianSplatting_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(ApiGaussianSplatting_class_data_.tc_table);
+  return ApiGaussianSplatting_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::_pbi::TcParseTable<0, 0, 0, 0, 2>
-ApiGaussianSplatCloudNode::_table_ = {
+ApiGaussianSplatting::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
@@ -1673,11 +1666,11 @@ ApiGaussianSplatCloudNode::_table_ = {
     0,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
-    ApiGaussianSplatCloudNode_class_data_.base(),
+    ApiGaussianSplatting_class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatCloudNode>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::octaneapi::ApiGaussianSplatting>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
@@ -1688,7 +1681,7 @@ ApiGaussianSplatCloudNode::_table_ = {
   }},
 };
 
-::google::protobuf::Metadata ApiGaussianSplatCloudNode::GetMetadata() const {
+::google::protobuf::Metadata ApiGaussianSplatting::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

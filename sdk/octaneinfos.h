@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #pragma once
 
@@ -24,6 +24,15 @@ struct ApiNodeGraphInfo
     /// The output type that is created by default.
     NodePinType   mOutType;
     /// The category name that is used to group/sort this graph type.
+    ///
+    /// If mIsHidden is true, this does not contain any '|' characters. If mIsHidden is false, this
+    /// starts with a '|' character, and may contain more '|' characters to separate subcategory
+    /// path components.
+    ///
+    /// Each subcategory path component (or the entire category name if there are no '|' characters)
+    /// may include a prefix (that starts and ends with '!') for sorting purposes. This prefix
+    /// should be kept for any alphabetical sorting operations, but must be removed using
+    /// removeCategorySortPrefix before displaying the string anywhere user-visible.
     const char *  mCategory;
     /// The default name of a graph of this type.
     const char *  mDefaultName;
@@ -279,7 +288,7 @@ struct ApiTextureNodeTypeInfo
             TextureValueType   mOutputValueType;
             /// The resolved texture value type of each of the node's texture pins
             TextureValueType * mInputValueTypes;
-            /// The pin ids of the the node's texture pins, corresponding to the input value types
+            /// The pin ids of the node's texture pins, corresponding to the input value types
             PinId            * mInputPinIds;
             /// The number of typed texture pins in the texture node
             uint32_t           mInputPinCount;
@@ -392,6 +401,15 @@ struct ApiNodeInfo
     /// TRUE if the node outputs a texture and has typed texture output and/or inputs, FALSE otherwise
     bool         mIsTypedTextureNode;
     /// The category name that is used to group/sort this node type.
+    ///
+    /// If mIsHidden is true, this does not contain any '|' characters. If mIsHidden is false, this
+    /// starts with a '|' character, and may contain more '|' characters to separate subcategory
+    /// path components.
+    ///
+    /// Each subcategory path component (or the entire category name if there are no '|' characters)
+    /// may include a prefix (that starts and ends with '!') for sorting purposes. This prefix
+    /// should be kept for any alphabetical sorting operations, but must be removed using
+    /// removeCategorySortPrefix before displaying the string anywhere user-visible.
     const char * mCategory;
     /// The default name of a node of this type.
     const char * mDefaultName;
@@ -791,5 +809,22 @@ struct ApiNodePinInfo
         return ((version >= mMinVersion) && (version < mEndVersion));
     }
 };
+
+
+/// Removes any sort prefix from a category name, to produce the raw string to display. This is a
+/// no-op if the given category name doesn't contain any sort prefix.
+///
+/// This function returns the category string unchanged if the log flag showCategorySortPrefixes is
+/// enabled.
+///
+/// @param category
+///     The category string. May be empty. May be null.
+/// @return
+///     The same category string that was given, unless it's non-null, starts with a '!' character
+///     and contains another '!' character (somewhere before next '|' character if there is one). In
+///     that case, the returned pointer points into the same array but advanced to the character
+///     after the second '!'.
+OCTANEAPI_DECL const char * removeCategorySortPrefix(
+    const char * category);
 
 }   // namespace Octane

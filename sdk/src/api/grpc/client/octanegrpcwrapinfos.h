@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef OCTANE_WRAP_MODULE_NODE_GRAPH_H
 #define OCTANE_WRAP_MODULE_NODE_GRAPH_H 1

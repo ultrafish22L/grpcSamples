@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef _API_NODE_SYSTEM_H_
 #define _API_NODE_SYSTEM_H_ 1

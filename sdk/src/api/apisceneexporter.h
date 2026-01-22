@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef APISCENEEXPORTER_H
 #define APISCENEEXPORTER_H  1

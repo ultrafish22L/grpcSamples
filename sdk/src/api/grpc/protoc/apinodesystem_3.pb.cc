@@ -3372,6 +3372,7 @@ inline constexpr ApiItem_setValueByNameRequest::Impl_::Impl_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
         item_ref_{nullptr},
+        evaluate_{false},
         value_{},
         _oneof_case_{} {}
 
@@ -3400,6 +3401,7 @@ inline constexpr ApiItem_setValueByIxRequest::Impl_::Impl_(
       : _cached_size_{0},
         item_ref_{nullptr},
         index_{0u},
+        evaluate_{false},
         value_{},
         _oneof_case_{} {}
 
@@ -3428,6 +3430,7 @@ inline constexpr ApiItem_setValueByIDRequest::Impl_::Impl_(
       : _cached_size_{0},
         item_ref_{nullptr},
         attribute_id_{static_cast< ::octaneapi::AttributeId >(0)},
+        evaluate_{false},
         value_{},
         _oneof_case_{} {}
 
@@ -3559,6 +3562,7 @@ inline constexpr ApiItem_setArrayByNameRequest::Impl_::Impl_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
         item_ref_{nullptr},
+        evaluate_{false},
         array_value_{},
         _oneof_case_{} {}
 
@@ -3587,6 +3591,7 @@ inline constexpr ApiItem_setArrayByIxRequest::Impl_::Impl_(
       : _cached_size_{0},
         item_ref_{nullptr},
         index_{0u},
+        evaluate_{false},
         array_value_{},
         _oneof_case_{} {}
 
@@ -3615,6 +3620,7 @@ inline constexpr ApiItem_setArrayByIDRequest::Impl_::Impl_(
       : _cached_size_{0},
         item_ref_{nullptr},
         attribute_id_{static_cast< ::octaneapi::AttributeId >(0)},
+        evaluate_{false},
         array_value_{},
         _oneof_case_{} {}
 
@@ -4683,9 +4689,10 @@ const ::uint32_t
         0x085, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIDRequest, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIDRequest, _impl_._oneof_case_[0]),
-        21, // hasbit index offset
+        22, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIDRequest, _impl_.item_ref_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIDRequest, _impl_.attribute_id_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIDRequest, _impl_.evaluate_),
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -4703,6 +4710,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIDRequest, _impl_.array_value_),
         0,
         1,
+        2,
         ~0u,
         ~0u,
         ~0u,
@@ -4720,9 +4728,10 @@ const ::uint32_t
         0x085, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIxRequest, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIxRequest, _impl_._oneof_case_[0]),
-        21, // hasbit index offset
+        22, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIxRequest, _impl_.item_ref_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIxRequest, _impl_.index_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIxRequest, _impl_.evaluate_),
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -4740,6 +4749,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByIxRequest, _impl_.array_value_),
         0,
         1,
+        2,
         ~0u,
         ~0u,
         ~0u,
@@ -4757,9 +4767,10 @@ const ::uint32_t
         0x085, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByNameRequest, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByNameRequest, _impl_._oneof_case_[0]),
-        21, // hasbit index offset
+        22, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByNameRequest, _impl_.item_ref_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByNameRequest, _impl_.name_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByNameRequest, _impl_.evaluate_),
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -4777,6 +4788,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setArrayByNameRequest, _impl_.array_value_),
         1,
         0,
+        2,
         ~0u,
         ~0u,
         ~0u,
@@ -4822,9 +4834,10 @@ const ::uint32_t
         0x085, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIDRequest, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIDRequest, _impl_._oneof_case_[0]),
-        20, // hasbit index offset
+        21, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIDRequest, _impl_.item_ref_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIDRequest, _impl_.attribute_id_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIDRequest, _impl_.evaluate_),
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -4841,6 +4854,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIDRequest, _impl_.value_),
         0,
         1,
+        2,
         ~0u,
         ~0u,
         ~0u,
@@ -4857,9 +4871,10 @@ const ::uint32_t
         0x085, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIxRequest, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIxRequest, _impl_._oneof_case_[0]),
-        20, // hasbit index offset
+        21, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIxRequest, _impl_.item_ref_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIxRequest, _impl_.index_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIxRequest, _impl_.evaluate_),
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -4876,6 +4891,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByIxRequest, _impl_.value_),
         0,
         1,
+        2,
         ~0u,
         ~0u,
         ~0u,
@@ -4892,9 +4908,10 @@ const ::uint32_t
         0x085, // bitmap
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByNameRequest, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByNameRequest, _impl_._oneof_case_[0]),
-        20, // hasbit index offset
+        21, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByNameRequest, _impl_.item_ref_),
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByNameRequest, _impl_.name_),
+        PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByNameRequest, _impl_.evaluate_),
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -4911,6 +4928,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::octaneapi::ApiItem_setValueByNameRequest, _impl_.value_),
         1,
         0,
+        2,
         ~0u,
         ~0u,
         ~0u,
@@ -5139,34 +5157,34 @@ static const ::_pbi::MigrationSchema
         {800, sizeof(::octaneapi::ApiItem_setAnimByIxRequest)},
         {843, sizeof(::octaneapi::ApiItem_setAnimByNameRequest)},
         {886, sizeof(::octaneapi::ApiItem_setArrayByIDRequest)},
-        {923, sizeof(::octaneapi::ApiItem_setArrayByIxRequest)},
-        {960, sizeof(::octaneapi::ApiItem_setArrayByNameRequest)},
-        {997, sizeof(::octaneapi::ApiItem_setArrayResponse)},
-        {1004, sizeof(::octaneapi::ApiItem_setNameRequest)},
-        {1011, sizeof(::octaneapi::ApiItem_setPositionRequest)},
-        {1018, sizeof(::octaneapi::ApiItem_setUIOperationFlagsRequest)},
-        {1025, sizeof(::octaneapi::ApiItem_setValueByIDRequest)},
-        {1060, sizeof(::octaneapi::ApiItem_setValueByIxRequest)},
-        {1095, sizeof(::octaneapi::ApiItem_setValueByNameRequest)},
-        {1130, sizeof(::octaneapi::ApiItem_setValueResponse)},
-        {1137, sizeof(::octaneapi::ApiItem_switchToFileDataRequest)},
-        {1144, sizeof(::octaneapi::ApiItem_timeRequest)},
-        {1149, sizeof(::octaneapi::ApiItem_timeResponse)},
-        {1154, sizeof(::octaneapi::ApiItem_toGraph1Request)},
-        {1159, sizeof(::octaneapi::ApiItem_toGraph1Response)},
-        {1164, sizeof(::octaneapi::ApiItem_toGraphRequest)},
-        {1169, sizeof(::octaneapi::ApiItem_toGraphResponse)},
-        {1174, sizeof(::octaneapi::ApiItem_toNode1Request)},
-        {1179, sizeof(::octaneapi::ApiItem_toNode1Response)},
-        {1184, sizeof(::octaneapi::ApiItem_toNodeRequest)},
-        {1189, sizeof(::octaneapi::ApiItem_toNodeResponse)},
-        {1194, sizeof(::octaneapi::ApiItem_uiOperationFlagsRequest)},
-        {1199, sizeof(::octaneapi::ApiItem_uiOperationFlagsResponse)},
-        {1204, sizeof(::octaneapi::ApiItem_uniqueIdRequest)},
-        {1209, sizeof(::octaneapi::ApiItem_uniqueIdResponse)},
-        {1214, sizeof(::octaneapi::ApiItem_versionRequest)},
-        {1219, sizeof(::octaneapi::ApiItem_versionResponse)},
-        {1224, sizeof(::octaneapi::ApiItem)},
+        {925, sizeof(::octaneapi::ApiItem_setArrayByIxRequest)},
+        {964, sizeof(::octaneapi::ApiItem_setArrayByNameRequest)},
+        {1003, sizeof(::octaneapi::ApiItem_setArrayResponse)},
+        {1010, sizeof(::octaneapi::ApiItem_setNameRequest)},
+        {1017, sizeof(::octaneapi::ApiItem_setPositionRequest)},
+        {1024, sizeof(::octaneapi::ApiItem_setUIOperationFlagsRequest)},
+        {1031, sizeof(::octaneapi::ApiItem_setValueByIDRequest)},
+        {1068, sizeof(::octaneapi::ApiItem_setValueByIxRequest)},
+        {1105, sizeof(::octaneapi::ApiItem_setValueByNameRequest)},
+        {1142, sizeof(::octaneapi::ApiItem_setValueResponse)},
+        {1149, sizeof(::octaneapi::ApiItem_switchToFileDataRequest)},
+        {1156, sizeof(::octaneapi::ApiItem_timeRequest)},
+        {1161, sizeof(::octaneapi::ApiItem_timeResponse)},
+        {1166, sizeof(::octaneapi::ApiItem_toGraph1Request)},
+        {1171, sizeof(::octaneapi::ApiItem_toGraph1Response)},
+        {1176, sizeof(::octaneapi::ApiItem_toGraphRequest)},
+        {1181, sizeof(::octaneapi::ApiItem_toGraphResponse)},
+        {1186, sizeof(::octaneapi::ApiItem_toNode1Request)},
+        {1191, sizeof(::octaneapi::ApiItem_toNode1Response)},
+        {1196, sizeof(::octaneapi::ApiItem_toNodeRequest)},
+        {1201, sizeof(::octaneapi::ApiItem_toNodeResponse)},
+        {1206, sizeof(::octaneapi::ApiItem_uiOperationFlagsRequest)},
+        {1211, sizeof(::octaneapi::ApiItem_uiOperationFlagsResponse)},
+        {1216, sizeof(::octaneapi::ApiItem_uniqueIdRequest)},
+        {1221, sizeof(::octaneapi::ApiItem_uniqueIdResponse)},
+        {1226, sizeof(::octaneapi::ApiItem_versionRequest)},
+        {1231, sizeof(::octaneapi::ApiItem_versionResponse)},
+        {1236, sizeof(::octaneapi::ApiItem)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::octaneapi::_ApiItem_attrAreDirtyRequest_default_instance_._instance,
@@ -5319,7 +5337,7 @@ const char descriptor_table_protodef_apinodesystem_5f3_2eproto[] ABSL_ATTRIBUTE_
     "\n\025apinodesystem_3.proto\022\toctaneapi\032\014comm"
     "on.proto\032\033google/protobuf/empty.proto\032\025a"
     "pitimesampling.proto\032\017octaneids.proto\032\021o"
-    "ctaneinfos.proto\"\213\215\001\n\007ApiItem\032>\n\023attrAre"
+    "ctaneinfos.proto\"\343\216\001\n\007ApiItem\032>\n\023attrAre"
     "DirtyRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octane"
     "api.ObjectRef\032&\n\024attrAreDirtyResponse\022\016\n"
     "\006result\030\001 \001(\010\032;\n\020attrCountRequest\022\'\n\tobj"
@@ -5638,102 +5656,78 @@ const char descriptor_table_protodef_apinodesystem_5f3_2eproto[] ABSL_ATTRIBUTE_
     "\0132\027.octaneapi.StringArrayTH\000\022+\n\nbyte_arr"
     "ay\030\027 \001(\0132\025.octaneapi.ByteArrayTH\000B\r\n\013arr"
     "ay_valueB\023\n\021_num_time_samplesB\013\n\t_evalua"
-    "te\032\206\006\n\023setArrayByIDRequest\022&\n\010item_ref\030\001"
+    "te\032\252\006\n\023setArrayByIDRequest\022&\n\010item_ref\030\001"
     " \001(\0132\024.octaneapi.ObjectRef\022,\n\014attribute_"
-    "id\030\002 \001(\0162\026.octaneapi.AttributeId\022+\n\nbool"
-    "_array\030\n \001(\0132\025.octaneapi.BoolArrayTH\000\022)\n"
-    "\tint_array\030\013 \001(\0132\024.octaneapi.IntArrayTH\000"
-    "\022+\n\nint2_array\030\014 \001(\0132\025.octaneapi.Int2Arr"
-    "ayTH\000\022+\n\nint3_array\030\r \001(\0132\025.octaneapi.In"
-    "t3ArrayTH\000\022+\n\nint4_array\030\016 \001(\0132\025.octanea"
-    "pi.Int4ArrayTH\000\022+\n\nlong_array\030\017 \001(\0132\025.oc"
-    "taneapi.LongArrayTH\000\022-\n\013long2_array\030\020 \001("
-    "\0132\026.octaneapi.Long2ArrayTH\000\022-\n\013float_arr"
-    "ay\030\021 \001(\0132\026.octaneapi.FloatArrayTH\000\022/\n\014fl"
-    "oat2_array\030\022 \001(\0132\027.octaneapi.Float2Array"
-    "TH\000\022/\n\014float3_array\030\023 \001(\0132\027.octaneapi.Fl"
-    "oat3ArrayTH\000\022/\n\014float4_array\030\024 \001(\0132\027.oct"
-    "aneapi.Float4ArrayTH\000\022/\n\014matrix_array\030\025 "
-    "\001(\0132\027.octaneapi.MatrixArrayTH\000\022/\n\014string"
-    "_array\030\026 \001(\0132\027.octaneapi.StringArrayTH\000\022"
-    "+\n\nbyte_array\030\027 \001(\0132\025.octaneapi.ByteArra"
-    "yTH\000B\r\n\013array_value\032\347\005\n\023setArrayByIxRequ"
-    "est\022&\n\010item_ref\030\001 \001(\0132\024.octaneapi.Object"
-    "Ref\022\r\n\005index\030\002 \001(\r\022+\n\nbool_array\030\n \001(\0132\025"
-    ".octaneapi.BoolArrayTH\000\022)\n\tint_array\030\013 \001"
-    "(\0132\024.octaneapi.IntArrayTH\000\022+\n\nint2_array"
-    "\030\014 \001(\0132\025.octaneapi.Int2ArrayTH\000\022+\n\nint3_"
-    "array\030\r \001(\0132\025.octaneapi.Int3ArrayTH\000\022+\n\n"
-    "int4_array\030\016 \001(\0132\025.octaneapi.Int4ArrayTH"
-    "\000\022+\n\nlong_array\030\017 \001(\0132\025.octaneapi.LongAr"
-    "rayTH\000\022-\n\013long2_array\030\020 \001(\0132\026.octaneapi."
-    "Long2ArrayTH\000\022-\n\013float_array\030\021 \001(\0132\026.oct"
-    "aneapi.FloatArrayTH\000\022/\n\014float2_array\030\022 \001"
-    "(\0132\027.octaneapi.Float2ArrayTH\000\022/\n\014float3_"
-    "array\030\023 \001(\0132\027.octaneapi.Float3ArrayTH\000\022/"
-    "\n\014float4_array\030\024 \001(\0132\027.octaneapi.Float4A"
-    "rrayTH\000\022/\n\014matrix_array\030\025 \001(\0132\027.octaneap"
-    "i.MatrixArrayTH\000\022/\n\014string_array\030\026 \001(\0132\027"
-    ".octaneapi.StringArrayTH\000\022+\n\nbyte_array\030"
-    "\027 \001(\0132\025.octaneapi.ByteArrayTH\000B\r\n\013array_"
-    "value\032\350\005\n\025setArrayByNameRequest\022&\n\010item_"
-    "ref\030\001 \001(\0132\024.octaneapi.ObjectRef\022\014\n\004name\030"
-    "\002 \001(\t\022+\n\nbool_array\030\n \001(\0132\025.octaneapi.Bo"
-    "olArrayTH\000\022)\n\tint_array\030\013 \001(\0132\024.octaneap"
-    "i.IntArrayTH\000\022+\n\nint2_array\030\014 \001(\0132\025.octa"
-    "neapi.Int2ArrayTH\000\022+\n\nint3_array\030\r \001(\0132\025"
-    ".octaneapi.Int3ArrayTH\000\022+\n\nint4_array\030\016 "
-    "\001(\0132\025.octaneapi.Int4ArrayTH\000\022+\n\nlong_arr"
-    "ay\030\017 \001(\0132\025.octaneapi.LongArrayTH\000\022-\n\013lon"
-    "g2_array\030\020 \001(\0132\026.octaneapi.Long2ArrayTH\000"
-    "\022-\n\013float_array\030\021 \001(\0132\026.octaneapi.FloatA"
-    "rrayTH\000\022/\n\014float2_array\030\022 \001(\0132\027.octaneap"
-    "i.Float2ArrayTH\000\022/\n\014float3_array\030\023 \001(\0132\027"
-    ".octaneapi.Float3ArrayTH\000\022/\n\014float4_arra"
-    "y\030\024 \001(\0132\027.octaneapi.Float4ArrayTH\000\022/\n\014ma"
-    "trix_array\030\025 \001(\0132\027.octaneapi.MatrixArray"
-    "TH\000\022/\n\014string_array\030\026 \001(\0132\027.octaneapi.St"
-    "ringArrayTH\000\022+\n\nbyte_array\030\027 \001(\0132\025.octan"
-    "eapi.ByteArrayTH\000B\r\n\013array_value\032:\n\020setA"
-    "rrayResponse\022\017\n\007success\030\001 \001(\010\022\025\n\rerror_m"
-    "essage\030\002 \001(\t\032G\n\016setNameRequest\022\'\n\tobject"
-    "Ptr\030\001 \001(\0132\024.octaneapi.ObjectRef\022\014\n\004name\030"
-    "\002 \001(\t\032a\n\022setPositionRequest\022\'\n\tobjectPtr"
-    "\030\001 \001(\0132\024.octaneapi.ObjectRef\022\"\n\006newPos\030\002"
-    " \001(\0132\022.octaneapi.float_2\032g\n\032setUIOperati"
-    "onFlagsRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octa"
-    "neapi.ObjectRef\022 \n\005flags\030\002 \001(\0132\021.octanea"
-    "pi.enum_t\032\275\004\n\023setValueByIDRequest\022&\n\010ite"
-    "m_ref\030\001 \001(\0132\024.octaneapi.ObjectRef\022,\n\014att"
-    "ribute_id\030\002 \001(\0162\026.octaneapi.AttributeId\022"
-    "\024\n\nbool_value\030\n \001(\010H\000\022\023\n\tint_value\030\013 \001(\005"
-    "H\000\022(\n\nint2_value\030\014 \001(\0132\022.octaneapi.int32"
-    "_2H\000\022(\n\nint3_value\030\r \001(\0132\022.octaneapi.int"
-    "32_3H\000\022(\n\nint4_value\030\016 \001(\0132\022.octaneapi.i"
-    "nt32_4H\000\022\024\n\nlong_value\030\017 \001(\003H\000\022)\n\013long2_"
-    "value\030\020 \001(\0132\022.octaneapi.int64_2H\000\022\025\n\013flo"
-    "at_value\030\021 \001(\002H\000\022*\n\014float2_value\030\022 \001(\0132\022"
-    ".octaneapi.float_2H\000\022*\n\014float3_value\030\023 \001"
-    "(\0132\022.octaneapi.float_3H\000\022*\n\014float4_value"
-    "\030\024 \001(\0132\022.octaneapi.float_4H\000\022*\n\014matrix_v"
-    "alue\030\025 \001(\0132\022.octaneapi.MatrixFH\000\022\026\n\014stri"
-    "ng_value\030\026 \001(\tH\000B\007\n\005value\032\236\004\n\023setValueBy"
-    "IxRequest\022&\n\010item_ref\030\001 \001(\0132\024.octaneapi."
-    "ObjectRef\022\r\n\005index\030\002 \001(\r\022\024\n\nbool_value\030\n"
-    " \001(\010H\000\022\023\n\tint_value\030\013 \001(\005H\000\022(\n\nint2_valu"
-    "e\030\014 \001(\0132\022.octaneapi.int32_2H\000\022(\n\nint3_va"
-    "lue\030\r \001(\0132\022.octaneapi.int32_3H\000\022(\n\nint4_"
-    "value\030\016 \001(\0132\022.octaneapi.int32_4H\000\022\024\n\nlon"
-    "g_value\030\017 \001(\003H\000\022)\n\013long2_value\030\020 \001(\0132\022.o"
-    "ctaneapi.int64_2H\000\022\025\n\013float_value\030\021 \001(\002H"
-    "\000\022*\n\014float2_value\030\022 \001(\0132\022.octaneapi.floa"
-    "t_2H\000\022*\n\014float3_value\030\023 \001(\0132\022.octaneapi."
-    "float_3H\000\022*\n\014float4_value\030\024 \001(\0132\022.octane"
-    "api.float_4H\000\022*\n\014matrix_value\030\025 \001(\0132\022.oc"
-    "taneapi.MatrixFH\000\022\026\n\014string_value\030\026 \001(\tH"
-    "\000B\007\n\005value\032\237\004\n\025setValueByNameRequest\022&\n\010"
-    "item_ref\030\001 \001(\0132\024.octaneapi.ObjectRef\022\014\n\004"
-    "name\030\002 \001(\t\022\024\n\nbool_value\030\n \001(\010H\000\022\023\n\tint_"
+    "id\030\002 \001(\0162\026.octaneapi.AttributeId\022\025\n\010eval"
+    "uate\030\003 \001(\010H\001\210\001\001\022+\n\nbool_array\030\n \001(\0132\025.oc"
+    "taneapi.BoolArrayTH\000\022)\n\tint_array\030\013 \001(\0132"
+    "\024.octaneapi.IntArrayTH\000\022+\n\nint2_array\030\014 "
+    "\001(\0132\025.octaneapi.Int2ArrayTH\000\022+\n\nint3_arr"
+    "ay\030\r \001(\0132\025.octaneapi.Int3ArrayTH\000\022+\n\nint"
+    "4_array\030\016 \001(\0132\025.octaneapi.Int4ArrayTH\000\022+"
+    "\n\nlong_array\030\017 \001(\0132\025.octaneapi.LongArray"
+    "TH\000\022-\n\013long2_array\030\020 \001(\0132\026.octaneapi.Lon"
+    "g2ArrayTH\000\022-\n\013float_array\030\021 \001(\0132\026.octane"
+    "api.FloatArrayTH\000\022/\n\014float2_array\030\022 \001(\0132"
+    "\027.octaneapi.Float2ArrayTH\000\022/\n\014float3_arr"
+    "ay\030\023 \001(\0132\027.octaneapi.Float3ArrayTH\000\022/\n\014f"
+    "loat4_array\030\024 \001(\0132\027.octaneapi.Float4Arra"
+    "yTH\000\022/\n\014matrix_array\030\025 \001(\0132\027.octaneapi.M"
+    "atrixArrayTH\000\022/\n\014string_array\030\026 \001(\0132\027.oc"
+    "taneapi.StringArrayTH\000\022+\n\nbyte_array\030\027 \001"
+    "(\0132\025.octaneapi.ByteArrayTH\000B\r\n\013array_val"
+    "ueB\013\n\t_evaluate\032\213\006\n\023setArrayByIxRequest\022"
+    "&\n\010item_ref\030\001 \001(\0132\024.octaneapi.ObjectRef\022"
+    "\r\n\005index\030\002 \001(\r\022\025\n\010evaluate\030\003 \001(\010H\001\210\001\001\022+\n"
+    "\nbool_array\030\n \001(\0132\025.octaneapi.BoolArrayT"
+    "H\000\022)\n\tint_array\030\013 \001(\0132\024.octaneapi.IntArr"
+    "ayTH\000\022+\n\nint2_array\030\014 \001(\0132\025.octaneapi.In"
+    "t2ArrayTH\000\022+\n\nint3_array\030\r \001(\0132\025.octanea"
+    "pi.Int3ArrayTH\000\022+\n\nint4_array\030\016 \001(\0132\025.oc"
+    "taneapi.Int4ArrayTH\000\022+\n\nlong_array\030\017 \001(\013"
+    "2\025.octaneapi.LongArrayTH\000\022-\n\013long2_array"
+    "\030\020 \001(\0132\026.octaneapi.Long2ArrayTH\000\022-\n\013floa"
+    "t_array\030\021 \001(\0132\026.octaneapi.FloatArrayTH\000\022"
+    "/\n\014float2_array\030\022 \001(\0132\027.octaneapi.Float2"
+    "ArrayTH\000\022/\n\014float3_array\030\023 \001(\0132\027.octanea"
+    "pi.Float3ArrayTH\000\022/\n\014float4_array\030\024 \001(\0132"
+    "\027.octaneapi.Float4ArrayTH\000\022/\n\014matrix_arr"
+    "ay\030\025 \001(\0132\027.octaneapi.MatrixArrayTH\000\022/\n\014s"
+    "tring_array\030\026 \001(\0132\027.octaneapi.StringArra"
+    "yTH\000\022+\n\nbyte_array\030\027 \001(\0132\025.octaneapi.Byt"
+    "eArrayTH\000B\r\n\013array_valueB\013\n\t_evaluate\032\214\006"
+    "\n\025setArrayByNameRequest\022&\n\010item_ref\030\001 \001("
+    "\0132\024.octaneapi.ObjectRef\022\014\n\004name\030\002 \001(\t\022\025\n"
+    "\010evaluate\030\003 \001(\010H\001\210\001\001\022+\n\nbool_array\030\n \001(\013"
+    "2\025.octaneapi.BoolArrayTH\000\022)\n\tint_array\030\013"
+    " \001(\0132\024.octaneapi.IntArrayTH\000\022+\n\nint2_arr"
+    "ay\030\014 \001(\0132\025.octaneapi.Int2ArrayTH\000\022+\n\nint"
+    "3_array\030\r \001(\0132\025.octaneapi.Int3ArrayTH\000\022+"
+    "\n\nint4_array\030\016 \001(\0132\025.octaneapi.Int4Array"
+    "TH\000\022+\n\nlong_array\030\017 \001(\0132\025.octaneapi.Long"
+    "ArrayTH\000\022-\n\013long2_array\030\020 \001(\0132\026.octaneap"
+    "i.Long2ArrayTH\000\022-\n\013float_array\030\021 \001(\0132\026.o"
+    "ctaneapi.FloatArrayTH\000\022/\n\014float2_array\030\022"
+    " \001(\0132\027.octaneapi.Float2ArrayTH\000\022/\n\014float"
+    "3_array\030\023 \001(\0132\027.octaneapi.Float3ArrayTH\000"
+    "\022/\n\014float4_array\030\024 \001(\0132\027.octaneapi.Float"
+    "4ArrayTH\000\022/\n\014matrix_array\030\025 \001(\0132\027.octane"
+    "api.MatrixArrayTH\000\022/\n\014string_array\030\026 \001(\013"
+    "2\027.octaneapi.StringArrayTH\000\022+\n\nbyte_arra"
+    "y\030\027 \001(\0132\025.octaneapi.ByteArrayTH\000B\r\n\013arra"
+    "y_valueB\013\n\t_evaluate\032:\n\020setArrayResponse"
+    "\022\017\n\007success\030\001 \001(\010\022\025\n\rerror_message\030\002 \001(\t"
+    "\032G\n\016setNameRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024."
+    "octaneapi.ObjectRef\022\014\n\004name\030\002 \001(\t\032a\n\022set"
+    "PositionRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024.oct"
+    "aneapi.ObjectRef\022\"\n\006newPos\030\002 \001(\0132\022.octan"
+    "eapi.float_2\032g\n\032setUIOperationFlagsReque"
+    "st\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Object"
+    "Ref\022 \n\005flags\030\002 \001(\0132\021.octaneapi.enum_t\032\341\004"
+    "\n\023setValueByIDRequest\022&\n\010item_ref\030\001 \001(\0132"
+    "\024.octaneapi.ObjectRef\022,\n\014attribute_id\030\002 "
+    "\001(\0162\026.octaneapi.AttributeId\022\025\n\010evaluate\030"
+    "\003 \001(\010H\001\210\001\001\022\024\n\nbool_value\030\n \001(\010H\000\022\023\n\tint_"
     "value\030\013 \001(\005H\000\022(\n\nint2_value\030\014 \001(\0132\022.octa"
     "neapi.int32_2H\000\022(\n\nint3_value\030\r \001(\0132\022.oc"
     "taneapi.int32_3H\000\022(\n\nint4_value\030\016 \001(\0132\022."
@@ -5744,227 +5738,257 @@ const char descriptor_table_protodef_apinodesystem_5f3_2eproto[] ABSL_ATTRIBUTE_
     "3_value\030\023 \001(\0132\022.octaneapi.float_3H\000\022*\n\014f"
     "loat4_value\030\024 \001(\0132\022.octaneapi.float_4H\000\022"
     "*\n\014matrix_value\030\025 \001(\0132\022.octaneapi.Matrix"
-    "FH\000\022\026\n\014string_value\030\026 \001(\tH\000B\007\n\005value\032:\n\020"
-    "setValueResponse\022\017\n\007success\030\001 \001(\010\022\025\n\rerr"
-    "or_message\030\002 \001(\t\032Z\n\027switchToFileDataRequ"
-    "est\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Objec"
-    "tRef\022\026\n\016destinationDir\030\002 \001(\t\0326\n\013timeRequ"
-    "est\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Objec"
-    "tRef\0320\n\014timeResponse\022 \n\006result\030\001 \001(\0132\020.o"
-    "ctaneapi.TimeT\032:\n\017toGraph1Request\022\'\n\tobj"
-    "ectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\0328\n\020to"
-    "Graph1Response\022$\n\006result\030\001 \001(\0132\024.octanea"
-    "pi.ObjectRef\0329\n\016toGraphRequest\022\'\n\tobject"
-    "Ptr\030\001 \001(\0132\024.octaneapi.ObjectRef\0327\n\017toGra"
-    "phResponse\022$\n\006result\030\001 \001(\0132\024.octaneapi.O"
-    "bjectRef\0329\n\016toNode1Request\022\'\n\tobjectPtr\030"
-    "\001 \001(\0132\024.octaneapi.ObjectRef\0327\n\017toNode1Re"
-    "sponse\022$\n\006result\030\001 \001(\0132\024.octaneapi.Objec"
-    "tRef\0328\n\rtoNodeRequest\022\'\n\tobjectPtr\030\001 \001(\013"
-    "2\024.octaneapi.ObjectRef\0326\n\016toNodeResponse"
-    "\022$\n\006result\030\001 \001(\0132\024.octaneapi.ObjectRef\032B"
-    "\n\027uiOperationFlagsRequest\022\'\n\tobjectPtr\030\001"
-    " \001(\0132\024.octaneapi.ObjectRef\032=\n\030uiOperatio"
-    "nFlagsResponse\022!\n\006result\030\001 \001(\0132\021.octanea"
-    "pi.enum_t\032:\n\017uniqueIdRequest\022\'\n\tobjectPt"
-    "r\030\001 \001(\0132\024.octaneapi.ObjectRef\032\"\n\020uniqueI"
-    "dResponse\022\016\n\006result\030\001 \001(\r\0329\n\016versionRequ"
-    "est\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Objec"
-    "tRef\032!\n\017versionResponse\022\016\n\006result\030\001 \001(\r2"
-    "\237<\n\016ApiItemService\022D\n\007destroy\022!.octaneap"
-    "i.ApiItem.destroyRequest\032\026.google.protob"
-    "uf.Empty\022G\n\004name\022\036.octaneapi.ApiItem.nam"
-    "eRequest\032\037.octaneapi.ApiItem.nameRespons"
-    "e\022D\n\007setName\022!.octaneapi.ApiItem.setName"
-    "Request\032\026.google.protobuf.Empty\022S\n\010posit"
-    "ion\022\".octaneapi.ApiItem.positionRequest\032"
-    "#.octaneapi.ApiItem.positionResponse\022L\n\013"
-    "setPosition\022%.octaneapi.ApiItem.setPosit"
-    "ionRequest\032\026.google.protobuf.Empty\022\\\n\023se"
-    "tUIOperationFlags\022-.octaneapi.ApiItem.se"
-    "tUIOperationFlagsRequest\032\026.google.protob"
-    "uf.Empty\022k\n\020uiOperationFlags\022*.octaneapi"
-    ".ApiItem.uiOperationFlagsRequest\032+.octan"
-    "eapi.ApiItem.uiOperationFlagsResponse\022B\n"
-    "\006select\022 .octaneapi.ApiItem.selectReques"
-    "t\032\026.google.protobuf.Empty\022G\n\004time\022\036.octa"
-    "neapi.ApiItem.timeRequest\032\037.octaneapi.Ap"
-    "iItem.timeResponse\022P\n\007outType\022!.octaneap"
-    "i.ApiItem.outTypeRequest\032\".octaneapi.Api"
-    "Item.outTypeResponse\022_\n\014persistentId\022&.o"
-    "ctaneapi.ApiItem.persistentIdRequest\032\'.o"
-    "ctaneapi.ApiItem.persistentIdResponse\022S\n"
-    "\010uniqueId\022\".octaneapi.ApiItem.uniqueIdRe"
-    "quest\032#.octaneapi.ApiItem.uniqueIdRespon"
-    "se\022h\n\017collectItemTree\022).octaneapi.ApiIte"
-    "m.collectItemTreeRequest\032*.octaneapi.Api"
-    "Item.collectItemTreeResponse\022b\n\026deleteUn"
-    "connectedItems\0220.octaneapi.ApiItem.delet"
-    "eUnconnectedItemsRequest\032\026.google.protob"
-    "uf.Empty\022V\n\020switchToFileData\022*.octaneapi"
-    ".ApiItem.switchToFileDataRequest\032\026.googl"
-    "e.protobuf.Empty\022P\n\007version\022!.octaneapi."
-    "ApiItem.versionRequest\032\".octaneapi.ApiIt"
-    "em.versionResponse\022P\n\007isGraph\022!.octaneap"
-    "i.ApiItem.isGraphRequest\032\".octaneapi.Api"
-    "Item.isGraphResponse\022M\n\006isNode\022 .octanea"
-    "pi.ApiItem.isNodeRequest\032!.octaneapi.Api"
-    "Item.isNodeResponse\022S\n\010isLinker\022\".octane"
-    "api.ApiItem.isLinkerRequest\032#.octaneapi."
-    "ApiItem.isLinkerResponse\022b\n\risInputLinke"
-    "r\022\'.octaneapi.ApiItem.isInputLinkerReque"
-    "st\032(.octaneapi.ApiItem.isInputLinkerResp"
-    "onse\022e\n\016isOutputLinker\022(.octaneapi.ApiIt"
-    "em.isOutputLinkerRequest\032).octaneapi.Api"
-    "Item.isOutputLinkerResponse\022P\n\007toGraph\022!"
-    ".octaneapi.ApiItem.toGraphRequest\032\".octa"
-    "neapi.ApiItem.toGraphResponse\022M\n\006toNode\022"
-    " .octaneapi.ApiItem.toNodeRequest\032!.octa"
-    "neapi.ApiItem.toNodeResponse\022S\n\010toGraph1"
-    "\022\".octaneapi.ApiItem.toGraph1Request\032#.o"
-    "ctaneapi.ApiItem.toGraph1Response\022P\n\007toN"
-    "ode1\022!.octaneapi.ApiItem.toNode1Request\032"
-    "\".octaneapi.ApiItem.toNode1Response\022S\n\010h"
-    "asOwner\022\".octaneapi.ApiItem.hasOwnerRequ"
-    "est\032#.octaneapi.ApiItem.hasOwnerResponse"
-    "\022Y\n\ngraphOwned\022$.octaneapi.ApiItem.graph"
-    "OwnedRequest\032%.octaneapi.ApiItem.graphOw"
-    "nedResponse\022S\n\010pinOwned\022\".octaneapi.ApiI"
-    "tem.pinOwnedRequest\032#.octaneapi.ApiItem."
-    "pinOwnedResponse\022Y\n\ngraphOwner\022$.octanea"
-    "pi.ApiItem.graphOwnerRequest\032%.octaneapi"
-    ".ApiItem.graphOwnerResponse\022S\n\010pinOwner\022"
-    "\".octaneapi.ApiItem.pinOwnerRequest\032#.oc"
-    "taneapi.ApiItem.pinOwnerResponse\022V\n\troot"
-    "Graph\022#.octaneapi.ApiItem.rootGraphReque"
-    "st\032$.octaneapi.ApiItem.rootGraphResponse"
-    "\022Y\n\nrootGraph1\022$.octaneapi.ApiItem.rootG"
-    "raph1Request\032%.octaneapi.ApiItem.rootGra"
-    "ph1Response\022V\n\tattrCount\022#.octaneapi.Api"
-    "Item.attrCountRequest\032$.octaneapi.ApiIte"
-    "m.attrCountResponse\022P\n\007hasAttr\022!.octanea"
-    "pi.ApiItem.hasAttrRequest\032\".octaneapi.Ap"
-    "iItem.hasAttrResponse\022S\n\010hasAttr1\022\".octa"
-    "neapi.ApiItem.hasAttr1Request\032#.octaneap"
-    "i.ApiItem.hasAttr1Response\022S\n\010findAttr\022\""
-    ".octaneapi.ApiItem.findAttrRequest\032#.oct"
-    "aneapi.ApiItem.findAttrResponse\022V\n\tfindA"
-    "ttr1\022#.octaneapi.ApiItem.findAttr1Reques"
-    "t\032$.octaneapi.ApiItem.findAttr1Response\022"
-    "M\n\006attrId\022 .octaneapi.ApiItem.attrIdRequ"
-    "est\032!.octaneapi.ApiItem.attrIdResponse\022S"
-    "\n\010attrIdIx\022\".octaneapi.ApiItem.attrIdIxR"
-    "equest\032#.octaneapi.ApiItem.attrIdIxRespo"
-    "nse\022S\n\010attrName\022\".octaneapi.ApiItem.attr"
-    "NameRequest\032#.octaneapi.ApiItem.attrName"
-    "Response\022Y\n\nattrNameIx\022$.octaneapi.ApiIt"
-    "em.attrNameIxRequest\032%.octaneapi.ApiItem"
-    ".attrNameIxResponse\022S\n\010attrType\022\".octane"
-    "api.ApiItem.attrTypeRequest\032#.octaneapi."
-    "ApiItem.attrTypeResponse\022V\n\tattrType1\022#."
-    "octaneapi.ApiItem.attrType1Request\032$.oct"
-    "aneapi.ApiItem.attrType1Response\022Y\n\nattr"
-    "TypeIx\022$.octaneapi.ApiItem.attrTypeIxReq"
-    "uest\032%.octaneapi.ApiItem.attrTypeIxRespo"
-    "nse\022S\n\010attrInfo\022\".octaneapi.ApiItem.attr"
-    "InfoRequest\032#.octaneapi.ApiItem.attrInfo"
-    "Response\022V\n\tattrInfo1\022#.octaneapi.ApiIte"
-    "m.attrInfo1Request\032$.octaneapi.ApiItem.a"
-    "ttrInfo1Response\022Y\n\nattrInfoIx\022$.octanea"
-    "pi.ApiItem.attrInfoIxRequest\032%.octaneapi"
-    ".ApiItem.attrInfoIxResponse\022_\n\014attrAreDi"
-    "rty\022&.octaneapi.ApiItem.attrAreDirtyRequ"
-    "est\032\'.octaneapi.ApiItem.attrAreDirtyResp"
-    "onse\022\\\n\013isDirtyAttr\022%.octaneapi.ApiItem."
-    "isDirtyAttrRequest\032&.octaneapi.ApiItem.i"
-    "sDirtyAttrResponse\022_\n\014isDirtyAttr1\022&.oct"
-    "aneapi.ApiItem.isDirtyAttr1Request\032\'.oct"
-    "aneapi.ApiItem.isDirtyAttr1Response\022b\n\ri"
-    "sDirtyAttrIx\022\'.octaneapi.ApiItem.isDirty"
-    "AttrIxRequest\032(.octaneapi.ApiItem.isDirt"
-    "yAttrIxResponse\022N\n\014copyAttrFrom\022&.octane"
-    "api.ApiItem.copyAttrFromRequest\032\026.google"
-    ".protobuf.Empty\022P\n\rcopyAttrFrom1\022\'.octan"
-    "eapi.ApiItem.copyAttrFrom1Request\032\026.goog"
-    "le.protobuf.Empty\022R\n\016copyAttrFromIx\022(.oc"
-    "taneapi.ApiItem.copyAttrFromIxRequest\032\026."
-    "google.protobuf.Empty\022P\n\rcopyAttrFrom2\022\'"
-    ".octaneapi.ApiItem.copyAttrFrom2Request\032"
-    "\026.google.protobuf.Empty\022N\n\014clearAllAttr\022"
-    "&.octaneapi.ApiItem.clearAllAttrRequest\032"
-    "\026.google.protobuf.Empty\022H\n\tclearAttr\022#.o"
-    "ctaneapi.ApiItem.clearAttrRequest\032\026.goog"
-    "le.protobuf.Empty\022J\n\nclearAttr1\022$.octane"
-    "api.ApiItem.clearAttr1Request\032\026.google.p"
-    "rotobuf.Empty\022L\n\013clearAttrIx\022%.octaneapi"
-    ".ApiItem.clearAttrIxRequest\032\026.google.pro"
-    "tobuf.Empty\022H\n\tclearAnim\022#.octaneapi.Api"
-    "Item.clearAnimRequest\032\026.google.protobuf."
-    "Empty\022J\n\nclearAnim1\022$.octaneapi.ApiItem."
-    "clearAnim1Request\032\026.google.protobuf.Empt"
-    "y\022L\n\013clearAnimIx\022%.octaneapi.ApiItem.cle"
-    "arAnimIxRequest\032\026.google.protobuf.Empty\022"
-    "Y\n\nisAnimated\022$.octaneapi.ApiItem.isAnim"
-    "atedRequest\032%.octaneapi.ApiItem.isAnimat"
-    "edResponse\022\\\n\013isAnimated1\022%.octaneapi.Ap"
-    "iItem.isAnimated1Request\032&.octaneapi.Api"
-    "Item.isAnimated1Response\022_\n\014isAnimatedIx"
-    "\022&.octaneapi.ApiItem.isAnimatedIxRequest"
-    "\032\'.octaneapi.ApiItem.isAnimatedIxRespons"
-    "e\022F\n\010evaluate\022\".octaneapi.ApiItem.evalua"
-    "teRequest\032\026.google.protobuf.Empty\022B\n\006exp"
-    "and\022 .octaneapi.ApiItem.expandRequest\032\026."
-    "google.protobuf.Empty\022e\n\016expandOutOfPin\022"
-    "(.octaneapi.ApiItem.expandOutOfPinReques"
-    "t\032).octaneapi.ApiItem.expandOutOfPinResp"
-    "onse\022S\n\010collapse\022\".octaneapi.ApiItem.col"
-    "lapseRequest\032#.octaneapi.ApiItem.collaps"
-    "eResponse\022R\n\016dumpAttributes\022(.octaneapi."
-    "ApiItem.dumpAttributesRequest\032\026.google.p"
-    "rotobuf.Empty\022Z\n\013getByAttrID\022&.octaneapi"
-    ".ApiItem.getValueByIDRequest\032#.octaneapi"
-    ".ApiItem.getValueResponse\022Z\n\tgetByName\022("
-    ".octaneapi.ApiItem.getValueByNameRequest"
-    "\032#.octaneapi.ApiItem.getValueResponse\022V\n"
-    "\007getByIx\022&.octaneapi.ApiItem.getValueByI"
-    "xRequest\032#.octaneapi.ApiItem.getValueRes"
-    "ponse\022_\n\020getArrayByAttrID\022&.octaneapi.Ap"
-    "iItem.getArrayByIDRequest\032#.octaneapi.Ap"
-    "iItem.getArrayResponse\022_\n\016getArrayByName"
-    "\022(.octaneapi.ApiItem.getArrayByNameReque"
-    "st\032#.octaneapi.ApiItem.getArrayResponse\022"
-    "[\n\014getArrayByIx\022&.octaneapi.ApiItem.getA"
-    "rrayByIxRequest\032#.octaneapi.ApiItem.getA"
-    "rrayResponse\022Z\n\013setByAttrID\022&.octaneapi."
-    "ApiItem.setValueByIDRequest\032#.octaneapi."
-    "ApiItem.setValueResponse\022Z\n\tsetByName\022(."
-    "octaneapi.ApiItem.setValueByNameRequest\032"
-    "#.octaneapi.ApiItem.setValueResponse\022V\n\007"
-    "setByIx\022&.octaneapi.ApiItem.setValueByIx"
-    "Request\032#.octaneapi.ApiItem.setValueResp"
-    "onse\022_\n\016setArrayByName\022(.octaneapi.ApiIt"
-    "em.setArrayByNameRequest\032#.octaneapi.Api"
-    "Item.setArrayResponse\022_\n\020setArrayByAttrI"
-    "D\022&.octaneapi.ApiItem.setArrayByIDReques"
-    "t\032#.octaneapi.ApiItem.setArrayResponse\022["
-    "\n\014setArrayByIx\022&.octaneapi.ApiItem.setAr"
-    "rayByIxRequest\032#.octaneapi.ApiItem.setAr"
-    "rayResponse\022_\n\rgetAnimByAttr\022%.octaneapi"
-    ".ApiItem.getAnimByIDRequest\032\'.octaneapi."
-    "ApiItem.getAnimArrayResponse\022a\n\rgetAnimB"
-    "yName\022\'.octaneapi.ApiItem.getAnimByNameR"
-    "equest\032\'.octaneapi.ApiItem.getAnimArrayR"
-    "esponse\022]\n\013getAnimByIx\022%.octaneapi.ApiIt"
-    "em.getAnimByIxRequest\032\'.octaneapi.ApiIte"
-    "m.getAnimArrayResponse\022_\n\rsetAnimByAttr\022"
-    "%.octaneapi.ApiItem.setAnimByIDRequest\032\'"
-    ".octaneapi.ApiItem.setAnimArrayResponse\022"
-    "a\n\rsetAnimByName\022\'.octaneapi.ApiItem.set"
-    "AnimByNameRequest\032\'.octaneapi.ApiItem.se"
-    "tAnimArrayResponse\022]\n\013setAnimByIx\022%.octa"
-    "neapi.ApiItem.setAnimByIxRequest\032\'.octan"
-    "eapi.ApiItem.setAnimArrayResponseB\002H\002b\006p"
-    "roto3"
+    "FH\000\022\026\n\014string_value\030\026 \001(\tH\000B\007\n\005valueB\013\n\t"
+    "_evaluate\032\302\004\n\023setValueByIxRequest\022&\n\010ite"
+    "m_ref\030\001 \001(\0132\024.octaneapi.ObjectRef\022\r\n\005ind"
+    "ex\030\002 \001(\r\022\025\n\010evaluate\030\003 \001(\010H\001\210\001\001\022\024\n\nbool_"
+    "value\030\n \001(\010H\000\022\023\n\tint_value\030\013 \001(\005H\000\022(\n\nin"
+    "t2_value\030\014 \001(\0132\022.octaneapi.int32_2H\000\022(\n\n"
+    "int3_value\030\r \001(\0132\022.octaneapi.int32_3H\000\022("
+    "\n\nint4_value\030\016 \001(\0132\022.octaneapi.int32_4H\000"
+    "\022\024\n\nlong_value\030\017 \001(\003H\000\022)\n\013long2_value\030\020 "
+    "\001(\0132\022.octaneapi.int64_2H\000\022\025\n\013float_value"
+    "\030\021 \001(\002H\000\022*\n\014float2_value\030\022 \001(\0132\022.octanea"
+    "pi.float_2H\000\022*\n\014float3_value\030\023 \001(\0132\022.oct"
+    "aneapi.float_3H\000\022*\n\014float4_value\030\024 \001(\0132\022"
+    ".octaneapi.float_4H\000\022*\n\014matrix_value\030\025 \001"
+    "(\0132\022.octaneapi.MatrixFH\000\022\026\n\014string_value"
+    "\030\026 \001(\tH\000B\007\n\005valueB\013\n\t_evaluate\032\303\004\n\025setVa"
+    "lueByNameRequest\022&\n\010item_ref\030\001 \001(\0132\024.oct"
+    "aneapi.ObjectRef\022\014\n\004name\030\002 \001(\t\022\025\n\010evalua"
+    "te\030\003 \001(\010H\001\210\001\001\022\024\n\nbool_value\030\n \001(\010H\000\022\023\n\ti"
+    "nt_value\030\013 \001(\005H\000\022(\n\nint2_value\030\014 \001(\0132\022.o"
+    "ctaneapi.int32_2H\000\022(\n\nint3_value\030\r \001(\0132\022"
+    ".octaneapi.int32_3H\000\022(\n\nint4_value\030\016 \001(\013"
+    "2\022.octaneapi.int32_4H\000\022\024\n\nlong_value\030\017 \001"
+    "(\003H\000\022)\n\013long2_value\030\020 \001(\0132\022.octaneapi.in"
+    "t64_2H\000\022\025\n\013float_value\030\021 \001(\002H\000\022*\n\014float2"
+    "_value\030\022 \001(\0132\022.octaneapi.float_2H\000\022*\n\014fl"
+    "oat3_value\030\023 \001(\0132\022.octaneapi.float_3H\000\022*"
+    "\n\014float4_value\030\024 \001(\0132\022.octaneapi.float_4"
+    "H\000\022*\n\014matrix_value\030\025 \001(\0132\022.octaneapi.Mat"
+    "rixFH\000\022\026\n\014string_value\030\026 \001(\tH\000B\007\n\005valueB"
+    "\013\n\t_evaluate\032:\n\020setValueResponse\022\017\n\007succ"
+    "ess\030\001 \001(\010\022\025\n\rerror_message\030\002 \001(\t\032Z\n\027swit"
+    "chToFileDataRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024"
+    ".octaneapi.ObjectRef\022\026\n\016destinationDir\030\002"
+    " \001(\t\0326\n\013timeRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024"
+    ".octaneapi.ObjectRef\0320\n\014timeResponse\022 \n\006"
+    "result\030\001 \001(\0132\020.octaneapi.TimeT\032:\n\017toGrap"
+    "h1Request\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi"
+    ".ObjectRef\0328\n\020toGraph1Response\022$\n\006result"
+    "\030\001 \001(\0132\024.octaneapi.ObjectRef\0329\n\016toGraphR"
+    "equest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Ob"
+    "jectRef\0327\n\017toGraphResponse\022$\n\006result\030\001 \001"
+    "(\0132\024.octaneapi.ObjectRef\0329\n\016toNode1Reque"
+    "st\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Object"
+    "Ref\0327\n\017toNode1Response\022$\n\006result\030\001 \001(\0132\024"
+    ".octaneapi.ObjectRef\0328\n\rtoNodeRequest\022\'\n"
+    "\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectRef\0326"
+    "\n\016toNodeResponse\022$\n\006result\030\001 \001(\0132\024.octan"
+    "eapi.ObjectRef\032B\n\027uiOperationFlagsReques"
+    "t\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.ObjectR"
+    "ef\032=\n\030uiOperationFlagsResponse\022!\n\006result"
+    "\030\001 \001(\0132\021.octaneapi.enum_t\032:\n\017uniqueIdReq"
+    "uest\022\'\n\tobjectPtr\030\001 \001(\0132\024.octaneapi.Obje"
+    "ctRef\032\"\n\020uniqueIdResponse\022\016\n\006result\030\001 \001("
+    "\r\0329\n\016versionRequest\022\'\n\tobjectPtr\030\001 \001(\0132\024"
+    ".octaneapi.ObjectRef\032!\n\017versionResponse\022"
+    "\016\n\006result\030\001 \001(\r2\275<\n\016ApiItemService\022D\n\007de"
+    "stroy\022!.octaneapi.ApiItem.destroyRequest"
+    "\032\026.google.protobuf.Empty\022G\n\004name\022\036.octan"
+    "eapi.ApiItem.nameRequest\032\037.octaneapi.Api"
+    "Item.nameResponse\022D\n\007setName\022!.octaneapi"
+    ".ApiItem.setNameRequest\032\026.google.protobu"
+    "f.Empty\022S\n\010position\022\".octaneapi.ApiItem."
+    "positionRequest\032#.octaneapi.ApiItem.posi"
+    "tionResponse\022L\n\013setPosition\022%.octaneapi."
+    "ApiItem.setPositionRequest\032\026.google.prot"
+    "obuf.Empty\022\\\n\023setUIOperationFlags\022-.octa"
+    "neapi.ApiItem.setUIOperationFlagsRequest"
+    "\032\026.google.protobuf.Empty\022k\n\020uiOperationF"
+    "lags\022*.octaneapi.ApiItem.uiOperationFlag"
+    "sRequest\032+.octaneapi.ApiItem.uiOperation"
+    "FlagsResponse\022B\n\006select\022 .octaneapi.ApiI"
+    "tem.selectRequest\032\026.google.protobuf.Empt"
+    "y\022G\n\004time\022\036.octaneapi.ApiItem.timeReques"
+    "t\032\037.octaneapi.ApiItem.timeResponse\022P\n\007ou"
+    "tType\022!.octaneapi.ApiItem.outTypeRequest"
+    "\032\".octaneapi.ApiItem.outTypeResponse\022_\n\014"
+    "persistentId\022&.octaneapi.ApiItem.persist"
+    "entIdRequest\032\'.octaneapi.ApiItem.persist"
+    "entIdResponse\022S\n\010uniqueId\022\".octaneapi.Ap"
+    "iItem.uniqueIdRequest\032#.octaneapi.ApiIte"
+    "m.uniqueIdResponse\022h\n\017collectItemTree\022)."
+    "octaneapi.ApiItem.collectItemTreeRequest"
+    "\032*.octaneapi.ApiItem.collectItemTreeResp"
+    "onse\022b\n\026deleteUnconnectedItems\0220.octanea"
+    "pi.ApiItem.deleteUnconnectedItemsRequest"
+    "\032\026.google.protobuf.Empty\022V\n\020switchToFile"
+    "Data\022*.octaneapi.ApiItem.switchToFileDat"
+    "aRequest\032\026.google.protobuf.Empty\022P\n\007vers"
+    "ion\022!.octaneapi.ApiItem.versionRequest\032\""
+    ".octaneapi.ApiItem.versionResponse\022P\n\007is"
+    "Graph\022!.octaneapi.ApiItem.isGraphRequest"
+    "\032\".octaneapi.ApiItem.isGraphResponse\022M\n\006"
+    "isNode\022 .octaneapi.ApiItem.isNodeRequest"
+    "\032!.octaneapi.ApiItem.isNodeResponse\022S\n\010i"
+    "sLinker\022\".octaneapi.ApiItem.isLinkerRequ"
+    "est\032#.octaneapi.ApiItem.isLinkerResponse"
+    "\022b\n\risInputLinker\022\'.octaneapi.ApiItem.is"
+    "InputLinkerRequest\032(.octaneapi.ApiItem.i"
+    "sInputLinkerResponse\022e\n\016isOutputLinker\022("
+    ".octaneapi.ApiItem.isOutputLinkerRequest"
+    "\032).octaneapi.ApiItem.isOutputLinkerRespo"
+    "nse\022P\n\007toGraph\022!.octaneapi.ApiItem.toGra"
+    "phRequest\032\".octaneapi.ApiItem.toGraphRes"
+    "ponse\022M\n\006toNode\022 .octaneapi.ApiItem.toNo"
+    "deRequest\032!.octaneapi.ApiItem.toNodeResp"
+    "onse\022S\n\010toGraph1\022\".octaneapi.ApiItem.toG"
+    "raph1Request\032#.octaneapi.ApiItem.toGraph"
+    "1Response\022P\n\007toNode1\022!.octaneapi.ApiItem"
+    ".toNode1Request\032\".octaneapi.ApiItem.toNo"
+    "de1Response\022S\n\010hasOwner\022\".octaneapi.ApiI"
+    "tem.hasOwnerRequest\032#.octaneapi.ApiItem."
+    "hasOwnerResponse\022Y\n\ngraphOwned\022$.octanea"
+    "pi.ApiItem.graphOwnedRequest\032%.octaneapi"
+    ".ApiItem.graphOwnedResponse\022S\n\010pinOwned\022"
+    "\".octaneapi.ApiItem.pinOwnedRequest\032#.oc"
+    "taneapi.ApiItem.pinOwnedResponse\022Y\n\ngrap"
+    "hOwner\022$.octaneapi.ApiItem.graphOwnerReq"
+    "uest\032%.octaneapi.ApiItem.graphOwnerRespo"
+    "nse\022S\n\010pinOwner\022\".octaneapi.ApiItem.pinO"
+    "wnerRequest\032#.octaneapi.ApiItem.pinOwner"
+    "Response\022V\n\trootGraph\022#.octaneapi.ApiIte"
+    "m.rootGraphRequest\032$.octaneapi.ApiItem.r"
+    "ootGraphResponse\022Y\n\nrootGraph1\022$.octanea"
+    "pi.ApiItem.rootGraph1Request\032%.octaneapi"
+    ".ApiItem.rootGraph1Response\022V\n\tattrCount"
+    "\022#.octaneapi.ApiItem.attrCountRequest\032$."
+    "octaneapi.ApiItem.attrCountResponse\022P\n\007h"
+    "asAttr\022!.octaneapi.ApiItem.hasAttrReques"
+    "t\032\".octaneapi.ApiItem.hasAttrResponse\022S\n"
+    "\010hasAttr1\022\".octaneapi.ApiItem.hasAttr1Re"
+    "quest\032#.octaneapi.ApiItem.hasAttr1Respon"
+    "se\022S\n\010findAttr\022\".octaneapi.ApiItem.findA"
+    "ttrRequest\032#.octaneapi.ApiItem.findAttrR"
+    "esponse\022V\n\tfindAttr1\022#.octaneapi.ApiItem"
+    ".findAttr1Request\032$.octaneapi.ApiItem.fi"
+    "ndAttr1Response\022M\n\006attrId\022 .octaneapi.Ap"
+    "iItem.attrIdRequest\032!.octaneapi.ApiItem."
+    "attrIdResponse\022S\n\010attrIdIx\022\".octaneapi.A"
+    "piItem.attrIdIxRequest\032#.octaneapi.ApiIt"
+    "em.attrIdIxResponse\022S\n\010attrName\022\".octane"
+    "api.ApiItem.attrNameRequest\032#.octaneapi."
+    "ApiItem.attrNameResponse\022Y\n\nattrNameIx\022$"
+    ".octaneapi.ApiItem.attrNameIxRequest\032%.o"
+    "ctaneapi.ApiItem.attrNameIxResponse\022S\n\010a"
+    "ttrType\022\".octaneapi.ApiItem.attrTypeRequ"
+    "est\032#.octaneapi.ApiItem.attrTypeResponse"
+    "\022V\n\tattrType1\022#.octaneapi.ApiItem.attrTy"
+    "pe1Request\032$.octaneapi.ApiItem.attrType1"
+    "Response\022Y\n\nattrTypeIx\022$.octaneapi.ApiIt"
+    "em.attrTypeIxRequest\032%.octaneapi.ApiItem"
+    ".attrTypeIxResponse\022S\n\010attrInfo\022\".octane"
+    "api.ApiItem.attrInfoRequest\032#.octaneapi."
+    "ApiItem.attrInfoResponse\022V\n\tattrInfo1\022#."
+    "octaneapi.ApiItem.attrInfo1Request\032$.oct"
+    "aneapi.ApiItem.attrInfo1Response\022Y\n\nattr"
+    "InfoIx\022$.octaneapi.ApiItem.attrInfoIxReq"
+    "uest\032%.octaneapi.ApiItem.attrInfoIxRespo"
+    "nse\022_\n\014attrAreDirty\022&.octaneapi.ApiItem."
+    "attrAreDirtyRequest\032\'.octaneapi.ApiItem."
+    "attrAreDirtyResponse\022\\\n\013isDirtyAttr\022%.oc"
+    "taneapi.ApiItem.isDirtyAttrRequest\032&.oct"
+    "aneapi.ApiItem.isDirtyAttrResponse\022_\n\014is"
+    "DirtyAttr1\022&.octaneapi.ApiItem.isDirtyAt"
+    "tr1Request\032\'.octaneapi.ApiItem.isDirtyAt"
+    "tr1Response\022b\n\risDirtyAttrIx\022\'.octaneapi"
+    ".ApiItem.isDirtyAttrIxRequest\032(.octaneap"
+    "i.ApiItem.isDirtyAttrIxResponse\022N\n\014copyA"
+    "ttrFrom\022&.octaneapi.ApiItem.copyAttrFrom"
+    "Request\032\026.google.protobuf.Empty\022P\n\rcopyA"
+    "ttrFrom1\022\'.octaneapi.ApiItem.copyAttrFro"
+    "m1Request\032\026.google.protobuf.Empty\022R\n\016cop"
+    "yAttrFromIx\022(.octaneapi.ApiItem.copyAttr"
+    "FromIxRequest\032\026.google.protobuf.Empty\022P\n"
+    "\rcopyAttrFrom2\022\'.octaneapi.ApiItem.copyA"
+    "ttrFrom2Request\032\026.google.protobuf.Empty\022"
+    "N\n\014clearAllAttr\022&.octaneapi.ApiItem.clea"
+    "rAllAttrRequest\032\026.google.protobuf.Empty\022"
+    "H\n\tclearAttr\022#.octaneapi.ApiItem.clearAt"
+    "trRequest\032\026.google.protobuf.Empty\022J\n\ncle"
+    "arAttr1\022$.octaneapi.ApiItem.clearAttr1Re"
+    "quest\032\026.google.protobuf.Empty\022L\n\013clearAt"
+    "trIx\022%.octaneapi.ApiItem.clearAttrIxRequ"
+    "est\032\026.google.protobuf.Empty\022H\n\tclearAnim"
+    "\022#.octaneapi.ApiItem.clearAnimRequest\032\026."
+    "google.protobuf.Empty\022J\n\nclearAnim1\022$.oc"
+    "taneapi.ApiItem.clearAnim1Request\032\026.goog"
+    "le.protobuf.Empty\022L\n\013clearAnimIx\022%.octan"
+    "eapi.ApiItem.clearAnimIxRequest\032\026.google"
+    ".protobuf.Empty\022Y\n\nisAnimated\022$.octaneap"
+    "i.ApiItem.isAnimatedRequest\032%.octaneapi."
+    "ApiItem.isAnimatedResponse\022\\\n\013isAnimated"
+    "1\022%.octaneapi.ApiItem.isAnimated1Request"
+    "\032&.octaneapi.ApiItem.isAnimated1Response"
+    "\022_\n\014isAnimatedIx\022&.octaneapi.ApiItem.isA"
+    "nimatedIxRequest\032\'.octaneapi.ApiItem.isA"
+    "nimatedIxResponse\022F\n\010evaluate\022\".octaneap"
+    "i.ApiItem.evaluateRequest\032\026.google.proto"
+    "buf.Empty\022B\n\006expand\022 .octaneapi.ApiItem."
+    "expandRequest\032\026.google.protobuf.Empty\022e\n"
+    "\016expandOutOfPin\022(.octaneapi.ApiItem.expa"
+    "ndOutOfPinRequest\032).octaneapi.ApiItem.ex"
+    "pandOutOfPinResponse\022S\n\010collapse\022\".octan"
+    "eapi.ApiItem.collapseRequest\032#.octaneapi"
+    ".ApiItem.collapseResponse\022R\n\016dumpAttribu"
+    "tes\022(.octaneapi.ApiItem.dumpAttributesRe"
+    "quest\032\026.google.protobuf.Empty\022_\n\020getValu"
+    "eByAttrID\022&.octaneapi.ApiItem.getValueBy"
+    "IDRequest\032#.octaneapi.ApiItem.getValueRe"
+    "sponse\022_\n\016getValueByName\022(.octaneapi.Api"
+    "Item.getValueByNameRequest\032#.octaneapi.A"
+    "piItem.getValueResponse\022[\n\014getValueByIx\022"
+    "&.octaneapi.ApiItem.getValueByIxRequest\032"
+    "#.octaneapi.ApiItem.getValueResponse\022_\n\020"
+    "getArrayByAttrID\022&.octaneapi.ApiItem.get"
+    "ArrayByIDRequest\032#.octaneapi.ApiItem.get"
+    "ArrayResponse\022_\n\016getArrayByName\022(.octane"
+    "api.ApiItem.getArrayByNameRequest\032#.octa"
+    "neapi.ApiItem.getArrayResponse\022[\n\014getArr"
+    "ayByIx\022&.octaneapi.ApiItem.getArrayByIxR"
+    "equest\032#.octaneapi.ApiItem.getArrayRespo"
+    "nse\022_\n\020setValueByAttrID\022&.octaneapi.ApiI"
+    "tem.setValueByIDRequest\032#.octaneapi.ApiI"
+    "tem.setValueResponse\022_\n\016setValueByName\022("
+    ".octaneapi.ApiItem.setValueByNameRequest"
+    "\032#.octaneapi.ApiItem.setValueResponse\022[\n"
+    "\014setValueByIx\022&.octaneapi.ApiItem.setVal"
+    "ueByIxRequest\032#.octaneapi.ApiItem.setVal"
+    "ueResponse\022_\n\016setArrayByName\022(.octaneapi"
+    ".ApiItem.setArrayByNameRequest\032#.octanea"
+    "pi.ApiItem.setArrayResponse\022_\n\020setArrayB"
+    "yAttrID\022&.octaneapi.ApiItem.setArrayByID"
+    "Request\032#.octaneapi.ApiItem.setArrayResp"
+    "onse\022[\n\014setArrayByIx\022&.octaneapi.ApiItem"
+    ".setArrayByIxRequest\032#.octaneapi.ApiItem"
+    ".setArrayResponse\022_\n\rgetAnimByAttr\022%.oct"
+    "aneapi.ApiItem.getAnimByIDRequest\032\'.octa"
+    "neapi.ApiItem.getAnimArrayResponse\022a\n\rge"
+    "tAnimByName\022\'.octaneapi.ApiItem.getAnimB"
+    "yNameRequest\032\'.octaneapi.ApiItem.getAnim"
+    "ArrayResponse\022]\n\013getAnimByIx\022%.octaneapi"
+    ".ApiItem.getAnimByIxRequest\032\'.octaneapi."
+    "ApiItem.getAnimArrayResponse\022_\n\rsetAnimB"
+    "yAttr\022%.octaneapi.ApiItem.setAnimByIDReq"
+    "uest\032\'.octaneapi.ApiItem.setAnimArrayRes"
+    "ponse\022a\n\rsetAnimByName\022\'.octaneapi.ApiIt"
+    "em.setAnimByNameRequest\032\'.octaneapi.ApiI"
+    "tem.setAnimArrayResponse\022]\n\013setAnimByIx\022"
+    "%.octaneapi.ApiItem.setAnimByIxRequest\032\'"
+    ".octaneapi.ApiItem.setAnimArrayResponseB"
+    "\002H\002b\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_apinodesystem_5f3_2eproto_deps[5] = {
@@ -5978,7 +6002,7 @@ static ::absl::once_flag descriptor_table_apinodesystem_5f3_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_apinodesystem_5f3_2eproto = {
     false,
     false,
-    25925,
+    26171,
     descriptor_table_protodef_apinodesystem_5f3_2eproto,
     "apinodesystem_3.proto",
     &descriptor_table_apinodesystem_5f3_2eproto_once,
@@ -28082,7 +28106,13 @@ ApiItem_setArrayByIDRequest::ApiItem_setArrayByIDRequest(
   _impl_.item_ref_ = ((cached_has_bits & 0x00000001u) != 0)
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.item_ref_)
                 : nullptr;
-  _impl_.attribute_id_ = from._impl_.attribute_id_;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, attribute_id_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, attribute_id_),
+           offsetof(Impl_, evaluate_) -
+               offsetof(Impl_, attribute_id_) +
+               sizeof(Impl_::evaluate_));
   switch (array_value_case()) {
     case ARRAY_VALUE_NOT_SET:
       break;
@@ -28144,9 +28174,9 @@ inline void ApiItem_setArrayByIDRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLA
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, item_ref_),
            0,
-           offsetof(Impl_, attribute_id_) -
+           offsetof(Impl_, evaluate_) -
                offsetof(Impl_, item_ref_) +
-               sizeof(Impl_::attribute_id_));
+               sizeof(Impl_::evaluate_));
 }
 ApiItem_setArrayByIDRequest::~ApiItem_setArrayByIDRequest() {
   // @@protoc_insertion_point(destructor:octaneapi.ApiItem.setArrayByIDRequest)
@@ -28331,16 +28361,16 @@ ApiItem_setArrayByIDRequest::GetClassData() const {
   return ApiItem_setArrayByIDRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 16, 15, 0, 2>
+const ::_pbi::TcParseTable<2, 17, 15, 0, 2>
 ApiItem_setArrayByIDRequest::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIDRequest, _impl_._has_bits_),
     0, // no _extensions_
-    23, 8,  // max_field_number, fast_idx_mask
+    23, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4286579196,  // skipmap
+    4286579192,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    16,  // num_field_entries
+    17,  // num_field_entries
     15,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     ApiItem_setArrayByIDRequest_class_data_.base(),
@@ -28350,12 +28380,16 @@ ApiItem_setArrayByIDRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::octaneapi::ApiItem_setArrayByIDRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .octaneapi.AttributeId attribute_id = 2;
-    {::_pbi::TcParser::FastV32S1,
-     {16, 1, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIDRequest, _impl_.attribute_id_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // .octaneapi.ObjectRef item_ref = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIDRequest, _impl_.item_ref_)}},
+    // .octaneapi.AttributeId attribute_id = 2;
+    {::_pbi::TcParser::FastV32S1,
+     {16, 1, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIDRequest, _impl_.attribute_id_)}},
+    // optional bool evaluate = 3;
+    {::_pbi::TcParser::FastV8S1,
+     {24, 2, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIDRequest, _impl_.evaluate_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -28365,6 +28399,9 @@ ApiItem_setArrayByIDRequest::_table_ = {
     // .octaneapi.AttributeId attribute_id = 2;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIDRequest, _impl_.attribute_id_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kOpenEnum)},
+    // optional bool evaluate = 3;
+    {PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIDRequest, _impl_.evaluate_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
     // .octaneapi.BoolArrayT bool_array = 10;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIDRequest, _impl_.array_value_.bool_array_), _Internal::kOneofCaseOffset + 0, 1,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
@@ -28823,7 +28860,13 @@ ApiItem_setArrayByIxRequest::ApiItem_setArrayByIxRequest(
   _impl_.item_ref_ = ((cached_has_bits & 0x00000001u) != 0)
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.item_ref_)
                 : nullptr;
-  _impl_.index_ = from._impl_.index_;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, index_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, index_),
+           offsetof(Impl_, evaluate_) -
+               offsetof(Impl_, index_) +
+               sizeof(Impl_::evaluate_));
   switch (array_value_case()) {
     case ARRAY_VALUE_NOT_SET:
       break;
@@ -28885,9 +28928,9 @@ inline void ApiItem_setArrayByIxRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLA
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, item_ref_),
            0,
-           offsetof(Impl_, index_) -
+           offsetof(Impl_, evaluate_) -
                offsetof(Impl_, item_ref_) +
-               sizeof(Impl_::index_));
+               sizeof(Impl_::evaluate_));
 }
 ApiItem_setArrayByIxRequest::~ApiItem_setArrayByIxRequest() {
   // @@protoc_insertion_point(destructor:octaneapi.ApiItem.setArrayByIxRequest)
@@ -29072,16 +29115,16 @@ ApiItem_setArrayByIxRequest::GetClassData() const {
   return ApiItem_setArrayByIxRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 16, 15, 0, 2>
+const ::_pbi::TcParseTable<2, 17, 15, 0, 2>
 ApiItem_setArrayByIxRequest::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIxRequest, _impl_._has_bits_),
     0, // no _extensions_
-    23, 8,  // max_field_number, fast_idx_mask
+    23, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4286579196,  // skipmap
+    4286579192,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    16,  // num_field_entries
+    17,  // num_field_entries
     15,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     ApiItem_setArrayByIxRequest_class_data_.base(),
@@ -29091,12 +29134,16 @@ ApiItem_setArrayByIxRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::octaneapi::ApiItem_setArrayByIxRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // uint32 index = 2;
-    {::_pbi::TcParser::FastV32S1,
-     {16, 1, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIxRequest, _impl_.index_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // .octaneapi.ObjectRef item_ref = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIxRequest, _impl_.item_ref_)}},
+    // uint32 index = 2;
+    {::_pbi::TcParser::FastV32S1,
+     {16, 1, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIxRequest, _impl_.index_)}},
+    // optional bool evaluate = 3;
+    {::_pbi::TcParser::FastV8S1,
+     {24, 2, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIxRequest, _impl_.evaluate_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -29106,6 +29153,9 @@ ApiItem_setArrayByIxRequest::_table_ = {
     // uint32 index = 2;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIxRequest, _impl_.index_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+    // optional bool evaluate = 3;
+    {PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIxRequest, _impl_.evaluate_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
     // .octaneapi.BoolArrayT bool_array = 10;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByIxRequest, _impl_.array_value_.bool_array_), _Internal::kOneofCaseOffset + 0, 1,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
@@ -29565,6 +29615,7 @@ ApiItem_setArrayByNameRequest::ApiItem_setArrayByNameRequest(
   _impl_.item_ref_ = ((cached_has_bits & 0x00000002u) != 0)
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.item_ref_)
                 : nullptr;
+  _impl_.evaluate_ = from._impl_.evaluate_;
   switch (array_value_case()) {
     case ARRAY_VALUE_NOT_SET:
       break;
@@ -29624,7 +29675,12 @@ PROTOBUF_NDEBUG_INLINE ApiItem_setArrayByNameRequest::Impl_::Impl_(
 
 inline void ApiItem_setArrayByNameRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.item_ref_ = {};
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, item_ref_),
+           0,
+           offsetof(Impl_, evaluate_) -
+               offsetof(Impl_, item_ref_) +
+               sizeof(Impl_::evaluate_));
 }
 ApiItem_setArrayByNameRequest::~ApiItem_setArrayByNameRequest() {
   // @@protoc_insertion_point(destructor:octaneapi.ApiItem.setArrayByNameRequest)
@@ -29810,16 +29866,16 @@ ApiItem_setArrayByNameRequest::GetClassData() const {
   return ApiItem_setArrayByNameRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 16, 15, 68, 2>
+const ::_pbi::TcParseTable<2, 17, 15, 68, 2>
 ApiItem_setArrayByNameRequest::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByNameRequest, _impl_._has_bits_),
     0, // no _extensions_
-    23, 8,  // max_field_number, fast_idx_mask
+    23, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4286579196,  // skipmap
+    4286579192,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    16,  // num_field_entries
+    17,  // num_field_entries
     15,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     ApiItem_setArrayByNameRequest_class_data_.base(),
@@ -29829,12 +29885,16 @@ ApiItem_setArrayByNameRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::octaneapi::ApiItem_setArrayByNameRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // string name = 2;
-    {::_pbi::TcParser::FastUS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByNameRequest, _impl_.name_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // .octaneapi.ObjectRef item_ref = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 1, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByNameRequest, _impl_.item_ref_)}},
+    // string name = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByNameRequest, _impl_.name_)}},
+    // optional bool evaluate = 3;
+    {::_pbi::TcParser::FastV8S1,
+     {24, 2, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByNameRequest, _impl_.evaluate_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -29844,6 +29904,9 @@ ApiItem_setArrayByNameRequest::_table_ = {
     // string name = 2;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByNameRequest, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // optional bool evaluate = 3;
+    {PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByNameRequest, _impl_.evaluate_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
     // .octaneapi.BoolArrayT bool_array = 10;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setArrayByNameRequest, _impl_.array_value_.bool_array_), _Internal::kOneofCaseOffset + 0, 1,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
@@ -30848,7 +30911,13 @@ ApiItem_setValueByIDRequest::ApiItem_setValueByIDRequest(
   _impl_.item_ref_ = ((cached_has_bits & 0x00000001u) != 0)
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.item_ref_)
                 : nullptr;
-  _impl_.attribute_id_ = from._impl_.attribute_id_;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, attribute_id_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, attribute_id_),
+           offsetof(Impl_, evaluate_) -
+               offsetof(Impl_, attribute_id_) +
+               sizeof(Impl_::evaluate_));
   switch (value_case()) {
     case VALUE_NOT_SET:
       break;
@@ -30907,9 +30976,9 @@ inline void ApiItem_setValueByIDRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLA
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, item_ref_),
            0,
-           offsetof(Impl_, attribute_id_) -
+           offsetof(Impl_, evaluate_) -
                offsetof(Impl_, item_ref_) +
-               sizeof(Impl_::attribute_id_));
+               sizeof(Impl_::evaluate_));
 }
 ApiItem_setValueByIDRequest::~ApiItem_setValueByIDRequest() {
   // @@protoc_insertion_point(destructor:octaneapi.ApiItem.setValueByIDRequest)
@@ -31066,16 +31135,16 @@ ApiItem_setValueByIDRequest::GetClassData() const {
   return ApiItem_setValueByIDRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 15, 9, 66, 2>
+const ::_pbi::TcParseTable<2, 16, 9, 74, 2>
 ApiItem_setValueByIDRequest::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIDRequest, _impl_._has_bits_),
     0, // no _extensions_
-    22, 8,  // max_field_number, fast_idx_mask
+    22, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4290773500,  // skipmap
+    4290773496,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    15,  // num_field_entries
+    16,  // num_field_entries
     9,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     ApiItem_setValueByIDRequest_class_data_.base(),
@@ -31085,12 +31154,16 @@ ApiItem_setValueByIDRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::octaneapi::ApiItem_setValueByIDRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .octaneapi.AttributeId attribute_id = 2;
-    {::_pbi::TcParser::FastV32S1,
-     {16, 1, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIDRequest, _impl_.attribute_id_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // .octaneapi.ObjectRef item_ref = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIDRequest, _impl_.item_ref_)}},
+    // .octaneapi.AttributeId attribute_id = 2;
+    {::_pbi::TcParser::FastV32S1,
+     {16, 1, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIDRequest, _impl_.attribute_id_)}},
+    // optional bool evaluate = 3;
+    {::_pbi::TcParser::FastV8S1,
+     {24, 2, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIDRequest, _impl_.evaluate_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -31100,6 +31173,9 @@ ApiItem_setValueByIDRequest::_table_ = {
     // .octaneapi.AttributeId attribute_id = 2;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIDRequest, _impl_.attribute_id_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kOpenEnum)},
+    // optional bool evaluate = 3;
+    {PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIDRequest, _impl_.evaluate_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
     // bool bool_value = 10;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIDRequest, _impl_.value_.bool_value_), _Internal::kOneofCaseOffset + 0, 0,
     (0 | ::_fl::kFcOneof | ::_fl::kBool)},
@@ -31152,7 +31228,7 @@ ApiItem_setValueByIDRequest::_table_ = {
       {::_pbi::TcParser::GetTable<::octaneapi::MatrixF>()},
   }},
   {{
-    "\45\0\0\0\0\0\0\0\0\0\0\0\0\0\0\14"
+    "\45\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\14\0\0\0\0\0\0\0"
     "octaneapi.ApiItem.setValueByIDRequest"
     "string_value"
   }},
@@ -31408,7 +31484,13 @@ ApiItem_setValueByIxRequest::ApiItem_setValueByIxRequest(
   _impl_.item_ref_ = ((cached_has_bits & 0x00000001u) != 0)
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.item_ref_)
                 : nullptr;
-  _impl_.index_ = from._impl_.index_;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, index_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, index_),
+           offsetof(Impl_, evaluate_) -
+               offsetof(Impl_, index_) +
+               sizeof(Impl_::evaluate_));
   switch (value_case()) {
     case VALUE_NOT_SET:
       break;
@@ -31467,9 +31549,9 @@ inline void ApiItem_setValueByIxRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLA
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, item_ref_),
            0,
-           offsetof(Impl_, index_) -
+           offsetof(Impl_, evaluate_) -
                offsetof(Impl_, item_ref_) +
-               sizeof(Impl_::index_));
+               sizeof(Impl_::evaluate_));
 }
 ApiItem_setValueByIxRequest::~ApiItem_setValueByIxRequest() {
   // @@protoc_insertion_point(destructor:octaneapi.ApiItem.setValueByIxRequest)
@@ -31626,16 +31708,16 @@ ApiItem_setValueByIxRequest::GetClassData() const {
   return ApiItem_setValueByIxRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 15, 9, 66, 2>
+const ::_pbi::TcParseTable<2, 16, 9, 74, 2>
 ApiItem_setValueByIxRequest::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIxRequest, _impl_._has_bits_),
     0, // no _extensions_
-    22, 8,  // max_field_number, fast_idx_mask
+    22, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4290773500,  // skipmap
+    4290773496,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    15,  // num_field_entries
+    16,  // num_field_entries
     9,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     ApiItem_setValueByIxRequest_class_data_.base(),
@@ -31645,12 +31727,16 @@ ApiItem_setValueByIxRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::octaneapi::ApiItem_setValueByIxRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // uint32 index = 2;
-    {::_pbi::TcParser::FastV32S1,
-     {16, 1, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIxRequest, _impl_.index_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // .octaneapi.ObjectRef item_ref = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 0, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIxRequest, _impl_.item_ref_)}},
+    // uint32 index = 2;
+    {::_pbi::TcParser::FastV32S1,
+     {16, 1, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIxRequest, _impl_.index_)}},
+    // optional bool evaluate = 3;
+    {::_pbi::TcParser::FastV8S1,
+     {24, 2, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIxRequest, _impl_.evaluate_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -31660,6 +31746,9 @@ ApiItem_setValueByIxRequest::_table_ = {
     // uint32 index = 2;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIxRequest, _impl_.index_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+    // optional bool evaluate = 3;
+    {PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIxRequest, _impl_.evaluate_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
     // bool bool_value = 10;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setValueByIxRequest, _impl_.value_.bool_value_), _Internal::kOneofCaseOffset + 0, 0,
     (0 | ::_fl::kFcOneof | ::_fl::kBool)},
@@ -31712,7 +31801,7 @@ ApiItem_setValueByIxRequest::_table_ = {
       {::_pbi::TcParser::GetTable<::octaneapi::MatrixF>()},
   }},
   {{
-    "\45\0\0\0\0\0\0\0\0\0\0\0\0\0\0\14"
+    "\45\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\14\0\0\0\0\0\0\0"
     "octaneapi.ApiItem.setValueByIxRequest"
     "string_value"
   }},
@@ -31969,6 +32058,7 @@ ApiItem_setValueByNameRequest::ApiItem_setValueByNameRequest(
   _impl_.item_ref_ = ((cached_has_bits & 0x00000002u) != 0)
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.item_ref_)
                 : nullptr;
+  _impl_.evaluate_ = from._impl_.evaluate_;
   switch (value_case()) {
     case VALUE_NOT_SET:
       break;
@@ -32025,7 +32115,12 @@ PROTOBUF_NDEBUG_INLINE ApiItem_setValueByNameRequest::Impl_::Impl_(
 
 inline void ApiItem_setValueByNameRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.item_ref_ = {};
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, item_ref_),
+           0,
+           offsetof(Impl_, evaluate_) -
+               offsetof(Impl_, item_ref_) +
+               sizeof(Impl_::evaluate_));
 }
 ApiItem_setValueByNameRequest::~ApiItem_setValueByNameRequest() {
   // @@protoc_insertion_point(destructor:octaneapi.ApiItem.setValueByNameRequest)
@@ -32183,16 +32278,16 @@ ApiItem_setValueByNameRequest::GetClassData() const {
   return ApiItem_setValueByNameRequest_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 15, 9, 72, 2>
+const ::_pbi::TcParseTable<2, 16, 9, 80, 2>
 ApiItem_setValueByNameRequest::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(ApiItem_setValueByNameRequest, _impl_._has_bits_),
     0, // no _extensions_
-    22, 8,  // max_field_number, fast_idx_mask
+    22, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4290773500,  // skipmap
+    4290773496,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    15,  // num_field_entries
+    16,  // num_field_entries
     9,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     ApiItem_setValueByNameRequest_class_data_.base(),
@@ -32202,12 +32297,16 @@ ApiItem_setValueByNameRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::octaneapi::ApiItem_setValueByNameRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // string name = 2;
-    {::_pbi::TcParser::FastUS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByNameRequest, _impl_.name_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // .octaneapi.ObjectRef item_ref = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 1, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByNameRequest, _impl_.item_ref_)}},
+    // string name = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByNameRequest, _impl_.name_)}},
+    // optional bool evaluate = 3;
+    {::_pbi::TcParser::FastV8S1,
+     {24, 2, 0, PROTOBUF_FIELD_OFFSET(ApiItem_setValueByNameRequest, _impl_.evaluate_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -32217,6 +32316,9 @@ ApiItem_setValueByNameRequest::_table_ = {
     // string name = 2;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setValueByNameRequest, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // optional bool evaluate = 3;
+    {PROTOBUF_FIELD_OFFSET(ApiItem_setValueByNameRequest, _impl_.evaluate_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
     // bool bool_value = 10;
     {PROTOBUF_FIELD_OFFSET(ApiItem_setValueByNameRequest, _impl_.value_.bool_value_), _Internal::kOneofCaseOffset + 0, 0,
     (0 | ::_fl::kFcOneof | ::_fl::kBool)},
@@ -32269,7 +32371,7 @@ ApiItem_setValueByNameRequest::_table_ = {
       {::_pbi::TcParser::GetTable<::octaneapi::MatrixF>()},
   }},
   {{
-    "\47\0\4\0\0\0\0\0\0\0\0\0\0\0\0\14"
+    "\47\0\4\0\0\0\0\0\0\0\0\0\0\0\0\0\14\0\0\0\0\0\0\0"
     "octaneapi.ApiItem.setValueByNameRequest"
     "name"
     "string_value"

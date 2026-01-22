@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #pragma once
 
@@ -84,7 +84,9 @@ public:
     /// Resets a project to a fresh new project.
     /// @param[out] status
     ///     Contains the status of the gRPC call
-    static bool resetProject();
+    static bool resetProject(
+            bool   suppressUI
+            );
 
     /// Loads a project into octane. A project is either and .ocs file or
     /// a .orbx file.

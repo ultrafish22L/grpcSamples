@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef _OCTANE_WRAP_SELECTION_MANAGER_H_
 #define _OCTANE_WRAP_SELECTION_MANAGER_H_   1

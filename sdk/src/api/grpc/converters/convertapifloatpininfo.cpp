@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #if !defined(OCTANE_DEMO_VERSION) && !defined(OCTANE_NET_SLAVE)
 // myself
@@ -92,7 +92,7 @@ void ApiFloatPinInfoConverter::convert(
         octaneapi::ApiFloatPinInfo::ApiFloatPinInfo_DimInfo* item = out.add_diminfos();// 5d
         item->set_minvalue(in.mDimInfos[h].mMinValue);
         item->set_maxvalue(in.mDimInfos[h].mMaxValue);
-        item->set_name(in.mDimInfos[h].mName);
+        item->set_name(StringManager::checkString(in.mDimInfos[h].mName));
         item->set_sliderminvalue(in.mDimInfos[h].mSliderMinValue);
         item->set_slidermaxvalue(in.mDimInfos[h].mSliderMaxValue);
     }

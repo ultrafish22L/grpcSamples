@@ -185,7 +185,7 @@ message ApiItem
     {
         ObjectRef   item_ref     = 1; 
         AttributeId attribute_id = 2;
-
+        optional bool evaluate = 3;
         oneof value 
         {
             bool       bool_value     = 10;
@@ -210,7 +210,7 @@ message ApiItem
     {
         ObjectRef   item_ref     = 1;
         AttributeId attribute_id = 2;
-
+        optional bool evaluate = 3;
         oneof array_value 
         {
             BoolArrayT   bool_array       = 10;
@@ -262,6 +262,7 @@ message ApiItem
     {
         ObjectRef item_ref = 1;
         string    name     = 2;
+        optional bool evaluate = 3;
         oneof value 
         {
             bool       bool_value     = 10;
@@ -285,6 +286,7 @@ message ApiItem
     {
         ObjectRef item_ref = 1;
         string    name     = 2;
+        optional bool evaluate = 3;
         oneof array_value 
         {
             BoolArrayT   bool_array       = 10;
@@ -330,7 +332,6 @@ message ApiItem
             ByteArrayT   byte_array       = 23;
         }
     }
- 
 
 
     // E) Index-based (scalar)
@@ -338,6 +339,7 @@ message ApiItem
     {
         ObjectRef item_ref = 1;
         uint32    index    = 2;
+        optional bool evaluate = 3;
         oneof value 
         {
             bool       bool_value     = 10;
@@ -356,11 +358,13 @@ message ApiItem
         }
     }
 
+
     // F) Index-based (array)
     message setArrayByIxRequest 
     {
         ObjectRef item_ref = 1;
         uint32    index    = 2;
+        optional bool evaluate = 3;
         oneof array_value 
         {
             BoolArrayT   bool_array       = 10;
@@ -379,6 +383,7 @@ message ApiItem
             ByteArrayT   byte_array       = 23;
         }
     }
+
 
     message setAnimByIxRequest
     {
@@ -7438,7 +7443,147 @@ message ApiItem
  // GRPC proto definitions for 'ApiNode' class from 'apinodesystem.h'
 message ApiNode
 {
-    // Request packet corresponding to '[in] parameters in ApiNode::create'
+
+
+    /// Represents a path to a file in either the file system or an ORBX package
+    /// In paths returned by the API, both strings will be valid, although they may be empty ("").
+     message ApiFilePath
+     {
+         string package = 1,
+         string fileName = 2
+     }
+
+    // Response for "getPin" calls
+    message getPinValueByXResponse
+    {
+        oneof value 
+        {
+            // -- Scalar types --
+            bool       bool_value     = 10;
+            int32      int_value      = 11;
+            int32_2    int2_value     = 12;
+            int32_3    int3_value     = 13;
+            int32_4    int4_value     = 14;
+            int64      long_value     = 15;
+            int64_2    long2_value    = 16;
+            float      float_value    = 17;
+            float_2    float2_value   = 18;
+            float_3    float3_value   = 19;
+            float_4    float4_value   = 20;
+            MatrixF    matrix_value   = 21;
+            string     string_value   = 22;
+            ApiFilePath file_path_value  = 23;
+        }
+    }
+      
+
+    // --- For scalar retrieval --- 
+
+    message getPinValueByIDRequest 
+    {
+        ObjectRef       item_ref      = 1; // which object
+        PinId           pin_id  = 2; // which property inside the object
+        PinTypeId       expected_type = 3; // optional type enum for validation
+    }
+
+    message getPinValueByNameRequest 
+    {
+        ObjectRef       item_ref      = 1; // which object
+        string          name          = 2; // property name
+        PinTypeId       expected_type = 3; // optional
+    }
+
+    message getPinValueByIxRequest 
+    {
+        ObjectRef       item_ref      = 1; // which object
+        uint32          index         = 2; // property index
+        PinTypeId       expected_type = 3; // optional
+    }
+
+    message setPinValueByIDRequest
+    {
+        ObjectRef    item_ref     = 1; 
+        PinId        pin_id = 2;
+        optional bool evaluate = 3;
+        oneof value 
+        {               
+            bool        bool_value       = 10;
+            int32       int_value        = 11;
+            int32_2     int2_value       = 12;
+            int32_3     int3_value       = 13;
+            int32_4     int4_value       = 14;
+            int64       long_value       = 15;
+            int64_2     long2_value      = 16;
+            float       float_value      = 17;
+            float_2     float2_value     = 18;
+            float_3     float3_value     = 19;
+            float_4     float4_value     = 20;
+            MatrixF     matrix_value     = 21;
+            string      string_value     = 22;
+            ApiFilePath file_path_value  = 23;
+            // If you have single "bytes" or other scalar variants, add them here
+        }
+    }
+     
+
+    message setPinValueByNameRequest
+    {
+        ObjectRef item_ref = 1;
+        string    name     = 2;
+        optional bool evaluate = 3;
+        oneof value 
+        {
+            bool        bool_value      = 10;
+            int32       int_value       = 11;
+            int32_2     int2_value      = 12;
+            int32_3     int3_value      = 13;
+            int32_4     int4_value      = 14;
+            int64       long_value      = 15;
+            int64_2     long2_value     = 16;
+            float       float_value     = 17;
+            float_2     float2_value    = 18;
+            float_3     float3_value    = 19;
+            float_4     float4_value    = 20;
+            MatrixF     matrix_value    = 21;
+            string      string_value    = 22;
+            ApiFilePath file_path_value = 23;
+        }
+    }
+     
+
+    // E) Index-based (scalar)
+    message setPinValueByIxRequest
+    {
+        ObjectRef item_ref = 1;
+        uint32    index    = 2;
+        optional bool evaluate = 3;
+        oneof value 
+        {
+            bool        bool_value     = 10;
+            int32       int_value      = 11;
+            int32_2     int2_value     = 12;
+            int32_3     int3_value     = 13;
+            int32_4     int4_value     = 14;
+            int64       long_value     = 15;
+            int64_2     long2_value    = 16;
+            float       float_value    = 17;
+            float_2     float2_value   = 18;
+            float_3     float3_value   = 19;
+            float_4     float4_value   = 20;
+            MatrixF     matrix_value   = 21;
+            string      string_value   = 22;
+            ApiFilePath file_path_value = 23;
+        }
+    }
+
+    // -----------------------------------------------------------------------------
+    // 5. Response definition
+    // -----------------------------------------------------------------------------
+    message setPinValueResponse 
+    {
+        bool   success       = 1;
+        string error_message = 2; 
+    }    // Request packet corresponding to '[in] parameters in ApiNode::create'
     message createRequest
     {
         // The type of the node to create.
@@ -10869,9 +11014,9 @@ service ApiItemService
     /// Dump all attributes of this item to a text file
     rpc dumpAttributes(ApiItem.dumpAttributesRequest) returns (google.protobuf.Empty);
     // Scalar getters
-    rpc getByAttrID(ApiItem.getValueByIDRequest) returns (ApiItem.getValueResponse);
-    rpc getByName(ApiItem.getValueByNameRequest) returns (ApiItem.getValueResponse);
-    rpc getByIx(ApiItem.getValueByIxRequest)     returns (ApiItem.getValueResponse);
+    rpc getValueByAttrID(ApiItem.getValueByIDRequest) returns (ApiItem.getValueResponse);
+    rpc getValueByName(ApiItem.getValueByNameRequest) returns (ApiItem.getValueResponse);
+    rpc getValueByIx(ApiItem.getValueByIxRequest)     returns (ApiItem.getValueResponse);
 
     // Array getters
     rpc getArrayByAttrID(ApiItem.getArrayByIDRequest) returns (ApiItem.getArrayResponse);
@@ -10879,9 +11024,9 @@ service ApiItemService
     rpc getArrayByIx(ApiItem.getArrayByIxRequest)     returns (ApiItem.getArrayResponse);
 
     // Scalar setters
-    rpc setByAttrID(ApiItem.setValueByIDRequest)      returns (ApiItem.setValueResponse);
-    rpc setByName(ApiItem.setValueByNameRequest)      returns (ApiItem.setValueResponse);   
-    rpc setByIx(ApiItem.setValueByIxRequest)          returns (ApiItem.setValueResponse);
+    rpc setValueByAttrID(ApiItem.setValueByIDRequest)      returns (ApiItem.setValueResponse);
+    rpc setValueByName(ApiItem.setValueByNameRequest)      returns (ApiItem.setValueResponse);   
+    rpc setValueByIx(ApiItem.setValueByIxRequest)          returns (ApiItem.setValueResponse);
 
     // Array setters
     rpc setArrayByName(ApiItem.setArrayByNameRequest)    returns (ApiItem.setArrayResponse);
@@ -10889,9 +11034,9 @@ service ApiItemService
     rpc setArrayByIx(ApiItem.setArrayByIxRequest)        returns (ApiItem.setArrayResponse);
   
     // Anim getters
-    rpc getAnimByAttr(ApiItem.getAnimByIDRequest)    returns (ApiItem.getAnimArrayResponse);
+    rpc getAnimByAttr(ApiItem.getAnimByIDRequest)      returns (ApiItem.getAnimArrayResponse);
     rpc getAnimByName(ApiItem.getAnimByNameRequest)    returns (ApiItem.getAnimArrayResponse);
-    rpc getAnimByIx(ApiItem.getAnimByIxRequest)       returns (ApiItem.getAnimArrayResponse);
+    rpc getAnimByIx(ApiItem.getAnimByIxRequest)        returns (ApiItem.getAnimArrayResponse);
 
     // Anim setters
     rpc setAnimByAttr(ApiItem.setAnimByIDRequest)    returns (ApiItem.setAnimArrayResponse);
@@ -11386,124 +11531,6 @@ service ApiNodeService
     rpc copyFrom1(ApiNode.copyFrom1Request) returns (ApiNode.copyFrom1Response);
     /// Same as above, but identifying the pin via its index
     rpc copyFromIx(ApiNode.copyFromIxRequest) returns (ApiNode.copyFromIxResponse);
-    /// Returns the value of a value node (skipping linker nodes) or the default
-    /// value of the pin if it's not connected to value node
-    rpc getPinBool(ApiNode.getPinBoolRequest) returns (ApiNode.getPinBoolResponse);
-    rpc getPinFloat(ApiNode.getPinFloatRequest) returns (ApiNode.getPinFloatResponse);
-    rpc getPinFloat2(ApiNode.getPinFloat2Request) returns (ApiNode.getPinFloat2Response);
-    rpc getPinFloat3(ApiNode.getPinFloat3Request) returns (ApiNode.getPinFloat3Response);
-    rpc getPinFloat4(ApiNode.getPinFloat4Request) returns (ApiNode.getPinFloat4Response);
-    rpc getPinInt(ApiNode.getPinIntRequest) returns (ApiNode.getPinIntResponse);
-    rpc getPinInt2(ApiNode.getPinInt2Request) returns (ApiNode.getPinInt2Response);
-    rpc getPinInt3(ApiNode.getPinInt3Request) returns (ApiNode.getPinInt3Response);
-    rpc getPinInt4(ApiNode.getPinInt4Request) returns (ApiNode.getPinInt4Response);
-    rpc getPinMatrix(ApiNode.getPinMatrixRequest) returns (ApiNode.getPinMatrixResponse);
-    rpc getPinString(ApiNode.getPinStringRequest) returns (ApiNode.getPinStringResponse);
-    rpc getPinFilePath(ApiNode.getPinFilePathRequest) returns (ApiNode.getPinFilePathResponse);
-    /// Same as above but identifies the pin via name
-    rpc getPinBool1(ApiNode.getPinBool1Request) returns (ApiNode.getPinBool1Response);
-    rpc getPinFloat1(ApiNode.getPinFloat1Request) returns (ApiNode.getPinFloat1Response);
-    rpc getPinFloat21(ApiNode.getPinFloat21Request) returns (ApiNode.getPinFloat21Response);
-    rpc getPinFloat31(ApiNode.getPinFloat31Request) returns (ApiNode.getPinFloat31Response);
-    rpc getPinFloat41(ApiNode.getPinFloat41Request) returns (ApiNode.getPinFloat41Response);
-    rpc getPinInt1(ApiNode.getPinInt1Request) returns (ApiNode.getPinInt1Response);
-    rpc getPinInt21(ApiNode.getPinInt21Request) returns (ApiNode.getPinInt21Response);
-    rpc getPinInt31(ApiNode.getPinInt31Request) returns (ApiNode.getPinInt31Response);
-    rpc getPinInt41(ApiNode.getPinInt41Request) returns (ApiNode.getPinInt41Response);
-    rpc getPinMatrix1(ApiNode.getPinMatrix1Request) returns (ApiNode.getPinMatrix1Response);
-    rpc getPinString1(ApiNode.getPinString1Request) returns (ApiNode.getPinString1Response);
-    rpc getPinFilePath1(ApiNode.getPinFilePath1Request) returns (ApiNode.getPinFilePath1Response);
-    /// Same as above but identifies the pin via index
-    rpc getPinBoolIx(ApiNode.getPinBoolIxRequest) returns (ApiNode.getPinBoolIxResponse);
-    rpc getPinFloatIx(ApiNode.getPinFloatIxRequest) returns (ApiNode.getPinFloatIxResponse);
-    rpc getPinFloat2Ix(ApiNode.getPinFloat2IxRequest) returns (ApiNode.getPinFloat2IxResponse);
-    rpc getPinFloat3Ix(ApiNode.getPinFloat3IxRequest) returns (ApiNode.getPinFloat3IxResponse);
-    rpc getPinFloat4Ix(ApiNode.getPinFloat4IxRequest) returns (ApiNode.getPinFloat4IxResponse);
-    rpc getPinIntIx(ApiNode.getPinIntIxRequest) returns (ApiNode.getPinIntIxResponse);
-    rpc getPinInt2Ix(ApiNode.getPinInt2IxRequest) returns (ApiNode.getPinInt2IxResponse);
-    rpc getPinInt3Ix(ApiNode.getPinInt3IxRequest) returns (ApiNode.getPinInt3IxResponse);
-    rpc getPinInt4Ix(ApiNode.getPinInt4IxRequest) returns (ApiNode.getPinInt4IxResponse);
-    rpc getPinMatrixIx(ApiNode.getPinMatrixIxRequest) returns (ApiNode.getPinMatrixIxResponse);
-    rpc getPinStringIx(ApiNode.getPinStringIxRequest) returns (ApiNode.getPinStringIxResponse);
-    rpc getPinFilePathIx(ApiNode.getPinFilePathIxRequest) returns (ApiNode.getPinFilePathIxResponse);
-    /// Returns the value in an out argument
-    rpc getPinValue(ApiNode.getPinValueRequest) returns (ApiNode.getPinValueResponse);
-    rpc getPinValue1(ApiNode.getPinValue1Request) returns (ApiNode.getPinValue1Response);
-    rpc getPinValue2(ApiNode.getPinValue2Request) returns (ApiNode.getPinValue2Response);
-    rpc getPinValue3(ApiNode.getPinValue3Request) returns (ApiNode.getPinValue3Response);
-    rpc getPinValue4(ApiNode.getPinValue4Request) returns (ApiNode.getPinValue4Response);
-    rpc getPinValue5(ApiNode.getPinValue5Request) returns (ApiNode.getPinValue5Response);
-    rpc getPinValue6(ApiNode.getPinValue6Request) returns (ApiNode.getPinValue6Response);
-    rpc getPinValue7(ApiNode.getPinValue7Request) returns (ApiNode.getPinValue7Response);
-    rpc getPinValue8(ApiNode.getPinValue8Request) returns (ApiNode.getPinValue8Response);
-    rpc getPinValue9(ApiNode.getPinValue9Request) returns (ApiNode.getPinValue9Response);
-    rpc getPinValue10(ApiNode.getPinValue10Request) returns (ApiNode.getPinValue10Response);
-    rpc getPinValue11(ApiNode.getPinValue11Request) returns (ApiNode.getPinValue11Response);
-    /// Same as above but identifies the pin via name
-    rpc getPinValue12(ApiNode.getPinValue12Request) returns (ApiNode.getPinValue12Response);
-    rpc getPinValue13(ApiNode.getPinValue13Request) returns (ApiNode.getPinValue13Response);
-    rpc getPinValue14(ApiNode.getPinValue14Request) returns (ApiNode.getPinValue14Response);
-    rpc getPinValue15(ApiNode.getPinValue15Request) returns (ApiNode.getPinValue15Response);
-    rpc getPinValue16(ApiNode.getPinValue16Request) returns (ApiNode.getPinValue16Response);
-    rpc getPinValue17(ApiNode.getPinValue17Request) returns (ApiNode.getPinValue17Response);
-    rpc getPinValue18(ApiNode.getPinValue18Request) returns (ApiNode.getPinValue18Response);
-    rpc getPinValue19(ApiNode.getPinValue19Request) returns (ApiNode.getPinValue19Response);
-    rpc getPinValue20(ApiNode.getPinValue20Request) returns (ApiNode.getPinValue20Response);
-    rpc getPinValue21(ApiNode.getPinValue21Request) returns (ApiNode.getPinValue21Response);
-    rpc getPinValue22(ApiNode.getPinValue22Request) returns (ApiNode.getPinValue22Response);
-    rpc getPinValue23(ApiNode.getPinValue23Request) returns (ApiNode.getPinValue23Response);
-    /// Same as above but identifies the pin via index
-    rpc getPinValueIx(ApiNode.getPinValueIxRequest) returns (ApiNode.getPinValueIxResponse);
-    rpc getPinValueIx1(ApiNode.getPinValueIx1Request) returns (ApiNode.getPinValueIx1Response);
-    rpc getPinValueIx2(ApiNode.getPinValueIx2Request) returns (ApiNode.getPinValueIx2Response);
-    rpc getPinValueIx3(ApiNode.getPinValueIx3Request) returns (ApiNode.getPinValueIx3Response);
-    rpc getPinValueIx4(ApiNode.getPinValueIx4Request) returns (ApiNode.getPinValueIx4Response);
-    rpc getPinValueIx5(ApiNode.getPinValueIx5Request) returns (ApiNode.getPinValueIx5Response);
-    rpc getPinValueIx6(ApiNode.getPinValueIx6Request) returns (ApiNode.getPinValueIx6Response);
-    rpc getPinValueIx7(ApiNode.getPinValueIx7Request) returns (ApiNode.getPinValueIx7Response);
-    rpc getPinValueIx8(ApiNode.getPinValueIx8Request) returns (ApiNode.getPinValueIx8Response);
-    rpc getPinValueIx9(ApiNode.getPinValueIx9Request) returns (ApiNode.getPinValueIx9Response);
-    rpc getPinValueIx10(ApiNode.getPinValueIx10Request) returns (ApiNode.getPinValueIx10Response);
-    rpc getPinValueIx11(ApiNode.getPinValueIx11Request) returns (ApiNode.getPinValueIx11Response);
-    /// Sets a connected node's value attribute through a pin
-    rpc setPinValue(ApiNode.setPinValueRequest) returns (google.protobuf.Empty);
-    rpc setPinValue1(ApiNode.setPinValue1Request) returns (google.protobuf.Empty);
-    rpc setPinValue2(ApiNode.setPinValue2Request) returns (google.protobuf.Empty);
-    rpc setPinValue3(ApiNode.setPinValue3Request) returns (google.protobuf.Empty);
-    rpc setPinValue4(ApiNode.setPinValue4Request) returns (google.protobuf.Empty);
-    rpc setPinValue5(ApiNode.setPinValue5Request) returns (google.protobuf.Empty);
-    rpc setPinValue6(ApiNode.setPinValue6Request) returns (google.protobuf.Empty);
-    rpc setPinValue7(ApiNode.setPinValue7Request) returns (google.protobuf.Empty);
-    rpc setPinValue8(ApiNode.setPinValue8Request) returns (google.protobuf.Empty);
-    rpc setPinValue9(ApiNode.setPinValue9Request) returns (google.protobuf.Empty);
-    rpc setPinValue10(ApiNode.setPinValue10Request) returns (google.protobuf.Empty);
-    rpc setPinValue11(ApiNode.setPinValue11Request) returns (google.protobuf.Empty);
-    /// Same as above but identifies the pin via name
-    rpc setPinValue12(ApiNode.setPinValue12Request) returns (google.protobuf.Empty);
-    rpc setPinValue13(ApiNode.setPinValue13Request) returns (google.protobuf.Empty);
-    rpc setPinValue14(ApiNode.setPinValue14Request) returns (google.protobuf.Empty);
-    rpc setPinValue15(ApiNode.setPinValue15Request) returns (google.protobuf.Empty);
-    rpc setPinValue16(ApiNode.setPinValue16Request) returns (google.protobuf.Empty);
-    rpc setPinValue17(ApiNode.setPinValue17Request) returns (google.protobuf.Empty);
-    rpc setPinValue18(ApiNode.setPinValue18Request) returns (google.protobuf.Empty);
-    rpc setPinValue19(ApiNode.setPinValue19Request) returns (google.protobuf.Empty);
-    rpc setPinValue20(ApiNode.setPinValue20Request) returns (google.protobuf.Empty);
-    rpc setPinValue21(ApiNode.setPinValue21Request) returns (google.protobuf.Empty);
-    rpc setPinValue22(ApiNode.setPinValue22Request) returns (google.protobuf.Empty);
-    rpc setPinValue23(ApiNode.setPinValue23Request) returns (google.protobuf.Empty);
-    /// Same as above but identifies the pin via index
-    rpc setPinValueIx(ApiNode.setPinValueIxRequest) returns (google.protobuf.Empty);
-    rpc setPinValueIx1(ApiNode.setPinValueIx1Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx2(ApiNode.setPinValueIx2Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx3(ApiNode.setPinValueIx3Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx4(ApiNode.setPinValueIx4Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx5(ApiNode.setPinValueIx5Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx6(ApiNode.setPinValueIx6Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx7(ApiNode.setPinValueIx7Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx8(ApiNode.setPinValueIx8Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx9(ApiNode.setPinValueIx9Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx10(ApiNode.setPinValueIx10Request) returns (google.protobuf.Empty);
-    rpc setPinValueIx11(ApiNode.setPinValueIx11Request) returns (google.protobuf.Empty);
     /// Opens a UI to allow the user choose where and how the specified node should be stored
     rpc storeToDb(ApiNode.storeToDbRequest) returns (ApiNode.storeToDbResponse);
     /// Show the OSL editor window for this node
@@ -11515,6 +11542,15 @@ service ApiNodeService
     /// Unpack all file data of the node that is coming from an ORBX package and optionally the file
     /// data of its input nodes
     rpc unpackFileData(ApiNode.unpackFileDataRequest) returns (ApiNode.unpackFileDataResponse);
+
+    rpc getPinValueByPinID(ApiNode.getPinValueByIDRequest) returns (ApiNode.getPinValueByXResponse);
+    rpc getPinValueByName(ApiNode.getPinValueByNameRequest) returns (ApiNode.getPinValueByXResponse);
+    rpc getPinValueByIx(ApiNode.getPinValueByIxRequest)     returns (ApiNode.getPinValueByXResponse);
+
+    rpc setPinValueByPinID(ApiNode.setPinValueByIDRequest)      returns (ApiNode.setPinValueResponse);
+    rpc setPinValueByName(ApiNode.setPinValueByNameRequest)      returns (ApiNode.setPinValueResponse);
+    rpc setPinValueByIx(ApiNode.setPinValueByIxRequest)          returns (ApiNode.setPinValueResponse);
+
 }
 
 // GRPC interface definition for class 'ApiNodeArray' from 'apinodesystem.h'

@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef _API_GAUSSIAN_SPLATTING_H
 #define _API_GAUSSIAN_SPLATTING_H 1
@@ -10,9 +10,9 @@
 namespace Octane
 {
 
-class OCTANEAPI_DECL ApiGaussianSplatCloudNode : public ApiNode
+class OCTANEAPI_DECL ApiGaussianSplatting : public ApiNode
 {
-    OCTANEAPI_NO_COPY(ApiGaussianSplatCloudNode);
+    OCTANEAPI_NO_COPY(ApiGaussianSplatting);
 
 public:
 
@@ -22,22 +22,14 @@ public:
     ///     Graph that will own the new ApiGaussianSplatCloudNode.
     /// @return
     ///     Pointer to the created node or NULL if creation failed.
-    static ApiGaussianSplatCloudNode * create(
+    static ApiNode * create(
         ApiNodeGraph & ownerGraph);
-
-    /// Returns ApiGaussianSplatCloudNode interface for the ApiNode of NT_GEO_GAUSSIAN_SPLAT type
-    /// 
-    /// @param[in] node
-    ///     The node to obtain API for.
-    /// @return 
-    ///     The ApiGaussianSplatCloudNode object pointer if node type is NT_GEO_GAUSSIAN_SPLAT.
-    ///     NULL otherwise.
-    static ApiGaussianSplatCloudNode * obtain(
-        ApiNode * node);
 
     /// Writes the Gaussian splat PLY attribute arrays into the node attributes.
     /// Can be used to assign in-memory data to NT_GEO_GAUSSIAN_SPLAT without specifying a .PLY file.
     ///
+    /// @param[in] gaussianSplatNode
+    ///     The node to write attributes into. The node type must be NT_GEO_GAUSSIAN_SPLAT.
     /// @param[in] numberOfPoints
     ///     The number of points in the Gaussian splat cloud. If 0, the Gaussian splat
     ///     attributes will be cleared.
@@ -61,7 +53,8 @@ public:
     ///     TRUE to re-evaluate the node, FALSE otherwise.
     /// @return
     ///     TRUE if attributes were set successfully, FALSE otherwise
-    bool setAttributesFromPly(
+    static bool setAttributesFromPly(
+        ApiNode &            gaussianSplatNode,
         const uint32_t       numberOfPoints,
         const float *        x,
         const float *        y,
@@ -80,6 +73,22 @@ public:
         const uint32_t       numberOfRestAttributes,
         const float *const * restAttributePointers,
         const bool           evaluate = true);
+
+    /// Saves gaussian splat cloud node's geometry to disk in compressed SPZ format.
+    /// If the node attributs come from SPZ file, it doesn't lose precision, but the exported SPZ
+    /// rotations may be slightly different due to numerical stability issues in the exporter
+    /// library.
+    /// NOTE: The .spz extension is added to the path (if it didn't exist yet)
+    ///
+    /// @param[in]  gaussianSplatNode
+    ///     The node which attributes must be exported. Must be NT_GEO_GAUSSIANS_SPLAT.
+    /// @param[in]  fileName
+    ///     The full path of the file into which the gaussian splats shall be stored
+    /// @return
+    ///     TRUE if the file was exported successfully, FALSE otherwise
+    static bool exportAsSpz(
+        const ApiNode & gaussianSplatNode,
+        const char *    fileName);
 };
 
 }

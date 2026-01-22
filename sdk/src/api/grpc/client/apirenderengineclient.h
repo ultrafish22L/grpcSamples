@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #pragma once
 
@@ -1387,9 +1387,6 @@ public:
     ///     The number of peer-to-peer groups in @ref peerToPeerGroups. If set to
     ///     @ref DONT_CHANGE_PEER_TO_PEER, @ref peerToPeerGroups will be ignored and the setup not
     ///     changed.
-    /// @param useMetalRayTracing
-    ///     Whether to use the Metal ray tracing backend on devices with support for it.
-    ///     This does not affect NVIDIA devices
     /// @param[out] status
     ///     Contains the status of the gRPC call
     /// @return
@@ -1405,8 +1402,7 @@ public:
             const uint32_t *const                     denoiseDeviceIxs,
             const uint32_t                            denoiseDeviceCount,
             const Octane::uint32_2 *const             peerToPeerGroups,
-            const uint32_t                            peerToPeerGroupCount,
-            const bool                                useMetalRayTracing
+            const uint32_t                            peerToPeerGroupCount
             );
 
     /// Returns TRUE if the device is used for rendering.
@@ -1462,11 +1458,6 @@ public:
     static std::vector<OctaneVec::uint32_2> currentPeerToPeerGroups(
             uint32_t &   groupCount
             );
-
-    /// Returns TRUE if hardware raytracing is currently enabled for all devices with support for it
-    /// @param[out] status
-    ///     Contains the status of the gRPC call
-    static bool hardwareRayTracingEnabled();
 
     /// Opens a modal dialog to allow the user to set devices configuration. When the
     /// the function returns, the dialog has been closed already and the settings have been stored

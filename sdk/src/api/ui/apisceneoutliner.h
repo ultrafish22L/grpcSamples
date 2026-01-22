@@ -1,4 +1,4 @@
-// Copyright (C) 2025 OTOY NZ Ltd.
+// Copyright (C) 2026 OTOY NZ Ltd.
 
 #ifndef __APISCENEOUTLINER_H_
 #define __APISCENEOUTLINER_H_

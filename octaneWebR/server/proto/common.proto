@@ -162,6 +162,24 @@ enum AttributeTypeId
     ATTR_ID_STRING    = 14;
 }
 
+enum PinTypeId
+{
+    PIN_ID_UNDEFINED = 0;
+    PIN_ID_BOOL      = 1;
+    PIN_ID_BYTE      = 2;
+    PIN_ID_INT       = 3;
+    PIN_ID_INT2      = 4;
+    PIN_ID_INT3      = 5;
+    PIN_ID_INT4      = 6;
+    PIN_ID_FLOAT     = 9;
+    PIN_ID_FLOAT2    = 90;
+    PIN_ID_FLOAT3    = 11;
+    PIN_ID_FLOAT4    = 12;
+    PIN_ID_MATRIX    = 13;
+    PIN_ID_STRING    = 14;
+    PIN_ID_FILEPATH  = 15;
+}
+
 
 message LoadRenderStateProjectT
 {

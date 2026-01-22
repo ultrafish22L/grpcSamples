@@ -22,144 +22,144 @@
 #include <grpcpp/ports_def.inc>
 namespace octaneapi {
 
-static const char* ApiGaussianSplatCloudNodeService_method_names[] = {
-  "/octaneapi.ApiGaussianSplatCloudNodeService/create",
-  "/octaneapi.ApiGaussianSplatCloudNodeService/obtain",
-  "/octaneapi.ApiGaussianSplatCloudNodeService/setAttributesFromPly",
+static const char* ApiGaussianSplattingService_method_names[] = {
+  "/octaneapi.ApiGaussianSplattingService/create",
+  "/octaneapi.ApiGaussianSplattingService/setAttributesFromPly",
+  "/octaneapi.ApiGaussianSplattingService/exportAsSpz",
 };
 
-std::unique_ptr< ApiGaussianSplatCloudNodeService::Stub> ApiGaussianSplatCloudNodeService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+std::unique_ptr< ApiGaussianSplattingService::Stub> ApiGaussianSplattingService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
   (void)options;
-  std::unique_ptr< ApiGaussianSplatCloudNodeService::Stub> stub(new ApiGaussianSplatCloudNodeService::Stub(channel, options));
+  std::unique_ptr< ApiGaussianSplattingService::Stub> stub(new ApiGaussianSplattingService::Stub(channel, options));
   return stub;
 }
 
-ApiGaussianSplatCloudNodeService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
-  : channel_(channel), rpcmethod_create_(ApiGaussianSplatCloudNodeService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_obtain_(ApiGaussianSplatCloudNodeService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_setAttributesFromPly_(ApiGaussianSplatCloudNodeService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+ApiGaussianSplattingService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
+  : channel_(channel), rpcmethod_create_(ApiGaussianSplattingService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_setAttributesFromPly_(ApiGaussianSplattingService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_exportAsSpz_(ApiGaussianSplattingService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status ApiGaussianSplatCloudNodeService::Stub::create(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_createRequest& request, ::octaneapi::ApiGaussianSplatCloudNode_createResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiGaussianSplatCloudNode_createRequest, ::octaneapi::ApiGaussianSplatCloudNode_createResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_create_, context, request, response);
+::grpc::Status ApiGaussianSplattingService::Stub::create(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_createRequest& request, ::octaneapi::ApiGaussianSplatting_createResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiGaussianSplatting_createRequest, ::octaneapi::ApiGaussianSplatting_createResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_create_, context, request, response);
 }
 
-void ApiGaussianSplatCloudNodeService::Stub::async::create(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_createRequest* request, ::octaneapi::ApiGaussianSplatCloudNode_createResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiGaussianSplatCloudNode_createRequest, ::octaneapi::ApiGaussianSplatCloudNode_createResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_create_, context, request, response, std::move(f));
+void ApiGaussianSplattingService::Stub::async::create(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_createRequest* request, ::octaneapi::ApiGaussianSplatting_createResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiGaussianSplatting_createRequest, ::octaneapi::ApiGaussianSplatting_createResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_create_, context, request, response, std::move(f));
 }
 
-void ApiGaussianSplatCloudNodeService::Stub::async::create(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_createRequest* request, ::octaneapi::ApiGaussianSplatCloudNode_createResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+void ApiGaussianSplattingService::Stub::async::create(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_createRequest* request, ::octaneapi::ApiGaussianSplatting_createResponse* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_create_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatCloudNode_createResponse>* ApiGaussianSplatCloudNodeService::Stub::PrepareAsynccreateRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_createRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiGaussianSplatCloudNode_createResponse, ::octaneapi::ApiGaussianSplatCloudNode_createRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_create_, context, request);
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatting_createResponse>* ApiGaussianSplattingService::Stub::PrepareAsynccreateRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_createRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiGaussianSplatting_createResponse, ::octaneapi::ApiGaussianSplatting_createRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_create_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatCloudNode_createResponse>* ApiGaussianSplatCloudNodeService::Stub::AsynccreateRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_createRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatting_createResponse>* ApiGaussianSplattingService::Stub::AsynccreateRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_createRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsynccreateRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-::grpc::Status ApiGaussianSplatCloudNodeService::Stub::obtain(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest& request, ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest, ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_obtain_, context, request, response);
+::grpc::Status ApiGaussianSplattingService::Stub::setAttributesFromPly(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest& request, ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_setAttributesFromPly_, context, request, response);
 }
 
-void ApiGaussianSplatCloudNodeService::Stub::async::obtain(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest* request, ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest, ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_obtain_, context, request, response, std::move(f));
+void ApiGaussianSplattingService::Stub::async::setAttributesFromPly(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest* request, ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setAttributesFromPly_, context, request, response, std::move(f));
 }
 
-void ApiGaussianSplatCloudNodeService::Stub::async::obtain(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest* request, ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_obtain_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse>* ApiGaussianSplatCloudNodeService::Stub::PrepareAsyncobtainRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse, ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_obtain_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse>* ApiGaussianSplatCloudNodeService::Stub::AsyncobtainRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncobtainRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
-
-::grpc::Status ApiGaussianSplatCloudNodeService::Stub::setAttributesFromPly(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest& request, ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_setAttributesFromPly_, context, request, response);
-}
-
-void ApiGaussianSplatCloudNodeService::Stub::async::setAttributesFromPly(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest* request, ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setAttributesFromPly_, context, request, response, std::move(f));
-}
-
-void ApiGaussianSplatCloudNodeService::Stub::async::setAttributesFromPly(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest* request, ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+void ApiGaussianSplattingService::Stub::async::setAttributesFromPly(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest* request, ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_setAttributesFromPly_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse>* ApiGaussianSplatCloudNodeService::Stub::PrepareAsyncsetAttributesFromPlyRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_setAttributesFromPly_, context, request);
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse>* ApiGaussianSplattingService::Stub::PrepareAsyncsetAttributesFromPlyRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse, ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_setAttributesFromPly_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse>* ApiGaussianSplatCloudNodeService::Stub::AsyncsetAttributesFromPlyRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse>* ApiGaussianSplattingService::Stub::AsyncsetAttributesFromPlyRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncsetAttributesFromPlyRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-ApiGaussianSplatCloudNodeService::Service::Service() {
+::grpc::Status ApiGaussianSplattingService::Stub::exportAsSpz(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest& request, ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest, ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_exportAsSpz_, context, request, response);
+}
+
+void ApiGaussianSplattingService::Stub::async::exportAsSpz(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest* request, ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest, ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_exportAsSpz_, context, request, response, std::move(f));
+}
+
+void ApiGaussianSplattingService::Stub::async::exportAsSpz(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest* request, ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_exportAsSpz_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse>* ApiGaussianSplattingService::Stub::PrepareAsyncexportAsSpzRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse, ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_exportAsSpz_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse>* ApiGaussianSplattingService::Stub::AsyncexportAsSpzRaw(::grpc::ClientContext* context, const ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncexportAsSpzRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+ApiGaussianSplattingService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiGaussianSplatCloudNodeService_method_names[0],
+      ApiGaussianSplattingService_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< ApiGaussianSplatCloudNodeService::Service, ::octaneapi::ApiGaussianSplatCloudNode_createRequest, ::octaneapi::ApiGaussianSplatCloudNode_createResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](ApiGaussianSplatCloudNodeService::Service* service,
+      new ::grpc::internal::RpcMethodHandler< ApiGaussianSplattingService::Service, ::octaneapi::ApiGaussianSplatting_createRequest, ::octaneapi::ApiGaussianSplatting_createResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ApiGaussianSplattingService::Service* service,
              ::grpc::ServerContext* ctx,
-             const ::octaneapi::ApiGaussianSplatCloudNode_createRequest* req,
-             ::octaneapi::ApiGaussianSplatCloudNode_createResponse* resp) {
+             const ::octaneapi::ApiGaussianSplatting_createRequest* req,
+             ::octaneapi::ApiGaussianSplatting_createResponse* resp) {
                return service->create(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiGaussianSplatCloudNodeService_method_names[1],
+      ApiGaussianSplattingService_method_names[1],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< ApiGaussianSplatCloudNodeService::Service, ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest, ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](ApiGaussianSplatCloudNodeService::Service* service,
+      new ::grpc::internal::RpcMethodHandler< ApiGaussianSplattingService::Service, ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest, ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ApiGaussianSplattingService::Service* service,
              ::grpc::ServerContext* ctx,
-             const ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest* req,
-             ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse* resp) {
-               return service->obtain(ctx, req, resp);
-             }, this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ApiGaussianSplatCloudNodeService_method_names[2],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< ApiGaussianSplatCloudNodeService::Service, ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest, ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](ApiGaussianSplatCloudNodeService::Service* service,
-             ::grpc::ServerContext* ctx,
-             const ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest* req,
-             ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse* resp) {
+             const ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest* req,
+             ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse* resp) {
                return service->setAttributesFromPly(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ApiGaussianSplattingService_method_names[2],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ApiGaussianSplattingService::Service, ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest, ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ApiGaussianSplattingService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest* req,
+             ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse* resp) {
+               return service->exportAsSpz(ctx, req, resp);
+             }, this)));
 }
 
-ApiGaussianSplatCloudNodeService::Service::~Service() {
+ApiGaussianSplattingService::Service::~Service() {
 }
 
-::grpc::Status ApiGaussianSplatCloudNodeService::Service::create(::grpc::ServerContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_createRequest* request, ::octaneapi::ApiGaussianSplatCloudNode_createResponse* response) {
+::grpc::Status ApiGaussianSplattingService::Service::create(::grpc::ServerContext* context, const ::octaneapi::ApiGaussianSplatting_createRequest* request, ::octaneapi::ApiGaussianSplatting_createResponse* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ApiGaussianSplatCloudNodeService::Service::obtain(::grpc::ServerContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_obtainRequest* request, ::octaneapi::ApiGaussianSplatCloudNode_obtainResponse* response) {
+::grpc::Status ApiGaussianSplattingService::Service::setAttributesFromPly(::grpc::ServerContext* context, const ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyRequest* request, ::octaneapi::ApiGaussianSplatting_setAttributesFromPlyResponse* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ApiGaussianSplatCloudNodeService::Service::setAttributesFromPly(::grpc::ServerContext* context, const ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyRequest* request, ::octaneapi::ApiGaussianSplatCloudNode_setAttributesFromPlyResponse* response) {
+::grpc::Status ApiGaussianSplattingService::Service::exportAsSpz(::grpc::ServerContext* context, const ::octaneapi::ApiGaussianSplatting_exportAsSpzRequest* request, ::octaneapi::ApiGaussianSplatting_exportAsSpzResponse* response) {
   (void) context;
   (void) request;
   (void) response;
