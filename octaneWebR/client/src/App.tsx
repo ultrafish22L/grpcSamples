@@ -22,7 +22,7 @@ import { CallbackRenderViewport, CallbackRenderViewportHandle } from './componen
 import { RenderToolbar } from './components/RenderToolbar';
 import { SceneOutliner } from './components/SceneOutliner';
 import { NodeInspector } from './components/NodeInspector';
-import { NodeInspectorControls } from './components/NodeInspectorControls';
+import { NodeInspectorControls } from './components/NodeInspector/NodeInspectorControls';
 import { NodeGraphEditor } from './components/NodeGraph';
 import { NodeGraphToolbar } from './components/NodeGraph/NodeGraphToolbar';
 import { MaterialDatabase } from './components/MaterialDatabase';

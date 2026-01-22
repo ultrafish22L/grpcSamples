@@ -5,7 +5,7 @@
  */
 
 import { useState, useCallback } from 'react';
-import { SceneNode } from '../services/OctaneClient';
+import { SceneNode } from '../../services/OctaneClient';
 
 interface NodeInspectorControlsProps {
   sceneTree: SceneNode[];
