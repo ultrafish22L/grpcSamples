@@ -4,10 +4,10 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useOctane } from '../hooks/useOctane';
-import { SceneNode, NodeAddedEvent, NodeDeletedEvent } from '../services/OctaneClient';
-import { OctaneIconMapper } from '../utils/OctaneIconMapper';
-import { SceneOutlinerContextMenu } from './SceneOutliner/SceneOutlinerContextMenu';
+import { useOctane } from '../../hooks/useOctane';
+import { SceneNode, NodeAddedEvent, NodeDeletedEvent } from '../../services/OctaneClient';
+import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
+import { SceneOutlinerContextMenu } from './SceneOutlinerContextMenu';
 
 const getNodeIcon = (node: SceneNode): string => {
   // Special case: Scene root
