@@ -429,77 +429,264 @@ Add to PreferencesDialog:
 
 ## 🚀 Implementation Plan
 
-### **Phase 1: Prepare (Week 1)**
+**REVISED ORDER**: Code cleanup/reorganization first, then theme system
+
+### **Phase 1: Prepare (Day 1)**
 - [x] Code review and analysis
-- [ ] Create reorganization plan (this document)
+- [x] Create reorganization plan (this document)
 - [ ] Get approval for plan
 - [ ] Create feature branch: `refactor/code-organization`
+- [ ] Create backup of current working state
 
-### **Phase 2: Theme System (Week 1-2)**
-- [ ] Create `styles/themes/` structure
-- [ ] Rename `octane-theme.css` → `octane-se.css`
-- [ ] Create `theme-variables.css` with all variable names
-- [ ] Create `otoy-studio.css` with OTOY Studio theme
-- [ ] Implement `useTheme` hook
-- [ ] Add theme switcher to PreferencesDialog
-- [ ] Test theme switching
-- [ ] Commit: "Add configurable theme system with OTOY Studio theme"
-
-### **Phase 3: Group Dialogs (Week 2)**
+### **Phase 2: Group Dialogs (Days 1-2)**
 - [ ] Create `components/dialogs/` folder
-- [ ] Move all dialog files to dialogs/
-- [ ] Update all imports
-- [ ] Test all dialogs still work
+- [ ] Move all 10 dialog files to `dialogs/`
+- [ ] Update all imports across codebase
+- [ ] Test all dialogs still work (open, close, submit)
+- [ ] Build passes: `npm run build`
 - [ ] Commit: "Organize dialogs into dedicated folder"
 
-### **Phase 4: Reorganize Components (Week 2-3)**
-- [ ] NodeInspector: Move files, extract editors
-- [ ] SceneOutliner: Move files, extract tree node
-- [ ] CallbackRenderViewport: Move files, extract controls
-- [ ] RenderToolbar: Move files, extract controls
-- [ ] MenuBar: Move files
-- [ ] MaterialDatabase: Move files
-- [ ] Test each component after reorganization
-- [ ] Commit per component: "Reorganize [ComponentName] into dedicated folder"
+### **Phase 3: Reorganize Simple Components (Days 2-3)**
+Move components with minimal refactoring:
+- [ ] **MenuBar**: Create `MenuBar/` folder
+  - Move `MenuBar.tsx` → `MenuBar/index.tsx`
+  - Move `MenuDropdown.tsx` → `MenuBar/MenuDropdown.tsx`
+  - Update imports
+  - Test: All menus work
+  
+- [ ] **MaterialDatabase**: Create `MaterialDatabase/` folder
+  - Move `MaterialDatabase.tsx` → `MaterialDatabase/index.tsx`
+  - Update imports
+  - Test: Material database opens, loads content
+  
+- [ ] **ConnectionStatus**: Create `ConnectionStatus/` folder
+  - Move `ConnectionStatus.tsx` → `ConnectionStatus/index.tsx`
+  - Update imports
+  - Test: Status indicator shows connection state
 
-### **Phase 5: Split OctaneClient (Week 3-4)**
-- [ ] Create `services/OctaneClient/` folder
-- [ ] Extract SceneTreeBuilder.ts
-- [ ] Extract NodeOperations.ts
-- [ ] Extract ConnectionManager.ts
-- [ ] Extract ParameterManager.ts
-- [ ] Extract FileOperations.ts
-- [ ] Keep main OctaneClient.ts as facade
+- [ ] Build passes: `npm run build`
+- [ ] Commit: "Reorganize MenuBar, MaterialDatabase, ConnectionStatus"
+
+### **Phase 4: Reorganize SceneOutliner (Days 3-4)**
+- [ ] Move `SceneOutliner.tsx` → `SceneOutliner/index.tsx`
+- [ ] Extract tree node rendering → `SceneOutliner/SceneTreeNode.tsx`
+- [ ] Extract node icons → `SceneOutliner/TreeNodeIcon.tsx`
+- [ ] Keep `SceneOutlinerContextMenu.tsx` in folder
 - [ ] Update all imports
-- [ ] Test all functionality
+- [ ] Test: Scene tree loads, expand/collapse, selection works
+- [ ] Build passes: `npm run build`
+- [ ] Commit: "Reorganize SceneOutliner with extracted components"
+
+### **Phase 5: Reorganize NodeInspector (Days 4-6)**
+- [ ] Move `NodeInspector.tsx` → `NodeInspector/index.tsx`
+- [ ] Move `NodeInspectorControls.tsx` → `NodeInspector/NodeInspectorControls.tsx`
+- [ ] Extract parameter editor → `NodeInspector/ParameterEditor.tsx`
+- [ ] Create `NodeInspector/editors/` folder
+- [ ] Extract type-specific editors:
+  - `editors/BooleanEditor.tsx`
+  - `editors/NumberEditor.tsx`
+  - `editors/VectorEditor.tsx`
+  - `editors/ColorEditor.tsx`
+  - `editors/EnumEditor.tsx`
+  - `editors/StringEditor.tsx`
+- [ ] Update all imports
+- [ ] Test: Parameter editing for all types works
+- [ ] Build passes: `npm run build`
+- [ ] Commit: "Reorganize NodeInspector with extracted parameter editors"
+
+### **Phase 6: Reorganize CallbackRenderViewport (Days 6-7)**
+- [ ] Move `CallbackRenderViewport.tsx` → `CallbackRenderViewport/index.tsx`
+- [ ] Extract viewport controls → `CallbackRenderViewport/ViewportControls.tsx`
+- [ ] Extract toolbar → `CallbackRenderViewport/ViewportToolbar.tsx`
+- [ ] Extract picking tools → `CallbackRenderViewport/PickingTools.tsx`
+- [ ] Keep `ViewportContextMenu.tsx` in folder
+- [ ] Update all imports
+- [ ] Test: Rendering, camera controls, picking tools work
+- [ ] Build passes: `npm run build`
+- [ ] Commit: "Reorganize CallbackRenderViewport with extracted components"
+
+### **Phase 7: Reorganize RenderToolbar (Day 8)**
+- [ ] Move `RenderToolbar.tsx` → `RenderToolbar/index.tsx`
+- [ ] Extract playback controls → `RenderToolbar/PlaybackControls.tsx`
+- [ ] Extract render settings → `RenderToolbar/RenderSettings.tsx`
+- [ ] Extract viewport settings → `RenderToolbar/ViewportSettings.tsx`
+- [ ] Update all imports
+- [ ] Test: All toolbar controls work
+- [ ] Build passes: `npm run build`
+- [ ] Commit: "Reorganize RenderToolbar with extracted components"
+
+### **Phase 8: Split OctaneClient Service (Days 9-11)**
+This is the biggest refactor - 2071 lines to split:
+
+- [ ] Create `services/OctaneClient/` folder
+- [ ] Create module structure:
+  ```
+  OctaneClient/
+  ├── index.ts              # Main exports + facade class
+  ├── OctaneClient.ts       # Core client (connection, init)
+  ├── SceneTreeBuilder.ts   # Scene graph traversal (~300 lines)
+  ├── NodeOperations.ts     # Create/delete/copy nodes (~400 lines)
+  ├── ConnectionManager.ts  # Pin connections (~200 lines)
+  ├── ParameterManager.ts   # Get/set parameters (~300 lines)
+  └── FileOperations.ts     # Open/save/export (~200 lines)
+  ```
+
+- [ ] **Day 9**: Extract SceneTreeBuilder
+  - Move scene tree building logic
+  - Test: Scene tree loads correctly
+  
+- [ ] **Day 10**: Extract NodeOperations + ConnectionManager
+  - Move node CRUD operations
+  - Move pin connection logic
+  - Test: Create/delete nodes, make connections
+  
+- [ ] **Day 11**: Extract ParameterManager + FileOperations
+  - Move parameter get/set logic
+  - Move file open/save logic
+  - Test: Edit parameters, save/load files
+
+- [ ] Update all imports across entire codebase
+- [ ] Full integration testing
+- [ ] Build passes: `npm run build`
 - [ ] Commit: "Split OctaneClient into focused modules"
 
-### **Phase 6: Code Cleanup (Week 4-5)**
-- [ ] Remove commented code
-- [ ] Add JSDoc comments
-- [ ] Improve type safety
-- [ ] Extract magic numbers
-- [ ] Consolidate duplicate logic
-- [ ] Run full test suite
-- [ ] Commit: "Code cleanup and documentation improvements"
+### **Phase 9: Code Cleanup (Days 12-13)**
+Now that structure is clean, clean up the code:
 
-### **Phase 7: Testing & Validation (Week 5)**
-- [ ] Full manual testing of all features
-- [ ] Test theme switching
-- [ ] Test all dialogs
-- [ ] Test node operations
-- [ ] Test scene tree
-- [ ] Test viewport
-- [ ] Performance testing
+- [ ] **Remove old code**:
+  - Remove all commented-out code blocks
+  - Remove unused imports (use ESLint auto-fix)
+  - Remove unused variables
+  - Remove debug console.logs (keep error/warn)
+  - Remove completed TODOs
+  
+- [ ] **Add documentation**:
+  - Add JSDoc to all exported functions
+  - Add JSDoc to complex internal functions
+  - Add file header comments to large modules
+  - Document non-obvious logic with inline comments
+  - Add README.md to each major component folder
+  
+- [ ] **Improve type safety**:
+  - Replace `any` with proper types
+  - Add missing return types
+  - Use `unknown` instead of `any` for generic code
+  - Define interfaces for API responses
+  - Enable strict TypeScript checks
+  
+- [ ] **Extract magic numbers**:
+  - Move dimensions to constants
+  - Move timeout values to constants
+  - Move API endpoints to config
+  - Move default values to constants
+
+- [ ] Build passes: `npm run build`
+- [ ] Commit: "Code cleanup: Remove old code, add documentation, improve types"
+
+### **Phase 10: Theme System Foundation (Days 14-15)**
+Now build theme system on clean codebase:
+
+- [ ] Create `styles/themes/` structure
+- [ ] Create `styles/themes/theme-variables.css` (all CSS var names)
+- [ ] Rename `styles/octane-theme.css` → `styles/themes/octane-se.css`
+- [ ] Refactor to use `[data-theme="octane-se"]` attribute selector
+- [ ] Create `styles/themes/index.ts` (theme registry)
+- [ ] Implement `hooks/useTheme.ts` hook
+- [ ] Test: Can switch theme via code
+- [ ] Build passes: `npm run build`
+- [ ] Commit: "Add theme system foundation with Octane SE theme"
+
+### **Phase 11: OTOY Studio Theme (Days 15-16)**
+- [ ] Create `styles/themes/otoy-studio.css`
+- [ ] Define OTOY Studio color palette (based on workflow-builder)
+- [ ] Add OTOY Studio to theme registry
+- [ ] Add theme selector UI to PreferencesDialog
+- [ ] Test theme switching (should work instantly)
+- [ ] Test all components in both themes
+- [ ] Build passes: `npm run build`
+- [ ] Commit: "Add OTOY Studio theme with theme switcher UI"
+
+### **Phase 12: Testing & Validation (Days 17-18)**
+- [ ] **Full manual testing**:
+  - Test all dialogs in both themes
+  - Test node graph in both themes
+  - Test scene outliner in both themes
+  - Test node inspector in both themes
+  - Test viewport in both themes
+  - Test menu bar in both themes
+  
+- [ ] **Functionality testing**:
+  - Create nodes (all types)
+  - Connect pins
+  - Edit parameters (all types)
+  - Camera controls
+  - Picking tools
+  - File operations (save/load)
+  - Search functionality
+  - Copy/paste operations
+  
+- [ ] **Performance testing**:
+  - Large scene loading (300+ nodes)
+  - Theme switching speed
+  - UI responsiveness
+  
 - [ ] Fix any bugs found
+- [ ] Build passes: `npm run build`
+- [ ] All tests pass
 
-### **Phase 8: Merge & Documentation (Week 5)**
-- [ ] Update README.md with theme info
-- [ ] Update QUICKSTART.md
-- [ ] Update REPRO_PROMPT.md with new structure
-- [ ] Merge to main
+### **Phase 13: Documentation & Merge (Days 18-19)**
+- [ ] Update README.md:
+  - Add "Recent Achievements" entry for reorganization
+  - Add theme system documentation
+  - Update file structure documentation
+  
+- [ ] Update QUICKSTART.md:
+  - Add note about theme selection
+  
+- [ ] Update REPRO_PROMPT.md:
+  - Update directory structure
+  - Add theme system info
+  - Update debugging guide
+  
+- [ ] Create migration guide for developers:
+  - Document import path changes
+  - Document new folder structure
+  
+- [ ] Final review of all changes
+- [ ] Merge feature branch to main
 - [ ] Push to remote
 - [ ] Create release notes
+- [ ] Commit: "Documentation updates for code reorganization and theme system"
+
+---
+
+## 📅 Timeline Summary
+
+**Total Duration**: ~19 working days (~4 weeks)
+
+**Week 1** (Days 1-5):
+- Prepare
+- Group dialogs
+- Reorganize simple components
+- Start SceneOutliner, NodeInspector
+
+**Week 2** (Days 6-10):
+- Finish NodeInspector
+- CallbackRenderViewport
+- RenderToolbar
+- Start OctaneClient split
+
+**Week 3** (Days 11-15):
+- Finish OctaneClient split
+- Code cleanup
+- Theme system foundation
+- Start OTOY Studio theme
+
+**Week 4** (Days 16-19):
+- Finish OTOY Studio theme
+- Full testing
+- Documentation
+- Merge and release
 
 ---
 
