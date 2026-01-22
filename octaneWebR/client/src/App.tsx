@@ -26,8 +26,8 @@ import { NodeInspectorControls } from './components/NodeInspectorControls';
 import { NodeGraphEditor } from './components/NodeGraph';
 import { NodeGraphToolbar } from './components/NodeGraph/NodeGraphToolbar';
 import { MaterialDatabase } from './components/MaterialDatabase';
-import { SaveRenderDialog } from './components/SaveRenderDialog';
-import { ExportPassesDialog } from './components/ExportPassesDialog';
+import { SaveRenderDialog } from './components/dialogs/SaveRenderDialog';
+import { ExportPassesDialog } from './components/dialogs/ExportPassesDialog';
 import { SceneNode, NodeDeletedEvent } from './services/OctaneClient';
 
 function AppContent() {

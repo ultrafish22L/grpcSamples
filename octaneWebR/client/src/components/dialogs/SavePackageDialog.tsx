@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import { useOctane } from '../hooks/useOctane';
+import { useOctane } from '../../hooks/useOctane';
 
 interface SavePackageDialogProps {
   isOpen: boolean;
