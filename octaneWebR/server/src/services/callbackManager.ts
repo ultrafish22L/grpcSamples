@@ -102,7 +102,8 @@ export class CallbackManager extends EventEmitter {
   private handleCallbackData(data: any): void {
     try {
       // Extract render images from callback
-      if (data.render_images && data.render_images.data) {
+      // Check if render_images exists, has a data array, AND that array is not empty
+      if (data.render_images && data.render_images.data && Array.isArray(data.render_images.data) && data.render_images.data.length > 0) {
         const imageCount = data.render_images.data.length;
         const firstImage = data.render_images.data[0];
         console.log(`📸 [CallbackManager] Received ${imageCount} render image(s)`);
@@ -118,6 +119,14 @@ export class CallbackManager extends EventEmitter {
           render_images: data.render_images,
           callback_id: data.callback_id,
           timestamp: Date.now()
+        });
+      } else {
+        // Debug logging for invalid/empty callback data
+        console.log('⚠️ [CallbackManager] Callback data has no valid images:', {
+          hasRenderImages: !!data.render_images,
+          hasData: !!data.render_images?.data,
+          isArray: Array.isArray(data.render_images?.data),
+          length: data.render_images?.data?.length || 0
         });
       }
     } catch (error: any) {
