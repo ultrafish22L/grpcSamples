@@ -230,11 +230,11 @@ function NodeParameter({
       
       console.log(`📝 Setting ${node.name} = ${JSON.stringify(formattedValue)}`);
       
-      // Call setByAttrID to update the value in Octane
+      // Call setValueByAttrID to update the value in Octane
       // Note: evaluate: false is required (matches octaneWeb behavior)
       await client.callApi(
         'ApiItem',
-        'setByAttrID',
+        'setValueByAttrID',
         node.handle,
         {
           attribute_id: AttributeId.A_VALUE,
