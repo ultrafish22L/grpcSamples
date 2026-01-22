@@ -9,8 +9,8 @@
  */
 
 import React, { useEffect, useRef, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
-import { useOctane } from '../hooks/useOctane';
-import { ViewportContextMenu } from './CallbackRenderViewport/ViewportContextMenu';
+import { useOctane } from '../../hooks/useOctane';
+import { ViewportContextMenu } from './ViewportContextMenu';
 
 interface OctaneImageData {
   type: number | string;  // Can be numeric (0, 1) or string enum ("IMAGE_TYPE_LDR_RGBA", etc.)
