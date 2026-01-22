@@ -6,6 +6,7 @@
 import { BaseService } from './BaseService';
 import { ApiService } from './ApiService';
 import { RenderState, RenderRegion } from './types';
+import { PinId } from '../../constants/OctaneTypes';
 
 export class RenderService extends BaseService {
   private apiService: ApiService;
@@ -128,7 +129,7 @@ export class RenderService extends BaseService {
       const renderTargetHandle = renderTargetResponse.result.handle;
       
       // Get Film Settings connected to render target (typically pin 15)
-      const filmSettingsResponse = await this.apiService.callApi('ApiNode', 'connectedNode', renderTargetHandle, { pinIndex: 15 });
+      const filmSettingsResponse = await this.apiService.callApi('ApiNode', 'connectedNode', renderTargetHandle, { pinId: PinId.P_FILM_SETTINGS });
       const handle = filmSettingsResponse?.result?.handle;
       
       // Handle "0" means no connection, treat as null

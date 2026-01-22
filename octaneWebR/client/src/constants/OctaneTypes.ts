@@ -257,4 +257,11 @@ export const NodeType: Record<string, number> = {
   NT_RENDERTARGET: 56,
 } as const;
 
-
+/**
+ * Pin ids for Octane scene graph nodes
+ * These match the enum values from octaneids.h
+ * Used for connected node query 
+ */
+export const PinId: Record<string, number> = {
+  P_FILM_SETTINGS: 311,
+} as const;
