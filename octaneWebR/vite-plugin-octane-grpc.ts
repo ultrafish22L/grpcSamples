@@ -91,6 +91,8 @@ class OctaneGrpcClient {
       'ApiProjectManager': 'apiprojectmanager.proto',
       'ApiItemService': 'apinodesystem_3.proto',
       'ApiItem': 'apinodesystem_3.proto',
+      'ApiItemGetter': 'apinodesystem_3.proto',
+      'ApiItemSetter': 'apinodesystem_3.proto',
       'ApiNodeGraphService': 'apinodesystem_6.proto',
       'ApiNodeGraph': 'apinodesystem_6.proto',
       'ApiItemArrayService': 'apinodesystem_1.proto',
@@ -626,10 +628,10 @@ export function octaneGrpcPlugin(): Plugin {
                 }
               }
               
-              // Verbose API logging (commented out to reduce log flooding)
-              // console.log(`📤 ${service}.${method}`, JSON.stringify(params).substring(0, 100));
+              // Verbose API logging
+              console.log(`📤 ${service}.${method}`, JSON.stringify(params).substring(0, 100));
               const response = await grpcClient?.callMethod(service, method, params);
-              // console.log(`✅ ${service}.${method} → ${JSON.stringify(response).substring(0, 100)}`);
+              console.log(`✅ ${service}.${method} → ${JSON.stringify(response).substring(0, 100)}`);
               
               res.setHeader('Content-Type', 'application/json');
               res.statusCode = 200;

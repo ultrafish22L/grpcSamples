@@ -1012,12 +1012,15 @@ export class OctaneClient extends EventEmitter {
       
       // Get Film Settings connected to render target (typically pin 15)
       const filmSettingsResponse = await this.callApi('ApiNode', 'connectedNode', renderTargetHandle, { pinIndex: 15 });
-      if (!filmSettingsResponse?.result?.handle) {
-        console.warn('⚠️ No Film Settings node found');
+      const handle = filmSettingsResponse?.result?.handle;
+      
+      // Handle "0" means no connection, treat as null
+      if (!handle || handle === "0" || handle === 0) {
+        console.warn('⚠️ No Film Settings node connected to render target');
         return null;
       }
       
-      return filmSettingsResponse.result.handle;
+      return handle;
     } catch (error: any) {
       console.error('❌ Failed to get Film Settings node:', error.message);
       return null;
@@ -1035,9 +1038,9 @@ export class OctaneClient extends EventEmitter {
         return false;
       }
 
-      // P_LOCK_RENDER_AOVS = 61460 (0xf014)
+      // P_LOCK_RENDER_AOVS = 2672 (from common.proto AttributeId enum)
       // Find the attribute index
-      const attrIndexResponse = await this.callApi('ApiItem', 'findAttr', filmSettingsHandle, { id: 61460 });
+      const attrIndexResponse = await this.callApi('ApiItem', 'findAttr', filmSettingsHandle, { id: 2672 });
       if (attrIndexResponse?.result === undefined || attrIndexResponse.result < 0) {
         console.warn('⚠️ P_LOCK_RENDER_AOVS attribute not found');
         return false;
@@ -1065,8 +1068,8 @@ export class OctaneClient extends EventEmitter {
         throw new Error('Film Settings node not found');
       }
 
-      // P_LOCK_RENDER_AOVS = 61460 (0xf014)
-      const attrIndexResponse = await this.callApi('ApiItem', 'findAttr', filmSettingsHandle, { id: 61460 });
+      // P_LOCK_RENDER_AOVS = 2672 (from common.proto AttributeId enum)
+      const attrIndexResponse = await this.callApi('ApiItem', 'findAttr', filmSettingsHandle, { id: 2672 });
       if (attrIndexResponse?.result === undefined || attrIndexResponse.result < 0) {
         throw new Error('P_LOCK_RENDER_AOVS attribute not found');
       }
