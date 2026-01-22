@@ -68,8 +68,8 @@ rpc getPinValueByIx(ApiNode.getPinValueByIxRequest) returns (ApiNode.getPinValue
 ```
 
 ## Files Changed
-1. `vite-plugin-octane-grpc.ts` - Added parameter transformation for getPinValueByX methods
-2. `client/src/services/octane/RenderService.ts` - Fixed method call and response handling
+1. `vite-plugin-octane-grpc.ts` - Added parameter transformation for getPinValueByX and setPinValueByX methods
+2. `client/src/services/octane/RenderService.ts` - Fixed method calls and response handling for both get and set operations
 
 ## Testing
 ✅ Build successful (0 TypeScript errors)

@@ -625,8 +625,9 @@ export function octaneGrpcPlugin(): Plugin {
                   // ApiItem methods use item_ref instead of objectPtr
                   params = { item_ref: params.objectPtr, ...params };
                   delete params.objectPtr;
-                } else if (method === 'getPinValueByIx' || method === 'getPinValueByPinID' || method === 'getPinValueByName') {
-                  // getPinValueByX methods use item_ref instead of objectPtr (apinodesystem_7.proto)
+                } else if (method === 'getPinValueByIx' || method === 'getPinValueByPinID' || method === 'getPinValueByName' ||
+                           method === 'setPinValueByIx' || method === 'setPinValueByPinID' || method === 'setPinValueByName') {
+                  // getPinValueByX and setPinValueByX methods use item_ref instead of objectPtr (apinodesystem_7.proto)
                   params = { item_ref: params.objectPtr, ...params };
                   delete params.objectPtr;
                 }

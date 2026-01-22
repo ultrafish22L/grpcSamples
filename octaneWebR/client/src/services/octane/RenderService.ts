@@ -184,10 +184,10 @@ export class RenderService extends BaseService {
 
       const attrIndex = attrIndexResponse.result;
 
-      // Set the boolean value
-      await this.apiService.callApi('ApiNode', 'setPinValueIx', filmSettingsHandle, {
-        pinIx: attrIndex,
-        value: locked
+      // Set the boolean value using setPinValueByIx (apinodesystem_7.proto)
+      await this.apiService.callApi('ApiNode', 'setPinValueByIx', filmSettingsHandle, {
+        index: attrIndex,
+        bool_value: locked
       });
     } catch (error: any) {
       console.error('❌ Failed to set viewport resolution lock:', error.message);
