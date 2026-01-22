@@ -10,7 +10,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { useOctane } from '../hooks/useOctane';
+import { useOctane } from '../../hooks/useOctane';
 
 interface MaterialCategory {
   name: string;

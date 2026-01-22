@@ -4,21 +4,21 @@
  */
 
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { useFileDialog } from '../hooks/useFileDialog';
-import { useRecentFiles } from '../hooks/useRecentFiles';
-import { useOctane } from '../hooks/useOctane';
-import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
+import { useFileDialog } from '../../hooks/useFileDialog';
+import { useRecentFiles } from '../../hooks/useRecentFiles';
+import { useOctane } from '../../hooks/useOctane';
+import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
 import { MenuDropdown } from './MenuDropdown';
-import { KeyboardShortcutsDialog } from './dialogs/KeyboardShortcutsDialog';
-import { PreferencesDialog } from './dialogs/PreferencesDialog';
-import { BatchRenderingDialog } from './dialogs/BatchRenderingDialog';
-import { DaylightAnimationDialog } from './dialogs/DaylightAnimationDialog';
-import { TurntableAnimationDialog } from './dialogs/TurntableAnimationDialog';
-import { AboutDialog } from './dialogs/AboutDialog';
-import { SavePackageDialog } from './dialogs/SavePackageDialog';
-import { getMenuDefinitions } from '../config/menuDefinitions';
-import { MenuAction } from '../types/menu';
-import { commandHistory } from '../services/CommandHistory';
+import { KeyboardShortcutsDialog } from '../dialogs/KeyboardShortcutsDialog';
+import { PreferencesDialog } from '../dialogs/PreferencesDialog';
+import { BatchRenderingDialog } from '../dialogs/BatchRenderingDialog';
+import { DaylightAnimationDialog } from '../dialogs/DaylightAnimationDialog';
+import { TurntableAnimationDialog } from '../dialogs/TurntableAnimationDialog';
+import { AboutDialog } from '../dialogs/AboutDialog';
+import { SavePackageDialog } from '../dialogs/SavePackageDialog';
+import { getMenuDefinitions } from '../../config/menuDefinitions';
+import { MenuAction } from '../../types/menu';
+import { commandHistory } from '../../services/CommandHistory';
 
 interface PanelVisibility {
   renderViewport: boolean;

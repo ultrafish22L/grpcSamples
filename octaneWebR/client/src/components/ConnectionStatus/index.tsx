@@ -4,7 +4,7 @@
  */
 
 // React import not needed with new JSX transform
-import { useOctane } from '../hooks/useOctane';
+import { useOctane } from '../../hooks/useOctane';
 
 export function ConnectionStatus() {
   const { connected } = useOctane();
