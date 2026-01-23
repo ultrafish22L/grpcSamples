@@ -14,6 +14,7 @@
  */
 
 import React from 'react';
+import { getGeneralUIIcon, getWindowControlIcon } from '../../utils/UIIconMapping';
 
 interface ViewportContextMenuProps {
   visible: boolean;
@@ -78,21 +79,30 @@ export const ViewportContextMenu: React.FC<ViewportContextMenuProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="context-menu-item" onClick={() => handleMenuClick(onCopyToClipboard)}>
-          📋 Copy to Clipboard
+          <img src={getGeneralUIIcon('COPY_TO_CLIPBOARD_IMAGE')} alt="" style={{ width: 14, height: 14, marginRight: 8 }} />
+          Copy to Clipboard
         </div>
         <div className="context-menu-item" onClick={() => handleMenuClick(onSaveRender)}>
-          💾 Save Render
+          <img src={getGeneralUIIcon('LOAD_GENERAL')} alt="" style={{ width: 14, height: 14, marginRight: 8 }} />
+          Save Render
         </div>
         <div className="context-menu-item" onClick={() => handleMenuClick(onExportPasses)}>
-          📦 Export Render Passes
+          <img src={getGeneralUIIcon('LOAD_ALL')} alt="" style={{ width: 14, height: 14, marginRight: 8 }} />
+          Export Render Passes
         </div>
         <div className="context-menu-separator" />
         <div className="context-menu-item" onClick={() => handleMenuClick(onSetBackgroundImage)}>
-          🖼️ Set Background Image
+          <img src={getGeneralUIIcon('BACKGROUND')} alt="" style={{ width: 14, height: 14, marginRight: 8 }} />
+          Set Background Image
         </div>
         <div className="context-menu-separator" />
         <div className="context-menu-item" onClick={() => handleMenuClick(onToggleLockViewport)}>
-          {viewportLocked ? '🔓 Unlock Viewport' : '🔒 Lock Viewport'}
+          <img 
+            src={viewportLocked ? getWindowControlIcon('UNLOCK') : getWindowControlIcon('LOCK')} 
+            alt="" 
+            style={{ width: 14, height: 14, marginRight: 8 }} 
+          />
+          {viewportLocked ? 'Unlock Viewport' : 'Lock Viewport'}
         </div>
       </div>
     </>
