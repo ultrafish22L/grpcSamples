@@ -353,31 +353,50 @@ export class OctaneGrpcClient extends EventEmitter {
           
           // Check if this is a StreamCallbackRequest with oneof payload
           if (response.newImage) {
-            console.log('📥 [Stream] newImage payload:', {
-              type: typeof response.newImage,
-              keys: Object.keys(response.newImage || {}),
-              userData: response.newImage.user_data,
-              hasRenderImages: !!response.newImage.render_images,
-              hasCallbackId: !!response.newImage.callback_id
-            });
+            console.log('🖼️  OnNewImage callback received (notification only)');
             
-            // Check if newImage has render_images (might be OnNewImageRequest structure)
-            if (response.newImage.render_images && response.newImage.render_images.data) {
-              console.log('✅ [Stream] Found render_images in newImage, emitting OnNewImage event');
-              this.emit('OnNewImage', {
-                render_images: response.newImage.render_images,
-                callback_id: response.newImage.callback_id,
-                user_data: response.newImage.user_data
+            // According to SDK examples: callbacks are notifications only!
+            // We must call grabRenderResult() to fetch the actual image data
+            try {
+              const renderEngine = this.getService('ApiRenderEngineService');
+              const grabRequest = {}; // Empty request message
+              
+              renderEngine.grabRenderResult(grabRequest, (error: any, grabResponse: any) => {
+                if (error) {
+                  console.error('❌ grabRenderResult failed:', error.message);
+                  return;
+                }
+                
+                if (!grabResponse || !grabResponse.result) {
+                  console.log('ℹ️  No render result available yet (rendering in progress)');
+                  return;
+                }
+                
+                if (grabResponse.renderImages && grabResponse.renderImages.data && grabResponse.renderImages.data.length > 0) {
+                  console.log('✅ Got render images from grabRenderResult:', {
+                    count: grabResponse.renderImages.data.length,
+                    firstImageSize: grabResponse.renderImages.data[0].size,
+                    firstImageType: grabResponse.renderImages.data[0].type
+                  });
+                  
+                  this.emit('OnNewImage', {
+                    render_images: grabResponse.renderImages,
+                    callback_id: response.newImage?.callback_id,
+                    user_data: response.newImage?.user_data
+                  });
+                } else {
+                  console.warn('⚠️  grabRenderResult returned no images');
+                }
               });
-            } else {
-              console.warn('⚠️  [Stream] newImage payload has no render_images');
+            } catch (error: any) {
+              console.error('❌ Error calling grabRenderResult:', error.message);
             }
           } else if (response.render_images && response.render_images.data) {
             // Fallback: maybe response is already the image data
             console.log('✅ [Stream] Found render_images at root level, emitting OnNewImage event');
             this.emit('OnNewImage', response);
           } else {
-            console.warn('⚠️  [Stream] No valid image data in stream response');
+            console.log('ℹ️  Callback received but no image data (normal for notifications)');
           }
         } catch (error: any) {
           console.error('❌ Error processing callback data:', error.message);

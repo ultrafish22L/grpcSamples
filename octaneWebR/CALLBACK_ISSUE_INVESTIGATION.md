@@ -61,19 +61,55 @@ Verified correct format matches working Python implementation:
 
 ## Root Cause Analysis
 
-### Most Likely: Octane Version Regression
-User reports: **"it was working with an earlier version"**
+### ✅ SOLVED: Callbacks Are Notifications Only!
+**Discovery from SDK examples (`sdk/grpc-api-examples/render-example-py/render_example.py`):**
 
-This indicates:
-- Our implementation is correct
-- Octane's behavior changed between versions
-- Latest Octane may have a bug or require new parameters
+Callbacks are **deliberately empty** - they're just notifications that a render is ready! The correct pattern is:
 
-### Possible Octane Issues
-1. **Bug**: Octane not populating `render_images` in callback responses
-2. **API Change**: New flag/parameter needed to enable image data in callbacks
-3. **Configuration**: Octane needs a setting enabled to send render data
-4. **Render State**: Octane may not be actively rendering (but should be on scene change)
+1. **Receive callback** → Signal that new render is available
+2. **Call `grabRenderResult()`** → Fetch the actual image data  
+3. **Process & display** → Send image to browser
+
+### SDK Example Pattern (Python)
+```python
+def handle_event(req):
+    payload = req.WhichOneof("payload")
+    
+    if payload == "newImage":
+        data = req.newImage
+        print(f"[Client] NewImage event, user_data={data.user_data}")
+        try:
+            # Callback is just a notification!
+            # Must call grabRenderResult to get actual images
+            images = grab_render_result(global_channel)
+            show_render_images(images)
+        except grpc.RpcError as e:
+            print(f"[Client] grabRenderResult failed: {e.code()}")
+
+def grab_render_result(channel):
+    stub = apirender_pb2_grpc.ApiRenderEngineServiceStub(channel)
+    req = apirender_pb2.ApiRenderEngine.grabRenderResultRequest()
+    resp = stub.grabRenderResult(req)
+    
+    if not resp.result:
+        return []
+    
+    images = []
+    for img in resp.renderImages.data:
+        width = img.size.x
+        height = img.size.y
+        buf = img.buffer.data  # <-- Actual image data!
+        if img.type == octaneenums_pb2.IMAGE_TYPE_LDR_RGBA:
+            images.append((width, height, buf))
+    return images
+```
+
+### Why Callbacks Were Empty
+**Not a bug!** This is the intended design:
+- Callbacks are lightweight notifications
+- Image data is too large to stream continuously  
+- `grabRenderResult()` fetches images on-demand
+- This allows clients to control when/if they want the image
 
 ## Implementation Status
 
