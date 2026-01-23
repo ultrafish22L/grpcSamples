@@ -52,7 +52,7 @@ function AppContent() {
   });
 
   // Node Graph Editor toolbar state (Figure 10 buttons)
-  const [gridVisible, setGridVisible] = useState(true);
+  const [gridVisible, setGridVisible] = useState(false); // Grid off by default
   const [snapToGrid, setSnapToGrid] = useState(false);
   const [recenterViewCallback, setRecenterViewCallback] = useState<(() => void) | null>(null);
   
