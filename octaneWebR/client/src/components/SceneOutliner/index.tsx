@@ -12,7 +12,7 @@ import { SceneOutlinerContextMenu } from './SceneOutlinerContextMenu';
 const getNodeIcon = (node: SceneNode): string => {
   // Special case: Scene root
   if (node.type === 'SceneRoot' || node.name === 'Scene') {
-    return '📁'; // Folder icon for scene root
+    return '/icons/SCENE node.png'; // Scene icon for scene root
   }
   
   // Use OctaneIconMapper for consistent icon mapping
@@ -86,7 +86,17 @@ function SceneTreeItem({ node, depth, onSelect, onContextMenu, selectedHandle, e
           ) : (
             <span className="node-spacer"></span>
           )}
-          <span className="node-icon">{getNodeIcon(node)}</span>
+          <img 
+            src={getNodeIcon(node)} 
+            alt="" 
+            className="node-icon"
+            width={16}
+            height={16}
+            onError={(e) => {
+              // Fallback to category icon if specific icon not found
+              (e.target as HTMLImageElement).src = '/icons/CATEGORY.png';
+            }}
+          />
           <span className="node-name">{node.name}</span>
         </div>
       </div>

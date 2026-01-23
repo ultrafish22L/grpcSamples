@@ -6,6 +6,8 @@
  * Maintains exact same functionality and icon mappings for consistency
  */
 
+import { getNodeIconPath, hasIconMapping } from '@/constants/IconMapping';
+
 export class OctaneIconMapper {
   
   /**
@@ -62,43 +64,49 @@ export class OctaneIconMapper {
   /**
    * Get icon for node types (consolidated from SceneOutlinerSync.js)
    * This replaces getOctaneIconFor() function
+   * Now returns actual Octane icon file paths from the /icons/ directory
    */
   static getNodeIcon(outType: string, name?: string): string {
-    // Handle parameter types with specific icons
+    // Check if it's an NT_ node type and has an icon mapping
+    if (outType && outType.startsWith('NT_') && hasIconMapping(outType)) {
+      return getNodeIconPath(outType);
+    }
+
+    // Handle parameter types with fallback icons
     if (outType === 'PT_BOOL' || name === 'Bool value') {
-      return '☑️'; // Checkbox for boolean parameters
+      return '/icons/BOOL node.png';
     }
     if (outType === 'PT_FLOAT' || name === 'Float value') {
-      return '🔢'; // Numbers for float parameters
+      return '/icons/FLOAT node.png';
     }
     if (outType === 'PT_INT' || name === 'Int value') {
-      return '🔢'; // Numbers for integer parameters
+      return '/icons/INT node.png';
     }
     if (outType === 'PT_ENUM' || name === 'Enum value') {
-      return '📋'; // List for enum parameters
+      return '/icons/ENUM node.png';
     }
     if (outType === 'PT_RGB' || name === 'RGB color') {
-      return '🎨'; // Color palette for RGB parameters
+      return '/icons/RGB_SPECTRUM node.png';
     }
     
-    // Fallback based on type
+    // Fallback based on parameter type with actual icon files
     const iconMap: Record<string, string> = {
-      'PT_RENDER_TARGET': '🎯',
-      'PT_MESH': '🫖',
-      'PT_GEOMETRY': '🫖',
-      'PT_CAMERA': '📷',
-      'PT_LIGHT': '💡',
-      'PT_MATERIAL': '🎨',
-      'PT_ENVIRONMENT': '🌍',
-      'PT_FILM_SETTINGS': '🎬',
-      'PT_ANIMATION_SETTINGS': '⏱️',
-      'PT_KERNEL': '🔧',
-      'PT_RENDER_LAYER': '🎭',
-      'PT_RENDER_PASSES': '📊',
-      'PT_OUTPUT_AOV_GROUP': '📤',
-      'PT_IMAGER': '📷',
-      'PT_POSTPROCESSING': '⚙️',
-      'unknown': '⬜'
+      'PT_RENDER_TARGET': '/icons/RENDER_TARGET node.png',
+      'PT_MESH': '/icons/MESH node.png',
+      'PT_GEOMETRY': '/icons/MESH node.png',
+      'PT_CAMERA': '/icons/CAMERA node.png',
+      'PT_LIGHT': '/icons/QUAD_LIGHT node.png',
+      'PT_MATERIAL': '/icons/UNIVERSAL_MATERIAL node.png',
+      'PT_ENVIRONMENT': '/icons/ENVIRONMENT node.png',
+      'PT_FILM_SETTINGS': '/icons/FILM node.png',
+      'PT_ANIMATION_SETTINGS': '/icons/ANIMATION_SETTINGS node.png',
+      'PT_KERNEL': '/icons/KERNEL_OUT node.png',
+      'PT_RENDER_LAYER': '/icons/RENDER_LAYER node.png',
+      'PT_RENDER_PASSES': '/icons/RENDER_PASSES node.png',
+      'PT_OUTPUT_AOV_GROUP': '/icons/OUTPUT_AOV_GROUP node.png',
+      'PT_IMAGER': '/icons/IMAGER node.png',
+      'PT_POSTPROCESSING': '/icons/POST_PROCESSING node.png',
+      'unknown': '/icons/CATEGORY.png'
     };
     
     return iconMap[outType] || iconMap['unknown'];

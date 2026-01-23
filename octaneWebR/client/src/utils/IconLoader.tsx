@@ -15,6 +15,7 @@
  */
 
 import React from 'react';
+import { getNodeIconPath, hasIconMapping } from '@/constants/IconMapping';
 
 export type NodeTypeString = string; // NT_* enum values (e.g., "NT_MAT_DIFFUSE")
 export type GraphTypeString = string; // GT_* enum values (e.g., "GT_STANDARD")
@@ -25,7 +26,7 @@ export type GraphTypeString = string; // GT_* enum values (e.g., "GT_STANDARD")
  * @returns URL path to the icon PNG
  */
 export function getNodeIcon(nodeType: NodeTypeString): string {
-  return `/icons/nodes/${nodeType}.png`;
+  return getNodeIconPath(nodeType);
 }
 
 /**
@@ -40,15 +41,15 @@ export function getGraphIcon(graphType: GraphTypeString): string {
 /**
  * Default fallback icon when specific icon is not found
  */
-export const DEFAULT_NODE_ICON = '/icons/default-node.png';
-export const DEFAULT_GRAPH_ICON = '/icons/default-graph.png';
+export const DEFAULT_NODE_ICON = '/icons/CATEGORY.png';
+export const DEFAULT_GRAPH_ICON = '/icons/CATEGORY.png';
 
 /**
  * Check if a node icon exists (client-side check)
- * Note: This doesn't actually verify file existence, just checks format
+ * Checks if the node type has a mapping in the icon mapping table
  */
 export function isValidNodeType(nodeType: string): boolean {
-  return nodeType.startsWith('NT_');
+  return hasIconMapping(nodeType);
 }
 
 /**

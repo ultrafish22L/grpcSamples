@@ -839,7 +839,16 @@ function NodeParameter({
       <div className={indentClass} style={{ display: 'block' }}>
         <div className="node-box-parameter" data-node-handle={node.handle} data-node-id={nodeId}>
           <div className="node-icon-box" style={{ backgroundColor: color }}>
-            <span className="node-icon">{icon}</span>
+            <img 
+              src={icon} 
+              alt="" 
+              className="node-icon"
+              width={20}
+              height={20}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/icons/CATEGORY.png';
+              }}
+            />
           </div>
           <div className="node-content">
             <div className="node-label" onClick={hasChildren ? handleToggle : undefined}>
@@ -875,7 +884,16 @@ function NodeParameter({
     <div className={indentClass} style={{ display: 'block' }}>
       <div className="node-box" data-node-handle={node.handle} data-node-id={nodeId}>
         <div className="node-icon-box" style={{ backgroundColor: color }}>
-          <span className="node-icon">{icon}</span>
+          <img 
+            src={icon} 
+            alt="" 
+            className="node-icon"
+            width={20}
+            height={20}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/icons/CATEGORY.png';
+            }}
+          />
         </div>
         <div className="node-content">
           <div className="node-label" onClick={hasChildren ? handleToggle : undefined}>

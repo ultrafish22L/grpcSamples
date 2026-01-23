@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { getCategoriesInOrder, getNodeTypesForCategory, OCTANE_NODE_TYPES } from '../../constants/NodeTypes';
+import { getNodeIconPath } from '../../constants/IconMapping';
 
 interface NodeTypeContextMenuProps {
   x: number;
@@ -17,10 +18,10 @@ interface NodeTypeContextMenuProps {
 
 /**
  * Get icon path for a node type
- * Icons are stored in /icons/nodes/{NODE_TYPE}.png
+ * Uses the icon mapping to get actual Octane icon file paths
  */
 function getNodeIcon(nodeType: string): string {
-  return `/icons/nodes/${nodeType}.png`;
+  return getNodeIconPath(nodeType);
 }
 
 export function NodeTypeContextMenu({

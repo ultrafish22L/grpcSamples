@@ -1,0 +1,481 @@
+/**
+ * Octane Node Type to Icon Mapping
+ * 
+ * Maps NT_ node types to their corresponding icon filenames in the /icons/ directory.
+ * Icons are extracted from the actual Octane UI and named descriptively.
+ * 
+ * Note: Not all NT_ types have unique icons - many share the same icon with other nodes of similar type.
+ */
+
+export interface IconMapping {
+  [nodeType: string]: string;
+}
+
+/**
+ * Complete mapping of NT_ node types to icon filenames
+ */
+export const NODE_TYPE_ICON_MAP: IconMapping = {
+  // Cameras
+  'NT_CAM_BAKING': 'BAKING_CAMERA node.png',
+  'NT_CAM_OSL': 'OSL_BAKING_CAMERA node.png',
+  'NT_CAM_OSL_BAKING': 'OSL_BAKING_CAMERA node.png',
+  'NT_CAM_PANORAMIC': 'PANORAMIC_CAMERA node.png',
+  'NT_CAM_SIMULATED_LENS': 'SIMULATED_LENS_CAMERA node.png',
+  'NT_CAM_THINLENS': 'THINLENS_CAMERA node.png',
+  'NT_CAM_UNIVERSAL': 'CAMERA node.png',
+
+  // Displacement
+  'NT_DISPLACEMENT': 'DISPLACEMENT_OUT node.png',
+  'NT_VERTEX_DISPLACEMENT': 'VERTEX_DISPLACEMENT node.png',
+  'NT_VERTEX_DISPLACEMENT_MIXER': 'VERTEX_DISPLACEMENT_MIXER node.png',
+
+  // Emission
+  'NT_EMIS_BLACKBODY': 'EMITTER_BBODY node.png',
+  'NT_EMIS_TEXTURE': 'EMITTER_TEXTURE node.png',
+
+  // Environments
+  'NT_ENV_DAYLIGHT': 'DAYLIGHT_ENVIRONMENT node.png',
+  'NT_ENV_PLANETARY': 'PLANETARY_ENVIRONMENT node.png',
+  'NT_ENV_TEXTURE': 'ENVIRONMENT node.png',
+
+  // Geometry - Basic
+  'NT_GEO_DECAL': 'DECAL node.png',
+  'NT_GEO_EXPORTER': 'GEOMETRY_EXPORTER node.png',
+  'NT_GEO_GAUSSIAN_SPLAT': 'GAUSSIAN_SPLAT node.png',
+  'NT_GEO_GROUP': 'GEOMETRY_GROUP node.png',
+  'NT_GEO_JOINT': 'JOINT node.png',
+  'NT_GEO_MESH': 'MESH node.png',
+  'NT_GEO_MESH_VOLUME': 'MESH_VOLUME node.png',
+  'NT_GEO_MESH_VOLUME_SDF': 'MESH_VOLUME_SDF node.png',
+  'NT_GEO_OBJECT': 'SCENE node.png',
+  'NT_GEO_OSL': 'OSL_GEOMETRY node.png',
+  'NT_GEO_PLACEMENT': 'PLACEMENT node.png',
+  'NT_GEO_PLANE': 'PLANE node.png',
+  'NT_GEO_SCATTER': 'SCATTER node.png',
+  
+  // Geometry - SDF
+  'NT_GEO_SDF_ARRAY_CIRCULAR': 'SDF_ARRAY node.png',
+  'NT_GEO_SDF_ARRAY_LINEAR': 'SDF_ARRAY node.png',
+  'NT_GEO_SDF_AVOID': 'SDF_AVOID node.png',
+  'NT_GEO_SDF_BOX': 'SDF_BOX node.png',
+  'NT_GEO_SDF_CAPSULE': 'SDF_CAPSULE node.png',
+  'NT_GEO_SDF_CLIP': 'SDF_CLIP node.png',
+  'NT_GEO_SDF_CONE': 'SDF_CONE node.png',
+  'NT_GEO_SDF_CYLINDER': 'SDF_CYLINDER node.png',
+  'NT_GEO_SDF_DISPLACEMENT': 'SDF_DISPLACEMENT node.png',
+  'NT_GEO_SDF_DOMAIN': 'SDF_DOMAIN node.png',
+  'NT_GEO_SDF_INK': 'SDF_INK node.png',
+  'NT_GEO_SDF_INSET': 'SDF_INSET node.png',
+  'NT_GEO_SDF_INTERSECT': 'SDF_INTERSECT node.png',
+  'NT_GEO_SDF_MIRROR': 'SDF_MIRROR node.png',
+  'NT_GEO_SDF_OFFSET': 'SDF_OFFSET node.png',
+  'NT_GEO_SDF_PRISM': 'SDF_PRISM node.png',
+  'NT_GEO_SDF_PULL': 'SDF_PULL node.png',
+  'NT_GEO_SDF_PUSH': 'SDF_PUSH node.png',
+  'NT_GEO_SDF_REPEL': 'SDF_REPEL node.png',
+  'NT_GEO_SDF_SPHERE': 'SDF_SPHERE node.png',
+  'NT_GEO_SDF_SUBTRACT': 'SDF_SUBTRACT node.png',
+  'NT_GEO_SDF_TORUS': 'SDF_TORUS node.png',
+  'NT_GEO_SDF_TUBE': 'SDF_TUBE node.png',
+  'NT_GEO_SDF_UNION': 'SDF_UNION node.png',
+  
+  // Geometry - Volume
+  'NT_GEO_UNIT_VOLUME': 'UNIT_VOLUME node.png',
+  'NT_GEO_VOLUME': 'VOLUME node.png',
+  'NT_GEO_VOLUME_SDF': 'VOLUME_SDF node.png',
+  'NT_SCATTER_SURFACE': 'SCATTER_ON_SURFACE node.png',
+  'NT_SCATTER_VOLUME': 'SCATTER_IN_VOLUME node.png',
+
+  // Input - Basic Types
+  'NT_BOOL': 'BOOL node.png',
+  'NT_BOOL_LOGIC_OPERATOR': 'BOOLEAN_LOGIC_OPERATOR node.png',
+  'NT_DIRECTORY': 'DIRECTORY_NAME node.png',
+  'NT_ENUM': 'ENUM node.png',
+  'NT_FILE': 'FILE_NAME node.png',
+  'NT_FLOAT': 'FLOAT node.png',
+  'NT_FLOAT_COMPONENT_MERGER': 'FLOAT_COMPONENT_MERGER node.png',
+  'NT_FLOAT_COMPONENT_PICKER': 'FLOAT_COMPONENT_PICKER node.png',
+  'NT_FLOAT_IF': 'FLOAT_IF node.png',
+  'NT_FLOAT_MATH_BINARY': 'BINARY_MATH_OPERATION node.png',
+  'NT_FLOAT_MATH_UNARY': 'UNARY_MATH_OPERATION node.png',
+  'NT_FLOAT_RANGE': 'MAP_RANGE node.png',
+  'NT_FLOAT_RELATIONAL_OPERATOR': 'FLOAT_RELATIONAL_OPERATOR node.png',
+  'NT_FLOAT_TIME': 'FLOAT_TIME node.png',
+  'NT_FLOAT_TO_INT': 'FLOAT_TO_INT node.png',
+  'NT_INT': 'INT node.png',
+  'NT_INT_COMPONENT_MERGER': 'INT_COMPONENT_MERGER node.png',
+  'NT_INT_COMPONENT_PICKER': 'INT_COMPONENT_PICKER node.png',
+  'NT_INT_FRAME_INDEX': 'FRAME_INDEX node.png',
+  'NT_INT_IF': 'INT_IF node.png',
+  'NT_INT_RELATIONAL_OPERATOR': 'INT_RELATIONAL_OPERATOR node.png',
+  'NT_INT_TO_FLOAT': 'INT_TO_FLOAT node.png',
+  'NT_STRING': 'STRING_OUT node.png',
+
+  // Kernels
+  'NT_KERN_DIRECTLIGHTING': 'KERNEL_OUT node.png',
+  'NT_KERN_INFO': 'KERNEL_OUT node.png',
+  'NT_KERN_MATPREVIEW': 'KERNEL_OUT node.png',
+  'NT_KERN_PATHTRACING': 'KERNEL_OUT node.png',
+  'NT_KERN_PHOTONTRACING': 'KERNEL_OUT node.png',
+  'NT_KERN_PMC': 'KERNEL_OUT node.png',
+
+  // Lights
+  'NT_LIGHT_ANALYTIC': 'ANALYTIC_LIGHT node.png',
+  'NT_LIGHT_ANALYTIC_INTERNAL': 'ANALYTIC_LIGHT node.png',
+  'NT_LIGHT_DIRECTIONAL': 'DIRECTIONAL_LIGHT node.png',
+  'NT_LIGHT_QUAD': 'QUAD_LIGHT node.png',
+  'NT_LIGHT_SPHERE': 'SPHERE_LIGHT node.png',
+  'NT_LIGHT_VOLUME_SPOT': 'SPOT_LIGHT node.png',
+  'NT_TOON_DIRECTIONAL_LIGHT': 'TOON_DIRECTIONAL_LIGHT node.png',
+  'NT_TOON_POINT_LIGHT': 'TOON_POINT_LIGHT node.png',
+
+  // Material Layers
+  'NT_MAT_COMPOSITE': 'COMPOSITE_MATERIAL node.png',
+  'NT_MAT_DIFFUSE_LAYER': 'MATERIAL_DIFFUSE_LAYER node.png',
+  'NT_MAT_LAYER': 'MATERIAL_LAYER node.png',
+  'NT_MAT_LAYER_GROUP': 'MATERIAL_LAYER_GROUP node.png',
+  'NT_MAT_METALLIC_LAYER': 'MATERIAL_METALLIC_LAYER node.png',
+  'NT_MAT_SHEEN_LAYER': 'MATERIAL_SHEEN_LAYER node.png',
+  'NT_MAT_SPECULAR_LAYER': 'MATERIAL_SPECULAR_LAYER node.png',
+
+  // Materials
+  'NT_MAT_CLIPPING': 'CLIPPING_MATERIAL node.png',
+  'NT_MAT_DIFFUSE': 'DIFFUSE_MATERIAL node.png',
+  'NT_MAT_DOUBLE_SIDED': 'DOUBLE_SIDED_MATERIAL node.png',
+  'NT_MAT_GLOSSY': 'GLOSSY_MATERIAL node.png',
+  'NT_MAT_HAIR': 'HAIR_MATERIAL node.png',
+  'NT_MAT_LAYERED': 'LAYERED_MATERIAL node.png',
+  'NT_MAT_METAL': 'METAL_MATERIAL node.png',
+  'NT_MAT_MIX': 'MIX_MATERIAL node.png',
+  'NT_MAT_NULL': 'NULL_MATERIAL node.png',
+  'NT_MAT_PORTAL': 'PORTAL_MATERIAL node.png',
+  'NT_MAT_SHADOW_CATCHER': 'SHADOW_CATCHER_MATERIAL node.png',
+  'NT_MAT_SPECULAR': 'SPECULAR_MATERIAL node.png',
+  'NT_MAT_TOON': 'TOON_MATERIAL node.png',
+  'NT_MAT_UNIVERSAL': 'UNIVERSAL_MATERIAL node.png',
+
+  // Medium
+  'NT_MED_ABSORPTION': 'ABSORPTION_MEDIUM node.png',
+  'NT_MED_SCATTERING': 'SCATTERING_MEDIUM node.png',
+  'NT_MED_SSS': 'SSS_MEDIUM node.png',
+
+  // Imagers and Post Processing
+  'NT_IMAGER_2D_HISTOGRAM': 'IMAGER node.png',
+  'NT_IMAGER_BEAUTYPASSES': 'IMAGER node.png',
+  'NT_IMAGER_CAMERA_IMAGER': 'IMAGER node.png',
+  'NT_IMAGER_DENOISE': 'DENOISE node.png',
+  'NT_IMAGER_2D_STEREO': 'IMAGER node.png',
+  'NT_IMAGER_LENS_FLARE': 'IMAGER node.png',
+
+  // Projection
+  'NT_PROJ_BOX': 'BOX_PROJECTION node.png',
+  'NT_PROJ_CYLINDRICAL': 'CYLINDRICAL_PROJECTION node.png',
+  'NT_PROJ_MESH': 'MESH_PROJECTION node.png',
+  'NT_PROJ_OSL': 'OSL_PROJECTION node.png',
+  'NT_PROJ_PERSPECTIVE': 'PERSPECTIVE_PROJECTION node.png',
+  'NT_PROJ_SPHERICAL': 'SPHERICAL_PROJECTION node.png',
+  'NT_PROJ_TRIPLANAR': 'TRIPLANAR_PROJECTION node.png',
+  'NT_PROJ_UVW': 'UVW_PROJECTION node.png',
+  'NT_PROJ_XYZ': 'XYZ_TO_UVW node.png',
+
+  // Textures - Basic
+  'NT_TEX_CHECKS': 'CHECKS_TEXTURE node.png',
+  'NT_TEX_CLAMP': 'CLAMP_TEXTURE node.png',
+  'NT_TEX_COLOR_CORRECTION': 'COLOR_CORRECTION node.png',
+  'NT_TEX_COSINE_MIX_TEXTURE': 'COSINE_MIX_TEXTURE node.png',
+  'NT_TEX_CURVATURE': 'CURVATURE_TEXTURE node.png',
+  'NT_TEX_DIRT': 'DIRT_TEXTURE node.png',
+  'NT_TEX_DISPLACE': 'DISPLACE node.png',
+  'NT_TEX_DISTORTED': 'DISTORTED_TEXTURE node.png',
+  'NT_TEX_FALLOFF': 'FALLOFF_TEXTURE node.png',
+  'NT_TEX_FLOAT': 'FLOAT_TEXTURE node.png',
+  'NT_TEX_GAUSSIAN': 'GAUSSIAN_SPECTRUM node.png',
+  'NT_TEX_GRADIENT': 'GRADIENT_TEXTURE node.png',
+  'NT_TEX_IMAGE': 'IMAGE_TEXTURE node.png',
+  'NT_TEX_INVERT': 'INVERT_TEXTURE node.png',
+  'NT_TEX_MARBLE': 'MARBLE_TEXTURE node.png',
+  'NT_TEX_MIX': 'MIX_TEXTURE node.png',
+  'NT_TEX_MULTIPLY': 'MULTIPLY_TEXTURE node.png',
+  'NT_TEX_NOISE': 'NOISE_TEXTURE node.png',
+  'NT_TEX_OSL': 'OSL_TEXTURE node.png',
+  'NT_TEX_PALETTE': 'PALETTE_TEXTURE node.png',
+  'NT_TEX_POLYGON_SIDE': 'POLYGON_SIDE node.png',
+  'NT_TEX_RGB': 'RGB_SPECTRUM node.png',
+  'NT_TEX_RIDGED': 'RIDGED_FRACTAL node.png',
+  'NT_TEX_SAW_WAVE': 'SAW_WAVE node.png',
+  'NT_TEX_SIDE': 'SIDE_TEXTURE node.png',
+  'NT_TEX_SINE_WAVE': 'SINE_WAVE node.png',
+  'NT_TEX_SWITCH': 'TEXTURE_SWITCH node.png',
+  'NT_TEX_TRIPLANAR': 'TRIPLANAR_IMAGE node.png',
+  'NT_TEX_TURBULENCE': 'TURBULENCE_TEXTURE node.png',
+  'NT_TEX_UVMAP': 'UVW_TRANSFORM node.png',
+  'NT_TEX_VOLUME_RAMP': 'VOLUME_RAMP node.png',
+  'NT_TEX_W_COORDINATE': 'W_COORDINATE node.png',
+  'NT_TEX_WIREFRAME': 'WIREFRAME_TEXTURE node.png',
+
+  // Transforms
+  'NT_TRANSFORM_2D': '2D_TRANSFORMATION node.png',
+  'NT_TRANSFORM_3D': '3D_TRANSFORMATION node.png',
+  'NT_TRANSFORM_LOOK_AT': 'LOOKATRANSFORM node.png',
+  'NT_TRANSFORM_MATRIX_3X3': 'TRANSFORMMATRIX3X3 node.png',
+  'NT_TRANSFORM_MATRIX_NORMAL': 'TRANSFORMNORMAL node.png',
+  'NT_TRANSFORM_OSL': 'OSL_TRANSFORM node.png',
+  'NT_TRANSFORM_POSITION': 'POSITION node.png',
+  'NT_TRANSFORM_ROTATION': '3D_ROTATION node.png',
+  'NT_TRANSFORM_SCALE': '3D_SCALE node.png',
+  'NT_TRANSFORM_TRANSLATION': '3D_TRANSFORMATION node.png',
+  'NT_TRANSFORM_VALUE': 'TRANSFORM_VALUE node.png',
+  'NT_TRANSFORM_VECTOR': 'TRANSFORMVECTOR node.png',
+
+  // Output and Render
+  'NT_RENDER_AOV': 'RENDER_AOV node.png',
+  'NT_RENDER_AOV_GROUP': 'RENDER_AOV_GROUP node.png',
+  'NT_RENDER_AOV_OUT': 'RENDER_AOV_OUT node.png',
+  'NT_RENDER_AOV_SWITCH': 'RENDER_AOV_SWITCH node.png',
+  'NT_RENDER_JOB': 'RENDER_JOB node.png',
+  'NT_RENDER_LAYER': 'RENDER_LAYER node.png',
+  'NT_RENDER_LAYER_MASK_AOV': 'RENDER_LAYER_MASK_AOV node.png',
+  'NT_RENDER_PASSES': 'RENDER_PASSES node.png',
+  'NT_RENDER_TARGET': 'RENDER_TARGET node.png',
+  'NT_RENDER_TARGET_IN': 'RENDER_TARGET_IN node.png',
+  'NT_RENDER_TARGET_OUT': 'RENDER_TARGET_OUT node.png',
+  'NT_RENDER_TARGET_SWITCH': 'RENDER_TARGET_SWITCH node.png',
+
+  // Output AOVs
+  'NT_OUT_ALPHA_SHADOW': 'OUTPUT_AOV node.png',
+  'NT_OUT_AMBIENT_LIGHT': 'OUTPUT_AOV node.png',
+  'NT_OUT_BACKGROUND': 'OUTPUT_AOV node.png',
+  'NT_OUT_BEAUTY': 'OUTPUT_AOV node.png',
+  'NT_OUT_CRYPTOMATTE': 'OUTPUT_AOV node.png',
+  'NT_OUT_CUSTOM_AOV': 'CUSTOM_AOV node.png',
+  'NT_OUT_DENOISER_AOV': 'OUTPUT_AOV node.png',
+  'NT_OUT_DIFFUSE_DIRECT': 'OUTPUT_AOV node.png',
+  'NT_OUT_DIFFUSE_FILTER': 'OUTPUT_AOV node.png',
+  'NT_OUT_DIFFUSE_INDIRECT': 'OUTPUT_AOV node.png',
+  'NT_OUT_EMISSION': 'OUTPUT_AOV node.png',
+  'NT_OUT_GEOMETRIC_NORMAL': 'OUTPUT_AOV node.png',
+  'NT_OUT_INFO_PASS': 'OUTPUT_AOV node.png',
+  'NT_OUT_IRRADIANCE': 'OUTPUT_AOV node.png',
+  'NT_OUT_LIGHT_PASS': 'OUTPUT_AOV node.png',
+  'NT_OUT_MATERIAL_PASS': 'OUTPUT_AOV node.png',
+  'NT_OUT_MATTE_SHADOW': 'OUTPUT_AOV node.png',
+  'NT_OUT_NORMALS': 'OUTPUT_AOV node.png',
+  'NT_OUT_OBJECT_LAYER': 'OUTPUT_AOV node.png',
+  'NT_OUT_OBJECT_LAYER_MAP': 'OBJECT_LAYER_MAP node.png',
+  'NT_OUT_OCIO_COLOR_SPACE': 'OCIO_COLOR_SPACE node.png',
+  'NT_OUT_OCIO_LOOK': 'OCIO_LOOK node.png',
+  'NT_OUT_OCIO_VIEW': 'OCIO_VIEW node.png',
+  'NT_OUT_OPACITY': 'OUTPUT_AOV node.png',
+  'NT_OUT_OUTLINE': 'OUTPUT_AOV node.png',
+  'NT_OUT_POST_PROCESSING': 'POST_PROCESSING node.png',
+  'NT_OUT_REFLECTION': 'OUTPUT_AOV node.png',
+  'NT_OUT_REFRACTION': 'OUTPUT_AOV node.png',
+  'NT_OUT_REMAINDER': 'OUTPUT_AOV node.png',
+  'NT_OUT_RENDER_LAYER_ID': 'OUTPUT_AOV node.png',
+  'NT_OUT_ROUGHNESS': 'OUTPUT_AOV node.png',
+  'NT_OUT_SAMPLING': 'OUTPUT_AOV node.png',
+  'NT_OUT_SHADING_NORMAL': 'OUTPUT_AOV node.png',
+  'NT_OUT_SHADOW': 'OUTPUT_AOV node.png',
+  'NT_OUT_SPECULAR_DIRECT': 'OUTPUT_AOV node.png',
+  'NT_OUT_SPECULAR_INDIRECT': 'OUTPUT_AOV node.png',
+  'NT_OUT_SUB_SURFACE_SCATTERING': 'OUTPUT_AOV node.png',
+  'NT_OUT_TANGENT_NORMAL': 'OUTPUT_AOV node.png',
+  'NT_OUT_TOON': 'OUTPUT_AOV node.png',
+  'NT_OUT_TRANSMISSION': 'OUTPUT_AOV node.png',
+  'NT_OUT_UV_COORDS': 'OUTPUT_AOV node.png',
+  'NT_OUT_VELOCITY': 'OUTPUT_AOV node.png',
+  'NT_OUT_VOLUME_EMISSION': 'OUTPUT_AOV node.png',
+  'NT_OUT_VOLUME_Z_DEPTH': 'OUTPUT_AOV node.png',
+  'NT_OUT_WIREFRAME': 'OUTPUT_AOV node.png',
+  'NT_OUT_Z_DEPTH': 'OUTPUT_AOV node.png',
+
+  // Film and Settings
+  'NT_FILM_SETTINGS': 'FILM node.png',
+  'NT_FILM_SETTINGS_IN': 'FILM node.png',
+  'NT_FILM_SETTINGS_OUT': 'FILM node.png',
+  'NT_FILM_SETTINGS_SWITCH': 'FILM node.png',
+
+  // Animation and Settings
+  'NT_ANIMATION_SETTINGS': 'ANIMATION_SETTINGS node.png',
+  'NT_ANIMATION_SETTINGS_IN': 'ANIMATION_SETTINGS_IN node.png',
+  'NT_ANIMATION_SETTINGS_OUT': 'ANIMATION_SETTINGS_OUT node.png',
+  'NT_ANIMATION_SETTINGS_SWITCH': 'ANIMATION_SETTINGS_SWITCH node.png',
+
+  // Blending Settings
+  'NT_BLENDING_SETTINGS': 'BLENDING_SETTINGS node.png',
+  'NT_BLENDING_SETTINGS_IN': 'BLENDING_SETTINGS_IN node.png',
+  'NT_BLENDING_SETTINGS_OUT': 'BLENDING_SETTINGS_OUT node.png',
+  'NT_BLENDING_SETTINGS_SWITCH': 'BLENDING_SETTINGS_SWITCH node.png',
+
+  // OSL and MaterialX nodes
+  'NT_OSL_TEXTURE': 'OSL_TEXTURE node.png',
+  'NT_OSL_PROJECTION': 'OSL_PROJECTION node.png',
+  'NT_OSL_TRANSFORM': 'OSL_TRANSFORM node.png',
+  'NT_OSL_GEOMETRY': 'OSL_GEOMETRY node.png',
+
+  // Round Edges
+  'NT_ROUND_EDGES': 'ROUND_EDGES node.png',
+  'NT_ROUND_EDGES_IN': 'ROUND_EDGES_IN node.png',
+  'NT_ROUND_EDGES_OUT': 'ROUND_EDGES_OUT node.png',
+  'NT_ROUND_EDGES_SWITCH': 'ROUND_EDGES_SWITCH node.png',
+
+  // Trace Sets
+  'NT_TRACE_SET_VISIBILITY_RULE': 'TRACE_SET_VISIBILITY_RULE node.png',
+  'NT_TRACE_SET_VISIBILITY_RULE_GROUP': 'TRACE_SET_VISIBILITY_RULE_GROUP node.png',
+  'NT_TRACE_SET_VISIBILITY_RULE_GROUP_IN': 'TRACE_SET_VISIBILITY_RULE_GROUP_IN node.png',
+  'NT_TRACE_SET_VISIBILITY_RULE_GROUP_OUT': 'TRACE_SET_VISIBILITY_RULE_GROUP_OUT node.png',
+  'NT_TRACE_SET_VISIBILITY_RULE_GROUP_SWITCH': 'TRACE_SET_VISIBILITY_RULE_GROUP_SWITCH node.png',
+  'NT_TRACE_SET_VISIBILITY_RULE_IN': 'TRACE_SET_VISIBILITY_RULE_IN node.png',
+  'NT_TRACE_SET_VISIBILITY_RULE_OUT': 'TRACE_SET_VISIBILITY_RULE_OUT node.png',
+  'NT_TRACE_SET_VISIBILITY_RULE_SWITCH': 'TRACE_SET_VISIBILITY_RULE_SWITCH node.png',
+
+  // Object Layers
+  'NT_OBJECT_LAYER': 'OBJECT_LAYER node.png',
+  'NT_OBJECT_LAYER_COLOR_AOV': 'OBJECT_LAYER_COLOR_AOV node.png',
+  'NT_OBJECT_LAYER_MAP': 'OBJECT_LAYER_MAP node.png',
+  'NT_OBJECT_LAYER_OUT': 'OBJECT_LAYER_OUT node.png',
+  'NT_OBJECT_LAYER_SWITCH': 'OBJECT_LAYER_SWITCH node.png',
+
+  // Phase Functions
+  'NT_PHASE_HENYEY_GREENSTEIN': 'HENYEYGREENSTEIN node.png',
+  'NT_PHASE_RAYLEIGH': 'RAYLEIGH node.png',
+  'NT_PHASE_SCHLICK': 'SCHLICK node.png',
+
+  // Render Target
+  'NT_RENDERTARGET': 'RENDER_TARGET node.png',
+
+  // In/Out/Switch nodes - generic icons
+  'NT_IN_ANIMATION_SETTINGS': 'ANIMATION_SETTINGS_IN node.png',
+  'NT_IN_BIT_MASK': 'BITMASK_IN node.png',
+  'NT_IN_BLENDING_SETTINGS': 'BLENDING_SETTINGS_IN node.png',
+  'NT_IN_BOOL': 'BOOL_IN node.png',
+  'NT_IN_CAMERA': 'CAMERA_IN node.png',
+  'NT_IN_DISPLACEMENT': 'DISPLACEMENT_IN node.png',
+  'NT_IN_EMISSION': 'EMISSION_IN node.png',
+  'NT_IN_ENUM': 'ENUM_IN node.png',
+  'NT_IN_ENVIRONMENT': 'ENVIRONMENT_IN node.png',
+  'NT_IN_FILM_SETTINGS': 'FILM_SETTINGS_IN node.png',
+  'NT_IN_FLOAT': 'FLOAT_IN node.png',
+  'NT_IN_GEOMETRY': 'GEOMETRY_IN node.png',
+  'NT_IN_IMAGER': 'IMAGER_IN node.png',
+  'NT_IN_INT': 'INT_IN node.png',
+  'NT_IN_KERNEL': 'KERNEL_IN node.png',
+  'NT_IN_LUT': 'LUT_IN node.png',
+  'NT_IN_MATERIAL': 'MATERIAL_IN node.png',
+  'NT_IN_MATERIAL_LAYER': 'MATERIAL_LAYER_IN node.png',
+  'NT_IN_MEDIUM': 'MEDIUM_IN node.png',
+  'NT_IN_OBJECTLAYER': 'OBJECTLAYER_IN node.png',
+  'NT_IN_OCIO_COLOR_SPACE': 'OCIO_COLOR_SPACE_IN node.png',
+  'NT_IN_OCIO_LOOK': 'OCIO_LOOK_IN node.png',
+  'NT_IN_OCIO_VIEW': 'OCIO_VIEW_IN node.png',
+  'NT_IN_OFFSET': 'OFFSET_IN node.png',
+  'NT_IN_OUTPUT_AOV': 'OUTPUT_AOV_IN node.png',
+  'NT_IN_OUTPUT_AOV_GROUP': 'OUTPUT_AOV_GROUP_IN node.png',
+  'NT_IN_OUTPUT_AOV_LAYER': 'OUTPUT_AOV_LAYER_IN node.png',
+  'NT_IN_PHASEFUNCTION': 'PHASEFUNCTION_IN node.png',
+  'NT_IN_POSTPROCESSING': 'POSTPROCESSING_IN node.png',
+  'NT_IN_POST_VOLUME': 'POST_VOLUME_IN node.png',
+  'NT_IN_PROJECTION': 'PROJECTION_IN node.png',
+  'NT_IN_RENDERTARGET': 'RENDERTARGET_IN node.png',
+  'NT_IN_RENDER_JOB': 'RENDER_JOB_IN node.png',
+  'NT_IN_RENDER_LAYER': 'RENDER_LAYER_IN node.png',
+  'NT_IN_RENDER_PASSES': 'RENDER_PASSES_IN node.png',
+  'NT_IN_ROUND_EDGES': 'ROUND_EDGES_IN node.png',
+  'NT_IN_STRING': 'STRING_IN node.png',
+  'NT_IN_TEXTURE': 'TEXTURE_IN node.png',
+  'NT_IN_TEX_COMPOSITE_LAYER': 'TEX_COMPOSITE_LAYER_IN node.png',
+  'NT_IN_TOON_RAMP': 'TOON_RAMP_IN node.png',
+  'NT_IN_TRACE_SET_VISIBILITY_RULE': 'TRACE_SET_VISIBILITY_RULE_IN node.png',
+  'NT_IN_TRACE_SET_VISIBILITY_RULE_GROUP': 'TRACE_SET_VISIBILITY_RULE_GROUP_IN node.png',
+  'NT_IN_TRANSFORM': 'TRANSFORM_IN node.png',
+  'NT_IN_VOLUME_RAMP': 'VOLUME_RAMP_IN node.png',
+
+  // Switch nodes use switch icons
+  'NT_SWITCH_ANIMATION_SETTINGS': 'ANIMATION_SETTINGS_SWITCH node.png',
+  'NT_SWITCH_BIT_MASK': 'BITMASK_SWITCH node.png',
+  'NT_SWITCH_BLENDING_SETTINGS': 'BLENDING_SETTINGS_SWITCH node.png',
+  'NT_SWITCH_BOOL': 'BOOL_SWITCH node.png',
+  'NT_SWITCH_CAMERA': 'CAMERA_SWITCH node.png',
+  'NT_SWITCH_DISPLACEMENT': 'DISPLACEMENT_SWITCH node.png',
+  'NT_SWITCH_EMISSION': 'EMISSION_SWITCH node.png',
+  'NT_SWITCH_ENUM': 'ENUM_SWITCH node.png',
+  'NT_SWITCH_ENVIRONMENT': 'ENVIRONMENT_SWITCH node.png',
+  'NT_SWITCH_FILM_SETTINGS': 'FILM_SETTINGS_SWITCH node.png',
+  'NT_SWITCH_FLOAT': 'FLOAT_SWITCH node.png',
+  'NT_SWITCH_GEOMETRY': 'GEOMETRY_SWITCH node.png',
+  'NT_SWITCH_IMAGER': 'IMAGER_SWITCH node.png',
+  'NT_SWITCH_INT': 'INT_SWITCH node.png',
+  'NT_SWITCH_INTERNAL': 'SWITCH node.png',
+  'NT_SWITCH_KERNEL': 'KERNEL_SWITCH node.png',
+  'NT_SWITCH_LUT': 'LUT_SWITCH node.png',
+  'NT_SWITCH_MATERIAL': 'MATERIAL_SWITCH node.png',
+  'NT_SWITCH_MATERIAL_LAYER': 'MATERIAL_LAYER_SWITCH node.png',
+  'NT_SWITCH_MEDIUM': 'MEDIUM_SWITCH node.png',
+  'NT_SWITCH_OBJECTLAYER': 'OBJECTLAYER_SWITCH node.png',
+  'NT_SWITCH_OCIO_COLOR_SPACE': 'OCIO_COLOR_SPACE_SWITCH node.png',
+  'NT_SWITCH_OCIO_LOOK': 'OCIO_LOOK_SWITCH node.png',
+  'NT_SWITCH_OCIO_VIEW': 'OCIO_VIEW_SWITCH node.png',
+  'NT_SWITCH_OFFSET': 'OFFSET_SWITCH node.png',
+  'NT_SWITCH_OUTPUT_AOV': 'OUTPUT_AOV_SWITCH node.png',
+  'NT_SWITCH_OUTPUT_AOV_GROUP': 'OUTPUT_AOV_GROUP_SWITCH node.png',
+  'NT_SWITCH_OUTPUT_AOV_LAYER': 'OUTPUT_AOV_LAYER_SWITCH node.png',
+  'NT_SWITCH_PHASEFUNCTION': 'PHASEFUNCTION_SWITCH node.png',
+  'NT_SWITCH_POSTPROCESSING': 'POSTPROCESSING_SWITCH node.png',
+  'NT_SWITCH_POST_VOLUME': 'POST_VOLUME_SWITCH node.png',
+  'NT_SWITCH_PROJECTION': 'PROJECTION_SWITCH node.png',
+  'NT_SWITCH_RENDERTARGET': 'RENDERTARGET_SWITCH node.png',
+  'NT_SWITCH_RENDER_JOB': 'RENDER_JOB_SWITCH node.png',
+  'NT_SWITCH_RENDER_LAYER': 'RENDER_LAYER_SWITCH node.png',
+  'NT_SWITCH_RENDER_PASSES': 'RENDER_PASSES_SWITCH node.png',
+  'NT_SWITCH_ROUND_EDGES': 'ROUND_EDGES_SWITCH node.png',
+  'NT_SWITCH_STRING': 'STRING_SWITCH node.png',
+  'NT_SWITCH_TEXTURE': 'TEXTURE_SWITCH node.png',
+  'NT_SWITCH_TEX_COMPOSITE_LAYER': 'TEX_COMPOSITE_LAYER_SWITCH node.png',
+  'NT_SWITCH_TOON_RAMP': 'TOON_RAMP_SWITCH node.png',
+  'NT_SWITCH_TRACE_SET_VISIBILITY_RULE': 'TRACE_SET_VISIBILITY_RULE_SWITCH node.png',
+  'NT_SWITCH_TRACE_SET_VISIBILITY_RULE_GROUP': 'TRACE_SET_VISIBILITY_RULE_GROUP_SWITCH node.png',
+  'NT_SWITCH_TRANSFORM': 'TRANSFORM_SWITCH node.png',
+  'NT_SWITCH_VOLUME_RAMP': 'VOLUME_RAMP_SWITCH node.png',
+
+  // Annotation and Categories
+  'NT_ANNOTATION': 'ANNOTATION node.png',
+  'NT_CATEGORY': 'CATEGORY.png',
+  'NT_CATEGORY_MATERIAL': 'CATEGORY_MATERIAL node.png',
+  'NT_CATEGORY_TEXTURE': 'CATEGORY_TEXTURE node.png',
+  'NT_CATEGORY_EMITTER': 'CATEGORY_EMITTER node.png',
+};
+
+/**
+ * Get icon path for a node type
+ * @param nodeType NT_ enum string
+ * @returns path to icon file
+ */
+export function getNodeIconPath(nodeType: string): string {
+  const iconFile = NODE_TYPE_ICON_MAP[nodeType];
+  if (iconFile) {
+    return `/icons/${iconFile}`;
+  }
+  // Fallback to a generic icon
+  return '/icons/CATEGORY.png';
+}
+
+/**
+ * Check if a node type has an icon mapping
+ */
+export function hasIconMapping(nodeType: string): boolean {
+  return nodeType in NODE_TYPE_ICON_MAP;
+}
+
+/**
+ * Get all mapped node types
+ */
+export function getMappedNodeTypes(): string[] {
+  return Object.keys(NODE_TYPE_ICON_MAP);
+}
+
+/**
+ * Get count of mapped icons
+ */
+export function getMappedIconCount(): number {
+  return Object.keys(NODE_TYPE_ICON_MAP).length;
+}

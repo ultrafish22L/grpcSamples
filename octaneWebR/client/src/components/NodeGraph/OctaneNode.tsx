@@ -192,7 +192,16 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
             boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.4)',
           }}
         >
-        <span className="node-icon">{icon}</span>
+          <img 
+            src={icon} 
+            alt="" 
+            className="node-icon"
+            width={24}
+            height={24}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/icons/CATEGORY.png';
+            }}
+          />
         </div>
       )}
       
