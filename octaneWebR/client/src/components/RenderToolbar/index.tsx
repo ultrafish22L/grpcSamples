@@ -7,6 +7,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useOctane } from '../../hooks/useOctane';
 import { GPUStatisticsDialog } from '../dialogs/GPUStatisticsDialog';
+import { ToolbarIcon } from '../UI/ToolbarIcon';
 
 interface RenderStats {
   samples: number;
@@ -771,7 +772,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
                 title={tooltip}
                 onClick={() => handleToolbarAction(id)}
               >
-                {icon}
+                <ToolbarIcon id={id} fallback={icon} alt={tooltip} />
               </button>
             );
           })}

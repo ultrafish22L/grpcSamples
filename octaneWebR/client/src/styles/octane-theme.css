@@ -951,6 +951,29 @@ html, body {
     border-color: var(--octane-accent-blue);
 }
 
+/* Toolbar Icon Images */
+.toolbar-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+    filter: brightness(0.85);
+}
+
+.toolbar-icon-btn:hover .toolbar-icon {
+    filter: brightness(1.0);
+}
+
+.toolbar-icon-btn.active .toolbar-icon {
+    filter: brightness(1.2);
+}
+
+.toolbar-icon-fallback {
+    font-size: 14px;
+    line-height: 1;
+}
+
 .toolbar-separator {
     width: 1px;
     height: 18px;
