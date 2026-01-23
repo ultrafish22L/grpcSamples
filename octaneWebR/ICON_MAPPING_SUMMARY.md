@@ -6,9 +6,17 @@ OctaneWebR now uses actual Octane UI icons extracted from the official Octane St
 ## Completed Work
 
 ### 1. Scene Outliner Icon Mappings
+
+#### A. NT_ Node Type Mappings
 **File**: `client/src/constants/IconMapping.ts`
 - **Total Node Types Mapped**: 278
 - **Icons Applied**: Node type icons for all NT_ constants
+
+#### B. PT_ Parameter Type Mappings
+**File**: `client/src/utils/OctaneIconMapper.ts`
+- **Total Parameter Types Mapped**: 17
+- **Icons Applied**: Parameter type icons for PT_ constants
+- **Recent Fix**: Corrected 10 incorrect filename mappings (Commit 3391e595)
 
 #### Key Node Type Icon Mappings:
 - **Render Kernels** (6 types): `RENDER KERNEL node.png`
@@ -29,6 +37,24 @@ OctaneWebR now uses actual Octane UI icons extracted from the official Octane St
   
 - **Output AOVs** (~40 types): `aov-output-group.png`
   - All NT_OUTPUT_AOV_* variants (ALPHA, AMBIENT, BEAUTY, DIFFUSE, etc.)
+
+#### Key Parameter Type Icon Mappings:
+- **PT_RENDER_TARGET** / **PT_RENDERTARGET**: `RENDER TARGET node.png`
+- **PT_CAMERA**: `CAMERA node.png`
+- **PT_ENVIRONMENT**: `ENVIRONMENT node.png`
+- **PT_KERNEL**: `RENDER KERNEL node.png`
+- **PT_RENDER_LAYER**: `render_layer.png`
+- **PT_RENDER_PASSES**: `render_passes.png`
+- **PT_OUTPUT_AOV_GROUP**: `aov-output-group.png`
+- **PT_ANIMATION_SETTINGS**: `animation_settings_node.png`
+- **PT_POSTPROCESSING**: `POSTPROC node.png`
+- **PT_FILM_SETTINGS**: `FILM node.png`
+- **PT_IMAGER**: `IMAGER node.png`
+- **PT_MESH** / **PT_GEOMETRY**: `MESH node.png`
+- **PT_LIGHT**: `CATEGORY_EMITTER node.png`
+- **PT_MATERIAL**: `CATEGORY_MATERIAL node.png`
+
+**Note**: These PT_ mappings were corrected in Commit 3391e595 to fix blue folder icons appearing in the Scene Outliner. See `ICON_FIX_SUMMARY.md` for details.
 
 ### 2. Toolbar Icon Implementation
 **Files**:
