@@ -9,7 +9,7 @@ export default defineConfig({
   ],
   root: 'client',
   server: {
-    port: 43929,
+    port: parseInt(process.env.WORKER_1 || '43929'),
     host: '0.0.0.0',
     strictPort: false,
     cors: true,

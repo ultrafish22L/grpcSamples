@@ -314,7 +314,7 @@ class OctaneGrpcClient {
       
       console.log('📡 Callback stream opened');
 
-      this.callbackStream.on('data', (callbackRequest: any) => {
+      this.callbackStream.on('data', async (callbackRequest: any) => {
         try {
           // DEBUG: Log the entire callback request to see what we're actually receiving
           console.log('📡 Stream data received:', JSON.stringify(callbackRequest, null, 2));
@@ -323,27 +323,46 @@ class OctaneGrpcClient {
           // StreamCallbackRequest has oneof payload: newImage, renderFailure, newStatistics, projectManagerChanged
           if (callbackRequest.newImage) {
             console.log('🖼️  OnNewImage callback received');
-            console.log('   callback_source:', callbackRequest.newImage.callback_source);
-            console.log('   callback_id:', callbackRequest.newImage.callback_id);
-            console.log('   render_images count:', callbackRequest.newImage.render_images?.length || 0);
+            console.log('   user_data:', callbackRequest.newImage.user_data);
             
-            // OnNewImageRequest contains render_images array
-            const imageData = {
-              callback_source: callbackRequest.newImage.callback_source,
-              callback_id: callbackRequest.newImage.callback_id,
-              user_data: callbackRequest.newImage.user_data,
-              render_images: callbackRequest.newImage.render_images
-            };
-            
-            this.notifyCallbacks(imageData);
+            // The stream notification doesn't contain image data - we need to call grabRenderResult
+            console.log('📡 Calling grabRenderResult to fetch render images...');
+            try {
+              const renderResult = await this.callMethod('ApiRenderEngine', 'grabRenderResult', {});
+              
+              console.log('📡 grabRenderResult response:', {
+                hasResult: !!renderResult,
+                resultFlag: renderResult?.result,
+                hasRenderImages: !!renderResult?.renderImages,
+                imageCount: renderResult?.renderImages?.length || 0
+              });
+              
+              if (renderResult && renderResult.result && renderResult.renderImages && renderResult.renderImages.length > 0) {
+                console.log('✅ Got render result with', renderResult.renderImages.length, 'images');
+                
+                // Build the image data to send to frontend
+                const imageData = {
+                  callback_source: 'grpc',
+                  callback_id: this.callbackId,
+                  user_data: callbackRequest.newImage.user_data,
+                  render_images: renderResult.renderImages
+                };
+                
+                this.notifyCallbacks(imageData);
+              } else {
+                console.log('⚠️  grabRenderResult returned no images (result flag:', renderResult?.result, ')');
+              }
+            } catch (error: any) {
+              console.error('❌ Failed to grab render result:', error.message);
+            }
           } else if (callbackRequest.renderFailure) {
             console.log('❌ Render failure callback received');
           } else if (callbackRequest.newStatistics) {
             console.log('📊 OnNewStatistics callback received');
             // OnNewStatisticsRequest contains render statistics
             const statsData = {
-              callback_source: callbackRequest.newStatistics.callback_source,
-              callback_id: callbackRequest.newStatistics.callback_id,
+              callback_source: 'grpc',
+              callback_id: this.callbackId,
               user_data: callbackRequest.newStatistics.user_data,
               statistics: callbackRequest.newStatistics.statistics
             };
