@@ -29,35 +29,18 @@ export function OctaneProvider({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
-    console.log('🎯 useOctane: Setting up event listeners for client');
-    
-    // Setup event listeners
-    const handleConnected = () => {
-      console.log('🎯 useOctane: handleConnected called, setting connected = true');
-      setConnected(true);
-    };
-    const handleDisconnected = () => {
-      console.log('🎯 useOctane: handleDisconnected called, setting connected = false');
-      setConnected(false);
-    };
-    const handleSceneTreeUpdated = (newScene: Scene) => {
-      console.log('🎯 useOctane: handleSceneTreeUpdated called with', newScene.tree.length, 'items');
-      setScene(newScene);
-    };
+    // Setup event listeners for Octane client events
+    const handleConnected = () => setConnected(true);
+    const handleDisconnected = () => setConnected(false);
+    const handleSceneTreeUpdated = (newScene: Scene) => setScene(newScene);
     const handleNodeAdded = (event: NodeAddedEvent) => {
-      console.log('🎯 useOctane: handleNodeAdded called for node:', event.node.name, 'handle:', event.handle);
-      // Incremental update - just update the scene reference to trigger re-render
-      // The scene object itself was already mutated by OctaneClient.buildSceneTree
+      // Trigger React re-render with shallow copy
       setScene(prevScene => {
         if (!prevScene) return prevScene;
-        // Create a shallow copy to trigger React re-render
         return { ...prevScene, tree: [...prevScene.tree] };
       });
     };
-    const handleRenderStateChanged = (newState: RenderState) => {
-      console.log('🎯 useOctane: handleRenderStateChanged called');
-      setRenderState(newState);
-    };
+    const handleRenderStateChanged = (newState: RenderState) => setRenderState(newState);
 
     client.on('connected', handleConnected);
     client.on('disconnected', handleDisconnected);
@@ -65,9 +48,7 @@ export function OctaneProvider({ children }: { children: React.ReactNode }) {
     client.on('nodeAdded', handleNodeAdded);
     client.on('renderStateChanged', handleRenderStateChanged);
 
-    console.log('🎯 useOctane: Event listeners registered');
-
-    // Cleanup
+    // Cleanup on unmount
     return () => {
       client.off('connected', handleConnected);
       client.off('disconnected', handleDisconnected);

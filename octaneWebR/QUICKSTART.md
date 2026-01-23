@@ -1,482 +1,350 @@
-# octaneWebR - Quick Start Guide
+# octaneWebR Quick Start Guide
 
 **Get up and running with octaneWebR in 10 minutes**
 
-> 🤖 **AUTONOMOUS DEVELOPMENT MODE ACTIVE** - This project continuously implements features from [Octane SE Manual](https://docs.otoy.com/standaloneSE/CoverPage.html) in autonomous loop
+---
+
+## Prerequisites
+
+Before starting, ensure you have:
+
+1. **Octane Render** installed on your machine
+2. **Node.js 18+** installed ([Download](https://nodejs.org/))
+3. **npm** (comes with Node.js)
+4. A modern web browser (Chrome, Firefox, Edge, Safari)
 
 ---
 
-## 🎯 **Prerequisites Checklist**
+## Step 1: Enable Octane LiveLink
 
-Before you begin, ensure you have:
+octaneWebR communicates with Octane via the LiveLink gRPC API.
 
-- [ ] **Octane Render** installed (any recent version with LiveLink support)
-- [ ] **Node.js 18+** installed (`node --version` to check)
-- [ ] **npm** installed (comes with Node.js)
-- [ ] **Git** installed (for version control)
-- [ ] **Code editor** (VS Code recommended)
-- [ ] **Modern browser** (Chrome, Firefox, Edge, or Safari)
+1. Launch **Octane Render**
+2. Open the menu: **Help → LiveLink**
+3. Confirm LiveLink is enabled (you should see a confirmation message)
 
----
-
-## 🚀 **Step 1: Install & Run Octane**
-
-### **Start Octane Render**
-1. Launch Octane Render from octaneGRPC/octane.exe
-2. Enable grpc server
-   - Click Enable
-   - Set address to 127.0.0.1:51022
-   - Restart Octane
-3. Open any scene (or create new empty scene)
+**Default Port**: Octane LiveLink listens on `localhost:51022`
 
 ---
 
-## 🚀 **Step 2: Clone & Install octaneWebR**
+## Step 2: Install octaneWebR
 
-### **Clone Repository**
+Navigate to the project directory and install dependencies:
+
 ```bash
-git clone https://github.com/ultrafish22L/grpcSamples.git
-cd grpcSamples/octaneWebR
-```
-
-### **Install Dependencies**
-```bash
+cd /path/to/octaneWebR
 npm install
 ```
 
-**Expected output**:
-```
-added 250 packages in 30s
-```
+**What this does**:
+- Installs React, TypeScript, Vite
+- Installs ReactFlow for node graph editor
+- Installs gRPC-Web libraries
+- Sets up development tools
 
-### **Verify Installation**
-```bash
-npm list react
-```
-
-**Expected**: Should show React 18.2.0 or higher
+**Time**: ~2-3 minutes (depending on internet speed)
 
 ---
 
-## 🚀 **Step 3: Start Development Server**
+## Step 3: Start Development Server
 
-### **Run Dev Server**
 ```bash
 npm run dev
 ```
 
 **Expected output**:
 ```
-📦 Proto files ready for lazy loading from: /path/to/server/proto
-  VITE v5.4.21  ready in 296 ms
-  ➜  Local:   http://localhost:43930/
-  ➜  Network: http://172.17.0.3:43930/
+VITE v5.x.x  ready in XXX ms
+
+➜  Local:   http://localhost:58407/
+➜  Network: http://192.168.x.x:58407/
 ```
 
-### **Access Application**
-1. Open browser (Chrome recommended)
-2. Navigate to **http://localhost:43930**
-3. You should see the octaneWebR interface load
+**What's happening**:
+- Vite dev server starts on port `58407`
+- Embedded gRPC proxy connects to Octane at `localhost:51022`
+- Hot module replacement (HMR) enabled for instant updates
 
 ---
 
-## 🚀 **Step 4: Verify Connection**
+## Step 4: Open in Browser
 
-### **Check Browser Console**
-Open Chrome DevTools (F12 or right-click → Inspect) and check console:
+1. Open your browser to **http://localhost:58407**
+2. You should see the octaneWebR interface
+3. Check the browser console (F12) for connection logs:
+   - ✅ `"Connected to Octane"`
+   - ✅ `"Scene tree loaded"`
+   - ✅ No red errors
 
-**Expected logs**:
+**If you see errors**: See [Troubleshooting](#troubleshooting) below
+
+---
+
+## Step 5: Explore the Interface
+
+octaneWebR has a 5-panel layout:
+
 ```
-✅ Connected to Octane
-✅ Scene tree loaded (X nodes)
+┌─────────────────────────────────────────────────────────┐
+│ Menu Bar                                                 │
+├─────────┬───┬──────────────────┬───┬───────────────────┤
+│         │   │                  │   │                   │
+│ Scene   │ ▐ │  Render Viewport │ ▐ │  Node Inspector   │
+│ Outliner│ ▐ │                  │ ▐ │                   │
+│         │ ▐ ├──────────────────┤ ▐ │                   │
+│         │ ▐ │                  │ ▐ │                   │
+│         │ ▐ │  Node Graph      │ ▐ │                   │
+│         │ ▐ │  Editor          │ ▐ │                   │
+└─────────┴───┴──────────────────┴───┴───────────────────┘
 ```
 
-**If you see errors**:
-- ❌ "Cannot connect to Octane" → Go to [Troubleshooting](#troubleshooting)
-- ❌ "WebSocket closed" → Octane disconnected, restart Octane
+### Scene Outliner (Left Panel)
+- **Scene Tab**: Hierarchical tree of all nodes in Octane scene
+- **LiveDB Tab**: Browse online materials from OTOY library
+- **LocalDB Tab**: Access locally saved materials
 
-### **Test Basic Functionality**
-1. **Scene Outliner** (left panel): Should show nodes from your Octane scene
-2. **Node Graph Editor** (center): Should display node graph
-3. **Node Inspector** (right panel): Should show "No node selected"
+**Try it**:
+- Click the expand/collapse arrows to navigate the scene tree
+- Click a node to select it (syncs with Node Graph)
+- Click the eye icon to toggle visibility
 
----
+### Render Viewport (Top Center)
+- Live render output from Octane
+- Interactive camera controls
 
-## 🎉 **You're Ready!**
+**Try it**:
+- **Left-click + drag**: Orbit camera
+- **Right-click + drag**: Pan camera
+- **Scroll wheel**: Zoom camera
+- **Picker tools**: Click toolbar icons, then click in viewport
 
-At this point, you should have:
-- ✅ Octane running with LiveLink enabled
-- ✅ octaneWebR dev server running on http://localhost:43930
-- ✅ Browser showing octaneWebR UI
-- ✅ Connection verified in console logs
+### Node Graph Editor (Bottom Center)
+- Visual node-based editing using ReactFlow
 
----
+**Try it**:
+- **Right-click** on empty canvas → Select a node type → Click to create
+- **Drag** from output pin (right side) to input pin (left side) to connect
+- **Click** a node to select it (syncs with Scene Outliner and Node Inspector)
+- **Ctrl+C, Ctrl+V**: Copy and paste nodes
+- **Ctrl+F**: Open search dialog
 
-## 🧪 **Quick Feature Test**
+### Node Inspector (Right Panel)
+- Edit parameters for the selected node
 
-### **Test 1: Create a Node**
-1. Right-click in **Node Graph Editor** (center panel)
-2. Context menu appears
-3. Hover over **Materials** → Select **Diffuse material**
-4. New node appears in graph
-5. Check Octane SE: Node should be created there too ✅
-
-### **Test 2: Connect Pins**
-1. Drag from **output pin** (bottom of node) to **input pin** (top of another node)
-2. Edge (connection line) appears
-3. Check Octane SE: Connection should appear there too ✅
-
-### **Test 3: Edit Parameter**
-1. Click a node in graph
-2. **Node Inspector** (right panel) shows parameters
-3. Change a value (e.g., toggle a checkbox)
-4. Check Octane SE: Parameter should update there too ✅
-
-### **Test 4: Search Nodes**
-1. Press **Ctrl+F**
-2. Search dialog appears
-3. Type "diffuse"
-4. Results show matching nodes
-5. Click result → Node selected in graph ✅
-
-### **Test 5: Copy/Paste**
-1. Select a node (click it)
-2. Press **Ctrl+C** (copy)
-3. Press **Ctrl+V** (paste)
-4. New duplicate node appears
-5. Check Octane SE: New node created there too ✅
+**Try it**:
+- Select a node in the Node Graph or Scene Outliner
+- Edit parameter values in the Node Inspector
+- Changes sync to Octane in real-time
 
 ---
 
-## 📚 **Next Steps**
+## Step 6: Test Core Features
 
-### **For Users**
-- Explore all features in the UI
-- Try keyboard shortcuts (Ctrl+C, Ctrl+V, Ctrl+F, Delete)
-- Read the **[Octane SE Manual](https://docs.otoy.com/standaloneSE/)** to understand features
-- Report bugs or request features
+### Create a New Node
 
-### **For Developers**
-1. Read **[README.md](./README.md)** - Full project documentation and current status
-2. Read **[REPRO_PROMPT.md](./REPRO_PROMPT.md)** - Context for debugging and AI assistance
-3. Browse code starting from **client/src/App.tsx**
-4. Understand proto files in **server/proto/**
-5. Review [Octane SE Manual](https://docs.otoy.com/standaloneSE/) for feature references
-6. Get approval from maintainer before starting work
+1. **Right-click** in the Node Graph (bottom center panel)
+2. Navigate to a category (e.g., **Material → Diffuse Material**)
+3. Click to create the node
+4. The node appears in the Node Graph and Scene Outliner
+
+### Connect Two Nodes
+
+1. Create two nodes (e.g., a Material and a Texture)
+2. **Click and drag** from the output pin (right side of first node)
+3. **Drop** onto the input pin (left side of second node)
+4. The connection appears as a colored edge
+5. The connection syncs to Octane immediately
+
+### Edit a Parameter
+
+1. Select a node (click in Node Graph or Scene Outliner)
+2. In the **Node Inspector** (right panel), find a parameter
+3. Change the value (e.g., edit a number, check a checkbox, pick a color)
+4. The change syncs to Octane in real-time
+5. The render viewport updates automatically
 
 ---
 
-## 🆘 **Troubleshooting**
+## Keyboard Shortcuts
 
-### **Problem: "Cannot connect to Octane"**
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+N` | New scene |
+| `Ctrl+O` | Open scene |
+| `Ctrl+S` | Save scene |
+| `Ctrl+Shift+S` | Save As |
+| `Ctrl+C` | Copy selected node(s) |
+| `Ctrl+V` | Paste node(s) |
+| `Ctrl+F` | Search nodes |
+| `Delete` | Delete selected node(s) |
+| `F5` | Refresh scene |
+| `F11` | Toggle fullscreen |
 
-**Symptoms**:
-- Browser console shows red error: "Connection refused"
-- Scene Outliner is empty
-- Node Graph Editor shows no nodes
+**macOS**: Replace `Ctrl` with `Cmd`
+
+---
+
+## Menu System
+
+### File Menu
+- **New** - Clear scene and start fresh
+- **Open** - Load a scene file
+- **Save** - Save current scene
+- **Save As** - Save with new name
+- **Save Package** - Save scene with all dependencies
+- **Preferences** - Application settings
+
+### Edit Menu
+- **Undo / Redo** - Undo or redo last action
+- **Cut / Copy / Paste** - Node clipboard operations
+- **Delete** - Delete selected nodes
+
+### Script Menu
+- **Batch Rendering** - Render multiple frames/scenes
+- **Daylight Animation** - Animate sun position
+- **Turntable Animation** - Rotate camera around object
+
+### View Menu
+- **Show/Hide Panels** - Toggle panel visibility
+- **Refresh Scene** (F5) - Reload scene tree from Octane
+
+### Window Menu
+- **Material Database** - Open LiveDB/LocalDB browser
+- **Reset Layout** - Restore default panel sizes
+- **Fullscreen** (F11) - Toggle fullscreen mode
+
+### Help Menu
+- **Documentation** - Open Octane SE Manual
+- **Keyboard Shortcuts** - Show shortcuts reference
+- **About** - Application info
+
+---
+
+## Troubleshooting
+
+### ❌ "Cannot connect to Octane"
+
+**Possible causes**:
+1. Octane is not running
+2. LiveLink is not enabled
+3. Firewall blocking port `51022`
 
 **Solutions**:
-1. **Verify Octane is running**:
-   - Is Octane application open?
-   - Is there a scene loaded?
-
-2. **Verify LiveLink is enabled**:
-   - In Octane: Help → LiveLink (should have checkmark)
-   - Try toggling it off and on
-
-3. **Check port 51022**:
+1. Launch Octane
+2. Enable LiveLink: **Help → LiveLink** in Octane menu
+3. Check firewall settings (allow port `51022`)
+4. Verify Octane is listening on `51022`:
    ```bash
-   # On Windows (PowerShell)
-   Test-NetConnection -ComputerName localhost -Port 51022
+   # Windows
+   netstat -an | findstr 51022
    
-   # On macOS/Linux
-   nc -zv localhost 51022
-   ```
-   - Should show "Connection successful" or "succeeded"
-   - If fails: Port is blocked or Octane LiveLink not running
-
-4. **Firewall check**:
-   - Windows: Check Windows Firewall settings
-   - macOS: System Preferences → Security → Firewall
-   - Ensure port 51022 is allowed
-
-5. **Restart everything**:
-   ```bash
-   # Stop octaneWebR (Ctrl+C in terminal)
-   # Restart Octane
-   # Re-enable LiveLink
-   # Restart octaneWebR
-   npm run dev
+   # macOS/Linux
+   lsof -i :51022
    ```
 
----
+### ❌ "npm install" fails
 
-### **Problem: "npm install fails"**
-
-**Symptoms**:
-- `npm install` shows errors
-- Dependencies not installed
+**Common causes**:
+1. Node.js version too old
+2. Network issues
+3. Permissions errors
 
 **Solutions**:
-1. **Check Node.js version**:
-   ```bash
-   node --version
-   ```
-   - Must be 18.0.0 or higher
-   - If lower: Install latest from https://nodejs.org/
+1. Update Node.js to 18+ ([Download](https://nodejs.org/))
+2. Check internet connection
+3. Try with sudo (Linux/macOS): `sudo npm install`
+4. Clear npm cache: `npm cache clean --force`
 
-2. **Clear npm cache**:
-   ```bash
-   npm cache clean --force
-   rm -rf node_modules package-lock.json
-   npm install
-   ```
+### ❌ Browser shows blank page
 
-3. **Check network connection**:
-   - npm needs internet to download packages
-   - Try different network if behind corporate firewall
-
-4. **Use npm registry mirror** (if slow):
-   ```bash
-   npm config set registry https://registry.npmmirror.com
-   npm install
-   ```
-
----
-
-### **Problem: "Build fails with TypeScript errors"**
-
-**Symptoms**:
-- `npm run build` shows red errors
-- TypeScript compilation fails
+**Possible causes**:
+1. JavaScript error in console
+2. Dev server not running
+3. Wrong port
 
 **Solutions**:
-1. **Check TypeScript version**:
-   ```bash
-   npx tsc --version
-   ```
-   - Should be 5.3.0 or higher
+1. Open browser console (F12) and check for errors
+2. Ensure `npm run dev` is running
+3. Check terminal for actual port (might not be `58407`)
+4. Try a different browser
 
-2. **Regenerate proto files** (if missing):
-   ```bash
-   npm run generate:proto
-   ```
+### ❌ Scene tree is empty
 
-3. **Check for syntax errors**:
-   - Read error messages carefully
-   - Fix any red underlines in code editor
-   - Ensure all imports are correct
-
-4. **Ask for help**:
-   - Copy error message
-   - Share in team chat or GitHub issues
-
----
-
-### **Problem: "Dev server won't start"**
-
-**Symptoms**:
-- `npm run dev` fails immediately
-- Port already in use error
+**Possible causes**:
+1. No scene loaded in Octane
+2. Scene loaded but not synced
 
 **Solutions**:
-1. **Check if port 43930 is in use**:
-   ```bash
-   # On Windows (PowerShell)
-   Get-Process -Id (Get-NetTCPConnection -LocalPort 43930).OwningProcess
-   
-   # On macOS/Linux
-   lsof -i :43930
-   ```
+1. Load a scene in Octane
+2. Click **View → Refresh Scene** (or press F5)
+3. Check browser console for errors
 
-2. **Kill existing process**:
-   ```bash
-   # On Windows (PowerShell)
-   Stop-Process -Id <PID>
-   
-   # On macOS/Linux
-   kill <PID>
-   ```
+### ❌ Changes not syncing to Octane
 
-3. **Use different port**:
-   ```bash
-   # Edit vite.config.mts and change port
-   # Then restart dev server
-   npm run dev
-   ```
-
----
-
-### **Problem: "UI is blank/white screen"**
-
-**Symptoms**:
-- Browser shows white screen
-- No UI elements visible
+**Possible causes**:
+1. Octane scene is locked
+2. gRPC connection dropped
 
 **Solutions**:
-1. **Check browser console**:
-   - Open DevTools (F12)
-   - Look for red errors in Console tab
-   - Share error message if present
-
-2. **Clear browser cache**:
-   - Chrome: Ctrl+Shift+Delete → Clear cached images and files
-   - Firefox: Ctrl+Shift+Delete → Cache
-   - Reload page with Ctrl+F5
-
-3. **Try different browser**:
-   - Test in Chrome, Firefox, Edge
-   - If works in one but not another: Browser-specific issue
-
-4. **Check for ad blockers**:
-   - Disable ad blockers/extensions
-   - Try incognito/private mode
+1. Check Octane for locked nodes/parameters
+2. Refresh the page (F5)
+3. Restart Octane
+4. Check browser console for errors
 
 ---
 
-### **Problem: "Changes not reflected in browser"**
+## Development Tips
 
-**Symptoms**:
-- Made code changes but UI doesn't update
-- Old code still running
+### Hot Reload
+Vite provides instant hot module replacement (HMR):
+- Edit any `.tsx` or `.ts` file
+- Save the file
+- Changes appear immediately in browser (no page refresh)
 
-**Solutions**:
-1. **Hard refresh browser**:
-   - Windows: Ctrl+Shift+R or Ctrl+F5
-   - macOS: Cmd+Shift+R
+### Browser DevTools
+Use browser DevTools (F12) for debugging:
+- **Console**: View logs and errors
+- **Network**: Monitor gRPC API calls
+- **Performance**: Profile rendering performance
+- **React DevTools**: Inspect React component tree
 
-2. **Restart dev server**:
-   ```bash
-   # Stop server (Ctrl+C)
-   # Start again
-   npm run dev
-   ```
-
-3. **Clear Vite cache**:
-   ```bash
-   rm -rf node_modules/.vite
-   npm run dev
-   ```
-
-4. **Check file is saved**:
-   - Ensure code editor saved file (check for unsaved indicator)
-   - Some editors require manual save (Ctrl+S)
-
----
-
-## 🛠️ **Development Workflow (Quick Reference)**
-
-For developers ready to contribute:
-
-```
-1. ⏸️  WAIT for task assignment
-2. 📖 VERIFY feature exists in Octane SE manual
-3. 🔍 CHECK proto files for required API methods
-4. 💻 IMPLEMENT code changes
-5. 🔨 BUILD with `npm run build` (must pass)
-6. 🧪 TEST with `npm run dev` (recommended)
-7. 📝 COMMIT with descriptive message
-8. 🚀 PUSH to origin/main
-9. 📚 UPDATE README.md with achievements
-10. ✅ REPORT completion
+### Type Checking
+Run TypeScript type checking without building:
+```bash
+npx tsc --noEmit
 ```
 
-**See README.md Contributing Guidelines for detailed process.**
+### Production Build
+Build for production deployment:
+```bash
+npm run build
+```
+Output in `dist/client/` directory.
 
 ---
 
-## 📖 **Key Documentation Files**
+## Next Steps
 
-| File | Purpose | When to Read |
-|------|---------|--------------|
-| **QUICKSTART.md** | This file! 10-minute setup guide | You're reading it 😊 |
-| **README.md** | Complete project overview, features, status | After setup completes |
-| **REPRO_PROMPT.md** | AI assistant context for debugging | When debugging or getting AI help |
+Now that you're up and running:
 
----
+1. **Explore the Node Graph**: Create different node types, connect them
+2. **Test Picker Tools**: Material picker, object picker, focus picker
+3. **Try LiveDB**: Browse and download materials from OTOY library
+4. **Edit Parameters**: Modify node parameters and see real-time updates
+5. **Read the Manual**: [Octane SE Manual](https://docs.otoy.com/standaloneSE/)
 
-## 🎓 **Learning Resources**
-
-### **Technologies Used**
-- [React 18 Docs](https://react.dev/) - UI framework
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/) - Type system
-- [ReactFlow Docs](https://reactflow.dev/) - Node graph library
-- [Vite Guide](https://vitejs.dev/guide/) - Build tool
-- [Octane SE Manual](https://docs.otoy.com/standaloneSE/) - UI reference
-
-### **Code Reading Path**
-1. **client/src/App.tsx** - Root component, initialization
-2. **client/src/services/OctaneClient.ts** - gRPC client, scene management
-3. **client/src/components/NodeGraph/NodeGraphEditorNew.tsx** - Node graph editor
-4. **client/src/components/NodeGraph/OctaneNode.tsx** - Custom node component
-5. **client/src/components/SceneOutliner/SceneOutliner.tsx** - Scene tree viewer
+For more details, see:
+- **[README.md](./README.md)** - Complete feature list and architecture
+- **[REPRO_PROMPT.md](./REPRO_PROMPT.md)** - Developer context and architecture details
 
 ---
 
-## ✅ **Quick Start Checklist**
+## Getting Help
 
-Before asking for help, verify:
-
-- [ ] Octane is running with LiveLink enabled
-- [ ] `npm install` completed successfully
-- [ ] `npm run dev` started without errors
-- [ ] Browser shows UI (not blank screen)
-- [ ] Browser console shows "Connected to Octane"
-- [ ] Scene Outliner shows nodes from Octane scene
-- [ ] Can create a node via right-click menu
-- [ ] Node appears in both octaneWebR and Octane SE
-
-If all checked: **You're ready to go!** 🎉
-
-If any unchecked: **See [Troubleshooting](#troubleshooting) section above**
+- **Browser Console**: Check for errors (F12)
+- **Octane Forums**: [render.otoy.com/forum](https://render.otoy.com/forum/)
+- **Project Issues**: Check repository issues page
 
 ---
 
-## 🎯 **What's Next?**
-
-### **Explore Features**
-- Try all keyboard shortcuts (see UI tooltips)
-- Experiment with node creation and connections
-- Test parameter editing in Node Inspector
-- Explore Scene Outliner tree navigation
-
-### **Read Documentation**
-- **README.md** for complete feature list and project status
-- **REPRO_PROMPT.md** for debugging context and architecture overview
-
-### **Start Contributing**
-- Pick a task from implementation plan
-- Get approval from maintainer
-- Follow workflow process
-- Submit your work
-
----
-
-## 📞 **Getting Help**
-
-### **Common Issues**
-- 90% of issues are connection problems (Octane not running or LiveLink disabled)
-- 9% are port conflicts (another process using port 43930 or 51022)
-- 1% are actual bugs (report these!)
-
-### **Where to Ask**
-- **Team Chat**: Fastest response for quick questions
-- **GitHub Issues**: For bugs or feature requests
-- **Code Comments**: For specific implementation questions
-
-### **What to Include**
-- Your OS (Windows, macOS, Linux)
-- Node.js version (`node --version`)
-- Octane version
-- Error messages (full text or screenshot)
-- What you tried already
-
----
-
-**Congratulations!** You're now ready to use octaneWebR. Happy rendering! 🎨✨
-
----
-
-**Last Updated**: 2025-01-22  
-**Version**: 1.0.0  
-**Estimated Setup Time**: 10 minutes
+**Happy Rendering!** 🎨✨
