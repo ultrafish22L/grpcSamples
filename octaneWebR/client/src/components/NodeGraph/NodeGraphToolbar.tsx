@@ -16,6 +16,7 @@
  */
 
 import { useCallback, useState } from 'react';
+import { getWindowControlIcon, getPreviewModeIcon } from '../../utils/UIIconMapping';
 
 interface NodeGraphToolbarProps {
   gridVisible: boolean;
@@ -115,107 +116,70 @@ export function NodeGraphToolbar({
 
   return (
     <div className="node-graph-toolbar">
-      {/* 1. Recenter View - Red crosshairs/target icon */}
+      {/* 1. Recenter View */}
       <button
         className="toolbar-button"
         onClick={handleRecenterView}
         title="Recenter View"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" />
-          <line x1="8" y1="10" x2="8" y2="14" stroke="currentColor" strokeWidth="2" />
-          <line x1="2" y1="8" x2="6" y2="8" stroke="currentColor" strokeWidth="2" />
-          <line x1="10" y1="8" x2="14" y2="8" stroke="currentColor" strokeWidth="2" />
-          <circle cx="8" cy="8" r="1.5" fill="currentColor" />
-        </svg>
+        <img src={getWindowControlIcon('RECENTER')} alt="Recenter" />
       </button>
 
-      {/* 2. Re-arrange Graph with Sub-graph - Grid with nodes icon */}
+      {/* 2. Re-arrange Graph with Sub-graph */}
       <button
         className="toolbar-button"
         onClick={handleRearrangeWithSubgraph}
         title="Re-arrange Graph with Sub-graph"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <rect x="1" y="1" width="5" height="4" fill="currentColor" opacity="0.6" />
-          <rect x="10" y="1" width="5" height="4" fill="currentColor" opacity="0.6" />
-          <rect x="1" y="6" width="5" height="4" fill="currentColor" opacity="0.6" />
-          <rect x="10" y="6" width="5" height="4" fill="currentColor" opacity="0.6" />
-          <rect x="1" y="11" width="5" height="4" fill="currentColor" opacity="0.6" />
-          <rect x="10" y="11" width="5" height="4" fill="currentColor" opacity="0.6" />
-        </svg>
+        <img src={getWindowControlIcon('UNFOLD_GRAPH_RECURSIVELY')} alt="Re-arrange with subgraphs" />
       </button>
 
-      {/* 3. Re-arrange Graph - Simple grid pattern */}
+      {/* 3. Re-arrange Graph */}
       <button
         className="toolbar-button"
         onClick={handleRearrangeGraph}
         title="Re-arrange Graph"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <rect x="2" y="2" width="4" height="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <rect x="10" y="2" width="4" height="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <rect x="2" y="10" width="4" height="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <rect x="10" y="10" width="4" height="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        </svg>
+        <img src={getWindowControlIcon('UNFOLD_GRAPH')} alt="Re-arrange graph" />
       </button>
 
-      {/* 4. View/Hide Render Target Preview Scene - Camera/render icon */}
+      {/* 4. View/Hide Render Target Preview Scene */}
       <button
         className={`toolbar-button ${renderTargetPreview ? 'active' : ''}`}
         onClick={handleToggleRenderTargetPreview}
         title="View/Hide Render Target Preview Scene"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <rect x="1" y="4" width="14" height="9" rx="1" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="8" cy="9" r="2.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <rect x="5" y="2" width="6" height="2" fill="currentColor" />
-          <circle cx="12" cy="6" r="0.8" fill="currentColor" />
-        </svg>
+        <img src={getPreviewModeIcon('RENDER_TARGET_PREVIEW')} alt="Render target preview" />
       </button>
 
-      {/* 5. View/Hide Mesh Preview Scene - Mesh/geometry icon */}
+      {/* 5. View/Hide Mesh Preview Scene */}
       <button
         className={`toolbar-button ${meshPreview ? 'active' : ''}`}
         onClick={handleToggleMeshPreview}
         title="View/Hide Mesh Preview Scene"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <polygon points="8,2 14,6 14,11 8,14 2,11 2,6" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" strokeWidth="1" />
-          <line x1="2" y1="6" x2="14" y2="6" stroke="currentColor" strokeWidth="1" />
-          <line x1="2" y1="11" x2="14" y2="11" stroke="currentColor" strokeWidth="1" />
-        </svg>
+        <img src={getPreviewModeIcon('MESH_PREVIEW')} alt="Mesh preview" />
       </button>
 
-      {/* 6. View/Hide Material Preview Scene - Sphere/material icon */}
+      {/* 6. View/Hide Material Preview Scene */}
       <button
         className={`toolbar-button ${materialPreview ? 'active' : ''}`}
         onClick={handleToggleMaterialPreview}
         title="View/Hide Material Preview Scene"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <ellipse cx="8" cy="8" rx="6" ry="2" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-          <ellipse cx="8" cy="8" rx="2" ry="6" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-          <circle cx="6" cy="6" r="1.5" fill="currentColor" opacity="0.3" />
-        </svg>
+        <img src={getPreviewModeIcon('MATERIAL_PREVIEW')} alt="Material preview" />
       </button>
 
-      {/* 7. View/Hide Texture Preview Scene - Texture pattern icon */}
+      {/* 7. View/Hide Texture Preview Scene */}
       <button
         className={`toolbar-button ${texturePreview ? 'active' : ''}`}
         onClick={handleToggleTexturePreview}
         title="View/Hide Texture Preview Scene"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <rect x="1" y="1" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M1 5 L5 1 M1 9 L9 1 M1 13 L13 1 M5 15 L15 5 M9 15 L15 9 M13 15 L15 13" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-        </svg>
+        <img src={getPreviewModeIcon('TEXTURE_PREVIEW')} alt="Texture preview" />
       </button>
 
-      {/* 8. Snap Items To Grid - Grid with snap icon */}
+      {/* 8. Snap Items To Grid - Keep SVG for now (no specific icon) */}
       <button
         className={`toolbar-button ${snapToGrid ? 'active' : ''}`}
         onClick={handleToggleGridSnap}
@@ -235,7 +199,7 @@ export function NodeGraphToolbar({
         </svg>
       </button>
 
-      {/* 9. View/Hide Graph Editor Grid - Grid pattern icon */}
+      {/* 9. View/Hide Graph Editor Grid - Keep SVG for now (no specific icon) */}
       <button
         className={`toolbar-button ${gridVisible ? 'active' : ''}`}
         onClick={handleToggleGrid}
