@@ -258,10 +258,35 @@ export const NodeType: Record<string, number> = {
 } as const;
 
 /**
- * Pin ids for Octane scene graph nodes
- * These match the enum values from octaneids.h
- * Used for connected node query 
+ * Pin IDs for Octane scene graph nodes
+ * These match the PinId enum values from octaneids.proto
+ * Used for pin connections and parameter access
+ * 
+ * NOTE: Add more values as needed from server/proto/octaneids.proto (PinId enum)
  */
 export const PinId: Record<string, number> = {
   P_FILM_SETTINGS: 311,
+  P_LOCK_RENDER_AOVS: 2672,  // Controls viewport resolution lock
+} as const;
+
+/**
+ * Pin Type IDs for type validation
+ * These match the PinTypeId enum values from common.proto
+ * Used with getPinValue/setPinValue methods for type validation
+ */
+export const PinTypeId = {
+  PIN_ID_UNDEFINED: 0,
+  PIN_ID_BOOL: 1,
+  PIN_ID_BYTE: 2,
+  PIN_ID_INT: 3,
+  PIN_ID_INT2: 4,
+  PIN_ID_INT3: 5,
+  PIN_ID_INT4: 6,
+  PIN_ID_FLOAT: 9,
+  PIN_ID_FLOAT2: 90,  // Note: 90 not 10
+  PIN_ID_FLOAT3: 11,
+  PIN_ID_FLOAT4: 12,
+  PIN_ID_MATRIX: 13,
+  PIN_ID_STRING: 14,
+  PIN_ID_FILEPATH: 15,
 } as const;

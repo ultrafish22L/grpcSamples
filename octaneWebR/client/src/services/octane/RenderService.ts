@@ -6,7 +6,7 @@
 import { BaseService } from './BaseService';
 import { ApiService } from './ApiService';
 import { RenderState, RenderRegion } from './types';
-import { PinId } from '../../constants/OctaneTypes';
+import { PinId, PinTypeId } from '../../constants/OctaneTypes';
 
 export class RenderService extends BaseService {
   private apiService: ApiService;
@@ -152,20 +152,10 @@ export class RenderService extends BaseService {
         return false;
       }
 
-      // P_LOCK_RENDER_AOVS = 2672 (from common.proto AttributeId enum)
-      const attrIndexResponse = await this.apiService.callApi('ApiItem', 'findAttr', filmSettingsHandle, { id: 2672 });
-      if (attrIndexResponse?.result === undefined || attrIndexResponse.result < 0) {
-        console.warn('⚠️ P_LOCK_RENDER_AOVS attribute not found');
-        return false;
-      }
-
-      const attrIndex = attrIndexResponse.result;
-
-      // Get the boolean value using getPinValueByIx (apinodesystem_7.proto)
-      // expected_type: 1 = PIN_ID_BOOL (from common.proto PinTypeId enum)
-      const valueResponse = await this.apiService.callApi('ApiNode', 'getPinValueByIx', filmSettingsHandle, { 
-        index: attrIndex,
-        expected_type: 1  // PIN_ID_BOOL
+      // Get boolean value directly using PinId (from OctaneTypes.PinId)
+      const valueResponse = await this.apiService.callApi('ApiNode', 'getPinValueByPinID', filmSettingsHandle, { 
+        pin_id: PinId.P_LOCK_RENDER_AOVS,
+        expected_type: PinTypeId.PIN_ID_BOOL
       });
       return valueResponse?.bool_value ?? false;
     } catch (error: any) {
@@ -181,17 +171,9 @@ export class RenderService extends BaseService {
         throw new Error('Film Settings node not found');
       }
 
-      // P_LOCK_RENDER_AOVS = 2672 (from common.proto AttributeId enum)
-      const attrIndexResponse = await this.apiService.callApi('ApiItem', 'findAttr', filmSettingsHandle, { id: 2672 });
-      if (attrIndexResponse?.result === undefined || attrIndexResponse.result < 0) {
-        throw new Error('P_LOCK_RENDER_AOVS attribute not found');
-      }
-
-      const attrIndex = attrIndexResponse.result;
-
-      // Set the boolean value using setPinValueByIx (apinodesystem_7.proto)
-      await this.apiService.callApi('ApiNode', 'setPinValueByIx', filmSettingsHandle, {
-        index: attrIndex,
+      // Set boolean value directly using PinId (from OctaneTypes.PinId)
+      await this.apiService.callApi('ApiNode', 'setPinValueByPinID', filmSettingsHandle, {
+        pin_id: PinId.P_LOCK_RENDER_AOVS,  // 2672
         bool_value: locked
       });
     } catch (error: any) {
