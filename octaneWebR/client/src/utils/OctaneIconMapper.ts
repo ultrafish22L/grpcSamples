@@ -6,7 +6,7 @@
  * Maintains exact same functionality and icon mappings for consistency
  */
 
-import { getNodeIconPath, hasIconMapping } from '@/constants/IconMapping';
+import { getNodeIconPath, hasIconMapping } from '../constants/IconMapping';
 
 export class OctaneIconMapper {
   
