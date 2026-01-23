@@ -34,21 +34,21 @@ export interface NodeInspectorIconMapping {
  * 15. Camera Imager
  */
 export const NODE_INSPECTOR_ICON_MAP: NodeInspectorIconMapping = {
-  // Quick Access Buttons
+  // Quick Access Buttons (based on Figure 2 from Octane SE Manual)
   'expand-all-nodes': 'UNCOLLAPSE NODES window.png',
   'render-target': 'RENDER TARGET node.png',
   'environment-settings': 'ENVIRONMENT node.png',
   'current-geometry': 'MESH node.png',
-  'animation-settings': 'ANIMATION node.png',
+  'animation-settings': 'animation_settings_node.png',
   'active-render-layer': 'render_layer.png',
-  'aov-group': 'AOV node.png',
-  'post-processing': 'POST node.png',
+  'aov-group': 'aov-output-group.png',
+  'post-processing': 'POSTPROC node.png',
   'collapse-all-nodes': 'COLLAPSE NODES window.png',
   'camera-settings': 'CAMERA node.png',
-  'visible-environment-settings': 'VISIBLE ENVIRONMENT node.png',
+  'visible-environment-settings': 'ENVIRONMENT node.png', // Uses same icon as environment
   'film-settings': 'FILM node.png',
   'current-kernel': 'RENDER KERNEL node.png',
-  'render-aov-node': 'AOV node.png',
+  'render-aov-node': 'aov-output.png',
   'camera-imager': 'IMAGER node.png',
 };
 
