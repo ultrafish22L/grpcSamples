@@ -8,7 +8,7 @@
  */
 
 import { useCallback } from 'react';
-import { getNodeInspectorIconPath } from '../../utils/NodeInspectorIconMapping';
+import { getNodeInspectorIcon } from '../../utils/UIIconMapping';
 
 export function NodeInspectorToolbar() {
   
@@ -112,7 +112,7 @@ export function NodeInspectorToolbar() {
         onClick={handleExpandAll}
         title="Expand All Nodes"
       >
-        <img src={getNodeInspectorIconPath('expand-all-nodes')} alt="Expand all" />
+        <img src={getNodeInspectorIcon('EXPAND_ALL_NODES')} alt="Expand all" />
       </button>
 
       {/* Button 2: Render Target */}
@@ -121,7 +121,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToRenderTarget}
         title="Render Target"
       >
-        <img src={getNodeInspectorIconPath('render-target')} alt="Render target" />
+        <img src={getNodeInspectorIcon('RENDER_TARGET')} alt="Render target" />
       </button>
 
       {/* Button 3: Environment Settings */}
@@ -130,7 +130,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToEnvironment}
         title="Environment Settings"
       >
-        <img src={getNodeInspectorIconPath('environment-settings')} alt="Environment" />
+        <img src={getNodeInspectorIcon('ENVIRONMENT_SETTINGS')} alt="Environment" />
       </button>
 
       {/* Button 4: Current Geometry */}
@@ -139,7 +139,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToCurrentGeometry}
         title="Current Geometry"
       >
-        <img src={getNodeInspectorIconPath('current-geometry')} alt="Current geometry" />
+        <img src={getNodeInspectorIcon('CURRENT_GEOMETRY')} alt="Current geometry" />
       </button>
 
       {/* Button 5: Animation Settings */}
@@ -148,7 +148,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToAnimation}
         title="Animation Settings"
       >
-        <img src={getNodeInspectorIconPath('animation-settings')} alt="Animation" />
+        <img src={getNodeInspectorIcon('ANIMATION_SETTINGS')} alt="Animation" />
       </button>
 
       {/* Button 6: Active Render Layer */}
@@ -157,7 +157,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToActiveLayer}
         title="Active Render Layer"
       >
-        <img src={getNodeInspectorIconPath('active-render-layer')} alt="Active render layer" />
+        <img src={getNodeInspectorIcon('ACTIVE_RENDER_LAYER')} alt="Active render layer" />
       </button>
 
       {/* Button 7: AOV Group */}
@@ -166,7 +166,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToAOVGroup}
         title="AOV Group"
       >
-        <img src={getNodeInspectorIconPath('aov-group')} alt="AOV group" />
+        <img src={getNodeInspectorIcon('AOV_GROUP')} alt="AOV group" />
       </button>
 
       {/* Button 8: Post Processing */}
@@ -175,7 +175,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToPostProcessing}
         title="Post Processing"
       >
-        <img src={getNodeInspectorIconPath('post-processing')} alt="Post processing" />
+        <img src={getNodeInspectorIcon('POST_PROCESSING')} alt="Post processing" />
       </button>
 
       {/* Button 9: Collapse All Nodes */}
@@ -184,7 +184,7 @@ export function NodeInspectorToolbar() {
         onClick={handleCollapseAll}
         title="Collapse All Nodes"
       >
-        <img src={getNodeInspectorIconPath('collapse-all-nodes')} alt="Collapse all" />
+        <img src={getNodeInspectorIcon('COLLAPSE_ALL_NODES')} alt="Collapse all" />
       </button>
 
       {/* Button 10: Camera Settings */}
@@ -193,7 +193,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToCamera}
         title="Camera Settings"
       >
-        <img src={getNodeInspectorIconPath('camera-settings')} alt="Camera" />
+        <img src={getNodeInspectorIcon('CAMERA_SETTINGS')} alt="Camera" />
       </button>
 
       {/* Button 11: Visible Environment Settings */}
@@ -202,7 +202,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToVisibleEnvironment}
         title="Visible Environment Settings"
       >
-        <img src={getNodeInspectorIconPath('visible-environment-settings')} alt="Visible environment" />
+        <img src={getNodeInspectorIcon('VISIBLE_ENVIRONMENT_SETTINGS')} alt="Visible environment" />
       </button>
 
       {/* Button 12: Film Settings */}
@@ -211,7 +211,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToFilm}
         title="Film Settings"
       >
-        <img src={getNodeInspectorIconPath('film-settings')} alt="Film settings" />
+        <img src={getNodeInspectorIcon('FILM_SETTINGS')} alt="Film settings" />
       </button>
 
       {/* Button 13: Current Kernel */}
@@ -220,7 +220,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToKernel}
         title="Current Kernel"
       >
-        <img src={getNodeInspectorIconPath('current-kernel')} alt="Current kernel" />
+        <img src={getNodeInspectorIcon('CURRENT_KERNEL')} alt="Current kernel" />
       </button>
 
       {/* Button 14: Render AOV Node */}
@@ -229,7 +229,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToRenderAOV}
         title="Render AOV Node"
       >
-        <img src={getNodeInspectorIconPath('render-aov-node')} alt="Render AOV" />
+        <img src={getNodeInspectorIcon('RENDER_AOV_NODE')} alt="Render AOV" />
       </button>
 
       {/* Button 15: Camera Imager */}
@@ -238,7 +238,7 @@ export function NodeInspectorToolbar() {
         onClick={handleJumpToCameraImager}
         title="Camera Imager"
       >
-        <img src={getNodeInspectorIconPath('camera-imager')} alt="Camera imager" />
+        <img src={getNodeInspectorIcon('CAMERA_IMAGER')} alt="Camera imager" />
       </button>
     </div>
   );

@@ -201,6 +201,49 @@ export const EmitterIcons = {
 } as const;
 
 // ============================================================================
+// NODE INSPECTOR TOOLBAR
+// Based on Octane SE Manual Figure 2
+// https://docs.otoy.com/standaloneSE/TheNodeInspector.html
+// ============================================================================
+
+export const NodeInspectorIcons = {
+  // Quick Access Buttons - allow user to quickly jump to commonly used nodes
+  EXPAND_ALL_NODES: 'UNCOLLAPSE NODES window.png',
+  RENDER_TARGET: 'RENDER TARGET node.png',
+  ENVIRONMENT_SETTINGS: 'ENVIRONMENT node.png',
+  CURRENT_GEOMETRY: 'MESH node.png',
+  ANIMATION_SETTINGS: 'animation_settings_node.png',
+  ACTIVE_RENDER_LAYER: 'render_layer.png',
+  AOV_GROUP: 'aov-output-group.png',
+  POST_PROCESSING: 'POSTPROC node.png',
+  COLLAPSE_ALL_NODES: 'COLLAPSE NODES window.png',
+  CAMERA_SETTINGS: 'CAMERA node.png',
+  VISIBLE_ENVIRONMENT_SETTINGS: 'ENVIRONMENT node.png',
+  FILM_SETTINGS: 'FILM node.png',
+  CURRENT_KERNEL: 'RENDER KERNEL node.png',
+  RENDER_AOV_NODE: 'aov-output.png',
+  CAMERA_IMAGER: 'IMAGER node.png',
+} as const;
+
+// ============================================================================
+// RENDER TOOLBAR
+// Based on Octane SE Manual - The Render Viewport
+// ============================================================================
+
+export const RenderToolbarIcons = {
+  // Render controls
+  SUB_SAMPLING: 'sub-sampling.png',
+  RENDER_MODE_PATH_TRACING: 'render mode path tracing.png',
+  RENDER_MODE_PMC: 'render mode PMC.png',
+  RENDER_MODE_DIRECT_LIGHTING: 'render mode direct lighting.png',
+  DECAL_WIREFRAME: 'decal-wireframe.png',
+  
+  // Node graph controls (also in WindowControlIcons but here for render toolbar)
+  SNAP_GRID: 'grid snap.png',
+  TOGGLE_GRID: 'toggle grid.png',
+} as const;
+
+// ============================================================================
 // COMBINED ICON MAP
 // ============================================================================
 
@@ -214,6 +257,8 @@ export const UIIcons = {
   ...GeneralUIIcons,
   ...MeshIcons,
   ...EmitterIcons,
+  ...NodeInspectorIcons,
+  ...RenderToolbarIcons,
 } as const;
 
 // ============================================================================
@@ -276,6 +321,20 @@ export function getGeneralUIIcon(icon: keyof typeof GeneralUIIcons): string {
   return `/icons/${GeneralUIIcons[icon]}`;
 }
 
+/**
+ * Get Node Inspector toolbar icon
+ */
+export function getNodeInspectorIcon(icon: keyof typeof NodeInspectorIcons): string {
+  return `/icons/${NodeInspectorIcons[icon]}`;
+}
+
+/**
+ * Get render toolbar icon
+ */
+export function getRenderToolbarIcon(icon: keyof typeof RenderToolbarIcons): string {
+  return `/icons/${RenderToolbarIcons[icon]}`;
+}
+
 // ============================================================================
 // TYPE EXPORTS
 // ============================================================================
@@ -288,3 +347,5 @@ export type MiniControlIconKey = keyof typeof MiniControlIcons;
 export type PickerToolIconKey = keyof typeof PickerToolIcons;
 export type GizmoIconKey = keyof typeof GizmoIcons;
 export type GeneralUIIconKey = keyof typeof GeneralUIIcons;
+export type NodeInspectorIconKey = keyof typeof NodeInspectorIcons;
+export type RenderToolbarIconKey = keyof typeof RenderToolbarIcons;
