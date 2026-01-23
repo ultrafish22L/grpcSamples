@@ -220,6 +220,7 @@ export const NodeInspectorIcons = {
   CAMERA_SETTINGS: 'CAMERA node.png',
   VISIBLE_ENVIRONMENT_SETTINGS: 'ENVIRONMENT node.png',
   FILM_SETTINGS: 'FILM node.png',
+  RENDER_PASSES: 'render_passes.png',
   CURRENT_KERNEL: 'RENDER KERNEL node.png',
   RENDER_AOV_NODE: 'aov-output.png',
   CAMERA_IMAGER: 'IMAGER node.png',
