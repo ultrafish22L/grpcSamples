@@ -179,40 +179,22 @@ export function NodeGraphToolbar({
         <img src={getPreviewModeIcon('TEXTURE_PREVIEW')} alt="Texture preview" />
       </button>
 
-      {/* 8. Snap Items To Grid - Keep SVG for now (no specific icon) */}
+      {/* 8. Snap Items To Grid */}
       <button
         className={`toolbar-button ${snapToGrid ? 'active' : ''}`}
         onClick={handleToggleGridSnap}
         title="Snap Items To Grid"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <circle cx="3" cy="3" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="8" cy="3" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="13" cy="3" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="3" cy="8" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="8" cy="8" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="13" cy="8" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="3" cy="13" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="8" cy="13" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="13" cy="13" r="1" fill="currentColor" opacity="0.4" />
-          <rect x="6.5" y="6.5" width="3" height="3" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        </svg>
+        <img src={getWindowControlIcon('SNAP_TO_GRID')} alt="Snap to grid" />
       </button>
 
-      {/* 9. View/Hide Graph Editor Grid - Keep SVG for now (no specific icon) */}
+      {/* 9. View/Hide Graph Editor Grid */}
       <button
         className={`toolbar-button ${gridVisible ? 'active' : ''}`}
         onClick={handleToggleGrid}
         title="View/Hide Graph Editor Grid"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16">
-          <line x1="0" y1="4" x2="16" y2="4" stroke="currentColor" strokeWidth="0.5" />
-          <line x1="0" y1="8" x2="16" y2="8" stroke="currentColor" strokeWidth="0.5" />
-          <line x1="0" y1="12" x2="16" y2="12" stroke="currentColor" strokeWidth="0.5" />
-          <line x1="4" y1="0" x2="4" y2="16" stroke="currentColor" strokeWidth="0.5" />
-          <line x1="8" y1="0" x2="8" y2="16" stroke="currentColor" strokeWidth="0.5" />
-          <line x1="12" y1="0" x2="12" y2="16" stroke="currentColor" strokeWidth="0.5" />
-        </svg>
+        <img src={getWindowControlIcon('GRID_TOGGLE')} alt="Toggle grid" />
       </button>
     </div>
   );

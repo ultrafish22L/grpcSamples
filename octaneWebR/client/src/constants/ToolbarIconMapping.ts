@@ -20,20 +20,32 @@ export const TOOLBAR_ICON_MAP: ToolbarIconMapping = {
   
   // Render Modes
   'realtime-mode': 'RENDER TARGET node.png',
+  'real-time-render': 'real_time.png',
   'clay-mode': 'CLAY window.png',
   'clay-mode-off': 'CLAY OFF window.png',
   'subsampling-menu': 'SUBSAMPLING window.png',
+  'subsample-2x2': '2x.png',
+  'subsample-4x4': '4x.png',
+  'decal-wireframe': 'draw_decal_wireframe.png',
   
   // Camera Tools
   'pick-focus': 'MOUSE pipette focus.png',
+  'focus-picker': 'MOUSE pipette focus.png',
   'pick-white-balance': 'MOUSE pipette color.png',
+  'white-balance-picker': 'MOUSE pipette color.png',
   'pick-material': 'MOUSE pipette material.png',
+  'material-picker': 'MOUSE pipette material.png',
   'pick-object': 'MOUSE pipette object.png',
+  'object-picker': 'MOUSE pipette object.png',
   'pick-camera-target': 'MOUSE pipette zoom.png',
+  'camera-target-picker': 'MOUSE pipette zoom.png',
   'render-region': 'MOUSE pipette region.png',
+  'render-region-picker': 'MOUSE pipette region.png',
   'film-region': 'MOUSE pipette film region.png',
+  'film-region-picker': 'MOUSE pipette film region.png',
   'camera-presets': 'camera_view_presets.png',
   'recenter-view': 'RECENTER window.png',
+  'reset-camera': 'RECENTER window.png', // Using RECENTER as reset placeholder
   
   // Export and Save
   'copy-clipboard': 'COPY TO CLIPBOARD image.png',
