@@ -29,70 +29,22 @@ export class CallbackManager extends EventEmitter {
       // Generate unique callback ID
       this.callbackId = Math.floor(Math.random() * 1000000);
       
-      console.log(`📡 Registering OnNewImage callback with ID: ${this.callbackId}`);
+      console.log(`📡 Setting up callback streaming...`);
 
-      // Register callback with Octane
-      const response = await this.grpcClient.callMethod('ApiRenderEngine', 'setOnNewImageCallback', {
-        callback: {
-          callbackSource: 'grpc',
-          callbackId: this.callbackId
-        },
-        userData: 0
+      // Listen for OnNewImage events from the gRPC client
+      this.grpcClient.on('OnNewImage', (data: any) => {
+        this.handleCallbackData(data);
       });
 
-      console.log(`✅ Callback registered:`, response);
-      this.isRegistered = true;
+      // Start callback streaming (registers callback + opens stream)
+      await this.grpcClient.startCallbackStreaming();
 
-      // Start listening for callbacks
-      await this.startCallbackStream();
+      this.isRegistered = true;
+      console.log(`✅ Callback streaming initialized`);
 
     } catch (error: any) {
       console.error('❌ Failed to register callback:', error.message);
       throw error;
-    }
-  }
-
-  /**
-   * Start streaming callbacks from Octane
-   * Uses polling instead of streaming due to proto loading limitations
-   */
-  private async startCallbackStream(): Promise<void> {
-    try {
-      console.log('✅ Callback stream initialized (using polling mode)');
-      
-      // Start polling for callbacks every 33ms (30fps)
-      this.pollCallbacks();
-
-    } catch (error: any) {
-      console.error('❌ Failed to start callback stream:', error.message);
-      throw error;
-    }
-  }
-
-  /**
-   * Poll for new render callbacks from Octane
-   */
-  private async pollCallbacks(): Promise<void> {
-    if (!this.isRegistered) {
-      return;
-    }
-
-    try {
-      // Check for new render images
-      const response = await this.grpcClient.callMethod('ApiRenderEngine', 'getNewImageFromCallback', {
-        callbackId: this.callbackId
-      });
-
-      if (response && response.render_images) {
-        this.handleCallbackData(response);
-      }
-    } catch (error: any) {
-      // Silently ignore polling errors (Octane might not have new frames)
-    }
-
-    // Schedule next poll
-    if (this.isRegistered) {
-      setTimeout(() => this.pollCallbacks(), 33); // 30fps polling
     }
   }
 
@@ -148,10 +100,10 @@ export class CallbackManager extends EventEmitter {
       // Stop polling
       this.isRegistered = false;
 
-      // Unregister callback (send null callback)
+      // Unregister callback (send empty/null callback)
       await this.grpcClient.callMethod('ApiRenderEngine', 'setOnNewImageCallback', {
-        callback: null,
         userData: 0
+        // callback field omitted = null callback
       });
 
       console.log('✅ Callbacks unregistered');

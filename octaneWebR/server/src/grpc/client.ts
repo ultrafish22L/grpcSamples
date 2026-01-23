@@ -58,6 +58,7 @@ export class OctaneGrpcClient extends EventEmitter {
       'livelink.proto',
       'apirender.proto',
       'callback.proto',
+      'callbackstream.proto',
       'apiitemarray.proto',
       'apinodearray.proto',
       'apinodesystem.proto',
@@ -317,7 +318,13 @@ export class OctaneGrpcClient extends EventEmitter {
       
       // Step 1: Register OnNewImage callback with Octane
       console.log('📝 Registering OnNewImage callback...');
-      const registerResponse = await this.callMethod('ApiRender', 'setOnNewImageCallback', {}, { timeout: 10000 });
+      const registerResponse = await this.callMethod('ApiRenderEngine', 'setOnNewImageCallback', {
+        callback: {
+          callbackSource: 'octaneWebR',
+          callbackId: 1
+        },
+        userData: 0
+      }, { timeout: 10000 });
       console.log('✅ Callback registered:', registerResponse);
       
       // Step 2: Start streaming from callback channel
@@ -333,9 +340,44 @@ export class OctaneGrpcClient extends EventEmitter {
       
       stream.on('data', (response: any) => {
         try {
-          // Parse callback data and emit event
-          if (response.render_images && response.render_images.data) {
+          // Debug: Log what we receive from the stream
+          console.log('📥 [Stream] Received callback data:', {
+            hasResponse: !!response,
+            responseType: typeof response,
+            keys: Object.keys(response || {}),
+            hasNewImage: !!response.newImage,
+            hasRenderFailure: !!response.renderFailure,
+            hasNewStatistics: !!response.newStatistics,
+            hasProjectManagerChanged: !!response.projectManagerChanged
+          });
+          
+          // Check if this is a StreamCallbackRequest with oneof payload
+          if (response.newImage) {
+            console.log('📥 [Stream] newImage payload:', {
+              type: typeof response.newImage,
+              keys: Object.keys(response.newImage || {}),
+              userData: response.newImage.user_data,
+              hasRenderImages: !!response.newImage.render_images,
+              hasCallbackId: !!response.newImage.callback_id
+            });
+            
+            // Check if newImage has render_images (might be OnNewImageRequest structure)
+            if (response.newImage.render_images && response.newImage.render_images.data) {
+              console.log('✅ [Stream] Found render_images in newImage, emitting OnNewImage event');
+              this.emit('OnNewImage', {
+                render_images: response.newImage.render_images,
+                callback_id: response.newImage.callback_id,
+                user_data: response.newImage.user_data
+              });
+            } else {
+              console.warn('⚠️  [Stream] newImage payload has no render_images');
+            }
+          } else if (response.render_images && response.render_images.data) {
+            // Fallback: maybe response is already the image data
+            console.log('✅ [Stream] Found render_images at root level, emitting OnNewImage event');
             this.emit('OnNewImage', response);
+          } else {
+            console.warn('⚠️  [Stream] No valid image data in stream response');
           }
         } catch (error: any) {
           console.error('❌ Error processing callback data:', error.message);
