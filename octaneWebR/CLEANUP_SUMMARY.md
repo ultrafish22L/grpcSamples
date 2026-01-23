@@ -303,8 +303,14 @@ Co-authored-by: openhands <openhands@all-hands.dev>
 
 ## Next Steps
 
-### Button Order Fix (Pending)
-As noted at start of session, the Node Inspector button order still needs adjustment to match actual Octane SE (not just the manual).
+### ✅ Button Order Fix (COMPLETED - 2025-01-23)
+~~As noted at start of session, the Node Inspector button order still needs adjustment to match actual Octane SE (not just the manual).~~
+
+**FIXED** - Commit `1ba0da1d`:
+- Corrected button order to match actual Octane SE interface
+- Added missing "Render Passes" button (#11)
+- Reordered buttons #12-15 to proper sequence
+- See `NODE_INSPECTOR_BUTTON_ORDER_FIX.md` for details
 
 ### Future Maintenance
 1. Keep documentation up-to-date as features are added
