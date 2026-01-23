@@ -114,9 +114,11 @@ export class MaterialDatabaseService extends BaseService {
     try {
       let graphHandle = destinationGraphHandle;
       if (!graphHandle) {
-        const renderTargetResponse = await this.apiService.callApi('ApiScene', 'firstItem', null, { type: 11 });
+        // Get the render target from the render engine
+        const renderTargetResponse = await this.apiService.callApi('ApiRenderEngine', 'getRenderTargetNode', {});
         if (renderTargetResponse?.result?.handle) {
           const renderTargetHandle = renderTargetResponse.result.handle;
+          // Get the node graph connected to the render target (pin 0 is the graph input)
           const graphResponse = await this.apiService.callApi('ApiNode', 'connectedNodeIx', renderTargetHandle, { pinIx: 0 });
           if (graphResponse?.result?.handle) {
             graphHandle = graphResponse.result.handle;
@@ -252,9 +254,11 @@ export class MaterialDatabaseService extends BaseService {
       
       let graphHandle = destinationGraphHandle;
       if (!graphHandle) {
-        const renderTargetResponse = await this.apiService.callApi('ApiScene', 'firstItem', null, { type: 11 });
+        // Get the render target from the render engine
+        const renderTargetResponse = await this.apiService.callApi('ApiRenderEngine', 'getRenderTargetNode', {});
         if (renderTargetResponse?.result?.handle) {
           const renderTargetHandle = renderTargetResponse.result.handle;
+          // Get the node graph connected to the render target (pin 0 is the graph input)
           const graphResponse = await this.apiService.callApi('ApiNode', 'connectedNodeIx', renderTargetHandle, { pinIx: 0 });
           if (graphResponse?.result?.handle) {
             graphHandle = graphResponse.result.handle;

@@ -7,6 +7,7 @@ import { BaseService } from './BaseService';
 import { ApiService } from './ApiService';
 import { SceneNode } from './types';
 import { SceneService } from './SceneService';
+import { ObjectType } from '../../constants/OctaneTypes';
 
 export class NodeService extends BaseService {
   private apiService: ApiService;
@@ -109,7 +110,7 @@ export class NodeService extends BaseService {
       pinIdx,
       sourceNode: {
         handle: sourceNodeHandle,
-        type: 17, // ApiNode type
+        type: ObjectType.ApiNode,
       },
       evaluate,
       doCycleCheck: true,
@@ -129,7 +130,7 @@ export class NodeService extends BaseService {
       pinIdx,
       sourceNode: {
         handle: 0, // 0 = disconnect
-        type: 17,
+        type: ObjectType.ApiNode,
       },
       evaluate,
       doCycleCheck: true,
