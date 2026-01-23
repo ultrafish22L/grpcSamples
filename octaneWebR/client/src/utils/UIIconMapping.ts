@@ -42,8 +42,8 @@ export const WindowControlIcons = {
   UNCOLLAPSE_NODES: 'UNCOLLAPSE NODES window.png',
   UNFOLD_GRAPH: 'unfold_graph.png',
   UNFOLD_GRAPH_RECURSIVELY: 'unfold_graph_recursively.png',
-  SNAP_TO_GRID: 'snap.png',
-  GRID_TOGGLE: 'grid.png',
+  SNAP_TO_GRID: 'grid snap.png',
+  GRID_TOGGLE: 'toggle grid.png',
   
   // Network
   NETWORK: 'NETWORK window.png',
