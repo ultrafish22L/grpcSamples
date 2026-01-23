@@ -4,6 +4,7 @@
  */
 
 import { MenuDefinition, MenuItem } from '../types/menu';
+import { getMenuIcon } from '../utils/MenuIconMapping';
 
 interface PanelVisibility {
   renderViewport: boolean;
@@ -56,15 +57,15 @@ export function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?:
       { label: 'Quit', action: 'file.quit', shortcut: 'Ctrl+Q' }
     ],
     edit: [
-      { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z', icon: '↶' },
-      { label: 'Redo', action: 'edit.redo', shortcut: 'Ctrl+Y', icon: '↷' },
+      { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z', icon: getMenuIcon('edit.undo') },
+      { label: 'Redo', action: 'edit.redo', shortcut: 'Ctrl+Y', icon: getMenuIcon('edit.redo') },
       { type: 'separator' },
-      { label: 'Cut', action: 'edit.cut', shortcut: 'Ctrl+X', icon: '✂️' },
-      { label: 'Copy', action: 'edit.copy', shortcut: 'Ctrl+C', icon: '📋' },
-      { label: 'Paste', action: 'edit.paste', shortcut: 'Ctrl+V', icon: '📄' },
-      { label: 'Delete', action: 'edit.delete', shortcut: 'Del', icon: '🗑️' },
+      { label: 'Cut', action: 'edit.cut', shortcut: 'Ctrl+X' },
+      { label: 'Copy', action: 'edit.copy', shortcut: 'Ctrl+C', icon: getMenuIcon('edit.copy') },
+      { label: 'Paste', action: 'edit.paste', shortcut: 'Ctrl+V' },
+      { label: 'Delete', action: 'edit.delete', shortcut: 'Del' },
       { type: 'separator' },
-      { label: 'Select All', action: 'edit.selectAll', shortcut: 'Ctrl+A', icon: '☑️' }
+      { label: 'Select All', action: 'edit.selectAll', shortcut: 'Ctrl+A' }
     ],
     render: [
       { label: 'Upload scene snapshot', action: 'render.uploadSnapshot' },
@@ -73,37 +74,37 @@ export function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?:
       { label: 'Open Render Network (external)...', action: 'render.openRenderNetworkExternal' }
     ],
     script: [
-      { label: 'Batch Rendering...', action: 'script.batchRender', icon: '🎬' },
-      { label: 'Daylight Animation...', action: 'script.daylightAnimation', icon: '☀️' },
-      { label: 'Turntable Animation...', action: 'script.turntableAnimation', icon: '🔄' }
+      { label: 'Batch Rendering...', action: 'script.batchRender', icon: getMenuIcon('script.batchRender') },
+      { label: 'Daylight Animation...', action: 'script.daylightAnimation', icon: getMenuIcon('script.daylightAnimation') },
+      { label: 'Turntable Animation...', action: 'script.turntableAnimation', icon: getMenuIcon('script.turntableAnimation') }
     ],
     view: [
       { 
         label: 'Render Viewport', 
         action: 'view.renderViewport', 
-        icon: '🖼️',
+        icon: getMenuIcon('view.renderViewport'),
         checked: panelVisibility?.renderViewport ?? true
       },
       { 
         label: 'Node Inspector', 
         action: 'view.nodeInspector', 
-        icon: '🔍',
+        icon: getMenuIcon('view.nodeInspector'),
         checked: panelVisibility?.nodeInspector ?? true
       },
       { 
         label: 'Graph Editor', 
         action: 'view.graphEditor', 
-        icon: '🕸️',
+        icon: getMenuIcon('view.graphEditor'),
         checked: panelVisibility?.graphEditor ?? true
       },
       { 
         label: 'Scene Outliner', 
         action: 'view.sceneOutliner', 
-        icon: '🌳',
+        icon: getMenuIcon('view.sceneOutliner'),
         checked: panelVisibility?.sceneOutliner ?? true
       },
       { type: 'separator' },
-      { label: 'Refresh Scene', action: 'view.refresh', shortcut: 'F5', icon: '🔄' }
+      { label: 'Refresh Scene', action: 'view.refresh', shortcut: 'F5', icon: getMenuIcon('view.refresh') }
     ],
     window: [
       { label: 'Reset workspace', action: 'window.resetWorkspace' },
@@ -121,16 +122,16 @@ export function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?:
       { label: 'Create scene graph export', action: 'window.createSceneGraphExport' },
       { type: 'separator' },
       { label: 'Create script editor', action: 'window.createScriptEditor' },
-      { label: 'Create OSL editor', action: 'window.createOSLEditor' },
+      { label: 'Create OSL editor', action: 'window.createOSLEditor', icon: getMenuIcon('window.createOSLEditor') },
       { label: 'Create Lua API browser', action: 'window.createLuaAPIBrowser' },
       { label: 'Create USD stage editor', action: 'window.createUSDStageEditor' }
     ],
     help: [
-      { label: 'Documentation', action: 'help.docs', shortcut: 'F1', icon: '📚' },
-      { label: 'Keyboard Shortcuts', action: 'help.shortcuts', icon: '⌨️' },
+      { label: 'Documentation', action: 'help.docs', shortcut: 'F1', icon: getMenuIcon('help.docs') },
+      { label: 'Keyboard Shortcuts', action: 'help.shortcuts' },
       { type: 'separator' },
-      { label: 'Report Bug', action: 'help.bug', icon: '🐛' },
-      { label: 'About OctaneWebR', action: 'help.about', icon: 'ℹ️' }
+      { label: 'Report Bug', action: 'help.bug' },
+      { label: 'About OctaneWebR', action: 'help.about' }
     ]
   };
 }
