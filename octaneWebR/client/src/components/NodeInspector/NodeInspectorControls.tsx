@@ -6,6 +6,7 @@
 
 import { useState, useCallback } from 'react';
 import { SceneNode } from '../../services/OctaneClient';
+import { getNodeInspectorIcon } from '../../utils/UIIconMapping';
 
 interface NodeInspectorControlsProps {
   sceneTree: SceneNode[];
@@ -155,7 +156,7 @@ export function NodeInspectorControls({
         title="Expand All Nodes" 
         onClick={handleExpandAll}
       >
-        📂
+        <img src={getNodeInspectorIcon('EXPAND_ALL_NODES')} alt="Expand all" />
       </button>
       
       <button 
@@ -163,7 +164,7 @@ export function NodeInspectorControls({
         title="Render Target" 
         onClick={handleRenderTargetClick}
       >
-        📄
+        <img src={getNodeInspectorIcon('RENDER_TARGET')} alt="Render target" />
       </button>
       
       <button 
@@ -171,7 +172,7 @@ export function NodeInspectorControls({
         title="Camera Settings" 
         onClick={handleCameraClick}
       >
-        📷
+        <img src={getNodeInspectorIcon('CAMERA_SETTINGS')} alt="Camera" />
       </button>
       
       <button 
@@ -179,7 +180,7 @@ export function NodeInspectorControls({
         title="Environment Settings" 
         onClick={handleEnvironmentClick}
       >
-        🌍
+        <img src={getNodeInspectorIcon('ENVIRONMENT_SETTINGS')} alt="Environment" />
       </button>
       
       <button 
@@ -187,7 +188,7 @@ export function NodeInspectorControls({
         title="Current Geometry" 
         onClick={handleGeometryClick}
       >
-        🔷
+        <img src={getNodeInspectorIcon('CURRENT_GEOMETRY')} alt="Geometry" />
       </button>
       
       <button 
@@ -195,7 +196,7 @@ export function NodeInspectorControls({
         title="Animation Settings" 
         onClick={handleAnimationClick}
       >
-        🎬
+        <img src={getNodeInspectorIcon('ANIMATION_SETTINGS')} alt="Animation" />
       </button>
       
       <button 
@@ -203,7 +204,7 @@ export function NodeInspectorControls({
         title="Active Render Layer" 
         onClick={handleRenderLayerClick}
       >
-        🎭
+        <img src={getNodeInspectorIcon('ACTIVE_RENDER_LAYER')} alt="Render layer" />
       </button>
       
       <button 
@@ -211,7 +212,7 @@ export function NodeInspectorControls({
         title="AOV Group" 
         onClick={handleAovGroupClick}
       >
-        🔵
+        <img src={getNodeInspectorIcon('AOV_GROUP')} alt="AOV group" />
       </button>
       
       <button 
@@ -219,7 +220,7 @@ export function NodeInspectorControls({
         title="Post Processing" 
         onClick={handlePostProcessingClick}
       >
-        🎨
+        <img src={getNodeInspectorIcon('POST_PROCESSING')} alt="Post processing" />
       </button>
 
       {/* Spacer */}
@@ -231,7 +232,7 @@ export function NodeInspectorControls({
         title="Collapse All nodes" 
         onClick={handleCollapseAll}
       >
-        📁
+        <img src={getNodeInspectorIcon('COLLAPSE_ALL_NODES')} alt="Collapse all" />
       </button>
       
       <button 
@@ -239,7 +240,7 @@ export function NodeInspectorControls({
         title="Camera Settings" 
         onClick={handleCameraAltClick}
       >
-        📸
+        <img src={getNodeInspectorIcon('CAMERA_SETTINGS')} alt="Camera" />
       </button>
       
       <button 
@@ -247,7 +248,7 @@ export function NodeInspectorControls({
         title="Visible Environment Settings" 
         onClick={handleVisibleEnvironmentClick}
       >
-        🌐
+        <img src={getNodeInspectorIcon('VISIBLE_ENVIRONMENT_SETTINGS')} alt="Visible environment" />
       </button>
       
       <button 
@@ -255,7 +256,7 @@ export function NodeInspectorControls({
         title="Film Settings" 
         onClick={handleFilmClick}
       >
-        🎞️
+        <img src={getNodeInspectorIcon('FILM_SETTINGS')} alt="Film" />
       </button>
       
       <button 
@@ -263,7 +264,7 @@ export function NodeInspectorControls({
         title="Current kernel" 
         onClick={handleKernelClick}
       >
-        ⚙️
+        <img src={getNodeInspectorIcon('CURRENT_KERNEL')} alt="Kernel" />
       </button>
       
       <button 
@@ -271,7 +272,7 @@ export function NodeInspectorControls({
         title="Render AOV Node" 
         onClick={handleRenderAovClick}
       >
-        🔴
+        <img src={getNodeInspectorIcon('RENDER_AOV_NODE')} alt="Render AOV" />
       </button>
       
       <button 
@@ -279,7 +280,7 @@ export function NodeInspectorControls({
         title="Camera Imager" 
         onClick={handleCameraImagerClick}
       >
-        📹
+        <img src={getNodeInspectorIcon('CAMERA_IMAGER')} alt="Imager" />
       </button>
     </div>
   );
