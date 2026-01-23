@@ -316,8 +316,17 @@ class OctaneGrpcClient {
 
       this.callbackStream.on('data', (callbackRequest: any) => {
         try {
+          // DEBUG: Log the entire callback request to see what we're actually receiving
+          console.log('📡 Stream data received:', JSON.stringify(callbackRequest, null, 2));
+          console.log('📡 Callback request keys:', Object.keys(callbackRequest));
+          
           // StreamCallbackRequest has oneof payload: newImage, renderFailure, newStatistics, projectManagerChanged
           if (callbackRequest.newImage) {
+            console.log('🖼️  OnNewImage callback received');
+            console.log('   callback_source:', callbackRequest.newImage.callback_source);
+            console.log('   callback_id:', callbackRequest.newImage.callback_id);
+            console.log('   render_images count:', callbackRequest.newImage.render_images?.length || 0);
+            
             // OnNewImageRequest contains render_images array
             const imageData = {
               callback_source: callbackRequest.newImage.callback_source,
@@ -330,6 +339,7 @@ class OctaneGrpcClient {
           } else if (callbackRequest.renderFailure) {
             console.log('❌ Render failure callback received');
           } else if (callbackRequest.newStatistics) {
+            console.log('📊 OnNewStatistics callback received');
             // OnNewStatisticsRequest contains render statistics
             const statsData = {
               callback_source: callbackRequest.newStatistics.callback_source,
@@ -340,9 +350,12 @@ class OctaneGrpcClient {
             this.notifyStatisticsCallbacks(statsData);
           } else if (callbackRequest.projectManagerChanged) {
             console.log('🔄 Project manager changed callback received');
+          } else {
+            console.log('⚠️  Unknown callback type received');
           }
         } catch (error: any) {
           console.error('❌ Error processing callback data:', error.message);
+          console.error('   Stack:', error.stack);
         }
       });
 
