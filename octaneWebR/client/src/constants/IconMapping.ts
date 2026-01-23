@@ -34,8 +34,8 @@ export const NODE_TYPE_ICON_MAP: IconMapping = {
   'NT_EMIS_TEXTURE': 'EMITTER_TEXTURE node.png',
 
   // Environments
-  'NT_ENV_DAYLIGHT': 'DAYLIGHT_ENVIRONMENT node.png',
-  'NT_ENV_PLANETARY': 'PLANETARY_ENVIRONMENT node.png',
+  'NT_ENV_DAYLIGHT': 'ENVIRONMENT node.png',
+  'NT_ENV_PLANETARY': 'ENVIRONMENT node.png',
   'NT_ENV_TEXTURE': 'ENVIRONMENT node.png',
 
   // Geometry - Basic
@@ -87,12 +87,12 @@ export const NODE_TYPE_ICON_MAP: IconMapping = {
   'NT_SCATTER_VOLUME': 'SCATTER_IN_VOLUME node.png',
 
   // Input - Basic Types
-  'NT_BOOL': 'BOOL node.png',
+  'NT_BOOL': 'VALUE BOOL node.png',
   'NT_BOOL_LOGIC_OPERATOR': 'BOOLEAN_LOGIC_OPERATOR node.png',
   'NT_DIRECTORY': 'DIRECTORY_NAME node.png',
-  'NT_ENUM': 'ENUM node.png',
+  'NT_ENUM': 'VALUE INT node.png',
   'NT_FILE': 'FILE_NAME node.png',
-  'NT_FLOAT': 'FLOAT node.png',
+  'NT_FLOAT': 'VALUE FLOAT node.png',
   'NT_FLOAT_COMPONENT_MERGER': 'FLOAT_COMPONENT_MERGER node.png',
   'NT_FLOAT_COMPONENT_PICKER': 'FLOAT_COMPONENT_PICKER node.png',
   'NT_FLOAT_IF': 'FLOAT_IF node.png',
@@ -101,15 +101,15 @@ export const NODE_TYPE_ICON_MAP: IconMapping = {
   'NT_FLOAT_RANGE': 'MAP_RANGE node.png',
   'NT_FLOAT_RELATIONAL_OPERATOR': 'FLOAT_RELATIONAL_OPERATOR node.png',
   'NT_FLOAT_TIME': 'FLOAT_TIME node.png',
-  'NT_FLOAT_TO_INT': 'FLOAT_TO_INT node.png',
-  'NT_INT': 'INT node.png',
+  'NT_FLOAT_TO_INT': 'MATERIALX_CONVERT_node.png',
+  'NT_INT': 'VALUE INT node.png',
   'NT_INT_COMPONENT_MERGER': 'INT_COMPONENT_MERGER node.png',
   'NT_INT_COMPONENT_PICKER': 'INT_COMPONENT_PICKER node.png',
   'NT_INT_FRAME_INDEX': 'FRAME_INDEX node.png',
   'NT_INT_IF': 'INT_IF node.png',
   'NT_INT_RELATIONAL_OPERATOR': 'INT_RELATIONAL_OPERATOR node.png',
-  'NT_INT_TO_FLOAT': 'INT_TO_FLOAT node.png',
-  'NT_STRING': 'STRING_OUT node.png',
+  'NT_INT_TO_FLOAT': 'MATERIALX_CONVERT_node.png',
+  'NT_STRING': 'VALUE STRING node.png',
 
   // Kernels
   'NT_KERN_DIRECTLIGHTING': 'KERNEL_OUT node.png',
@@ -200,7 +200,7 @@ export const NODE_TYPE_ICON_MAP: IconMapping = {
   'NT_TEX_OSL': 'OSL_TEXTURE node.png',
   'NT_TEX_PALETTE': 'PALETTE_TEXTURE node.png',
   'NT_TEX_POLYGON_SIDE': 'POLYGON_SIDE node.png',
-  'NT_TEX_RGB': 'RGB_SPECTRUM node.png',
+  'NT_TEX_RGB': 'TEXTURE_SPECTRUM node.png',
   'NT_TEX_RIDGED': 'RIDGED_FRACTAL node.png',
   'NT_TEX_SAW_WAVE': 'SAW_WAVE node.png',
   'NT_TEX_SIDE': 'SIDE_TEXTURE node.png',

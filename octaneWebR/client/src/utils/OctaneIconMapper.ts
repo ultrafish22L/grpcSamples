@@ -72,21 +72,27 @@ export class OctaneIconMapper {
       return getNodeIconPath(outType);
     }
 
-    // Handle parameter types with fallback icons
+    // Handle parameter types with correct icon paths (using VALUE prefix)
     if (outType === 'PT_BOOL' || name === 'Bool value') {
-      return '/icons/BOOL node.png';
+      return '/icons/VALUE BOOL node.png';
     }
     if (outType === 'PT_FLOAT' || name === 'Float value') {
-      return '/icons/FLOAT node.png';
+      return '/icons/VALUE FLOAT node.png';
     }
     if (outType === 'PT_INT' || name === 'Int value') {
-      return '/icons/INT node.png';
+      return '/icons/VALUE INT node.png';
+    }
+    if (outType === 'PT_STRING' || name === 'String value') {
+      return '/icons/VALUE STRING node.png';
     }
     if (outType === 'PT_ENUM' || name === 'Enum value') {
-      return '/icons/ENUM node.png';
+      return '/icons/VALUE INT node.png'; // Use INT icon for enums
     }
     if (outType === 'PT_RGB' || name === 'RGB color') {
-      return '/icons/RGB_SPECTRUM node.png';
+      return '/icons/TEXTURE_SPECTRUM node.png';
+    }
+    if (outType === 'PT_NTYPE' || outType === 'PT_TEXTURE') {
+      return '/icons/TEXTURE_BITMAP node.png'; // Node reference parameters
     }
     
     // Fallback based on parameter type with actual icon files
