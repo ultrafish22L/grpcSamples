@@ -97,21 +97,22 @@ export class OctaneIconMapper {
     
     // Fallback based on parameter type with actual icon files
     const iconMap: Record<string, string> = {
-      'PT_RENDER_TARGET': '/icons/RENDER_TARGET node.png',
+      'PT_RENDER_TARGET': '/icons/RENDER TARGET node.png',
+      'PT_RENDERTARGET': '/icons/RENDER TARGET node.png', // Variant without underscore
       'PT_MESH': '/icons/MESH node.png',
       'PT_GEOMETRY': '/icons/MESH node.png',
       'PT_CAMERA': '/icons/CAMERA node.png',
-      'PT_LIGHT': '/icons/QUAD_LIGHT node.png',
-      'PT_MATERIAL': '/icons/UNIVERSAL_MATERIAL node.png',
+      'PT_LIGHT': '/icons/CATEGORY_EMITTER node.png',
+      'PT_MATERIAL': '/icons/CATEGORY_MATERIAL node.png',
       'PT_ENVIRONMENT': '/icons/ENVIRONMENT node.png',
       'PT_FILM_SETTINGS': '/icons/FILM node.png',
-      'PT_ANIMATION_SETTINGS': '/icons/ANIMATION_SETTINGS node.png',
-      'PT_KERNEL': '/icons/KERNEL_OUT node.png',
-      'PT_RENDER_LAYER': '/icons/RENDER_LAYER node.png',
-      'PT_RENDER_PASSES': '/icons/RENDER_PASSES node.png',
-      'PT_OUTPUT_AOV_GROUP': '/icons/OUTPUT_AOV_GROUP node.png',
+      'PT_ANIMATION_SETTINGS': '/icons/animation_settings_node.png',
+      'PT_KERNEL': '/icons/RENDER KERNEL node.png',
+      'PT_RENDER_LAYER': '/icons/render_layer.png',
+      'PT_RENDER_PASSES': '/icons/render_passes.png',
+      'PT_OUTPUT_AOV_GROUP': '/icons/aov-output-group.png',
       'PT_IMAGER': '/icons/IMAGER node.png',
-      'PT_POSTPROCESSING': '/icons/POST_PROCESSING node.png',
+      'PT_POSTPROCESSING': '/icons/POSTPROC node.png',
       'unknown': '/icons/CATEGORY.png'
     };
     
