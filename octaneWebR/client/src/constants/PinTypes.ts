@@ -8,6 +8,8 @@
  * - Color coding for pin connections
  */
 
+import { hasIconMapping, getNodeIconPath } from './NodeTypes';
+
 /**
  * Pin icon and color mapping for all PT_ types
  * Maps pin type to icon path and connection color
@@ -508,13 +510,10 @@ export function getPinTypeInfo(pinType: string): PinTypeInfo | undefined {
  * @returns Icon path
  */
 export function getIconForType(type: string, name?: string): string {
-  // Import at runtime to avoid circular dependencies
-  const NodeTypes = require('./NodeTypes');
-  
   // Handle NT_ node types
   if (type && type.startsWith('NT_')) {
-    if (NodeTypes.hasIconMapping(type)) {
-      return NodeTypes.getNodeIconPath(type);
+    if (hasIconMapping(type)) {
+      return getNodeIconPath(type);
     }
   }
   
