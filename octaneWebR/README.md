@@ -95,9 +95,9 @@ Platform-aware shortcuts (Ctrl on Windows/Linux, Cmd on macOS):
 - `F11` - Fullscreen
 
 #### **Infrastructure**
-- TypeScript with strict type checking
+- TypeScript with strict type checking (no 'any' types)
 - Embedded gRPC-Web proxy (no separate server needed)
-- Dark/Light theme switching with persistent preferences
+- CSS custom properties theme system (Octane SE dark theme)
 - Hot module replacement (HMR) for instant updates
 - Cross-browser compatible (Chrome, Firefox, Edge, Safari)
 
@@ -118,13 +118,19 @@ octaneWebR uses a modular service architecture:
 ```
 services/
 ├── octane/
-│   ├── ConnectionService.ts  - WebSocket connection management
-│   ├── SceneService.ts        - Scene tree and node operations
-│   ├── NodeService.ts         - Node CRUD operations
-│   ├── ViewportService.ts     - Camera controls and viewport state
-│   ├── RenderService.ts       - Render control and streaming
+│   ├── ApiService.ts          - Core gRPC API operations
+│   ├── BaseService.ts         - Shared service functionality
+│   ├── CameraService.ts       - Camera and viewport controls
+│   ├── ConnectionService.ts   - WebSocket connection management
+│   ├── DeviceService.ts       - Device and system operations
 │   ├── MaterialDatabaseService.ts - LiveDB/LocalDB access
-│   └── BaseService.ts         - Shared service functionality
+│   ├── NodeService.ts         - Node CRUD operations
+│   ├── RenderService.ts       - Render control and streaming
+│   ├── RenderExportService.ts - Render export operations
+│   ├── SceneService.ts        - Scene tree and node operations
+│   ├── ViewportService.ts     - Viewport state management
+│   ├── index.ts               - Service exports
+│   └── types.ts               - Shared type definitions
 └── OctaneClient.ts            - Main API facade
 ```
 
@@ -138,6 +144,26 @@ All services extend `BaseService` which provides:
 - **Proto Generation**: TypeScript types auto-generated from .proto files
 - **Streaming**: WebSocket-based callback streaming for render updates
 - **Type Safety**: Full TypeScript coverage of gRPC API
+
+### Styling & Theming
+octaneWebR uses a pure CSS variable-based theme system:
+
+```
+client/src/styles/
+├── octane-theme.css      # Theme variables only (:root)
+├── app.css               # App-level UI (menu, panels, status bar)
+├── scene-outliner.css    # Scene outliner and tree view
+├── viewport.css          # Viewport, canvas, render toolbar
+├── node-graph.css        # Node graph editor and context menus
+└── node-inspector.css    # Node inspector and parameter controls
+```
+
+**Theme System**:
+- `octane-theme.css` contains **only** CSS custom properties (134 variables)
+- All colors, spacing, typography defined as `--octane-*` variables
+- Matches official Octane SE dark theme
+- Component CSS files use `var(--octane-*)` references
+- Alternative themes can be created by copying and modifying theme variables
 
 ---
 
@@ -162,10 +188,11 @@ octaneWebR/
 │   │   │   └── OctaneClient.ts       # Main API facade
 │   │   ├── hooks/                    # React hooks
 │   │   ├── utils/                    # Helper functions
-│   │   ├── constants/                # Enums and constants
+│   │   ├── constants/                # Enums and constants (NodeTypes, etc.)
 │   │   ├── config/                   # Application configuration
 │   │   ├── types/                    # TypeScript type definitions
 │   │   ├── commands/                 # Command handlers
+│   │   ├── styles/                   # CSS stylesheets (theme + components)
 │   │   ├── App.tsx                   # Root component
 │   │   └── main.tsx                  # Application entry point
 │   ├── public/                       # Static assets
@@ -186,7 +213,7 @@ octaneWebR/
 ├── package.json                      # Dependencies and scripts
 ├── README.md                         # This file
 ├── QUICKSTART.md                     # Setup guide
-└── REPRO_PROMPT.md                   # AI assistant context
+└── DEVELOPMENT.md                    # Development guide & architecture
 ```
 
 ---

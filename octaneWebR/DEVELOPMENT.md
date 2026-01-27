@@ -1,8 +1,8 @@
-# octaneWebR - AI Assistant Context
+# octaneWebR - Development Guide
 
-**Context for AI assistants working on octaneWebR development**
+**Comprehensive development guide and architecture documentation**
 
-This document provides comprehensive context for AI assistants to understand the project architecture, conventions, and development patterns.
+This document provides detailed context for developers and AI assistants working on octaneWebR, including architecture patterns, conventions, and implementation guidelines.
 
 ---
 
