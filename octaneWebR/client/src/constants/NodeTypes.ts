@@ -916,7 +916,7 @@ export interface IconMapping {
  * 
  * Note: Not all NT_ types have unique icons - many share the same icon with other nodes of similar type.
  */
-export const NODE_TYPE_ICON_MAP: IconMapping = {
+export const nodeIconMapping: IconMapping = {
   // Cameras
   'NT_CAM_BAKING': 'BAKING_CAMERA node.png',
   'NT_CAM_OSL': 'OSL_BAKING_CAMERA node.png',
@@ -1236,7 +1236,7 @@ export const NODE_TYPE_ICON_MAP: IconMapping = {
  * @returns path to icon file
  */
 export function getNodeIconPath(nodeType: string): string {
-  const iconFile = NODE_TYPE_ICON_MAP[nodeType];
+  const iconFile = nodeIconMapping[nodeType];
   if (iconFile) {
     return `/icons/${iconFile}`;
   }
@@ -1247,7 +1247,7 @@ export function getNodeIconPath(nodeType: string): string {
  * Check if a node type has an icon mapping
  */
 export function hasIconMapping(nodeType: string): boolean {
-  return nodeType in NODE_TYPE_ICON_MAP;
+  return nodeType in nodeIconMapping;
 }
 
 /**
