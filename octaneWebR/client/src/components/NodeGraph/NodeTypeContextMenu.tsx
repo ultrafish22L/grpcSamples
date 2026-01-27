@@ -6,8 +6,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { getCategoriesInOrder, getNodeTypesForCategory, OCTANE_NODE_TYPES } from '../../constants/NodeTypes';
-import { getNodeIconPath } from '../../constants/IconMapping';
+import { getCategoriesInOrder, getNodeTypesForCategory, OCTANE_NODE_TYPES, getNodeIconPath } from '../../constants/NodeTypes';
 
 interface NodeTypeContextMenuProps {
   x: number;

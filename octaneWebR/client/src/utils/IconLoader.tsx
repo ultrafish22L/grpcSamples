@@ -15,7 +15,7 @@
  */
 
 import React from 'react';
-import { getNodeIconPath, hasIconMapping } from '../constants/IconMapping';
+import { getNodeIconPath, hasIconMapping } from '../constants/NodeTypes';
 
 export type NodeTypeString = string; // NT_* enum values (e.g., "NT_MAT_DIFFUSE")
 export type GraphTypeString = string; // GT_* enum values (e.g., "GT_STANDARD")
