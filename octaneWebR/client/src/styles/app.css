@@ -460,6 +460,7 @@ body.resizing .react-flow__edge-interaction {
     box-shadow: 0 4px 8px var(--octane-shadow);
     padding: 4px 0;
     min-width: 150px;
+    font-size: var(--font-size-xxs); /* 10px - slightly smaller than menu bar (11px) */
     z-index: var(--z-context-menu);
     pointer-events: auto;
 }
