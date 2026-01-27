@@ -88,12 +88,6 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z' },
       { label: 'Redo', action: 'edit.redo', shortcut: 'Ctrl+Y' }
     ],
-    render: [
-      { label: 'Upload scene snapshot', action: 'render.uploadSnapshot' },
-      { label: 'Render', action: 'render.render' },
-      { label: 'Open Render Network...', action: 'render.openRenderNetwork' },
-      { label: 'Open Render Network (external)...', action: 'render.openRenderNetworkExternal' }
-    ],
     module: [
       { label: 'No modules installed', enabled: false }
     ],
