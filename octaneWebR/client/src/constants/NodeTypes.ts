@@ -1249,17 +1249,3 @@ export function getNodeIconPath(nodeType: string): string {
 export function hasIconMapping(nodeType: string): boolean {
   return nodeType in nodeIconMapping;
 }
-
-/**
- * Get all mapped node types
- */
-export function getMappedNodeTypes(): string[] {
-  return Object.keys(NODE_TYPE_ICON_MAP);
-}
-
-/**
- * Get count of mapped icons
- */
-export function getMappedIconCount(): number {
-  return Object.keys(NODE_TYPE_ICON_MAP).length;
-}
