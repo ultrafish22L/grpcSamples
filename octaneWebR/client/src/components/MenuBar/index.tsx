@@ -98,7 +98,10 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'No modules installed', enabled: false }
     ],
     cloud: [
-      { label: 'Cloud features not available in web version', enabled: false }
+      { label: 'Upload scene snapshot', action: 'render.uploadSnapshot' },
+      { label: 'Render', action: 'render.render' },
+      { label: 'Open Render Network...', action: 'render.openRenderNetwork' },
+      { label: 'Open Render Network (external)...', action: 'render.openRenderNetworkExternal' }
     ],
     script: [
       { label: 'Rescan script folder', action: 'script.rescanFolder' },
@@ -493,6 +496,27 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
       case 'script.turntableAnimation':
         setIsTurntableAnimationDialogOpen(true);
         console.log('🔄 Opening Turntable Animation dialog');
+        break;
+
+      // Cloud/Render menu actions
+      case 'render.uploadSnapshot':
+        showNotification('Upload scene snapshot not yet implemented', 'info');
+        console.log('☁️ Upload scene snapshot');
+        break;
+
+      case 'render.render':
+        showNotification('Cloud render not yet implemented', 'info');
+        console.log('☁️ Cloud render');
+        break;
+
+      case 'render.openRenderNetwork':
+        showNotification('Open Render Network not yet implemented', 'info');
+        console.log('🌐 Open Render Network');
+        break;
+
+      case 'render.openRenderNetworkExternal':
+        showNotification('Open Render Network (external) not yet implemented', 'info');
+        console.log('🌐 Open Render Network (external)');
         break;
 
       // View menu actions
