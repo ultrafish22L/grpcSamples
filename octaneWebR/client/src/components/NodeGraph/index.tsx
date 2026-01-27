@@ -30,7 +30,7 @@ import {
 import { OnReconnectEnd } from '@xyflow/system';
 import '@xyflow/react/dist/style.css';
 
-import { SceneNode, NodeAddedEvent } from '../../services/OctaneClient';
+import { SceneNode, NodeAddedEvent, NodeDeletedEvent } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
 import { useEditActions } from '../../contexts/EditActionsContext';
 import { OctaneNode, OctaneNodeData } from './OctaneNode';
@@ -249,7 +249,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
   /**
    * Load scene graph when sceneTree changes
-   * Optimization: Skip full rebuild if this is just an incremental addition
+   * Optimization: Skip full rebuild if incremental add/delete handlers are active
    */
   useEffect(() => {
     console.log('📊 NodeGraphEditor: sceneTree changed, length =', sceneTree?.length || 0);
@@ -261,18 +261,26 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       return;
     }
 
-    // Check if we're just adding nodes incrementally (nodes.length < sceneTree.length)
-    // If so, skip full rebuild - the nodeAdded event handler will add them
+    // Check if we're handling incremental operations
+    // - nodeAdded: currentNodes.length < sceneTree.length
+    // - nodeDeleted: currentNodes.length > sceneTree.length
+    // If so, skip full rebuild - the event handlers will update incrementally
     setNodes((currentNodes) => {
       console.log(`📊 NodeGraphEditor: currentNodes=${currentNodes.length}, sceneTree=${sceneTree.length}`);
       
-      // If current graph has fewer nodes than scene tree, it means nodeAdded is handling it
+      // If current graph has fewer nodes, nodeAdded is handling it
       if (currentNodes.length < sceneTree.length && currentNodes.length > 0) {
-        console.log('📊 NodeGraphEditor: Skipping full rebuild - incremental add in progress');
+        console.log('📊 NodeGraphEditor: Skipping full rebuild - nodeAdded handler active');
         return currentNodes; // Don't rebuild
       }
       
-      // Full rebuild needed (deletions, initial load, or other changes)
+      // If current graph has more nodes, nodeDeleted is handling it
+      if (currentNodes.length > sceneTree.length && currentNodes.length > 0) {
+        console.log('📊 NodeGraphEditor: Skipping full rebuild - nodeDeleted handler active');
+        return currentNodes; // Don't rebuild
+      }
+      
+      // Full rebuild needed (initial load, sync issues, or other changes)
       console.log('📊 NodeGraphEditor: Full graph rebuild triggered');
       const { nodes: graphNodes, edges: graphEdges } = convertSceneToGraph(sceneTree);
       console.log(`📊 NodeGraphEditor: Rebuilt graph with ${graphNodes.length} nodes, ${graphEdges.length} edges`);
@@ -337,6 +345,41 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       client.off('nodeAdded', handleNodeAdded);
     };
   }, [client, connected, sceneTree, setNodes]);
+
+  /**
+   * Handle incremental node deletions (no full graph rebuild)
+   */
+  useEffect(() => {
+    if (!connected || !client) return;
+
+    const handleNodeDeleted = (event: NodeDeletedEvent) => {
+      console.log('📊 NodeGraphEditor: Deleting node incrementally, handle:', event.handle);
+      
+      const handleStr = String(event.handle);
+      
+      // Remove node from graph without rebuilding everything
+      setNodes((nds) => {
+        const filtered = nds.filter(node => node.id !== handleStr);
+        console.log(`📊 NodeGraphEditor: Removed node ${handleStr}, ${nds.length} → ${filtered.length} nodes`);
+        return filtered;
+      });
+      
+      // Remove connected edges
+      setEdges((eds) => {
+        const filtered = eds.filter(edge => edge.source !== handleStr && edge.target !== handleStr);
+        console.log(`📊 NodeGraphEditor: Removed edges for node ${handleStr}`);
+        return filtered;
+      });
+      
+      console.log('✅ NodeGraphEditor: Node removed from canvas');
+    };
+
+    client.on('nodeDeleted', handleNodeDeleted);
+
+    return () => {
+      client.off('nodeDeleted', handleNodeDeleted);
+    };
+  }, [client, connected, setNodes, setEdges]);
 
   /**
    * Synchronize node selection when selectedNode changes externally (e.g., from SceneOutliner)
