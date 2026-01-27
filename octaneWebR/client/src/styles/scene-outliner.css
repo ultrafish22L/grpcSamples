@@ -546,7 +546,7 @@ input:checked + .slider:before {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    background-color: var(--octane-bg-primary);
+    background-color: var(--octane-bg-secondary);
     min-height: 0; /* Allow flex item to shrink below content size */
     max-height: 100%; /* Prevent tree from exceeding container */
     position: relative; /* Establish positioning context */
