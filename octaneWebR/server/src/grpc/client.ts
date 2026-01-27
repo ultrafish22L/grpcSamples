@@ -357,40 +357,43 @@ export class OctaneGrpcClient extends EventEmitter {
             
             // According to SDK examples: callbacks are notifications only!
             // We must call grabRenderResult() to fetch the actual image data
-            try {
-              const renderEngine = this.getService('ApiRenderEngineService');
-              const grabRequest = {}; // Empty request message
-              
-              renderEngine.grabRenderResult(grabRequest, (error: any, grabResponse: any) => {
-                if (error) {
-                  console.error('❌ grabRenderResult failed:', error.message);
-                  return;
-                }
-                
+            this.callMethod('ApiRenderEngine', 'grabRenderResult', {})
+              .then((grabResponse: any) => {
                 if (!grabResponse || !grabResponse.result) {
                   console.log('ℹ️  No render result available yet (rendering in progress)');
                   return;
                 }
                 
-                if (grabResponse.renderImages && grabResponse.renderImages.data && grabResponse.renderImages.data.length > 0) {
+                // Handle both camelCase (renderImages) and lowercase (renderimages) field names
+                const renderImages = grabResponse.renderImages || grabResponse.renderimages;
+                
+                if (renderImages && renderImages.data && renderImages.data.length > 0) {
+                  const firstImage = renderImages.data[0];
                   console.log('✅ Got render images from grabRenderResult:', {
-                    count: grabResponse.renderImages.data.length,
-                    firstImageSize: grabResponse.renderImages.data[0].size,
-                    firstImageType: grabResponse.renderImages.data[0].type
+                    count: renderImages.data.length,
+                    firstImageSize: firstImage?.size,
+                    firstImageType: firstImage?.type,
+                    firstImageBufferSize: firstImage?.buffer?.size,
+                    firstImageBufferDataType: typeof firstImage?.buffer?.data,
+                    firstImageBufferDataLength: firstImage?.buffer?.data?.length
                   });
                   
                   this.emit('OnNewImage', {
-                    render_images: grabResponse.renderImages,
+                    render_images: renderImages,
                     callback_id: response.newImage?.callback_id,
                     user_data: response.newImage?.user_data
                   });
                 } else {
-                  console.warn('⚠️  grabRenderResult returned no images');
+                  console.warn('⚠️  grabRenderResult returned no images:', {
+                    hasRenderImages: !!grabResponse.renderImages,
+                    hasRenderimages: !!grabResponse.renderimages,
+                    responseKeys: Object.keys(grabResponse)
+                  });
                 }
+              })
+              .catch((error: any) => {
+                console.error('❌ grabRenderResult failed:', error.message);
               });
-            } catch (error: any) {
-              console.error('❌ Error calling grabRenderResult:', error.message);
-            }
           } else if (response.render_images && response.render_images.data) {
             // Fallback: maybe response is already the image data
             console.log('✅ [Stream] Found render_images at root level, emitting OnNewImage event');
