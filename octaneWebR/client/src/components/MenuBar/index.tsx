@@ -94,8 +94,11 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Open Render Network...', action: 'render.openRenderNetwork' },
       { label: 'Open Render Network (external)...', action: 'render.openRenderNetworkExternal' }
     ],
-    modules: [
+    module: [
       { label: 'No modules installed', enabled: false }
+    ],
+    cloud: [
+      { label: 'Cloud features not available in web version', enabled: false }
     ],
     script: [
       { label: 'Rescan script folder', action: 'script.rescanFolder' },
@@ -673,7 +676,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
   // Register keyboard shortcuts
   useKeyboardShortcuts(keyboardShortcuts);
 
-  const menuItems = ['file', 'edit', 'modules', 'script', 'window', 'help'];
+  const menuItems = ['file', 'edit', 'script', 'module', 'cloud', 'window', 'help'];
 
   return (
     <nav ref={menuBarRef} className="main-menu">
