@@ -16,7 +16,7 @@
  */
 
 import { useCallback, useState } from 'react';
-import { getWindowControlIcon, getPreviewModeIcon } from '../../utils/UIIconMapping';
+import { getWindowControlIcon, getPreviewModeIcon } from '../../constants/UIIconMapping';
 
 interface NodeGraphToolbarProps {
   gridVisible: boolean;

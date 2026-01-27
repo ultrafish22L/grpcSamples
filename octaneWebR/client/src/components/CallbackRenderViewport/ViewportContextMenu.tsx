@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import { getGeneralUIIcon, getWindowControlIcon } from '../../utils/UIIconMapping';
+import { getGeneralUIIcon, getWindowControlIcon } from '../../constants/UIIconMapping';
 
 interface ViewportContextMenuProps {
   visible: boolean;

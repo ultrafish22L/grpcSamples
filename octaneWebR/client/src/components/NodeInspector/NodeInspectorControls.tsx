@@ -6,7 +6,7 @@
 
 import { useState, useCallback } from 'react';
 import { SceneNode } from '../../services/OctaneClient';
-import { getNodeInspectorIcon } from '../../utils/UIIconMapping';
+import { getNodeInspectorIcon } from '../../constants/UIIconMapping';
 
 interface NodeInspectorControlsProps {
   sceneTree: SceneNode[];

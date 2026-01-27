@@ -18,7 +18,7 @@ import { AboutDialog } from '../dialogs/AboutDialog';
 import { SavePackageDialog } from '../dialogs/SavePackageDialog';
 import { MenuAction, MenuItem, MenuDefinition } from './types';
 import { commandHistory } from '../../services/CommandHistory';
-import { getMenuIcon } from '../../utils/MenuIconMapping';
+
 
 interface PanelVisibility {
   renderViewport: boolean;
@@ -74,11 +74,11 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Quit', action: 'file.quit', shortcut: 'Ctrl+Q' }
     ],
     edit: [
-      { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z', icon: getMenuIcon('edit.undo') },
-      { label: 'Redo', action: 'edit.redo', shortcut: 'Ctrl+Y', icon: getMenuIcon('edit.redo') },
+      { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z' },
+      { label: 'Redo', action: 'edit.redo', shortcut: 'Ctrl+Y' },
       { type: 'separator' },
       { label: 'Cut', action: 'edit.cut', shortcut: 'Ctrl+X' },
-      { label: 'Copy', action: 'edit.copy', shortcut: 'Ctrl+C', icon: getMenuIcon('edit.copy') },
+      { label: 'Copy', action: 'edit.copy', shortcut: 'Ctrl+C' },
       { label: 'Paste', action: 'edit.paste', shortcut: 'Ctrl+V' },
       { label: 'Delete', action: 'edit.delete', shortcut: 'Del' },
       { type: 'separator' },
@@ -91,37 +91,33 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Open Render Network (external)...', action: 'render.openRenderNetworkExternal' }
     ],
     script: [
-      { label: 'Batch Rendering...', action: 'script.batchRender', icon: getMenuIcon('script.batchRender') },
-      { label: 'Daylight Animation...', action: 'script.daylightAnimation', icon: getMenuIcon('script.daylightAnimation') },
-      { label: 'Turntable Animation...', action: 'script.turntableAnimation', icon: getMenuIcon('script.turntableAnimation') }
+      { label: 'Batch Rendering...', action: 'script.batchRender' },
+      { label: 'Daylight Animation...', action: 'script.daylightAnimation' },
+      { label: 'Turntable Animation...', action: 'script.turntableAnimation' }
     ],
     view: [
       { 
         label: 'Render Viewport', 
         action: 'view.renderViewport', 
-        icon: getMenuIcon('view.renderViewport'),
         checked: panelVisibility?.renderViewport ?? true
       },
       { 
         label: 'Node Inspector', 
         action: 'view.nodeInspector', 
-        icon: getMenuIcon('view.nodeInspector'),
         checked: panelVisibility?.nodeInspector ?? true
       },
       { 
         label: 'Graph Editor', 
         action: 'view.graphEditor', 
-        icon: getMenuIcon('view.graphEditor'),
         checked: panelVisibility?.graphEditor ?? true
       },
       { 
         label: 'Scene Outliner', 
         action: 'view.sceneOutliner', 
-        icon: getMenuIcon('view.sceneOutliner'),
         checked: panelVisibility?.sceneOutliner ?? true
       },
       { type: 'separator' },
-      { label: 'Refresh Scene', action: 'view.refresh', shortcut: 'F5', icon: getMenuIcon('view.refresh') }
+      { label: 'Refresh Scene', action: 'view.refresh', shortcut: 'F5' }
     ],
     window: [
       { label: 'Reset workspace', action: 'window.resetWorkspace' },
@@ -139,12 +135,12 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Create scene graph export', action: 'window.createSceneGraphExport' },
       { type: 'separator' },
       { label: 'Create script editor', action: 'window.createScriptEditor' },
-      { label: 'Create OSL editor', action: 'window.createOSLEditor', icon: getMenuIcon('window.createOSLEditor') },
+      { label: 'Create OSL editor', action: 'window.createOSLEditor' },
       { label: 'Create Lua API browser', action: 'window.createLuaAPIBrowser' },
       { label: 'Create USD stage editor', action: 'window.createUSDStageEditor' }
     ],
     help: [
-      { label: 'Documentation', action: 'help.docs', shortcut: 'F1', icon: getMenuIcon('help.docs') },
+      { label: 'Documentation', action: 'help.docs', shortcut: 'F1' },
       { label: 'Keyboard Shortcuts', action: 'help.shortcuts' },
       { type: 'separator' },
       { label: 'Report Bug', action: 'help.bug' },

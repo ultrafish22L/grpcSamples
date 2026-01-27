@@ -515,8 +515,6 @@ input:checked + .slider:before {
     position: relative; /* Establish positioning context */
 }
 
-/* .scene-loading - removed duplicate, see scene-outliner.css line 384 (superset with font-size) */
-
 /* Scene Outliner Tree Styles */
 .scene-outliner-toolbar {
     display: flex;

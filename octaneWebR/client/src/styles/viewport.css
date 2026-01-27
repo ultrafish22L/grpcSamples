@@ -659,8 +659,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: var(--octane-text-secondary);
-    font-size: var(--font-size-large); /* 14px */
-    text-align: center;
+    font-size: var(--font-size-large);
     z-index: var(--z-low);
 }
 
@@ -671,7 +670,7 @@
     padding: 6px 12px;
     background: var(--octane-bg-primary);
     border-top: 1px solid var(--octane-border);
-    font-size: var(--font-size-normal); /* 12px */
+    font-size: var(--font-size-normal);
     color: var(--octane-text-secondary);
 }
 
