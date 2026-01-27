@@ -144,11 +144,13 @@ export function NodeInspectorControls({
   const handleRenderLayerClick = useCallback(() => jumpToNode('render-layer', 'Render Layer'), [jumpToNode]);
   const handleAovGroupClick = useCallback(() => jumpToNode('aov-group', 'AOV Group'), [jumpToNode]);
   const handlePostProcessingClick = useCallback(() => jumpToNode('post-processing', 'Post Processing'), [jumpToNode]);
-  const handleCameraAltClick = useCallback(() => jumpToNode('camera-alt', 'Camera'), [jumpToNode]);
+  // Reserved for future icon toolbar buttons
+  // const handleCameraAltClick = useCallback(() => jumpToNode('camera-alt', 'Camera'), [jumpToNode]);
   const handleVisibleEnvironmentClick = useCallback(() => jumpToNode('visible-environment', 'Visible Environment'), [jumpToNode]);
   const handleFilmClick = useCallback(() => jumpToNode('film', 'Film'), [jumpToNode]);
   const handleKernelClick = useCallback(() => jumpToNode('kernel', 'Kernel'), [jumpToNode]);
-  const handleRenderAovClick = useCallback(() => jumpToNode('render-aov', 'Render AOV'), [jumpToNode]);
+  // Reserved for future icon toolbar buttons
+  // const handleRenderAovClick = useCallback(() => jumpToNode('render-aov', 'Render AOV'), [jumpToNode]);
   const handleCameraImagerClick = useCallback(() => jumpToNode('camera-imager', 'Imager'), [jumpToNode]);
   const handleRenderPassesClick = useCallback(() => jumpToNode('render-passes', 'Render Passes'), [jumpToNode]);
 

@@ -86,10 +86,14 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
             <h3>Render Targets</h3>
             <div className="form-field">
               <label>Select render targets to batch:</label>
-              <select multiple size={4} className="render-target-select">
-                <option value="RenderTarget_1"                            name="render-target-select-0"
-              >RenderTarget_1</option                            name="render-target-select-0"
+              <select 
+                multiple 
+                size={4} 
+                className="render-target-select"
+                name="render-target-select-0"
+                autoComplete="off"
               >
+                <option value="RenderTarget_1">RenderTarget_1</option>
                 <option value="RenderTarget_2">RenderTarget_2</option>
                 <option value="RenderTarget_3">RenderTarget_3</option>
               </select>

@@ -967,10 +967,12 @@ function NodeParameter({
             <span className="node-title">{name}</span>
             {showDropdown && (
               <div className="octane-inspector-dropdown-inline">
-                <select className="octane-inspector-target-select">
-                  <option value={dropdownValue}                              name="octane-inspector-target-select-34"
-                >{dropdownValue}</option                              name="octane-inspector-target-select-34"
+                <select 
+                  className="octane-inspector-target-select"
+                  name="octane-inspector-target-select-34"
+                  autoComplete="off"
                 >
+                  <option value={dropdownValue}>{dropdownValue}</option>
                 </select>
               </div>
             )}

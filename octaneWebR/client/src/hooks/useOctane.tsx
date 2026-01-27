@@ -33,7 +33,7 @@ export function OctaneProvider({ children }: { children: React.ReactNode }) {
     const handleConnected = () => setConnected(true);
     const handleDisconnected = () => setConnected(false);
     const handleSceneTreeUpdated = (newScene: Scene) => setScene(newScene);
-    const handleNodeAdded = (event: NodeAddedEvent) => {
+    const handleNodeAdded = (_event: NodeAddedEvent) => {
       // Trigger React re-render with shallow copy
       setScene(prevScene => {
         if (!prevScene) return prevScene;
