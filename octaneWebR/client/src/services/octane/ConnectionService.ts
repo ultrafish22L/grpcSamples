@@ -71,19 +71,23 @@ export class ConnectionService extends BaseService {
       this.ws = new WebSocket(wsUrl);
       
       this.ws.onopen = () => {
+        // Store ws reference to avoid potential race conditions
+        const ws = this.ws;
+        if (!ws) return;
+        
         Logger.success('WebSocket connected');
-        // Double-check readyState to handle browser timing issues
-        // Some browsers may fire onopen before WebSocket is fully ready
-        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-          this.ws.send(JSON.stringify({ type: 'subscribe' }));
-        } else if (this.ws) {
-          // If not ready yet, schedule retry after a brief delay
-          setTimeout(() => {
-            if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-              this.ws.send(JSON.stringify({ type: 'subscribe' }));
-            }
-          }, 100);
-        }
+        Logger.debug(`WebSocket readyState on open: ${ws.readyState} (OPEN=${WebSocket.OPEN})`);
+        
+        // Use a small delay to ensure WebSocket is fully transitioned to OPEN state
+        // This handles edge cases where some browsers may call onopen slightly early
+        setTimeout(() => {
+          if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ type: 'subscribe' }));
+            Logger.debug('Sent subscribe message to WebSocket');
+          } else {
+            Logger.warn(`WebSocket not in OPEN state after onopen (state: ${ws?.readyState})`);
+          }
+        }, 50);
       };
       
       this.ws.onmessage = (event: MessageEvent) => {
