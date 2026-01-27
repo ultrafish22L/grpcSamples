@@ -170,6 +170,8 @@ export function SearchDialog({ visible, nodes, onClose, onSelectNodes }: SearchD
               handleSelectAll();
             }
           }}
+                              autoComplete="off"
+                      name="text-0"
         />
 
         {/* Results */}

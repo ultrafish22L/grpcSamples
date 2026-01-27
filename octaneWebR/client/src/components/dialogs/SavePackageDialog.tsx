@@ -120,6 +120,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                 onChange={(e) => setFilename(e.target.value)}
                 placeholder="scene.orbx"
                 disabled={isProcessing}
+                                          autoComplete="off"
+                            name="text-0"
               />
               <p className="help-text">
                 ORBX packages all scene data, geometry, textures, and materials into a single portable file.
@@ -138,6 +140,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                   checked={settings.mergeScatterInstances}
                   onChange={(e) => updateSetting('mergeScatterInstances', e.target.checked)}
                   disabled={isProcessing}
+                                              autoComplete="off"
+                              name="checkbox-1"
                 />
                 Merge scatter instances
               </label>
@@ -155,6 +159,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                   value={settings.includeInstancePercentage}
                   onChange={(e) => updateSetting('includeInstancePercentage', parseFloat(e.target.value))}
                   disabled={isProcessing}
+                                              autoComplete="off"
+                              name="range-2"
                 />
                 <input
                   type="number"
@@ -165,6 +171,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                   step="1"
                   className="number-input-small"
                   disabled={isProcessing}
+                                              autoComplete="off"
+                              name="number-input-small-3"
                 />
                 <span>%</span>
               </div>
@@ -182,6 +190,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                   value={settings.ignoreSmallObjectPercentage}
                   onChange={(e) => updateSetting('ignoreSmallObjectPercentage', parseFloat(e.target.value))}
                   disabled={isProcessing}
+                                              autoComplete="off"
+                              name="range-4"
                 />
                 <input
                   type="number"
@@ -192,6 +202,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                   step="1"
                   className="number-input-small"
                   disabled={isProcessing}
+                                              autoComplete="off"
+                              name="number-input-small-5"
                 />
                 <span>%</span>
               </div>
@@ -210,6 +222,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                   checked={settings.exportAnimation}
                   onChange={(e) => updateSetting('exportAnimation', e.target.checked)}
                   disabled={isProcessing}
+                                              autoComplete="off"
+                              name="checkbox-6"
                 />
                 Export animation
               </label>
@@ -229,6 +243,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                     max="120"
                     step="1"
                     disabled={isProcessing}
+                                                  autoComplete="off"
+                                name="number-7"
                   />
                   <span className="unit">fps</span>
                   <p className="help-text">Frames per second for animation</p>
@@ -241,6 +257,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                       checked={settings.enableCustomAnimationTimespan}
                       onChange={(e) => updateSetting('enableCustomAnimationTimespan', e.target.checked)}
                       disabled={isProcessing}
+                                                      autoComplete="off"
+                                  name="checkbox-8"
                     />
                     Custom animation timespan
                   </label>
@@ -258,6 +276,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                           value={settings.customAnimationStart}
                           onChange={(e) => updateSetting('customAnimationStart', parseFloat(e.target.value) || 0)}
                           disabled={isProcessing}
+                                                              autoComplete="off"
+                                      name="number-9"
                         />
                       </div>
                       <div>
@@ -268,6 +288,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                           value={settings.customAnimationEnd}
                           onChange={(e) => updateSetting('customAnimationEnd', parseFloat(e.target.value) || 100)}
                           disabled={isProcessing}
+                                                              autoComplete="off"
+                                      name="number-10"
                         />
                       </div>
                     </div>
@@ -288,6 +310,8 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
                   checked={settings.exportNestedReferenceGraphs}
                   onChange={(e) => updateSetting('exportNestedReferenceGraphs', e.target.checked)}
                   disabled={isProcessing}
+                                              autoComplete="off"
+                              name="checkbox-11"
                 />
                 Export nested reference graphs
               </label>

@@ -88,6 +88,8 @@ export function SaveRenderDialog({ isOpen, onClose }: SaveRenderDialogProps) {
               onChange={(e) => setFilename(e.target.value)}
               placeholder="Enter filename"
               disabled={saving}
+                                      autoComplete="off"
+                          name="form-control-0"
             />
           </div>
 
@@ -99,6 +101,7 @@ export function SaveRenderDialog({ isOpen, onClose }: SaveRenderDialogProps) {
               value={format}
               onChange={(e) => setFormat(e.target.value as ImageFormat)}
               disabled={saving}
+                                      name="form-control-1"
             >
               <option value="PNG">PNG (Lossless, Alpha support)</option>
               <option value="JPG">JPG (Smaller file size)</option>

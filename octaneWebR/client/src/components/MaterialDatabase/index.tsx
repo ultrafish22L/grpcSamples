@@ -171,6 +171,7 @@ export function MaterialDatabase({ visible, onClose }: MaterialDatabaseProps) {
             value={selectedCategory || ''}
             onChange={(e) => handleCategoryChange(e.target.value)}
             disabled={loading || categories.length === 0}
+                                  name="select-0"
           >
             <option value="">Select a category...</option>
             {categories.map((cat) => (

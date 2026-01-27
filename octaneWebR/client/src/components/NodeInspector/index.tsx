@@ -280,6 +280,8 @@ function NodeParameter({
               checked={boolValue}
               onChange={(e) => handleValueChange(e.target.checked)}
               id={`checkbox-${node.handle}`}
+                                      autoComplete="off"
+                          name="octane-checkbox-0"
             />
           </div>
         );
@@ -301,6 +303,8 @@ function NodeParameter({
                 value={floatValue || 0}
                 step={step}
                 onChange={(e) => handleValueChange(formatFloat(parseFloat(e.target.value)))}
+                                          autoComplete="off"
+                            name="octane-number-input-1"
               />
               {useSliders && (
                 <div className="parameter-spinner-container">
@@ -341,6 +345,8 @@ function NodeParameter({
                 value={formatFloat(x)}
                 step={step}
                 onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y })}
+                                          autoComplete="off"
+                            name="octane-number-input-2"
               />
               {dimCount >= 2 && (
                 <input 
@@ -349,6 +355,8 @@ function NodeParameter({
                   value={formatFloat(y)}
                   step={step}
                   onChange={(e) => handleValueChange({ x, y: formatFloat(parseFloat(e.target.value)) })}
+                                              autoComplete="off"
+                              name="octane-number-input-3"
                 />
               )}
             </div>
@@ -382,6 +390,8 @@ function NodeParameter({
                     const b = parseInt(hex.substring(5, 7), 16) / 255;
                     handleValueChange({ x: formatFloat(r), y: formatFloat(g), z: formatFloat(b) });
                   }}
+                                              autoComplete="off"
+                              name="octane-color-input-4"
                 />
               </div>
             );
@@ -394,6 +404,8 @@ function NodeParameter({
                   value={formatFloat(x)}
                   step={step}
                   onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y, z })}
+                                              autoComplete="off"
+                              name="octane-number-input-5"
                 />
                 {dimCount >= 2 && (
                   <input 
@@ -402,6 +414,8 @@ function NodeParameter({
                     value={formatFloat(y)}
                     step={step}
                     onChange={(e) => handleValueChange({ x, y: formatFloat(parseFloat(e.target.value)), z })}
+                                                  autoComplete="off"
+                                name="octane-number-input-6"
                   />
                 )}
                 {dimCount >= 3 && (
@@ -411,6 +425,8 @@ function NodeParameter({
                     value={formatFloat(z)}
                     step={step}
                     onChange={(e) => handleValueChange({ x, y, z: formatFloat(parseFloat(e.target.value)) })}
+                                                  autoComplete="off"
+                                name="octane-number-input-7"
                   />
                 )}
               </div>
@@ -438,6 +454,8 @@ function NodeParameter({
                     value={formatFloat(x)}
                     step={step}
                     onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y, z, w })}
+                                                  autoComplete="off"
+                                name="octane-number-input-8"
                   />
                 </div>
               );
@@ -451,6 +469,8 @@ function NodeParameter({
                     value={formatFloat(x)}
                     step={step}
                     onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y, z, w })}
+                                                  autoComplete="off"
+                                name="octane-number-input-9"
                   />
                   <input 
                     type="number" 
@@ -458,6 +478,8 @@ function NodeParameter({
                     value={formatFloat(y)}
                     step={step}
                     onChange={(e) => handleValueChange({ x, y: formatFloat(parseFloat(e.target.value)), z, w })}
+                                                  autoComplete="off"
+                                name="octane-number-input-10"
                   />
                 </div>
               );
@@ -471,6 +493,8 @@ function NodeParameter({
                     value={formatFloat(x)}
                     step={step}
                     onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y, z, w })}
+                                                  autoComplete="off"
+                                name="octane-number-input-11"
                   />
                   <input 
                     type="number" 
@@ -478,6 +502,8 @@ function NodeParameter({
                     value={formatFloat(y)}
                     step={step}
                     onChange={(e) => handleValueChange({ x, y: formatFloat(parseFloat(e.target.value)), z, w })}
+                                                  autoComplete="off"
+                                name="octane-number-input-12"
                   />
                   <input 
                     type="number" 
@@ -485,6 +511,8 @@ function NodeParameter({
                     value={formatFloat(z)}
                     step={step}
                     onChange={(e) => handleValueChange({ x, y, z: formatFloat(parseFloat(e.target.value)), w })}
+                                                  autoComplete="off"
+                                name="octane-number-input-13"
                   />
                 </div>
               );
@@ -498,6 +526,8 @@ function NodeParameter({
                     value={formatFloat(x)}
                     step={step}
                     onChange={(e) => handleValueChange({ x: formatFloat(parseFloat(e.target.value)), y, z, w })}
+                                                  autoComplete="off"
+                                name="octane-number-input-14"
                   />
                   <input 
                     type="number" 
@@ -505,6 +535,8 @@ function NodeParameter({
                     value={formatFloat(y)}
                     step={step}
                     onChange={(e) => handleValueChange({ x, y: formatFloat(parseFloat(e.target.value)), z, w })}
+                                                  autoComplete="off"
+                                name="octane-number-input-15"
                   />
                   <input 
                     type="number" 
@@ -512,6 +544,8 @@ function NodeParameter({
                     value={formatFloat(z)}
                     step={step}
                     onChange={(e) => handleValueChange({ x, y, z: formatFloat(parseFloat(e.target.value)), w })}
+                                                  autoComplete="off"
+                                name="octane-number-input-16"
                   />
                   <input 
                     type="number" 
@@ -519,6 +553,8 @@ function NodeParameter({
                     value={formatFloat(w)}
                     step={step}
                     onChange={(e) => handleValueChange({ x, y, z, w: formatFloat(parseFloat(e.target.value)) })}
+                                                  autoComplete="off"
+                                name="octane-number-input-17"
                   />
                 </div>
               );
@@ -540,6 +576,7 @@ function NodeParameter({
                 className="octane-dropdown parameter-control" 
                 value={intValue || 0}
                 onChange={(e) => handleValueChange(parseInt(e.target.value))}
+                                          name="octane-dropdown-18"
               >
                 {enumOptions.map((option: any, idx: number) => (
                   <option key={idx} value={option.value}>
@@ -563,6 +600,8 @@ function NodeParameter({
                   value={intValue || 0}
                   step={step}
                   onChange={(e) => handleValueChange(parseInt(e.target.value))}
+                                              autoComplete="off"
+                              name="octane-number-input-19"
                 />
                 {useSliders && (
                   <div className="parameter-spinner-container">
@@ -604,6 +643,8 @@ function NodeParameter({
                 value={x || 0}
                 step={step}
                 onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y })}
+                                          autoComplete="off"
+                            name="octane-number-input-20"
               />
               {dimCount >= 2 && (
                 <input 
@@ -612,6 +653,8 @@ function NodeParameter({
                   value={y || 0}
                   step={step}
                   onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value) })}
+                                              autoComplete="off"
+                              name="octane-number-input-21"
                 />
               )}
             </div>
@@ -635,6 +678,8 @@ function NodeParameter({
                 value={x || 0}
                 step={step}
                 onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y, z })}
+                                          autoComplete="off"
+                            name="octane-number-input-22"
               />
               {dimCount >= 2 && (
                 <input 
@@ -643,6 +688,8 @@ function NodeParameter({
                   value={y || 0}
                   step={step}
                   onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value), z })}
+                                              autoComplete="off"
+                              name="octane-number-input-23"
                 />
               )}
               {dimCount >= 3 && (
@@ -652,6 +699,8 @@ function NodeParameter({
                   value={z || 0}
                   step={step}
                   onChange={(e) => handleValueChange({ x, y, z: parseInt(e.target.value) })}
+                                              autoComplete="off"
+                              name="octane-number-input-24"
                 />
               )}
             </div>
@@ -677,6 +726,8 @@ function NodeParameter({
                 value={x || 0}
                 step={step}
                 onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y, z, w })}
+                                          autoComplete="off"
+                            name="octane-number-input-25"
               />
             );
           }
@@ -689,6 +740,8 @@ function NodeParameter({
                 value={y || 0}
                 step={step}
                 onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value), z, w })}
+                                          autoComplete="off"
+                            name="octane-number-input-26"
               />
             );
           }
@@ -701,6 +754,8 @@ function NodeParameter({
                 value={z || 0}
                 step={step}
                 onChange={(e) => handleValueChange({ x, y, z: parseInt(e.target.value), w })}
+                                          autoComplete="off"
+                            name="octane-number-input-27"
               />
             );
           }
@@ -713,6 +768,8 @@ function NodeParameter({
                 value={w || 0}
                 step={step}
                 onChange={(e) => handleValueChange({ x, y, z, w: parseInt(e.target.value) })}
+                                          autoComplete="off"
+                            name="octane-number-input-28"
               />
             );
           }
@@ -737,6 +794,8 @@ function NodeParameter({
                 value={longValue || 0}
                 step="1"
                 onChange={(e) => handleValueChange(parseInt(e.target.value))}
+                                          autoComplete="off"
+                            name="octane-number-input-29"
               />
               <div className="parameter-spinner-container">
                 <button 
@@ -771,6 +830,8 @@ function NodeParameter({
                 value={x || 0}
                 step="1"
                 onChange={(e) => handleValueChange({ x: parseInt(e.target.value), y })}
+                                          autoComplete="off"
+                            name="octane-number-input-30"
               />
               <input 
                 type="number" 
@@ -778,6 +839,8 @@ function NodeParameter({
                 value={y || 0}
                 step="1"
                 onChange={(e) => handleValueChange({ x, y: parseInt(e.target.value) })}
+                                          autoComplete="off"
+                            name="octane-number-input-31"
               />
             </div>
           );
@@ -793,6 +856,8 @@ function NodeParameter({
             className="octane-text-input parameter-control" 
             value={stringValue}
             onChange={(e) => handleValueChange(e.target.value)}
+                                  autoComplete="off"
+                        name="octane-text-input-32"
           />
         );
         break;
@@ -807,6 +872,8 @@ function NodeParameter({
             className="octane-text-input parameter-control" 
             value={stringValue}
             onChange={(e) => handleValueChange(e.target.value)}
+                                  autoComplete="off"
+                        name="octane-text-input-33"
           />
         );
         break;
@@ -901,7 +968,9 @@ function NodeParameter({
             {showDropdown && (
               <div className="octane-inspector-dropdown-inline">
                 <select className="octane-inspector-target-select">
-                  <option value={dropdownValue}>{dropdownValue}</option>
+                  <option value={dropdownValue}                              name="octane-inspector-target-select-34"
+                >{dropdownValue}</option                              name="octane-inspector-target-select-34"
+                >
                 </select>
               </div>
             )}

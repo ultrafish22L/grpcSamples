@@ -101,6 +101,8 @@ export function TurntableAnimationDialog({ isOpen, onClose }: TurntableAnimation
                   step="0.1"
                   value={duration}
                   onChange={e => setDuration(parseFloat(e.target.value))}
+                                              autoComplete="off"
+                              name="number-0"
                 />
                 <span className="field-unit">sec</span>
               </div>
@@ -112,6 +114,8 @@ export function TurntableAnimationDialog({ isOpen, onClose }: TurntableAnimation
                   max="120"
                   value={frameRate}
                   onChange={e => setFrameRate(parseInt(e.target.value))}
+                                              autoComplete="off"
+                              name="number-1"
                 />
                 <span className="field-unit">fps</span>
               </div>
@@ -127,6 +131,8 @@ export function TurntableAnimationDialog({ isOpen, onClose }: TurntableAnimation
                   setFrames(newFrames);
                   setDuration(newFrames / frameRate);
                 }}
+                                          autoComplete="off"
+                            name="number-2"
               />
               <p className="field-hint">
                 Duration and Frames re-adjust when you change either value
@@ -145,6 +151,8 @@ export function TurntableAnimationDialog({ isOpen, onClose }: TurntableAnimation
                 step="1"
                 value={shutterSpeed}
                 onChange={e => setShutterSpeed(parseFloat(e.target.value))}
+                                          autoComplete="off"
+                            name="number-3"
               />
               <span className="field-unit">%</span>
               <p className="field-hint">
@@ -165,6 +173,8 @@ export function TurntableAnimationDialog({ isOpen, onClose }: TurntableAnimation
                 max="100000"
                 value={samplesPerPixel}
                 onChange={e => setSamplesPerPixel(parseInt(e.target.value))}
+                                          autoComplete="off"
+                            name="number-4"
               />
               <p className="field-hint">
                 Number of kernel samples per pixel
@@ -183,6 +193,8 @@ export function TurntableAnimationDialog({ isOpen, onClose }: TurntableAnimation
                   value={outputPath}
                   onChange={e => setOutputPath(e.target.value)}
                   placeholder="/path/to/output/folder"
+                                              autoComplete="off"
+                              name="text-5"
                 />
                 <button
                   className="button-secondary"
@@ -203,6 +215,8 @@ export function TurntableAnimationDialog({ isOpen, onClose }: TurntableAnimation
                   min="0"
                   value={startFileNumbering}
                   onChange={e => setStartFileNumbering(parseInt(e.target.value))}
+                                              autoComplete="off"
+                              name="number-6"
                 />
               </div>
             </div>
@@ -212,6 +226,8 @@ export function TurntableAnimationDialog({ isOpen, onClose }: TurntableAnimation
                   type="checkbox"
                   checked={skipExisting}
                   onChange={e => setSkipExisting(e.target.checked)}
+                                              autoComplete="off"
+                              name="checkbox-7"
                 />
                 Skip Existing Image Files
               </label>

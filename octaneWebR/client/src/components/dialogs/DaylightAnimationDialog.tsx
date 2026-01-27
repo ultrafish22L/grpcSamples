@@ -104,6 +104,8 @@ export function DaylightAnimationDialog({ isOpen, onClose }: DaylightAnimationDi
                   step="0.5"
                   value={startHour}
                   onChange={e => setStartHour(parseFloat(e.target.value))}
+                                              autoComplete="off"
+                              name="number-0"
                 />
                 <span className="field-unit">h</span>
               </div>
@@ -116,6 +118,8 @@ export function DaylightAnimationDialog({ isOpen, onClose }: DaylightAnimationDi
                   step="0.5"
                   value={endHour}
                   onChange={e => setEndHour(parseFloat(e.target.value))}
+                                              autoComplete="off"
+                              name="number-1"
                 />
                 <span className="field-unit">h</span>
               </div>
@@ -137,6 +141,8 @@ export function DaylightAnimationDialog({ isOpen, onClose }: DaylightAnimationDi
                   step="0.1"
                   value={duration}
                   onChange={e => setDuration(parseFloat(e.target.value))}
+                                              autoComplete="off"
+                              name="number-2"
                 />
                 <span className="field-unit">sec</span>
               </div>
@@ -148,6 +154,8 @@ export function DaylightAnimationDialog({ isOpen, onClose }: DaylightAnimationDi
                   max="120"
                   value={frameRate}
                   onChange={e => setFrameRate(parseInt(e.target.value))}
+                                              autoComplete="off"
+                              name="number-3"
                 />
                 <span className="field-unit">fps</span>
               </div>
@@ -163,6 +171,8 @@ export function DaylightAnimationDialog({ isOpen, onClose }: DaylightAnimationDi
                   setFrames(newFrames);
                   setDuration(newFrames / frameRate);
                 }}
+                                          autoComplete="off"
+                            name="number-4"
               />
               <p className="field-hint">
                 Total frames calculated from duration and framerate (or enter manually to adjust duration)
@@ -181,6 +191,8 @@ export function DaylightAnimationDialog({ isOpen, onClose }: DaylightAnimationDi
                 max="100000"
                 value={samplesPerPixel}
                 onChange={e => setSamplesPerPixel(parseInt(e.target.value))}
+                                          autoComplete="off"
+                            name="number-5"
               />
               <p className="field-hint">
                 Number of kernel samples per pixel
@@ -199,6 +211,8 @@ export function DaylightAnimationDialog({ isOpen, onClose }: DaylightAnimationDi
                   value={outputPath}
                   onChange={e => setOutputPath(e.target.value)}
                   placeholder="/path/to/output/folder"
+                                              autoComplete="off"
+                              name="text-6"
                 />
                 <button
                   className="button-secondary"
@@ -219,6 +233,8 @@ export function DaylightAnimationDialog({ isOpen, onClose }: DaylightAnimationDi
                   min="0"
                   value={startFileNumbering}
                   onChange={e => setStartFileNumbering(parseInt(e.target.value))}
+                                              autoComplete="off"
+                              name="number-7"
                 />
               </div>
             </div>
@@ -228,6 +244,8 @@ export function DaylightAnimationDialog({ isOpen, onClose }: DaylightAnimationDi
                   type="checkbox"
                   checked={skipExisting}
                   onChange={e => setSkipExisting(e.target.checked)}
+                                              autoComplete="off"
+                              name="checkbox-8"
                 />
                 Skip Existing Image Files
               </label>

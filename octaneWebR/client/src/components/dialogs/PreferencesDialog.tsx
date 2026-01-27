@@ -114,7 +114,9 @@ function ApplicationTab() {
         <h4>Performance</h4>
         <label className="preference-field">
           <span>Max CPU cores for AI training:</span>
-          <input type="number" min="1" max="32" defaultValue="8" />
+          <input type="number" min="1" max="32" defaultValue="8"                         autoComplete="off"
+                        name="preference-description-0"
+          />
         </label>
         <p className="preference-description">
           Limit the number of CPU cores used for AI scene training. Leave empty to use all available cores.
@@ -135,7 +137,9 @@ function ApplicationTab() {
       <div className="preference-section">
         <h4>Developer Options</h4>
         <label className="preference-checkbox">
-          <input type="checkbox" />
+          <input type="checkbox"                         autoComplete="off"
+                        name="preference-description-1"
+          />
           <span>Enable developer mode</span>
         </label>
         <label className="preference-field">
@@ -144,6 +148,7 @@ function ApplicationTab() {
             rows={4}
             placeholder="~/octane/osl&#10;/usr/local/octane/includes"
             style={{ fontFamily: 'monospace', fontSize: '12px' }}
+                                  name="textarea-2"
           />
         </label>
         <p className="preference-description">
@@ -235,7 +240,9 @@ function DevicesTab() {
           <span>Use all available GPUs for rendering</span>
         </label>
         <label className="preference-checkbox">
-          <input type="checkbox" />
+          <input type="checkbox"                         autoComplete="off"
+                        name="preference-checkbox-3"
+          />
           <span>Enable GPU viewport acceleration</span>
         </label>
       </div>
@@ -251,7 +258,9 @@ function DevicesTab() {
         </p>
         <label className="preference-field">
           <span>Out-of-core cache size (GB):</span>
-          <input type="number" min="1" max="500" defaultValue="10" />
+          <input type="number" min="1" max="500" defaultValue="10"                         autoComplete="off"
+                        name="preference-description-4"
+          />
         </label>
       </div>
     </div>

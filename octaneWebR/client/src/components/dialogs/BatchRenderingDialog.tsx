@@ -87,7 +87,9 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
             <div className="form-field">
               <label>Select render targets to batch:</label>
               <select multiple size={4} className="render-target-select">
-                <option value="RenderTarget_1">RenderTarget_1</option>
+                <option value="RenderTarget_1"                            name="render-target-select-0"
+              >RenderTarget_1</option                            name="render-target-select-0"
+              >
                 <option value="RenderTarget_2">RenderTarget_2</option>
                 <option value="RenderTarget_3">RenderTarget_3</option>
               </select>
@@ -106,6 +108,7 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                 <select
                   value={selectedFormat}
                   onChange={e => setSelectedFormat(e.target.value)}
+                                              name="select-1"
                 >
                   <option>PNG 8bit sRGB</option>
                   <option>PNG 16bit Linear</option>
@@ -121,6 +124,7 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                 <select
                   value={colorSpace}
                   onChange={e => setColorSpace(e.target.value)}
+                                              name="select-2"
                 >
                   <option>sRGB</option>
                   <option>Linear sRGB</option>
@@ -144,6 +148,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   max="120"
                   value={frameRate}
                   onChange={e => setFrameRate(parseInt(e.target.value))}
+                                              autoComplete="off"
+                              name="number-3"
                 />
               </div>
               <div className="form-field">
@@ -153,6 +159,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   min="0"
                   value={startFrame}
                   onChange={e => setStartFrame(parseInt(e.target.value))}
+                                              autoComplete="off"
+                              name="number-4"
                 />
               </div>
               <div className="form-field">
@@ -162,6 +170,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   min="0"
                   value={endFrame}
                   onChange={e => setEndFrame(parseInt(e.target.value))}
+                                              autoComplete="off"
+                              name="number-5"
                 />
               </div>
             </div>
@@ -173,6 +183,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   min="1"
                   value={subFrame}
                   onChange={e => setSubFrame(parseInt(e.target.value))}
+                                              autoComplete="off"
+                              name="number-6"
                 />
               </div>
               <div className="form-field">
@@ -182,6 +194,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   min="0"
                   value={fileNumbering}
                   onChange={e => setFileNumbering(parseInt(e.target.value))}
+                                              autoComplete="off"
+                              name="number-7"
                 />
               </div>
             </div>
@@ -196,6 +210,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   type="checkbox"
                   checked={overrideSamples}
                   onChange={e => setOverrideSamples(e.target.checked)}
+                                              autoComplete="off"
+                              name="checkbox-8"
                 />
                 Override samples per pixel
               </label>
@@ -207,6 +223,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   value={maxSamples}
                   onChange={e => setMaxSamples(parseInt(e.target.value))}
                   style={{ marginLeft: '20px', width: '100px' }}
+                                              autoComplete="off"
+                              name="number-9"
                 />
               )}
             </div>
@@ -222,6 +240,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                 value={filenameTemplate}
                 onChange={e => setFilenameTemplate(e.target.value)}
                 style={{ fontFamily: 'monospace' }}
+                                          autoComplete="off"
+                            name="text-10"
               />
               <p className="field-hint">
                 Variables: %i=index, %n=name, %e=extension, %t=timestamp, %f=frame, %p=pass
@@ -235,6 +255,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   value={outputFolder}
                   onChange={e => setOutputFolder(e.target.value)}
                   placeholder="/path/to/output/folder"
+                                              autoComplete="off"
+                              name="text-11"
                 />
                 <button
                   className="button-secondary"
@@ -258,6 +280,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   type="checkbox"
                   checked={skipExisting}
                   onChange={e => setSkipExisting(e.target.checked)}
+                                              autoComplete="off"
+                              name="checkbox-12"
                 />
                 Skip already existing files
               </label>
@@ -268,6 +292,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   type="checkbox"
                   checked={saveAllPasses}
                   onChange={e => setSaveAllPasses(e.target.checked)}
+                                              autoComplete="off"
+                              name="checkbox-13"
                 />
                 Save all enabled passes
               </label>
@@ -278,6 +304,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                   type="checkbox"
                   checked={saveDenoisedMain}
                   onChange={e => setSaveDenoisedMain(e.target.checked)}
+                                              autoComplete="off"
+                              name="checkbox-14"
                 />
                 Save denoised main pass if available
               </label>
@@ -290,6 +318,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                       type="checkbox"
                       checked={saveLayeredEXR}
                       onChange={e => setSaveLayeredEXR(e.target.checked)}
+                                                      autoComplete="off"
+                                  name="checkbox-15"
                     />
                     Save layered EXR
                   </label>
@@ -300,6 +330,8 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
                       type="checkbox"
                       checked={premultipliedAlpha}
                       onChange={e => setPremultipliedAlpha(e.target.checked)}
+                                                      autoComplete="off"
+                                  name="checkbox-16"
                     />
                     Premultiplied alpha
                   </label>

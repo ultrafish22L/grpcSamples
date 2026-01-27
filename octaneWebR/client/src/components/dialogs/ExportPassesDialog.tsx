@@ -92,6 +92,8 @@ export function ExportPassesDialog({ isOpen, onClose }: ExportPassesDialogProps)
               onChange={(e) => setOutputDirectory(e.target.value)}
               placeholder="Enter directory path"
               disabled={exporting}
+                                      autoComplete="off"
+                          name="form-control-0"
             />
             <small className="form-text">Directory where all pass files will be saved</small>
           </div>
@@ -106,6 +108,8 @@ export function ExportPassesDialog({ isOpen, onClose }: ExportPassesDialogProps)
               onChange={(e) => setFilenamePrefix(e.target.value)}
               placeholder="Enter prefix"
               disabled={exporting}
+                                      autoComplete="off"
+                          name="form-control-1"
             />
             <small className="form-text">Each pass will be saved as: prefix_passname.ext</small>
           </div>
@@ -118,6 +122,7 @@ export function ExportPassesDialog({ isOpen, onClose }: ExportPassesDialogProps)
               value={format}
               onChange={(e) => setFormat(e.target.value as ImageFormat)}
               disabled={exporting}
+                                      name="form-control-2"
             >
               <option value="PNG">PNG (Lossless, Alpha support)</option>
               <option value="JPG">JPG (Smaller file size)</option>
