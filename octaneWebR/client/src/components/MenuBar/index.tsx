@@ -86,8 +86,8 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { type: 'separator' },
       { label: 'Find...', action: 'edit.find', shortcut: 'Ctrl+F' },
       { type: 'separator' },
-      { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z' },
-      { label: 'Redo', action: 'edit.redo', shortcut: 'Ctrl+Y' }
+      { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z', enabled: false },
+      { label: 'Redo', action: 'edit.redo', shortcut: 'Ctrl+Y', enabled: false }
     ],
     module: [
       { label: 'No modules installed', enabled: false }
@@ -642,18 +642,19 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
       description: 'Find',
       handler: () => handleMenuAction('edit.find')
     },
-    {
-      key: 'z',
-      ctrl: true,
-      description: 'Undo',
-      handler: () => handleMenuAction('edit.undo')
-    },
-    {
-      key: 'y',
-      ctrl: true,
-      description: 'Redo',
-      handler: () => handleMenuAction('edit.redo')
-    },
+    // Undo/Redo disabled - not yet integrated with Octane
+    // {
+    //   key: 'z',
+    //   ctrl: true,
+    //   description: 'Undo',
+    //   handler: () => handleMenuAction('edit.undo')
+    // },
+    // {
+    //   key: 'y',
+    //   ctrl: true,
+    //   description: 'Redo',
+    //   handler: () => handleMenuAction('edit.redo')
+    // },
     {
       key: 'r',
       ctrl: true,
