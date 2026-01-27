@@ -766,7 +766,12 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
       updateOctaneCameraThrottled();
     };
 
-    const handleMouseUp = async () => {
+    const handleMouseUp = async (e: MouseEvent) => {
+      // Prevent browser context menu on right-click release (button 2)
+      if (e.button === 2) {
+        e.preventDefault();
+      }
+      
       // REGION SELECTION MODE: Complete region and apply to Octane
       if (isSelectingRegion && regionStart && regionEnd) {
         setIsSelectingRegion(false);
