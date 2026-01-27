@@ -24,9 +24,15 @@ interface SearchDialogProps {
   onSelectNodes: (nodeIds: string[]) => void;
 }
 
+interface SearchResult {
+  node: Node<OctaneNodeData>;
+  matchType: 'nodeName' | 'nodeType' | 'pinName';
+  matchedPins?: string[];
+}
+
 export function SearchDialog({ visible, nodes, onClose, onSelectNodes }: SearchDialogProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [results, setResults] = useState<Node<OctaneNodeData>[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Focus input when dialog opens
@@ -61,28 +67,38 @@ export function SearchDialog({ visible, nodes, onClose, onSelectNodes }: SearchD
     }
 
     const term = searchTerm.toLowerCase();
-    const matches: Node<OctaneNodeData>[] = [];
+    const matches: SearchResult[] = [];
 
     nodes.forEach((node) => {
       const data = node.data as OctaneNodeData;
       const nodeName = data.sceneNode.name?.toLowerCase() || '';
       const nodeTypeName = data.sceneNode.nodeInfo?.nodeTypeName?.toLowerCase() || '';
       
-      // Search in node name
-      if (nodeName.includes(term) || nodeTypeName.includes(term)) {
-        matches.push(node);
+      // Search in node name (highest priority)
+      if (nodeName.includes(term)) {
+        matches.push({ node, matchType: 'nodeName' });
         return;
       }
 
-      // Search in pin names (inputs)
+      // Search in node type name
+      if (nodeTypeName.includes(term)) {
+        matches.push({ node, matchType: 'nodeType' });
+        return;
+      }
+
+      // Search in pin names (dynamic pins)
       const inputs = data.sceneNode.children || [];
-      const hasPinMatch = inputs.some((pin: any) => {
+      const matchedPins: string[] = [];
+      
+      inputs.forEach((pin: any) => {
         const pinName = pin.name?.toLowerCase() || '';
-        return pinName.includes(term);
+        if (pinName.includes(term)) {
+          matchedPins.push(pin.name);
+        }
       });
 
-      if (hasPinMatch) {
-        matches.push(node);
+      if (matchedPins.length > 0) {
+        matches.push({ node, matchType: 'pinName', matchedPins });
       }
     });
 
@@ -91,7 +107,7 @@ export function SearchDialog({ visible, nodes, onClose, onSelectNodes }: SearchD
 
   // Select all matching nodes
   const handleSelectAll = () => {
-    const nodeIds = results.map((node) => node.id);
+    const nodeIds = results.map((result) => result.node.id);
     onSelectNodes(nodeIds);
     onClose();
   };
@@ -205,8 +221,20 @@ export function SearchDialog({ visible, nodes, onClose, onSelectNodes }: SearchD
               marginBottom: '15px',
             }}
           >
-            {results.map((node) => {
+            {results.map((result) => {
+              const { node, matchType, matchedPins } = result;
               const data = node.data as OctaneNodeData;
+              
+              // Format match context message
+              let matchContext = '';
+              if (matchType === 'nodeName') {
+                matchContext = '📌 Matched in node name';
+              } else if (matchType === 'nodeType') {
+                matchContext = '🏷️ Matched in node type';
+              } else if (matchType === 'pinName' && matchedPins) {
+                matchContext = `📍 Matched in ${matchedPins.length} pin${matchedPins.length > 1 ? 's' : ''}: ${matchedPins.slice(0, 3).join(', ')}${matchedPins.length > 3 ? '...' : ''}`;
+              }
+              
               return (
                 <div
                   key={node.id}
@@ -228,11 +256,14 @@ export function SearchDialog({ visible, nodes, onClose, onSelectNodes }: SearchD
                     e.currentTarget.style.backgroundColor = 'transparent';
                   }}
                 >
-                  <div style={{ fontWeight: 'bold' }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '2px' }}>
                     {data.sceneNode.name || 'Unnamed'}
                   </div>
-                  <div style={{ fontSize: '11px', color: '#888' }}>
+                  <div style={{ fontSize: '11px', color: '#888', marginBottom: '3px' }}>
                     {data.sceneNode.nodeInfo?.nodeTypeName || 'Unknown type'}
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#ffc107', fontStyle: 'italic' }}>
+                    {matchContext}
                   </div>
                 </div>
               );

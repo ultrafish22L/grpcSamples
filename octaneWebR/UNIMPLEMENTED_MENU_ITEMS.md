@@ -48,7 +48,7 @@ This document lists ALL menu items that are not yet fully implemented in OctaneW
 | Group items | ✅ | Implemented using gRPC ApiNodeGraph.groupItems |
 | Ungroup items | ✅ | Implemented using gRPC ApiNodeGraph.ungroup |
 | Delete | ✅ | Fully optimized with incremental updates |
-| Find... | ✅ | Working - opens search dialog |
+| Find... | ✅ | Fully implemented with match context display (node name/type/pins) |
 | Undo | ❌ | Disabled - command history not integrated with Octane |
 | Redo | ❌ | Disabled - command history not integrated with Octane |
 
