@@ -1403,3 +1403,64 @@
     font-weight: var(--font-weight-bold);
     color: var(--octane-accent);
 }
+/* ===== EXTRACTED FROM octane-theme.css ===== */
+
+/* Right Panel - Node Inspector */
+.right-panel {
+    background-color: var(--octane-bg-secondary); /* Professional dark background */
+    border-left: none; /* No border - splitter acts as boundary */
+    border-right: none;
+    overflow-y: visible; /* Allow scrolling if content is tall */
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Ensure proper stacking context */
+    z-index: var(--z-panel); /* Higher z-index than center panel */
+    height: 100%; /* Fill grid area height */
+    width: 100%; /* Fill grid area width */
+    /* Width controlled by grid layout - no explicit width needed */
+}
+
+
+.node-selector {
+    background-color: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Octane-style sections and parameter groups */
+.octane-section {
+    margin-bottom: 4px;
+}
+
+
+
+
+
+.octane-subsection {
+    padding: 8px;
+    border-bottom: 1px solid var(--octane-border);
+}
+
+
+.octane-node-icon {
+    font-size: var(--font-size-normal);
+}
+
+
+.node-inspector {
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+}
+
+.inspector-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--octane-text-muted);
+    font-style: italic;
+}
+

@@ -1,0 +1,1558 @@
+/**
+ * Octane Render Studio Standalone Edition - Official Dark Theme
+ * 
+ * Pixel-perfect recreation of Octane Render Studio SE interface
+ * Reference: https://docs.otoy.com/standaloneSE/
+ * 
+ * THEME SCOPE:
+ * - Dark theme only (Octane SE has no light mode)
+ * - All colors matched to official Octane SE screenshots
+ * - CSS variables provide single source of truth for theme
+ * 
+ * STRUCTURE:
+ * 1. Color palette (backgrounds, text, accents, borders)
+ * 2. Spacing & sizing variables (padding, margins, dimensions)
+ * 3. Typography (font-size, font-weight, line-height)
+ * 4. Visual effects (opacity, shadows, transitions, z-index)
+ * 5. Component-specific styles (global scope)
+ * 
+ * MAINTENANCE:
+ * - Do NOT add light theme variants
+ * - All color changes must reference Octane SE screenshots
+ * - Use CSS variables consistently across all components
+ */
+
+:root {
+    /* Octane Studio Color Palette - Matched to Octane SE screenshot */
+    --octane-bg-primary: #252525;      /* Main background - matches Octane SE */
+    --octane-bg-secondary: #454545;    /* Panel backgrounds */
+    --octane-bg-parameter: #4c4c4c;    /* Panel backgrounds */
+    --octane-bg-lighter: #808080;    /* Render viewport Panel background */
+    --octane-bg-header: #454545;       /* Header/menu backgrounds - matches Octane SE */
+    --octane-bg-selected: #4a4a4a;     /* Selected items */
+    --octane-bg-hover: #484848;        /* Hover states */
+    --octane-bg-active: #525252;       /* Active/pressed states - slightly lighter than hover */
+    
+    /* Octane Text Colors */
+    --octane-text-primary: #ffffff;    /* Primary text */
+    --octane-text-secondary: #cccccc;  /* Secondary text */
+    --octane-text-muted: #999999;      /* Muted text */
+    --octane-text-disabled: #666666;   /* Disabled text */
+    
+    /* Octane Accent Colors */
+    --octane-accent: #ff8c00;          /* Primary accent - Octane orange */
+    --octane-accent-yellow: #ffc107;   /* Selection yellow/gold - matches Octane */
+    --octane-accent-orange: #ff8c00;   /* Warning/active orange */
+    --octane-accent-green: #5cb85c;    /* Success green */
+    --octane-accent-red: #d9534f;      /* Error red */
+    --octane-accent-blue: #3a9bd9;     /* Info/link blue */
+    --octane-selection-highlight: #9a6000; /* Subtle dark orange for scene outliner selection - matches Octane SE */
+    
+    /* Octane UI Elements */
+    --octane-border: #555555;          /* Standard borders */
+    
+    /* Panel Resize Variables */
+    --splitter-size: 4px;              /* Resize handle thickness */
+    --left-panel-min-width: 140px;         /* Scene outliner width */
+    --octane-border-light: #666666;    /* Light borders */
+    --octane-border-dark: #333333;     /* Dark borders */
+    --octane-border-primary: #1a1a1a;   /* primary borders/backgrounds */
+    --octane-border-medium: #555555;   /* Medium borders (same as --octane-border) */
+    --octane-shadow: rgba(0, 0, 0, 0.3); /* Drop shadows */
+    
+    /* Error States */
+    --octane-error-bg: #3a1a1a;        /* Error background (dark red) */
+    --octane-error-border: #5a2a2a;    /* Error border (medium red) */
+    
+    /* Octane Specific Colors */
+    --octane-viewport-bg: #2a2a2a;     /* Viewport background */
+    --octane-node-bg: #3a3a3a;         /* Node backgrounds */
+    --octane-connection-line: #888888; /* Node connections */
+    --octane-parameter-bg: #2a2a2a;    /* Parameter backgrounds - LIGHTENED to match Octane SE */
+    
+    /* Transparent Overlays & Shadows */
+    --octane-overlay-darkest: rgba(0, 0, 0, 0.9);   /* Very dark overlays */
+    --octane-overlay-dark: rgba(0, 0, 0, 0.8);      /* Dark modal overlays */
+    --octane-overlay-medium-dark: rgba(0, 0, 0, 0.75); /* Medium-dark overlays */
+    --octane-overlay-medium: rgba(0, 0, 0, 0.7);    /* Medium overlays */
+    --octane-overlay-semi: rgba(0, 0, 0, 0.5);      /* Semi-transparent overlays */
+    --octane-overlay-light: rgba(0, 0, 0, 0.4);     /* Light overlays */
+    --octane-overlay-subtle: rgba(0, 0, 0, 0.3);    /* Subtle overlays */
+    --octane-overlay-very-subtle: rgba(0, 0, 0, 0.2); /* Very subtle overlays */
+    
+    /* Shadow Variants */
+    --octane-shadow-heavy: rgba(0, 0, 0, 0.6);      /* Heavy inset/drop shadows */
+    --octane-shadow-medium: rgba(0, 0, 0, 0.4);     /* Medium shadows */
+    --octane-shadow-light: rgba(0, 0, 0, 0.25);     /* Light drop shadows */
+    --octane-shadow-ultra-subtle: rgba(0, 0, 0, 0.053); /* Ultra-subtle shadows */
+    
+    /* White Highlights & Glows */
+    --octane-highlight-medium: rgba(255, 255, 255, 0.2);  /* Medium highlights */
+    --octane-highlight: rgba(255, 255, 255, 0.15);        /* Standard highlights */
+    --octane-highlight-soft: rgba(255, 255, 255, 0.05);   /* Soft highlights */
+    --octane-highlight-subtle: rgba(255, 255, 255, 0.053); /* Subtle highlights */
+    --octane-highlight-ultra-subtle: rgba(255, 255, 255, 0.042); /* Ultra-subtle highlights */
+    --octane-highlight-barely: rgba(255, 255, 255, 0.03); /* Barely visible highlights */
+    
+    /* State-Based Transparent Colors */
+    --octane-error-bg-alpha: rgba(220, 53, 69, 0.1);     /* Error background overlay */
+    --octane-error-border-alpha: rgba(220, 53, 69, 0.3); /* Error border overlay */
+    --octane-error-bg-bright: rgba(255, 0, 0, 0.1);      /* Bright error background */
+    
+    --octane-success-bg-alpha: rgba(40, 167, 69, 0.1);   /* Success background overlay */
+    --octane-success-border-alpha: rgba(40, 167, 69, 0.3); /* Success border overlay */
+    
+    --octane-info-border-alpha: rgba(64, 128, 255, 0.2); /* Info border overlay */
+    --octane-info-border-alpha-alt: rgba(74, 158, 255, 0.2); /* Alternate info border */
+    
+    --octane-warning-bg-alpha: rgba(255, 165, 0, 0.2);   /* Warning background overlay */
+    --octane-warning-bg-alpha-alt: rgba(255, 120, 0, 0.2); /* Alternate warning overlay */
+    
+    /* Special Background Overlays */
+    --octane-bg-semi-transparent: rgba(42, 42, 42, 0.95); /* Semi-transparent dark background */
+    
+    /* Layout Dimensions */
+    --menu-height: 26px;
+    --panel-header-height: 28px;
+    --status-bar-height: 22px;
+    --border-radius: var(--border-radius-sm);
+
+    /* Typography */
+    --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --font-family-mono: 'Segoe UI Symbol', 'Segoe UI', monospace;
+    --font-size-nano: 6px;     /* Ultra-small text/icons */
+    --font-size-micro: 7px;    /* Micro text */
+    --font-size-tiny: 8px;     /* Tiny text */
+    --font-size-xs: 9px;       /* Extra small */
+    --font-size-xxs: 10px;     /* For arrows and small icons */
+    --font-size-small: 11px;   /* Compact UI text */
+    --font-size-normal: 12px;  /* Standard body text */
+    --font-size-medium: 13px;  /* Medium text */
+    --font-size-large: 14px;   /* Large UI text */
+    --font-size-xl: 16px;      /* Extra large */
+    --font-size-xxl: 18px;     /* Double extra large */
+    --font-size-xlarge: 20px;  /* Very large text */
+    --font-size-icon: 24px;    /* Standard icon size */
+    --font-size-xxlarge: 26px; /* Extra extra large */
+    --font-size-header: 28px;  /* Header text */
+    --font-size-title: 32px;   /* Title text */
+    --font-size-huge: 48px;    /* Huge text */
+    --font-weight-light: 50;
+    --font-weight-normal: 400;
+    --font-weight-bold: 600;
+    --font-weight-bold7: 700;
+    --font-weight-header: 500;
+    --line-height-none: 1;     /* Tight line height (no extra spacing) */
+    --line-height-tight: 1.3;  /* Compact line height */
+    --line-height-snug: 1.4;   /* Slightly relaxed */
+    --line-height-normal: 1.5; /* Standard line height */
+    --line-height-pixel: 14px; /* Fixed pixel line height */
+    
+    /* Spacing/Gap System */
+    --spacing-none: 0;         /* No spacing */
+    --spacing-xxs: 1px;        /* Extra extra small */
+    --spacing-xs: 2px;         /* Extra small */
+    --spacing-sm: 3px;         /* Small */
+    --spacing-md: 4px;         /* Medium */
+    --spacing-lg: 6px;         /* Large */
+    --spacing-xl: 8px;         /* Extra large */
+    --spacing-2xl: 10px;       /* Double extra large */
+    --spacing-3xl: 12px;       /* Triple extra large */
+    --spacing-4xl: 15px;       /* 4x extra large */
+    --spacing-5xl: 16px;       /* 5x extra large */
+    
+    /* Opacity System */
+    --opacity-invisible: 0;    /* Completely invisible */
+    --opacity-light: 0.4;      /* Light transparency */
+    --opacity-medium: 0.5;     /* Half transparent */
+    --opacity-moderate: 0.6;   /* Moderate visibility */
+    --opacity-strong: 0.7;     /* Mostly visible */
+    --opacity-heavy: 0.8;      /* Slightly transparent */
+    --opacity-full: 1;         /* Fully opaque */
+    
+    /* Z-Index Layering System */
+    --z-base: 0;               /* Base layer (default) */
+    --z-low: 1;                /* Low layer (basic stacking, tabs, panels) */
+    --z-tab-active: 2;         /* Active tab above others */
+    --z-background: 5;         /* Background elements above base */
+    --z-panel: 10;             /* Panels and sections */
+    --z-dropdown: 100;         /* Dropdown menus and selects */
+    --z-modal-bg: 1000;        /* Modal background overlays */
+    --z-dialog-overlay: 9998;  /* Dialog backdrop overlay */
+    --z-dialog: 9999;          /* Dialog windows */
+    --z-context-menu: 10000;   /* Context menus and tooltips */
+    --z-dropdown-content: 10001; /* Dropdown content above context menus */
+    --z-search-dialog: 15000;  /* Search dialog above standard dialogs */
+    /* Border Radius System */
+    --border-radius-none: 0;     /* No rounding */
+    --border-radius-xs: 1px;     /* Extra small radius (subtle) */
+    --border-radius-sm: 2px;     /* Small radius (buttons, inputs) */
+    --border-radius-md: 3px;     /* Medium radius (small panels) */
+    --border-radius-base: 4px;   /* Base radius (standard panels, cards) */
+    --border-radius-lg: 6px;     /* Large radius (dialogs, modals) */
+    --border-radius-xl: 8px;     /* Extra large radius (large cards) */
+    --border-radius-2xl: 18px;   /* Very large radius (special elements) */
+    --border-radius-3xl: 20px;   /* Huge radius (rare usage) */
+    --border-radius-circle: 50%; /* Perfect circle */
+
+}
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--octane-bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-context-menu);
+}
+
+.loading-content {
+    text-align: center;
+    color: var(--octane-text-primary);
+}
+
+.octane-logo-large {
+    margin-bottom: 20px;
+}
+
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loading-content h1 {
+    font-size: var(--font-size-icon);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 5px;
+}
+
+.loading-content p {
+    font-size: var(--font-size-large);
+    color: var(--octane-text-secondary);
+    margin-bottom: 30px;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--octane-bg-secondary);
+    border-top: 3px solid var(--octane-accent-blue);
+    border-radius: var(--border-radius-circle);
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+.loading-status {
+    color: var(--octane-text-muted);
+    font-size: var(--font-size-small);
+}
+
+/* Application Container */
+.app-container {
+    display: grid;
+    grid-template-rows: var(--menu-height) 1fr var(--status-bar-height);
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--octane-bg-primary);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Menu Bar */
+.menu-bar {
+    background-color: var(--octane-bg-primary);
+    border-bottom: 1px solid var(--octane-border-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    height: var(--menu-height);
+}
+
+.main-menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu-item {
+    padding: 4px 12px;
+    cursor: pointer;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+    border-radius: var(--border-radius);
+    transition: background-color 0.15s ease;
+}
+
+.menu-item:hover {
+    background-color: var(--octane-bg-hover);
+}
+
+.menu-item.active {
+    background-color: var(--octane-accent-blue);
+}
+
+/* Connection Status */
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4xl);
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--border-radius-circle);
+    background-color: var(--octane-accent-red);
+    transition: background-color 0.3s ease;
+}
+
+.status-dot.connected {
+    background-color: var(--octane-accent-green);
+}
+
+.status-dot.connecting {
+    background-color: var(--octane-accent-orange);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: var(--opacity-full); }
+    50% { opacity: var(--opacity-medium); }
+}
+
+/* Main Layout */
+.app-layout {
+    display: grid;
+    grid-template-columns: 200px 4px 1fr 4px 320px; /* Will be overridden by inline styles */
+    grid-template-rows: 770px 4px 1fr; /* Will be overridden by inline styles: top-height, splitter, bottom */
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%; 
+    background-color: var(--octane-bg-primary);
+    overflow: hidden; /* Prevent layout overflow */
+    gap: var(--spacing-none); /* No gaps between grid areas */
+    margin: 0;
+    padding: 0;
+}
+
+/* Panel Base Styles 
+    border-right: 1px solid var(--octane-border);
+
+*/
+.panel {
+    background-color: var(--octane-bg-secondary);
+    display: flex;
+    flex-direction: column;
+}
+.panel-horz {
+    background-color: var(--octane-bg-secondary);
+    border-right: 1px solid var(--octane-border);
+    display: flex;
+    flex-direction: row;
+}
+
+.panel-header {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--panel-header-height);
+}
+
+.panel-header h3 {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    color: var(--octane-text-primary);
+}
+
+.panel-controls {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.panel-btn {
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    padding: 2px 6px;
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.panel-btn:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.panel-content {
+    flex: 1;
+    overflow: auto;
+}
+
+/* Left Panel - Scene Outliner */
+.left-panel {
+    background-color: var(--octane-bg-secondary);
+    border-right: none; /* No border - splitter acts as boundary */
+    overflow: hidden; /* Critical: prevent any overflow */
+    display: flex;
+    flex-direction: column;
+    min-width: var(--left-panel-min-width);
+}
+
+.scene-outliner {
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 100%; /* Ensure it never exceeds container height */
+    overflow: hidden; /* Prevent content from overflowing the container */
+    position: relative; /* Establish positioning context */
+}
+
+/* .scene-loading - removed duplicate, see scene-outliner.css line 384 (superset with font-size) */
+
+/* Scene Outliner Tree Styles */
+.scene-outliner-toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+    padding: 8px;
+    background-color: var(--octane-bg-secondary);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.scene-outliner-search {
+    flex: 1;
+    padding: 4px 8px;
+    background-color: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius); /* Standardized to 2px */
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+}
+
+.scene-outliner-search:focus {
+    outline: none;
+    border-color: var(--octane-accent);
+}
+
+.scene-tree {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: var(--octane-bg-primary);
+    min-height: 0; /* Allow flex item to shrink below content size */
+    max-height: 100%; /* Prevent tree from exceeding container */
+    position: relative; /* Establish positioning context */
+    contain: layout style; /* CSS containment for performance and boundaries */
+    display: flex;
+    flex-direction: column; /* Stack tree nodes vertically */
+}
+
+.tree-node {
+    display: flex;
+    align-items: center;
+    min-height: 16px;
+    cursor: pointer;
+    user-select: none;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family);
+    color: var(--octane-text-secondary);
+    padding: 1px 0;
+}
+
+.tree-node:hover {
+    background-color: var(--octane-bg-header);
+}
+
+.tree-node.selected {
+    background-color: var(--octane-selection-highlight) !important; /* Subtle dark orange matching Octane SE */
+    color: var(--octane-text-primary) !important; /* Keep text white for readability */
+}
+
+/* Scene node content layout */
+.node-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 4px;
+}
+
+.node-toggle {
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-tiny);
+    color: var(--octane-connection-line);
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.node-toggle.expanded::before {
+    content: '−';
+    font-weight: var(--font-weight-bold7);
+}
+
+.node-toggle.collapsed::before {
+    content: '+';
+    font-weight: var(--font-weight-bold7);
+}
+
+.node-toggle:hover {
+    border-radius: var(--border-radius);
+}
+
+.node-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-large); /* 14px */
+}
+
+.node-name {
+    flex: 1;
+    font-size: var(--font-size-small);
+    color: inherit;
+}
+
+.node-handle {
+    font-size: var(--font-size-xs);
+    color: var(--octane-connection-line);
+    margin-left: 4px;
+}
+
+.node-visibility {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+    color: var(--octane-connection-line);
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.node-spacer {
+    width: 14px;
+}
+
+/* Tree indentation levels */
+.tree-node.level-0 .node-content {
+    padding-left: 4px;
+}
+
+.tree-node.level-1 .node-content {
+    padding-left: 18px;
+}
+
+.tree-node.level-2 .node-content {
+    padding-left: 32px;
+}
+
+.tree-node.level-3 .node-content {
+    padding-left: 46px;
+}
+
+.tree-node.level-4 .node-content {
+    padding-left: 60px;
+}
+
+.tree-node.level-5 .node-content {
+    padding-left: 74px;
+}
+
+.tree-node.level-6 .node-content {
+    padding-left: 88px;
+}
+
+
+
+
+.tree-toggle {
+    width: 10px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+    color: var(--octane-text-muted);
+    cursor: pointer;
+}
+
+.tree-toggle.has-children:hover {
+    color: var(--octane-text-primary);
+}
+
+
+
+
+
+/* Center Panel - 3D Canvas/Viewport */
+.center-panel {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--octane-bg-primary);
+    height: 100%; /* Ensure full height usage */
+    overflow: hidden; /* Prevent layout overflow */
+    margin: 0; /* Ensure no margins */
+    padding: 0; /* Ensure no padding */
+    max-width: 100%; /* Prevent extending beyond grid area */
+    position: relative; /* Ensure it stays within grid bounds */
+    z-index: var(--z-low); /* Lower z-index than right panel */
+}
+
+/* Render Canvas */
+.render-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: var(--octane-bg-primary);
+    cursor: default;
+}
+
+.render-canvas:active {
+    cursor: grabbing;
+}
+
+/* Viewport Error Display */
+.viewport-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--octane-text-primary);
+    text-align: center;
+    padding: 2rem;
+}
+
+.viewport-error .error-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: var(--opacity-strong);
+}
+
+.viewport-error .error-title {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.5rem;
+    color: var(--octane-accent);
+}
+
+.viewport-error .error-message {
+    font-size: 1rem;
+    opacity: var(--opacity-heavy);
+    max-width: 400px;
+    line-height: var(--line-height-normal);
+}
+
+.viewport-header {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--panel-header-height);
+}
+
+.viewport-title {
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.viewport-controls {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.viewport-btn {
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    padding: 2px 6px;
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.viewport-btn:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+/* Viewport Container */
+.viewport-container {
+    flex: 1;
+    position: relative;
+    border-bottom: 1px solid var(--octane-border);
+    min-height: 200px;
+    overflow: hidden; /* CRITICAL: Prevent canvas overflow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.render-viewport {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    /* Prevent canvas flashing - match container background */
+    background: var(--octane-bg-secondary);
+    transition: none !important;
+    animation: none !important;
+    object-fit: contain; /* Maintain aspect ratio while filling space */
+}
+
+/* Callback Render Viewport - Octane-style centered with scrollbars */
+.callback-render-viewport {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--octane-bg-lighter);
+}
+
+.viewport-canvas-container {
+    flex: 1;
+    overflow: auto; /* Add scrollbars when canvas exceeds viewport */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: var(--octane-bg-lighter);
+}
+
+.viewport-canvas-container .render-canvas {
+    /* Display at actual pixel size (1:1) - dimensions set in JS */
+    max-width: none;
+    max-height: none;
+    flex-shrink: 0; /* Prevent flex container from shrinking the canvas */
+}
+
+.viewport-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--octane-text-secondary);
+    font-size: var(--font-size-large); /* 14px */
+    text-align: center;
+    z-index: var(--z-low);
+}
+
+.viewport-status {
+    display: flex;
+    gap: var(--spacing-5xl);
+    align-items: center;
+    padding: 6px 12px;
+    background: var(--octane-bg-primary);
+    border-top: 1px solid var(--octane-border);
+    font-size: var(--font-size-normal); /* 12px */
+    color: var(--octane-text-secondary);
+}
+
+
+.viewport-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: var(--z-background); /* Stay behind canvas but above background */
+}
+
+.viewport-info {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 4px 8px;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-small);
+    color: var(--octane-text-primary);
+}
+
+.render-stats {
+    display: flex;
+    gap: var(--spacing-3xl);
+}
+
+/* Octane-style Render Toolbar */
+.render-toolbar-container {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+}
+
+/* Render Statistics Bar */
+.render-stats-bar {
+    background-color: var(--octane-bg-secondary);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 3px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 20px;
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+    font-family: var(--font-family);
+}
+
+.render-stats-left,
+.render-stats-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.stats-separator {
+    color: var(--octane-text-muted);
+    margin: 0 2px;
+}
+
+#render-samples-display {
+    color: var(--octane-text-primary);
+    font-weight: var(--font-weight-header);
+}
+
+#render-time-display {
+    color: var(--octane-text-primary);
+    font-weight: var(--font-weight-header);
+}
+
+.render-status-rendering {
+    color: var(--octane-accent-blue) !important;
+}
+
+.render-status-finished {
+    color: var(--octane-text-secondary);
+}
+
+.render-status-paused {
+    color: var(--octane-accent-yellow) !important;
+}
+
+.render-status-stopped,
+.render-status-error {
+    color: var(--octane-accent-red) !important;
+}
+
+/* Render Toolbar Icons */
+.render-toolbar {
+    background-color: var(--octane-bg-header);
+    padding: 2px 4px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+}
+
+.render-toolbar-icons {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xxs);
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+.render-toolbar-icons::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.toolbar-icon-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--octane-text-secondary);
+    padding: 3px;
+    font-size: var(--font-size-large);
+    font-family: var(--font-family-mono);
+    font-weight: var(--font-weight-normal);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: var(--line-height-none);
+}
+
+.toolbar-icon-btn:hover {
+    background-color: var(--octane-bg-hover);
+    border-color: var(--octane-border);
+    color: var(--octane-text-primary);
+}
+
+.toolbar-icon-btn:active {
+    background-color: var(--octane-bg-active);
+    border-color: var(--octane-accent-blue);
+}
+
+.toolbar-icon-btn.important {
+    color: var(--octane-text-primary);
+    background-color: rgba(64, 128, 255, 0.1);
+}
+
+.toolbar-icon-btn.important:hover {
+    background-color: rgba(64, 128, 255, 0.2);
+    border-color: var(--octane-accent-blue);
+}
+
+/* Toolbar Icon Images */
+.toolbar-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+    filter: brightness(0.85);
+}
+
+.toolbar-icon-btn:hover .toolbar-icon {
+    filter: brightness(1.0);
+}
+
+.toolbar-icon-btn.active .toolbar-icon {
+    filter: brightness(1.2);
+}
+
+.toolbar-icon-fallback {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.toolbar-separator {
+    width: 1px;
+    height: 18px;
+    background-color: var(--octane-border);
+    margin: 0 3px;
+    flex-shrink: 0;
+}
+
+/* Camera Presets Menu */
+.camera-presets-menu {
+    position: absolute;
+    top: 60px; /* Position below toolbar */
+    left: 10px;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: var(--z-modal-bg);
+    min-width: 180px;
+    overflow: hidden;
+}
+
+.camera-presets-menu-header {
+    background-color: var(--octane-bg-header);
+    color: var(--octane-text-primary);
+    padding: 8px 12px;
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.camera-presets-menu-items {
+    padding: 4px 0;
+}
+
+.camera-preset-item {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--octane-text-secondary);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: var(--font-size-small);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: block;
+}
+
+.camera-preset-item:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.camera-preset-item:active {
+    background-color: var(--octane-bg-active);
+}
+
+/* Render Priority Menu */
+.render-priority-menu {
+    position: absolute;
+    top: 60px; /* Position below toolbar */
+    left: 200px; /* Position after camera menu area */
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: var(--z-modal-bg);
+    min-width: 200px;
+    overflow: hidden;
+}
+
+.render-priority-menu-header {
+    background-color: var(--octane-bg-header);
+    color: var(--octane-text-primary);
+    padding: 8px 12px;
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    border-bottom: 1px solid var(--octane-border);
+}
+
+.render-priority-menu-items {
+    padding: 4px 0;
+}
+
+.render-priority-item {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--octane-text-secondary);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: var(--font-size-small);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: block;
+    position: relative;
+}
+
+.render-priority-item:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.render-priority-item:active {
+    background-color: var(--octane-bg-active);
+}
+
+.render-priority-item.active {
+    background-color: rgba(64, 128, 255, 0.15);
+    color: var(--octane-accent-blue);
+    font-weight: 600;
+}
+
+.render-priority-item.active::after {
+    content: '✓';
+    position: absolute;
+    right: 12px;
+    color: var(--octane-accent-blue);
+}
+
+/* Legacy render controls (keep for compatibility) */
+.render-controls {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+}
+
+
+.control-btn {
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.control-btn:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+.render-info {
+    display: flex;
+    gap: var(--spacing-5xl);
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+}
+
+/* Bottom Panel - Node Graph Editor */
+.bottom-panel {
+    /* Grid column controlled by inline style in App.tsx */
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--octane-border);
+    background-color: var(--octane-bg-secondary);
+    height: 100%; /* Use full allocated grid space */
+    min-height: 200px; /* Minimum height for ReactFlow */
+    width: 100%; /* Use full width of grid area */
+    overflow: hidden; /* Prevent overflow beyond allocated space */
+}
+
+.node-graph-header {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: row;    
+    align-items: center;
+    justify-content: space-between;
+    height: var(--panel-header-height);
+}
+
+.node-graph-header h3 {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    color: var(--octane-text-primary);
+}
+
+.node-graph-controls {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.node-btn {
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    padding: 2px 6px;
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.node-btn:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+/* .node-graph-container - removed duplicate, see node-graph.css line 548 (exact match) */
+
+.node-graph {
+    flex: 1;
+    display: block;
+    background-color: var(--octane-bg-primary);
+    position: absolute; /* Position absolutely within container */
+    top: 0;
+    left: 0;
+}
+
+.node-palette {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    width: 60px;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    padding: 4px;
+}
+
+/* Right Panel - Node Inspector */
+.right-panel {
+    background-color: var(--octane-bg-secondary); /* Professional dark background */
+    border-left: none; /* No border - splitter acts as boundary */
+    border-right: none;
+    overflow-y: visible; /* Allow scrolling if content is tall */
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Ensure proper stacking context */
+    z-index: var(--z-panel); /* Higher z-index than center panel */
+    height: 100%; /* Fill grid area height */
+    width: 100%; /* Fill grid area width */
+    /* Width controlled by grid layout - no explicit width needed */
+}
+
+
+.node-selector {
+    background-color: var(--octane-bg-primary);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Octane-style sections and parameter groups */
+.octane-section {
+    margin-bottom: 4px;
+}
+
+
+
+
+
+.octane-subsection {
+    padding: 8px;
+    border-bottom: 1px solid var(--octane-border);
+}
+
+
+.octane-node-icon {
+    font-size: var(--font-size-normal);
+}
+
+
+.node-inspector {
+    color: var(--octane-text-primary);
+    font-size: var(--font-size-small);
+}
+
+.inspector-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--octane-text-muted);
+    font-style: italic;
+}
+
+/* Status Bar */
+.status-bar {
+    background-color: var(--octane-bg-header);
+    border-top: 1px solid var(--octane-border);
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--status-bar-height);
+    font-size: var(--font-size-small);
+    color: var(--octane-text-secondary);
+    margin: 0;
+    width: 100%;
+}
+
+.status-left, .status-center, .status-right {
+    display: flex;
+    gap: var(--spacing-5xl);
+    align-items: center;
+}
+
+.status-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: 10px; /* Reduced from 12px for more refined appearance matching Octane SE */
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--octane-bg-primary); /* primary track for subtle appearance */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--octane-border);
+    border-radius: var(--border-radius-sm); /* Reduced from 6px to match Octane's minimal radius */
+    border: 1px solid var(--octane-bg-primary); /* Thinner border matching track color */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--octane-border-light);
+}
+
+::-webkit-scrollbar-corner {
+    background-color: var(--octane-bg-primary); /* Match primary track */
+}
+
+/* Context Menus and Modals */
+.context-menus, .modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: var(--z-dialog);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .app-layout {
+        grid-template-columns: 220px 1fr 250px;
+        grid-template-rows: 1fr 250px; /* Smaller node graph on smaller screens */
+    }
+}
+
+@media (max-width: 900px) {
+    .app-layout {
+        grid-template-columns: 150px 1fr 200px;
+        grid-template-rows: 1fr 200px; /* Even smaller node graph */
+    }
+    
+    .render-info {
+        display: none;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --octane-border: #ffffff;
+        --octane-text-secondary: #ffffff;
+        --octane-text-muted: #cccccc;
+    }
+}
+
+/* Node Graph Context Menu */
+.node-context-menu {
+    position: fixed;
+    background: var(--octane-bg-secondary) !important;
+    border: 1px solid var(--octane-border) !important;
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    font-family: var(--font-family);
+    font-size: var(--font-size-small); /* 11px for compact appearance matching Octane SE */
+    color: var(--octane-text-primary) !important;
+    min-width: 180px;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: var(--z-context-menu);
+    padding: 2px 0;
+}
+
+.context-menu-category {
+    position: relative;
+    padding: 1px 8px; /* Reduced from 12px to 8px for tighter columns matching Octane SE */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    line-height: var(--line-height-snug); /* Adjusted from 1.2 to match Octane SE item height (~17px total) */
+}
+
+.context-menu-category::after {
+    content: '▶';
+    font-size: var(--font-size-xxs); /* 10px - arrow icon */
+    color: var(--octane-text-muted);
+    margin-left: 8px;
+}
+
+.context-menu-category:hover {
+    background: var(--octane-bg-hover);
+}
+
+/* Single-column submenu for category submenus (Cameras, Materials, etc.) */
+.context-submenu {
+    display: none;
+    position: fixed;
+    background: var(--octane-bg-secondary) !important;
+    border: 1px solid var(--octane-border) !important;
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    font-family: var(--font-family);
+    font-size: var(--font-size-small); /* 11px for compact appearance matching Octane SE */
+    color: var(--octane-text-primary) !important;
+    min-width: 200px;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: var(--z-dropdown-content);
+    padding: 2px 0;
+}
+
+/* Multi-column submenu for "All items" - 6 columns like Octane SE */
+.context-submenu-multicolumn {
+    display: none;
+    position: fixed;
+    background: var(--octane-bg-secondary) !important;
+    border: 1px solid var(--octane-border) !important;
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    font-family: var(--font-family);
+    font-size: var(--font-size-small); /* 11px for compact appearance matching Octane SE */
+    color: var(--octane-text-primary) !important;
+    max-height: 80vh;
+    max-width: 90vw;
+    overflow-y: auto;
+    z-index: var(--z-dropdown-content);
+    column-count: 6;
+    column-gap: var(--spacing-xl); /* Minimal gap to make column-rule visible */
+    column-rule: 1px solid var(--octane-border-dark); /* Vertical divider lines between columns */
+    padding: 4px 0;
+}
+
+.context-submenu-multicolumn .context-menu-item {
+    break-inside: avoid;
+    column-break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+/* Context menu items - consistent styling for main menu and all submenus */
+.context-menu-item {
+    padding: 1px 8px; /* Reduced from 12px to 8px for tighter columns matching Octane SE */
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm); /* Reduced from 4px for tighter icon-to-text spacing matching Octane SE */
+    line-height: var(--line-height-snug); /* Adjusted from 1.2 to match Octane SE item height (~17px total) */
+}
+
+.context-menu-item:hover {
+    background: var(--octane-bg-hover);
+}
+
+.context-menu-item.disabled {
+    color: var(--octane-text-disabled);
+    cursor: not-allowed;
+}
+
+.context-menu-item.disabled:hover {
+    background: transparent;
+}
+
+/* Context menu separator */
+.context-menu-separator {
+    height: 1px;
+    background-color: var(--octane-border);
+    margin: 2px 0;
+}
+
+/* Scrollbar styling for context menu and submenus */
+.node-context-menu::-webkit-scrollbar,
+.context-submenu::-webkit-scrollbar,
+.context-submenu-multicolumn::-webkit-scrollbar {
+    width: 8px; /* Narrower than global for compact menus */
+}
+
+.node-context-menu::-webkit-scrollbar-track,
+.context-submenu::-webkit-scrollbar-track,
+.context-submenu-multicolumn::-webkit-scrollbar-track {
+    background: var(--octane-bg-primary);
+}
+
+.node-context-menu::-webkit-scrollbar-thumb,
+.context-submenu::-webkit-scrollbar-thumb,
+.context-submenu-multicolumn::-webkit-scrollbar-thumb {
+    background: var(--octane-border);
+    border-radius: var(--border-radius-sm); /* Reduced from 4px to match global minimal radius */
+    border: 1px solid var(--octane-bg-primary); /* Add subtle border for consistency */
+}
+
+.node-context-menu::-webkit-scrollbar-thumb:hover,
+.context-submenu::-webkit-scrollbar-thumb:hover,
+.context-submenu-multicolumn::-webkit-scrollbar-thumb:hover {
+    background: var(--octane-border-light);
+}
+
+/* Node Palette Instructions */
+
+
+
+/* Professional Input Controls - Matching Octane Reference */
+input[type="number"], 
+input[type="text"], 
+select {
+    background-color: var(--octane-parameter-bg);
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-primary);
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family);
+    border-radius: var(--border-radius);
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+input[type="number"]:focus, 
+input[type="text"]:focus, 
+select:focus {
+    border-color: var(--octane-accent);
+    box-shadow: 0 0 0 1px var(--octane-accent);
+}
+
+input[type="number"]:hover, 
+input[type="text"]:hover, 
+select:hover {
+    border-color: var(--octane-border-light);
+}
+
+/* Numeric input styling to match Octane's parameter controls */
+input[type="number"] {
+    text-align: right;
+    width: 60px;
+}
+
+/* Select dropdown styling */
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cccccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    padding-right: 28px;
+}
+
+/* ==================== Node Type Context Menu ==================== */
+
+.category-arrow {
+    font-size: var(--font-size-xxs);
+    opacity: var(--opacity-moderate);
+    margin-left: auto;
+}
+
+.node-type-color {
+    width: 16px; /* Increased from 14px to match Octane SE reference */
+    height: 16px;
+    border-radius: var(--border-radius);
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Node type icon - actual PNG icons from Octane */
+.node-type-icon {
+    width: 16px; /* Increased from 14px to match Octane SE reference */
+    height: 16px;
+    flex-shrink: 0;
+    image-rendering: -webkit-optimize-contrast; /* Keep icons crisp at 16x16 */
+    image-rendering: crisp-edges;
+}

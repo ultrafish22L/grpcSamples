@@ -1076,3 +1076,301 @@
 .material-database-content::-webkit-scrollbar-thumb:hover {
   background: var(--octane-border);
 }
+/* ===== EXTRACTED FROM octane-theme.css ===== */
+
+/* Node Graph */
+/* Bottom Panel - Node Graph Editor */
+.bottom-panel {
+    /* Grid column controlled by inline style in App.tsx */
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--octane-border);
+    background-color: var(--octane-bg-secondary);
+    height: 100%; /* Use full allocated grid space */
+    min-height: 200px; /* Minimum height for ReactFlow */
+    width: 100%; /* Use full width of grid area */
+    overflow: hidden; /* Prevent overflow beyond allocated space */
+}
+
+.node-graph-header {
+    background-color: var(--octane-bg-header);
+    border-bottom: 1px solid var(--octane-border);
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: row;    
+    align-items: center;
+    justify-content: space-between;
+    height: var(--panel-header-height);
+}
+
+.node-graph-header h3 {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    color: var(--octane-text-primary);
+}
+
+.node-graph-controls {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.node-btn {
+    background: none;
+    border: 1px solid var(--octane-border);
+    color: var(--octane-text-secondary);
+    padding: 2px 6px;
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.15s ease;
+}
+
+.node-btn:hover {
+    background-color: var(--octane-bg-hover);
+    color: var(--octane-text-primary);
+}
+
+/* .node-graph-container - removed duplicate, see node-graph.css line 548 (exact match) */
+
+.node-graph {
+    flex: 1;
+    display: block;
+    background-color: var(--octane-bg-primary);
+    position: absolute; /* Position absolutely within container */
+    top: 0;
+    left: 0;
+}
+
+.node-palette {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    width: 60px;
+    background-color: var(--octane-bg-secondary);
+    border: 1px solid var(--octane-border);
+    border-radius: var(--border-radius);
+    padding: 4px;
+}
+
+
+/* Context Menus */
+/* Context Menus and Modals */
+.context-menus, .modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: var(--z-dialog);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .app-layout {
+        grid-template-columns: 220px 1fr 250px;
+        grid-template-rows: 1fr 250px; /* Smaller node graph on smaller screens */
+    }
+}
+
+@media (max-width: 900px) {
+    .app-layout {
+        grid-template-columns: 150px 1fr 200px;
+        grid-template-rows: 1fr 200px; /* Even smaller node graph */
+    }
+    
+    .render-info {
+        display: none;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --octane-border: #ffffff;
+        --octane-text-secondary: #ffffff;
+        --octane-text-muted: #cccccc;
+    }
+}
+
+/* Node Graph Context Menu */
+.node-context-menu {
+    position: fixed;
+    background: var(--octane-bg-secondary) !important;
+    border: 1px solid var(--octane-border) !important;
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    font-family: var(--font-family);
+    font-size: var(--font-size-small); /* 11px for compact appearance matching Octane SE */
+    color: var(--octane-text-primary) !important;
+    min-width: 180px;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: var(--z-context-menu);
+    padding: 2px 0;
+}
+
+.context-menu-category {
+    position: relative;
+    padding: 1px 8px; /* Reduced from 12px to 8px for tighter columns matching Octane SE */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    line-height: var(--line-height-snug); /* Adjusted from 1.2 to match Octane SE item height (~17px total) */
+}
+
+.context-menu-category::after {
+    content: '▶';
+    font-size: var(--font-size-xxs); /* 10px - arrow icon */
+    color: var(--octane-text-muted);
+    margin-left: 8px;
+}
+
+.context-menu-category:hover {
+    background: var(--octane-bg-hover);
+}
+
+/* Single-column submenu for category submenus (Cameras, Materials, etc.) */
+.context-submenu {
+    display: none;
+    position: fixed;
+    background: var(--octane-bg-secondary) !important;
+    border: 1px solid var(--octane-border) !important;
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    font-family: var(--font-family);
+    font-size: var(--font-size-small); /* 11px for compact appearance matching Octane SE */
+    color: var(--octane-text-primary) !important;
+    min-width: 200px;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: var(--z-dropdown-content);
+    padding: 2px 0;
+}
+
+/* Multi-column submenu for "All items" - 6 columns like Octane SE */
+.context-submenu-multicolumn {
+    display: none;
+    position: fixed;
+    background: var(--octane-bg-secondary) !important;
+    border: 1px solid var(--octane-border) !important;
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    font-family: var(--font-family);
+    font-size: var(--font-size-small); /* 11px for compact appearance matching Octane SE */
+    color: var(--octane-text-primary) !important;
+    max-height: 80vh;
+    max-width: 90vw;
+    overflow-y: auto;
+    z-index: var(--z-dropdown-content);
+    column-count: 6;
+    column-gap: var(--spacing-xl); /* Minimal gap to make column-rule visible */
+    column-rule: 1px solid var(--octane-border-dark); /* Vertical divider lines between columns */
+    padding: 4px 0;
+}
+
+.context-submenu-multicolumn .context-menu-item {
+    break-inside: avoid;
+    column-break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+/* Context menu items - consistent styling for main menu and all submenus */
+.context-menu-item {
+    padding: 1px 8px; /* Reduced from 12px to 8px for tighter columns matching Octane SE */
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm); /* Reduced from 4px for tighter icon-to-text spacing matching Octane SE */
+    line-height: var(--line-height-snug); /* Adjusted from 1.2 to match Octane SE item height (~17px total) */
+}
+
+.context-menu-item:hover {
+    background: var(--octane-bg-hover);
+}
+
+.context-menu-item.disabled {
+    color: var(--octane-text-disabled);
+    cursor: not-allowed;
+}
+
+.context-menu-item.disabled:hover {
+    background: transparent;
+}
+
+/* Context menu separator */
+.context-menu-separator {
+    height: 1px;
+    background-color: var(--octane-border);
+    margin: 2px 0;
+}
+
+/* Scrollbar styling for context menu and submenus */
+.node-context-menu::-webkit-scrollbar,
+.context-submenu::-webkit-scrollbar,
+.context-submenu-multicolumn::-webkit-scrollbar {
+    width: 8px; /* Narrower than global for compact menus */
+}
+
+.node-context-menu::-webkit-scrollbar-track,
+.context-submenu::-webkit-scrollbar-track,
+.context-submenu-multicolumn::-webkit-scrollbar-track {
+    background: var(--octane-bg-primary);
+}
+
+.node-context-menu::-webkit-scrollbar-thumb,
+.context-submenu::-webkit-scrollbar-thumb,
+.context-submenu-multicolumn::-webkit-scrollbar-thumb {
+    background: var(--octane-border);
+    border-radius: var(--border-radius-sm); /* Reduced from 4px to match global minimal radius */
+    border: 1px solid var(--octane-bg-primary); /* Add subtle border for consistency */
+}
+
+.node-context-menu::-webkit-scrollbar-thumb:hover,
+.context-submenu::-webkit-scrollbar-thumb:hover,
+.context-submenu-multicolumn::-webkit-scrollbar-thumb:hover {
+    background: var(--octane-border-light);
+}
+
+/* Node Palette Instructions */
+
+
+
+
+/* Node Type Context Menu */
+/* ==================== Node Type Context Menu ==================== */
+
+.category-arrow {
+    font-size: var(--font-size-xxs);
+    opacity: var(--opacity-moderate);
+    margin-left: auto;
+}
+
+.node-type-color {
+    width: 16px; /* Increased from 14px to match Octane SE reference */
+    height: 16px;
+    border-radius: var(--border-radius);
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Node type icon - actual PNG icons from Octane */
+.node-type-icon {
+    width: 16px; /* Increased from 14px to match Octane SE reference */
+    height: 16px;
+    flex-shrink: 0;
+    image-rendering: -webkit-optimize-contrast; /* Keep icons crisp at 16x16 */
+    image-rendering: crisp-edges;
+}
