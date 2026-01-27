@@ -61,19 +61,19 @@ export class EditCommands {
     // Each deleteNode call will emit 'nodeDeleted' event
     for (const node of selectedNodes) {
       try {
-        console.log(`🗑️ Deleting node: ${node.handle} (${node.label || node.type || 'unknown'})`);
+        console.log(`🗑️ EditCommands: Deleting node handle=${node.handle} name="${node.name || node.label || 'unknown'}" type="${node.type || 'unknown'}"`);
         const success = await client.deleteNode(String(node.handle));
         
         if (success) {
           successCount++;
-          console.log(`✅ Deleted node: ${node.handle}`);
+          console.log(`✅ EditCommands: Deleted node ${node.handle} - 'nodeDeleted' event should have been emitted`);
         } else {
           failCount++;
-          console.error(`❌ Failed to delete node: ${node.handle}`);
+          console.error(`❌ EditCommands: Failed to delete node: ${node.handle}`);
         }
       } catch (error) {
         failCount++;
-        console.error(`❌ Error deleting node ${node.handle}:`, error);
+        console.error(`❌ EditCommands: Error deleting node ${node.handle}:`, error);
       }
     }
     

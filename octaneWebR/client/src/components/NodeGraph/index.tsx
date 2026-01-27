@@ -252,7 +252,10 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
    * Optimization: Skip full rebuild if this is just an incremental addition
    */
   useEffect(() => {
+    console.log('📊 NodeGraphEditor: sceneTree changed, length =', sceneTree?.length || 0);
+    
     if (!sceneTree || sceneTree.length === 0) {
+      console.log('📊 NodeGraphEditor: Empty scene tree, clearing graph');
       setNodes([]);
       setEdges([]);
       return;
@@ -261,6 +264,8 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     // Check if we're just adding nodes incrementally (nodes.length < sceneTree.length)
     // If so, skip full rebuild - the nodeAdded event handler will add them
     setNodes((currentNodes) => {
+      console.log(`📊 NodeGraphEditor: currentNodes=${currentNodes.length}, sceneTree=${sceneTree.length}`);
+      
       // If current graph has fewer nodes than scene tree, it means nodeAdded is handling it
       if (currentNodes.length < sceneTree.length && currentNodes.length > 0) {
         console.log('📊 NodeGraphEditor: Skipping full rebuild - incremental add in progress');
@@ -268,8 +273,9 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       }
       
       // Full rebuild needed (deletions, initial load, or other changes)
-      console.log('📊 NodeGraphEditor: Full graph rebuild');
+      console.log('📊 NodeGraphEditor: Full graph rebuild triggered');
       const { nodes: graphNodes, edges: graphEdges } = convertSceneToGraph(sceneTree);
+      console.log(`📊 NodeGraphEditor: Rebuilt graph with ${graphNodes.length} nodes, ${graphEdges.length} edges`);
       setEdges(graphEdges);
       return graphNodes;
     });

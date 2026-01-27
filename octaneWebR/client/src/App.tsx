@@ -62,6 +62,7 @@ function AppContent() {
 
   // Scene tree change handler
   const handleSceneTreeChange = (tree: SceneNode[]) => {
+    console.log('🔄 App.tsx: handleSceneTreeChange called with', tree.length, 'nodes');
     setSceneTree(tree);
   };
 

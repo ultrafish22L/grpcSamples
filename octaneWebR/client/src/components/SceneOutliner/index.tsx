@@ -653,12 +653,21 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     };
 
     const handleNodeDeleted = (event: NodeDeletedEvent) => {
-      console.log('🌲 SceneOutliner: Removing node incrementally:', event.handle);
+      console.log('🌲 SceneOutliner: nodeDeleted event received, handle:', event.handle, 'type:', typeof event.handle);
       setSceneTree(prev => {
+        console.log('🌲 SceneOutliner: Current tree has', prev.length, 'root nodes');
+        console.log('🌲 SceneOutliner: Root handles:', prev.map(n => `${n.handle} (${typeof n.handle})`).join(', '));
+        
         // Recursively filter out deleted node and its children from tree
         const filterDeleted = (nodes: SceneNode[]): SceneNode[] => {
           return nodes
-            .filter(n => n.handle !== event.handle)
+            .filter(n => {
+              const matches = n.handle !== event.handle;
+              if (!matches) {
+                console.log(`🗑️ SceneOutliner: Filtering out node ${n.handle} "${n.name}"`);
+              }
+              return matches;
+            })
             .map(n => ({
               ...n,
               children: n.children ? filterDeleted(n.children) : []
@@ -666,8 +675,13 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
         };
         
         const updated = filterDeleted(prev);
+        console.log('🌲 SceneOutliner: Updated tree has', updated.length, 'root nodes (was', prev.length, ')');
+        
         // Schedule parent callback after state update completes
-        setTimeout(() => onSceneTreeChange?.(updated), 0);
+        setTimeout(() => {
+          console.log('🌲 SceneOutliner: Calling onSceneTreeChange callback with', updated.length, 'nodes');
+          onSceneTreeChange?.(updated);
+        }, 0);
         return updated;
       });
     };
