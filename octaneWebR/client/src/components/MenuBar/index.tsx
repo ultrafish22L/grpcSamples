@@ -66,7 +66,7 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Load render state...', action: 'file.loadRenderState', enabled: false },
       { label: 'Save render state...', action: 'file.saveRenderState', enabled: false },
       { type: 'separator' },
-      { label: 'Save as default', action: 'file.saveAsDefault' },
+      { label: 'Save as default', action: 'file.saveAsDefault', enabled: false },
       { type: 'separator' },
       { label: 'Preferences...', action: 'file.preferences', shortcut: 'Ctrl+,' },
       { type: 'separator' },
@@ -77,7 +77,7 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
     edit: [
       { label: 'Cut', action: 'edit.cut', shortcut: 'Ctrl+X' },
       { label: 'Copy', action: 'edit.copy', shortcut: 'Ctrl+C' },
-      { label: 'Paste', action: 'edit.paste', shortcut: 'Ctrl+V' },
+      { label: 'Paste', action: 'edit.paste', shortcut: 'Ctrl+V', enabled: false },
       { type: 'separator' },
       { label: 'Group items', action: 'edit.group' },
       { label: 'Ungroup items', action: 'edit.ungroup' },
@@ -89,6 +89,14 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z', enabled: false },
       { label: 'Redo', action: 'edit.redo', shortcut: 'Ctrl+Y', enabled: false }
     ],
+    script: [
+      { label: 'Rescan script folder', action: 'script.rescanFolder', enabled: false },
+      { label: 'Run last script again', action: 'script.runLast', shortcut: 'Ctrl+Shift+R', enabled: false },
+      { type: 'separator' },
+      { label: 'Batch rendering', action: 'script.batchRender', enabled: false },
+      { label: 'Daylight animation', action: 'script.daylightAnimation', enabled: false },
+      { label: 'Turntable animation', action: 'script.turntableAnimation', enabled: false }
+    ],
     module: [
       { label: 'No modules installed', enabled: false }
     ],
@@ -98,40 +106,8 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Open Render Network...', action: 'render.openRenderNetwork', enabled: false },
       { label: 'Open Render Network (external)...', action: 'render.openRenderNetworkExternal', enabled: false }
     ],
-    script: [
-      { label: 'Rescan script folder', action: 'script.rescanFolder' },
-      { label: 'Run last script again', action: 'script.runLast', shortcut: 'Ctrl+Shift+R', enabled: false },
-      { type: 'separator' },
-      { label: 'Batch rendering', action: 'script.batchRender' },
-      { label: 'Daylight animation', action: 'script.daylightAnimation' },
-      { label: 'Turntable animation', action: 'script.turntableAnimation' }
-    ],
-    view: [
-      { 
-        label: 'Render Viewport', 
-        action: 'view.renderViewport', 
-        checked: panelVisibility?.renderViewport ?? true
-      },
-      { 
-        label: 'Node Inspector', 
-        action: 'view.nodeInspector', 
-        checked: panelVisibility?.nodeInspector ?? true
-      },
-      { 
-        label: 'Graph Editor', 
-        action: 'view.graphEditor', 
-        checked: panelVisibility?.graphEditor ?? true
-      },
-      { 
-        label: 'Scene Outliner', 
-        action: 'view.sceneOutliner', 
-        checked: panelVisibility?.sceneOutliner ?? true
-      },
-      { type: 'separator' },
-      { label: 'Refresh Scene', action: 'view.refresh', shortcut: 'F5' }
-    ],
     window: [
-      { label: 'Reset workspace', action: 'window.resetWorkspace' },
+      { label: 'Reset workspace', action: 'window.resetWorkspace', enabled: false },
       { label: 'Save workspace layout...', action: 'window.saveWorkspaceLayout', enabled: false },
       { label: 'Load workspace layout...', action: 'window.loadWorkspaceLayout', enabled: false },
       { label: 'Rescan layout folder', action: 'window.rescanLayoutFolder', enabled: false },
