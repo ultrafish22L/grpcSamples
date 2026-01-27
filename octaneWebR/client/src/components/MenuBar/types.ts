@@ -34,17 +34,21 @@ export type MenuAction =
   | 'file.preferences'
   | 'file.activationStatus'
   | 'file.quit'
-  | 'edit.undo'
-  | 'edit.redo'
   | 'edit.cut'
   | 'edit.copy'
   | 'edit.paste'
+  | 'edit.group'
+  | 'edit.ungroup'
   | 'edit.delete'
-  | 'edit.selectAll'
+  | 'edit.find'
+  | 'edit.undo'
+  | 'edit.redo'
   | 'render.uploadSnapshot'
   | 'render.render'
   | 'render.openRenderNetwork'
   | 'render.openRenderNetworkExternal'
+  | 'script.rescanFolder'
+  | 'script.runLast'
   | 'script.batchRender'
   | 'script.daylightAnimation'
   | 'script.turntableAnimation'
@@ -69,9 +73,9 @@ export type MenuAction =
   | 'window.createLuaAPIBrowser'
   | 'window.createUSDStageEditor'
   | 'help.docs'
-  | 'help.shortcuts'
-  | 'help.bug'
-  | 'help.about';
+  | 'help.crashReports'
+  | 'help.about'
+  | 'help.eula';
 
 export interface MenuActionHandler {
   (action: MenuAction, data?: any): void | Promise<void>;

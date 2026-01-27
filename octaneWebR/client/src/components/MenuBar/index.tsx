@@ -74,15 +74,19 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Quit', action: 'file.quit', shortcut: 'Ctrl+Q' }
     ],
     edit: [
-      { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z' },
-      { label: 'Redo', action: 'edit.redo', shortcut: 'Ctrl+Y' },
-      { type: 'separator' },
       { label: 'Cut', action: 'edit.cut', shortcut: 'Ctrl+X' },
       { label: 'Copy', action: 'edit.copy', shortcut: 'Ctrl+C' },
       { label: 'Paste', action: 'edit.paste', shortcut: 'Ctrl+V' },
+      { type: 'separator' },
+      { label: 'Group items', action: 'edit.group' },
+      { label: 'Ungroup items', action: 'edit.ungroup' },
+      { type: 'separator' },
       { label: 'Delete', action: 'edit.delete', shortcut: 'Del' },
       { type: 'separator' },
-      { label: 'Select All', action: 'edit.selectAll', shortcut: 'Ctrl+A' }
+      { label: 'Find...', action: 'edit.find', shortcut: 'Ctrl+F' },
+      { type: 'separator' },
+      { label: 'Undo', action: 'edit.undo', shortcut: 'Ctrl+Z' },
+      { label: 'Redo', action: 'edit.redo', shortcut: 'Ctrl+Y' }
     ],
     render: [
       { label: 'Upload scene snapshot', action: 'render.uploadSnapshot' },
@@ -90,10 +94,16 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Open Render Network...', action: 'render.openRenderNetwork' },
       { label: 'Open Render Network (external)...', action: 'render.openRenderNetworkExternal' }
     ],
+    modules: [
+      { label: 'No modules installed', enabled: false }
+    ],
     script: [
-      { label: 'Batch Rendering...', action: 'script.batchRender' },
-      { label: 'Daylight Animation...', action: 'script.daylightAnimation' },
-      { label: 'Turntable Animation...', action: 'script.turntableAnimation' }
+      { label: 'Rescan script folder', action: 'script.rescanFolder' },
+      { label: 'Run last script again', action: 'script.runLast', shortcut: 'Ctrl+Shift+R' },
+      { type: 'separator' },
+      { label: 'Batch rendering', action: 'script.batchRender' },
+      { label: 'Daylight animation', action: 'script.daylightAnimation' },
+      { label: 'Turntable animation', action: 'script.turntableAnimation' }
     ],
     view: [
       { 
@@ -389,6 +399,41 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
         break;
 
       // Edit menu actions
+      case 'edit.cut':
+        showNotification('Cut not yet implemented', 'info');
+        console.log('✂️ Cut');
+        break;
+
+      case 'edit.copy':
+        showNotification('Copy not yet implemented', 'info');
+        console.log('📋 Copy');
+        break;
+
+      case 'edit.paste':
+        showNotification('Paste not yet implemented', 'info');
+        console.log('📋 Paste');
+        break;
+
+      case 'edit.group':
+        showNotification('Group items not yet implemented', 'info');
+        console.log('🔗 Group items');
+        break;
+
+      case 'edit.ungroup':
+        showNotification('Ungroup items not yet implemented', 'info');
+        console.log('🔓 Ungroup items');
+        break;
+
+      case 'edit.delete':
+        showNotification('Delete not yet implemented', 'info');
+        console.log('🗑️ Delete');
+        break;
+
+      case 'edit.find':
+        showNotification('Find not yet implemented', 'info');
+        console.log('🔍 Find');
+        break;
+
       case 'edit.undo':
         try {
           const undoDescription = commandHistory.getUndoDescription();
@@ -422,6 +467,16 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
         break;
 
       // Script menu actions
+      case 'script.rescanFolder':
+        showNotification('Rescanning script folder...', 'info');
+        console.log('📂 Rescan script folder');
+        break;
+
+      case 'script.runLast':
+        showNotification('Run last script not yet implemented', 'info');
+        console.log('▶️ Run last script again');
+        break;
+
       case 'script.batchRender':
         setIsBatchRenderingDialogOpen(true);
         console.log('🎬 Opening Batch Rendering dialog');
@@ -543,6 +598,35 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
       handler: () => handleMenuAction('file.preferences')
     },
     {
+      key: 'x',
+      ctrl: true,
+      description: 'Cut',
+      handler: () => handleMenuAction('edit.cut')
+    },
+    {
+      key: 'c',
+      ctrl: true,
+      description: 'Copy',
+      handler: () => handleMenuAction('edit.copy')
+    },
+    {
+      key: 'v',
+      ctrl: true,
+      description: 'Paste',
+      handler: () => handleMenuAction('edit.paste')
+    },
+    {
+      key: 'Delete',
+      description: 'Delete',
+      handler: () => handleMenuAction('edit.delete')
+    },
+    {
+      key: 'f',
+      ctrl: true,
+      description: 'Find',
+      handler: () => handleMenuAction('edit.find')
+    },
+    {
       key: 'z',
       ctrl: true,
       description: 'Undo',
@@ -553,6 +637,13 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
       ctrl: true,
       description: 'Redo',
       handler: () => handleMenuAction('edit.redo')
+    },
+    {
+      key: 'r',
+      ctrl: true,
+      shift: true,
+      description: 'Run last script again',
+      handler: () => handleMenuAction('script.runLast')
     },
     {
       key: 'F5',
@@ -582,7 +673,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
   // Register keyboard shortcuts
   useKeyboardShortcuts(keyboardShortcuts);
 
-  const menuItems = ['file', 'edit', 'render', 'script', 'view', 'window', 'help'];
+  const menuItems = ['file', 'edit', 'render', 'modules', 'script', 'view', 'window', 'help'];
 
   return (
     <nav ref={menuBarRef} className="main-menu">
