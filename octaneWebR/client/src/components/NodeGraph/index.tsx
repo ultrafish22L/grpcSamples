@@ -1,5 +1,7 @@
 /**
- * Node Graph Editor Component - ReactFlow Implementation
+ * NodeGraph Component - ReactFlow Implementation
+ * Main component file for the node graph editor
+ * 
  * Replaces 956-line custom SVG implementation with ReactFlow
  * Maintains all functionality from octaneWeb's NodeGraphEditor.js
  */
@@ -1579,3 +1581,7 @@ export const NodeGraphEditor = React.memo(function NodeGraphEditor({
     </ReactFlowProvider>
   );
 });
+
+// Re-export related components for external use
+export { OctaneNode } from './OctaneNode';
+export type { OctaneNodeData } from './OctaneNode';
