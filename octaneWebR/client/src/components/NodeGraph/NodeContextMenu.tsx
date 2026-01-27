@@ -134,7 +134,7 @@ export function NodeContextMenu({
     >
       {/* Render */}
       <div
-        className="context-menu-item"
+        className="context-menu-item disabled"
         onClick={handleRenderClick}
       >
         Render
@@ -142,7 +142,7 @@ export function NodeContextMenu({
 
       {/* Save... */}
       <div
-        className="context-menu-item"
+        className="context-menu-item disabled"
         onClick={handleSaveClick}
       >
         Save...
@@ -161,7 +161,7 @@ export function NodeContextMenu({
 
       {/* Copy */}
       <div
-        className="context-menu-item"
+        className="context-menu-item disabled"
         onClick={handleCopyClick}
       >
         Copy
@@ -169,7 +169,7 @@ export function NodeContextMenu({
 
       {/* Paste */}
       <div
-        className="context-menu-item"
+        className="context-menu-item disabled"
         onClick={handlePasteClick}
       >
         Paste
@@ -226,7 +226,7 @@ export function NodeContextMenu({
 
       {/* Show in Lua API browser */}
       <div
-        className="context-menu-item"
+        className="context-menu-item disabled"
         onClick={handleShowInLuaBrowserClick}
       >
         Show in Lua API browser

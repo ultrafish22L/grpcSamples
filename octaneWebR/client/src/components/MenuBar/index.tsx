@@ -60,19 +60,19 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Save', action: 'file.save', shortcut: 'Ctrl+S' },
       { label: 'Save as...', action: 'file.saveAs', shortcut: 'Ctrl+Shift+S' },
       { label: 'Save as package...', action: 'file.saveAsPackage' },
-      { label: 'Save as package settings...', action: 'file.saveAsPackageSettings' },
-      { label: 'Unpack package...', action: 'file.unpackPackage' },
+      { label: 'Save as package settings...', action: 'file.saveAsPackageSettings', enabled: false },
+      { label: 'Unpack package...', action: 'file.unpackPackage', enabled: false },
       { type: 'separator' },
-      { label: 'Load render state...', action: 'file.loadRenderState' },
-      { label: 'Save render state...', action: 'file.saveRenderState' },
+      { label: 'Load render state...', action: 'file.loadRenderState', enabled: false },
+      { label: 'Save render state...', action: 'file.saveRenderState', enabled: false },
       { type: 'separator' },
       { label: 'Save as default', action: 'file.saveAsDefault' },
       { type: 'separator' },
       { label: 'Preferences...', action: 'file.preferences', shortcut: 'Ctrl+,' },
       { type: 'separator' },
-      { label: 'Activation status...', action: 'file.activationStatus' },
+      { label: 'Activation status...', action: 'file.activationStatus', enabled: false },
       { type: 'separator' },
-      { label: 'Quit', action: 'file.quit', shortcut: 'Ctrl+Q' }
+      { label: 'Quit', action: 'file.quit', enabled: false }
     ],
     edit: [
       { label: 'Cut', action: 'edit.cut', shortcut: 'Ctrl+X' },
@@ -93,14 +93,14 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'No modules installed', enabled: false }
     ],
     cloud: [
-      { label: 'Upload scene snapshot', action: 'render.uploadSnapshot' },
-      { label: 'Render', action: 'render.render' },
-      { label: 'Open Render Network...', action: 'render.openRenderNetwork' },
-      { label: 'Open Render Network (external)...', action: 'render.openRenderNetworkExternal' }
+      { label: 'Upload scene snapshot', action: 'render.uploadSnapshot', enabled: false },
+      { label: 'Render', action: 'render.render', enabled: false },
+      { label: 'Open Render Network...', action: 'render.openRenderNetwork', enabled: false },
+      { label: 'Open Render Network (external)...', action: 'render.openRenderNetworkExternal', enabled: false }
     ],
     script: [
       { label: 'Rescan script folder', action: 'script.rescanFolder' },
-      { label: 'Run last script again', action: 'script.runLast', shortcut: 'Ctrl+Shift+R' },
+      { label: 'Run last script again', action: 'script.runLast', shortcut: 'Ctrl+Shift+R', enabled: false },
       { type: 'separator' },
       { label: 'Batch rendering', action: 'script.batchRender' },
       { label: 'Daylight animation', action: 'script.daylightAnimation' },
@@ -132,27 +132,27 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
     ],
     window: [
       { label: 'Reset workspace', action: 'window.resetWorkspace' },
-      { label: 'Save workspace layout...', action: 'window.saveWorkspaceLayout' },
-      { label: 'Load workspace layout...', action: 'window.loadWorkspaceLayout' },
-      { label: 'Rescan layout folder', action: 'window.rescanLayoutFolder' },
-      { label: 'Save as default layout', action: 'window.saveAsDefaultLayout' },
-      { label: 'Load default layout', action: 'window.loadDefaultLayout' },
+      { label: 'Save workspace layout...', action: 'window.saveWorkspaceLayout', enabled: false },
+      { label: 'Load workspace layout...', action: 'window.loadWorkspaceLayout', enabled: false },
+      { label: 'Rescan layout folder', action: 'window.rescanLayoutFolder', enabled: false },
+      { label: 'Save as default layout', action: 'window.saveAsDefaultLayout', enabled: false },
+      { label: 'Load default layout', action: 'window.loadDefaultLayout', enabled: false },
       { type: 'separator' },
-      { label: 'Create log window', action: 'window.createLogWindow' },
-      { label: 'Create graph editor', action: 'window.createGraphEditor' },
-      { label: 'Create scene viewport', action: 'window.createSceneViewport' },
-      { label: 'Create scene outliner', action: 'window.createSceneOutliner' },
+      { label: 'Create log window', action: 'window.createLogWindow', enabled: false },
+      { label: 'Create graph editor', action: 'window.createGraphEditor', enabled: false },
+      { label: 'Create scene viewport', action: 'window.createSceneViewport', enabled: false },
+      { label: 'Create scene outliner', action: 'window.createSceneOutliner', enabled: false },
       { type: 'separator' },
-      { label: 'Create scene graph export', action: 'window.createSceneGraphExport' },
+      { label: 'Create scene graph export', action: 'window.createSceneGraphExport', enabled: false },
       { type: 'separator' },
-      { label: 'Create script editor', action: 'window.createScriptEditor' },
-      { label: 'Create OSL editor', action: 'window.createOSLEditor' },
-      { label: 'Create Lua API browser', action: 'window.createLuaAPIBrowser' },
-      { label: 'Create USD stage editor', action: 'window.createUSDStageEditor' }
+      { label: 'Create script editor', action: 'window.createScriptEditor', enabled: false },
+      { label: 'Create OSL editor', action: 'window.createOSLEditor', enabled: false },
+      { label: 'Create Lua API browser', action: 'window.createLuaAPIBrowser', enabled: false },
+      { label: 'Create USD stage editor', action: 'window.createUSDStageEditor', enabled: false }
     ],
     help: [
       { label: 'Open online manual...', action: 'help.docs', shortcut: 'F1' },
-      { label: 'Manage crash reports ...', action: 'help.crashReports' },
+      { label: 'Manage crash reports ...', action: 'help.crashReports', enabled: false },
       { label: 'About OctaneRender...', action: 'help.about' },
       { label: 'Show EULA...', action: 'help.eula' }
     ]
