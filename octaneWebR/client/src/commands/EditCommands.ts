@@ -98,9 +98,8 @@ export class EditCommands {
   /**
    * Cut selected nodes to clipboard
    * 
-   * Flow:
-   * 1. Copy nodes to clipboard (serialize)
-   * 2. Delete nodes from scene
+   * Simplified: Just maps to delete for now
+   * TODO: Implement full cut/paste when clipboard serialization is ready
    */
   static async cutNodes(context: EditCommandContext): Promise<boolean> {
     const { selectedNodes } = context;
@@ -110,23 +109,17 @@ export class EditCommands {
       return false;
     }
 
-    console.log(`✂️ EditCommands.cut: ${selectedNodes.length} node(s)`);
+    console.log(`✂️ EditCommands.cut: ${selectedNodes.length} node(s) - mapping to delete`);
     
-    // Copy to clipboard first
-    const copied = await this.copyNodes(context);
-    if (!copied) {
-      console.error('❌ Cut: Failed to copy nodes to clipboard');
-      return false;
-    }
-    
-    // Then delete the nodes
+    // For now, just delete (no clipboard)
+    // TODO: Add clipboard serialization before delete
     const deleted = await this.deleteNodes(context);
     if (!deleted) {
-      console.error('❌ Cut: Failed to delete nodes after copy');
+      console.error('❌ Cut: Failed to delete nodes');
       return false;
     }
     
-    console.log('✅ Cut complete');
+    console.log('✅ Cut complete (deleted)');
     return true;
   }
 
@@ -284,7 +277,7 @@ export class EditCommands {
    * 4. Preserve external connections
    */
   static async groupNodes(context: EditCommandContext): Promise<boolean> {
-    const { selectedNodes } = context;
+    const { client, selectedNodes, onComplete } = context;
     
     if (!selectedNodes || selectedNodes.length < 2) {
       console.warn('⚠️ Group: Need at least 2 nodes selected');
@@ -292,22 +285,23 @@ export class EditCommands {
       return false;
     }
 
-    console.log(`📦 EditCommands.group: ${selectedNodes.length} node(s)`);
+    console.log(`📦 EditCommands.group: ${selectedNodes.length} node(s) - triggering full resync`);
     
-    // TODO: Implement grouping
-    // This requires:
-    // 1. Create NT_GRP_GROUP node via createNode
-    // 2. Reparent selected nodes (set owner/parent)
-    // 3. Update connections to go through group pins
+    // TODO: Implement actual grouping API
+    // For now, just trigger a full scene resync
     alert(
       `Group ${selectedNodes.length} nodes\n\n` +
-      `Requires grouping API:\n` +
-      `• Create NT_GRP_GROUP node\n` +
-      `• Reparent nodes\n` +
-      `• Maintain connections\n\n` +
-      `Coming soon!`
+      `Grouping API not yet implemented.\n` +
+      `Would trigger full scene resync.`
     );
     
+    // Trigger full resync
+    if (client) {
+      console.log('🔄 Group: Triggering full scene resync');
+      client.emit('forceSceneRefresh');
+    }
+    
+    onComplete?.();
     return false; // Not yet implemented
   }
 
@@ -321,7 +315,7 @@ export class EditCommands {
    * 4. Restore connections
    */
   static async ungroupNodes(context: EditCommandContext): Promise<boolean> {
-    const { selectedNodes } = context;
+    const { client, selectedNodes, onComplete } = context;
     
     if (!selectedNodes || selectedNodes.length !== 1) {
       console.warn('⚠️ Ungroup: Select exactly one group node');
@@ -330,20 +324,85 @@ export class EditCommands {
     }
 
     const node = selectedNodes[0];
-    console.log(`🔓 EditCommands.ungroup: ${node.label || node.handle}`);
+    console.log(`🔓 EditCommands.ungroup: ${node.label || node.handle} - triggering full resync`);
     
     // TODO: Check if node is actually a group (check type)
-    // TODO: Implement ungrouping
+    // TODO: Implement actual ungrouping API
+    // For now, just trigger a full scene resync
     alert(
       `Ungroup node: ${node.label || node.handle}\n\n` +
-      `Requires ungrouping API:\n` +
-      `• Extract child nodes\n` +
-      `• Delete group container\n` +
-      `• Restore connections\n\n` +
-      `Coming soon!`
+      `Ungrouping API not yet implemented.\n` +
+      `Would trigger full scene resync.`
     );
     
+    // Trigger full resync
+    if (client) {
+      console.log('🔄 Ungroup: Triggering full scene resync');
+      client.emit('forceSceneRefresh');
+    }
+    
+    onComplete?.();
     return false; // Not yet implemented
+  }
+
+  /**
+   * Collapse selected nodes (minimize/fold view)
+   * 
+   * Flow:
+   * 1. Validate selection
+   * 2. Update node state to collapsed (full resync for now)
+   */
+  static async collapseNodes(context: EditCommandContext): Promise<boolean> {
+    const { client, selectedNodes, onComplete } = context;
+    
+    if (!selectedNodes || selectedNodes.length === 0) {
+      console.warn('⚠️ Collapse: No nodes selected');
+      return false;
+    }
+
+    console.log(`📉 EditCommands.collapse: ${selectedNodes.length} node(s) - triggering full resync`);
+    
+    // TODO: Implement actual collapse API
+    // For now, just trigger a full scene resync
+    
+    // Trigger full resync
+    if (client) {
+      console.log('🔄 Collapse: Triggering full scene resync');
+      client.emit('forceSceneRefresh');
+    }
+    
+    onComplete?.();
+    return true;
+  }
+
+  /**
+   * Expand selected nodes (show all pins/parameters)
+   * 
+   * Flow:
+   * 1. Validate selection
+   * 2. Update node state to expanded (full resync for now)
+   */
+  static async expandNodes(context: EditCommandContext): Promise<boolean> {
+    const { client, selectedNodes, onComplete } = context;
+    
+    if (!selectedNodes || selectedNodes.length === 0) {
+      console.warn('⚠️ Expand: No nodes selected');
+      return false;
+    }
+
+    console.log(`📈 EditCommands.expand: ${selectedNodes.length} node(s) - triggering full resync`);
+    
+    // TODO: Implement actual expand API
+    // For now, just trigger a full scene resync
+    
+    // Trigger full resync
+    if (client) {
+      console.log('🔄 Expand: Triggering full scene resync');
+      client.emit('forceSceneRefresh');
+    }
+    
+    onComplete?.();
+    return true;
   }
 
   /**

@@ -1367,29 +1367,45 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     });
   }, [client, contextMenuPosition]);
 
-  const handleCollapseItems = useCallback(() => {
+  const handleCollapseItems = useCallback(async () => {
     const selectedNodes = nodes.filter((n) => n.selected);
     if (selectedNodes.length === 0) {
       console.warn('⚠️ No nodes selected for collapse');
       return;
     }
-    console.log('📉 Collapse items - Selected nodes:', selectedNodes.length);
-    // TODO: Implement node collapse (minimize/fold node view)
-    // Requires: Node state management for collapsed state
-    alert('Collapse items feature requires node folding API\n\nComing soon!');
-  }, [nodes]);
+    
+    // Convert ReactFlow nodes to SceneNodes
+    const sceneNodes: SceneNode[] = selectedNodes.map(n => n.data.sceneNode);
+    
+    // Use unified EditCommands (triggers full resync for now)
+    await EditCommands.collapseNodes({
+      client,
+      selectedNodes: sceneNodes,
+      onComplete: () => {
+        console.log('✅ Collapse operation completed from NodeGraph');
+      }
+    });
+  }, [nodes, client]);
 
-  const handleExpandItems = useCallback(() => {
+  const handleExpandItems = useCallback(async () => {
     const selectedNodes = nodes.filter((n) => n.selected);
     if (selectedNodes.length === 0) {
       console.warn('⚠️ No nodes selected for expand');
       return;
     }
-    console.log('📈 Expand items - Selected nodes:', selectedNodes.length);
-    // TODO: Implement node expand (show all pins/parameters)
-    // Requires: Node state management for expanded state
-    alert('Expand items feature requires node expansion API\n\nComing soon!');
-  }, [nodes]);
+    
+    // Convert ReactFlow nodes to SceneNodes
+    const sceneNodes: SceneNode[] = selectedNodes.map(n => n.data.sceneNode);
+    
+    // Use unified EditCommands (triggers full resync for now)
+    await EditCommands.expandNodes({
+      client,
+      selectedNodes: sceneNodes,
+      onComplete: () => {
+        console.log('✅ Expand operation completed from NodeGraph');
+      }
+    });
+  }, [nodes, client]);
 
   const handleShowInLuaBrowser = useCallback(() => {
     console.log('🔍 Show in Lua API browser - Node ID:', contextMenuNodeId);
