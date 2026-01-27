@@ -404,7 +404,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
       // Auto-select render target node after scene is loaded
       const findRenderTarget = (nodes: SceneNode[]): SceneNode | null => {
         for (const node of nodes) {
-          if (node.type === 'PT_RENDERTARGET' || node.type === 'PT_RENDER_TARGET') {
+          if (node.type === 'PT_RENDERTARGET') {
             return node;
           }
           if (node.children) {

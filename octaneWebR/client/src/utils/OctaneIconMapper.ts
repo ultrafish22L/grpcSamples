@@ -97,8 +97,7 @@ export class OctaneIconMapper {
     
     // Fallback based on parameter type with actual icon files
     const iconMap: Record<string, string> = {
-      'PT_RENDER_TARGET': '/icons/RENDER TARGET node.png',
-      'PT_RENDERTARGET': '/icons/RENDER TARGET node.png', // Variant without underscore
+      'PT_RENDERTARGET': '/icons/RENDER TARGET node.png',
       'PT_MESH': '/icons/MESH node.png',
       'PT_GEOMETRY': '/icons/MESH node.png',
       'PT_CAMERA': '/icons/CAMERA node.png',
@@ -117,108 +116,6 @@ export class OctaneIconMapper {
     };
     
     return iconMap[outType] || iconMap['unknown'];
-  }
-  
-  /**
-   * Get icon for parameters (consolidated from NodeInspector.js - both versions)
-   * This replaces both getParameterIcon() functions
-   */
-  static getParameterIcon(paramName: string, paramType?: string): string {
-    // First check the detailed parameter name mapping (from NodeInspector.js line 2868)
-    const nameIcons: Record<string, string> = {
-      'Orthographic': '📐',
-      'Sensor width': '📏',
-      'Focal length': '🔍',
-      'F-stop': '📷',
-      'Field of view': '👁️',
-      'Scale of view': '🔍',
-      'Distortion': '🌀',
-      'Lens shift': '↔️',
-      'Near clip depth': '✂️',
-      'Far clip depth': '✂️',
-      'Auto-focus': '🎯',
-      'Focal depth': '📏',
-      'Aperture': '⭕'
-    };
-    
-    if (nameIcons[paramName]) {
-      return nameIcons[paramName];
-    }
-    
-    // Then check the technical parameter mapping (from NodeInspector.js line 1072)
-    const technicalIcons: Record<string, string> = {
-      'sensor_width': '▣',
-      'focal_length': '◐', 
-      'f_stop': '◯',
-      'field_of_view': '◐',
-      'scale_of_view': '▤',
-      'distortion': '◈',
-      'lens_shift': '⟷',
-      'perspective_correction': '◐',
-      'pixel_aspect_ratio': '▦',
-      'near_clip_depth': '▤',
-      'far_clip_depth': '▤',
-      'auto_focus': '◎',
-      'focal_depth': '▤',
-      'aperture': '◯',
-      'aperture_aspect_ratio': '▦',
-      'aperture_edge': '▢',
-      'bokeh_side_count': '#',
-      'bokeh_rotation': '↻',
-      'bokeh_roundedness': '◯'
-    };
-    
-    if (technicalIcons[paramName]) {
-      return technicalIcons[paramName];
-    }
-    
-    // Finally check type-based icons
-    const typeIcons: Record<string, string> = {
-      'checkbox': '☑️',
-      'numeric-slider': '🎚️',
-      'numeric-input': '🔢',
-      'dropdown': '📋',
-      'color-picker': '🎨',
-      'text-input': '📝',
-      'FLOAT': '🔢',
-      'INT': '🔢',
-      'BOOL': '☑️',
-      'COLOR': '🎨',
-      'STRING': '📝',
-      'ENUM': '📋'
-    };
-    
-    if (paramType && typeIcons[paramType]) {
-      return typeIcons[paramType];
-    }
-    
-    // Default fallback
-    return paramType === 'bool' ? '☐' : 
-           (paramType === 'float' || paramType === 'int') ? '▤' : '◦';
-  }
-  
-  /**
-   * Get icon for pin groups
-   * This will be used for parameter group headers
-   */
-  static getPinGroupIcon(groupName: string): string {
-    const groupIcons: Record<string, string> = {
-      'Physical camera parameters': '📐',
-      'Viewing angle': '👁️',
-      'Clipping': '✂️',
-      'Depth of field': '🎯',
-      'Position': '🔄',
-      'Stereo': '👀',
-      'Diffuse': '🎨',
-      'Specular': '✨',
-      'Light': '💡',
-      'Render settings': '⚙️',
-      'Transform': '🔄',
-      'Material': '🎨',
-      'Lighting': '💡'
-    };
-    
-    return groupIcons[groupName] || '📁';
   }
 
   /**
