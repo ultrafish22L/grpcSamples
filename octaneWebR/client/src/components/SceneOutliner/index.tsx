@@ -658,31 +658,61 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
         console.log('🌲 SceneOutliner: Current tree has', prev.length, 'root nodes');
         console.log('🌲 SceneOutliner: Root handles:', prev.map(n => `${n.handle} (${typeof n.handle})`).join(', '));
         
-        // Recursively filter out deleted node and its children from tree
-        const filterDeleted = (nodes: SceneNode[]): SceneNode[] => {
-          return nodes
-            .filter(n => {
-              const matches = n.handle !== event.handle;
-              if (!matches) {
-                console.log(`🗑️ SceneOutliner: Filtering out node ${n.handle} "${n.name}"`);
+        // Optimized delete with structural sharing
+        // Only creates new objects in the path to the deleted node
+        // Keeps all other nodes unchanged (same reference) for React optimization
+        const filterDeleted = (nodes: SceneNode[]): { updated: SceneNode[], changed: boolean } => {
+          let changed = false;
+          const filtered: SceneNode[] = [];
+          
+          for (const node of nodes) {
+            // If this is the node to delete, skip it
+            if (node.handle === event.handle) {
+              console.log(`🗑️ SceneOutliner: Filtering out node ${node.handle} "${node.name}"`);
+              changed = true;
+              continue;
+            }
+            
+            // If node has children, check if any children need to be filtered
+            if (node.children && node.children.length > 0) {
+              const childResult = filterDeleted(node.children);
+              
+              if (childResult.changed) {
+                // Only create a new object if children changed
+                filtered.push({
+                  ...node,
+                  children: childResult.updated
+                });
+                changed = true;
+              } else {
+                // Keep the same node reference if children unchanged
+                filtered.push(node);
               }
-              return matches;
-            })
-            .map(n => ({
-              ...n,
-              children: n.children ? filterDeleted(n.children) : []
-            }));
+            } else {
+              // Leaf node - keep as-is
+              filtered.push(node);
+            }
+          }
+          
+          return { updated: filtered, changed };
         };
         
-        const updated = filterDeleted(prev);
-        console.log('🌲 SceneOutliner: Updated tree has', updated.length, 'root nodes (was', prev.length, ')');
+        const result = filterDeleted(prev);
+        
+        if (!result.changed) {
+          console.log('⚠️ SceneOutliner: Node not found in tree, no changes made');
+          return prev; // Return same reference if nothing changed
+        }
+        
+        console.log('🌲 SceneOutliner: Updated tree has', result.updated.length, 'root nodes (was', prev.length, ')');
+        console.log('✅ SceneOutliner: Structural sharing preserved unaffected nodes');
         
         // Schedule parent callback after state update completes
         setTimeout(() => {
-          console.log('🌲 SceneOutliner: Calling onSceneTreeChange callback with', updated.length, 'nodes');
-          onSceneTreeChange?.(updated);
+          console.log('🌲 SceneOutliner: Calling onSceneTreeChange callback with', result.updated.length, 'nodes');
+          onSceneTreeChange?.(result.updated);
         }, 0);
-        return updated;
+        return result.updated;
       });
     };
 
