@@ -269,9 +269,8 @@ export class EditCommands {
    * 
    * Flow:
    * 1. Validate selection (need 2+ nodes)
-   * 2. Create NT_GRP_GROUP node
-   * 3. Reparent selected nodes to group
-   * 4. Preserve external connections
+   * 2. Call groupNodes API with list of selected nodes
+   * 3. Trigger scene refresh
    */
   static async groupNodes(context: EditCommandContext): Promise<boolean> {
     const { client, selectedNodes, onComplete } = context;
@@ -282,72 +281,97 @@ export class EditCommands {
       return false;
     }
 
-    console.log(`📦 EditCommands.group: ${selectedNodes.length} node(s) - triggering full resync`);
+    console.log(`📦 EditCommands.group: ${selectedNodes.length} node(s)`);
     
-    // TODO: Implement actual grouping API
-    // For now, just trigger a full scene resync
-    alert(
-      `Group ${selectedNodes.length} nodes\n\n` +
-      `Grouping API not yet implemented.\n` +
-      `Would trigger full scene resync.`
-    );
-    
-    // Trigger full resync
-    if (client) {
-      console.log('🔄 Group: Triggering full scene resync');
+    try {
+      const nodeHandles = selectedNodes.map(n => n.handle).filter((h): h is number => h !== undefined);
+      const groupHandle = await client.groupNodes(nodeHandles);
+      
+      if (!groupHandle) {
+        console.error('❌ Group: Failed to create group node');
+        alert('Group Failed\n\nFailed to create group node.');
+        return false;
+      }
+      
+      console.log('✅ Group created:', groupHandle);
+      
       client.emit('forceSceneRefresh');
+      
+      if (onComplete) {
+        onComplete();
+      }
+      
+      return true;
+    } catch (error: any) {
+      console.error('❌ Group failed:', error);
+      alert(`Group Failed\n\n${error}`);
+      return false;
     }
-    
-    onComplete?.();
-    return false; // Not yet implemented
   }
 
   /**
-   * Ungroup selected group node
+   * Ungroup selected group nodes
    * 
    * Flow:
-   * 1. Validate selection (must be group node)
-   * 2. Move child nodes out of group to parent level
-   * 3. Delete group node
-   * 4. Restore connections
+   * 1. Call ungroup on EACH selected node
+   * 2. Trigger scene refresh
    */
   static async ungroupNodes(context: EditCommandContext): Promise<boolean> {
     const { client, selectedNodes, onComplete } = context;
     
-    if (!selectedNodes || selectedNodes.length !== 1) {
-      console.warn('⚠️ Ungroup: Select exactly one group node');
-      alert('Ungroup\n\nSelect exactly one group node to ungroup.');
+    if (!selectedNodes || selectedNodes.length === 0) {
+      console.warn('⚠️ Ungroup: No nodes selected');
+      alert('Ungroup\n\nSelect one or more group nodes to ungroup.');
       return false;
     }
 
-    const node = selectedNodes[0];
-    console.log(`🔓 EditCommands.ungroup: ${node.label || node.handle} - triggering full resync`);
+    console.log(`🔓 EditCommands.ungroup: ${selectedNodes.length} node(s)`);
     
-    // TODO: Check if node is actually a group (check type)
-    // TODO: Implement actual ungrouping API
-    // For now, just trigger a full scene resync
-    alert(
-      `Ungroup node: ${node.label || node.handle}\n\n` +
-      `Ungrouping API not yet implemented.\n` +
-      `Would trigger full scene resync.`
-    );
-    
-    // Trigger full resync
-    if (client) {
-      console.log('🔄 Ungroup: Triggering full scene resync');
+    try {
+      let totalUngrouped = 0;
+      
+      for (const node of selectedNodes) {
+        if (node.handle === undefined) continue;
+        
+        console.log(`🔓 Ungrouping node: ${node.label || node.handle}`);
+        const ungroupedHandles = await client.ungroupNode(node.handle);
+        
+        if (ungroupedHandles.length > 0) {
+          totalUngrouped += ungroupedHandles.length;
+          console.log(`✅ Ungrouped ${ungroupedHandles.length} nodes from ${node.label || node.handle}`);
+        } else {
+          console.warn(`⚠️ Failed to ungroup ${node.label || node.handle} (might not be a group)`);
+        }
+      }
+      
+      if (totalUngrouped === 0) {
+        console.warn('⚠️ Ungroup: No nodes were ungrouped');
+        alert('Ungroup Failed\n\nNo nodes were ungrouped.\n\nMake sure selected nodes are groups.');
+        return false;
+      }
+      
+      console.log(`✅ Total ungrouped: ${totalUngrouped} nodes from ${selectedNodes.length} groups`);
+      
       client.emit('forceSceneRefresh');
+      
+      if (onComplete) {
+        onComplete();
+      }
+      
+      return true;
+    } catch (error: any) {
+      console.error('❌ Ungroup failed:', error);
+      alert(`Ungroup Failed\n\n${error}`);
+      return false;
     }
-    
-    onComplete?.();
-    return false; // Not yet implemented
   }
 
   /**
    * Collapse selected nodes (minimize/fold view)
    * 
    * Flow:
-   * 1. Validate selection
-   * 2. Update node state to collapsed (full resync for now)
+   * 1. Call collapse on each selected node
+   * 2. Trigger scene refresh
    */
   static async collapseNodes(context: EditCommandContext): Promise<boolean> {
     const { client, selectedNodes, onComplete } = context;
@@ -357,27 +381,42 @@ export class EditCommands {
       return false;
     }
 
-    console.log(`📉 EditCommands.collapse: ${selectedNodes.length} node(s) - triggering full resync`);
+    console.log(`📉 EditCommands.collapse: ${selectedNodes.length} node(s)`);
     
-    // TODO: Implement actual collapse API
-    // For now, just trigger a full scene resync
-    
-    // Trigger full resync
-    if (client) {
-      console.log('🔄 Collapse: Triggering full scene resync');
+    try {
+      let successCount = 0;
+      
+      for (const node of selectedNodes) {
+        if (node.handle === undefined) continue;
+        
+        const collapsed = await client.collapseNode(node.handle);
+        if (collapsed) {
+          successCount++;
+          console.log(`✅ Collapsed node: ${node.label || node.handle}`);
+        }
+      }
+      
+      console.log(`✅ Collapsed ${successCount}/${selectedNodes.length} nodes`);
+      
       client.emit('forceSceneRefresh');
+      
+      if (onComplete) {
+        onComplete();
+      }
+      
+      return successCount > 0;
+    } catch (error: any) {
+      console.error('❌ Collapse failed:', error);
+      return false;
     }
-    
-    onComplete?.();
-    return true;
   }
 
   /**
    * Expand selected nodes (show all pins/parameters)
    * 
    * Flow:
-   * 1. Validate selection
-   * 2. Update node state to expanded (full resync for now)
+   * 1. Call expand on each selected node
+   * 2. Trigger scene refresh
    */
   static async expandNodes(context: EditCommandContext): Promise<boolean> {
     const { client, selectedNodes, onComplete } = context;
@@ -387,19 +426,34 @@ export class EditCommands {
       return false;
     }
 
-    console.log(`📈 EditCommands.expand: ${selectedNodes.length} node(s) - triggering full resync`);
+    console.log(`📈 EditCommands.expand: ${selectedNodes.length} node(s)`);
     
-    // TODO: Implement actual expand API
-    // For now, just trigger a full scene resync
-    
-    // Trigger full resync
-    if (client) {
-      console.log('🔄 Expand: Triggering full scene resync');
+    try {
+      let successCount = 0;
+      
+      for (const node of selectedNodes) {
+        if (node.handle === undefined) continue;
+        
+        const expanded = await client.expandNode(node.handle);
+        if (expanded) {
+          successCount++;
+          console.log(`✅ Expanded node: ${node.label || node.handle}`);
+        }
+      }
+      
+      console.log(`✅ Expanded ${successCount}/${selectedNodes.length} nodes`);
+      
       client.emit('forceSceneRefresh');
+      
+      if (onComplete) {
+        onComplete();
+      }
+      
+      return successCount > 0;
+    } catch (error: any) {
+      console.error('❌ Expand failed:', error);
+      return false;
     }
-    
-    onComplete?.();
-    return true;
   }
 
   /**

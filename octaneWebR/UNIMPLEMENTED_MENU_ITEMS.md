@@ -43,17 +43,17 @@ This document lists ALL menu items that are not yet fully implemented in OctaneW
 | Menu Item | Status | Notes |
 |-----------|--------|-------|
 | Cut | ✅ | Working - maps to delete |
-| Copy | ⚠️ | Shows alert - clipboard serialization not implemented |
-| Paste | ⚠️ | Shows alert - clipboard deserialization not implemented |
-| Group items | 🔄 | Shows alert + triggers full resync (placeholder) |
-| Ungroup items | 🔄 | Shows alert + triggers full resync (placeholder) |
+| Copy | ✅ | Implemented using gRPC ApiNodeGraph.copyItemTree/copyFrom2 |
+| Paste | ✅ | Implemented - copies clipboard nodes using ApiNodeGraph.copyNodes |
+| Group items | ✅ | Implemented using gRPC ApiNodeGraph.groupItems |
+| Ungroup items | ✅ | Implemented using gRPC ApiNodeGraph.ungroup |
 | Delete | ✅ | Fully optimized with incremental updates |
 | Find... | ✅ | Working - opens search dialog |
-| Undo | ⚠️ | Shows notification - command history not integrated with Octane |
-| Redo | ⚠️ | Shows notification - command history not integrated with Octane |
+| Undo | ❌ | Disabled - command history not integrated with Octane |
+| Redo | ❌ | Disabled - command history not integrated with Octane |
 
-### Edit Menu: 3/9 items fully implemented (33%)
-### Edit Menu: 6/9 items partially working (67%)
+### Edit Menu: 7/9 items fully implemented (78%)
+### Edit Menu: 2/9 items disabled (22%)
 
 ---
 
@@ -150,19 +150,19 @@ This document lists ALL menu items that are not yet fully implemented in OctaneW
 | Menu Item | Status | Notes |
 |-----------|--------|-------|
 | Cut | ✅ | Working - maps to delete |
-| Copy | ⚠️ | Shows alert - not implemented |
-| Paste | ⚠️ | Shows alert - not implemented |
+| Copy | ✅ | Implemented using gRPC ApiNodeGraph.copyItemTree/copyFrom2 |
+| Paste | ✅ | Implemented - copies clipboard nodes using ApiNodeGraph.copyNodes |
 | Delete | ✅ | Working - optimized incremental delete |
-| Duplicate | ⚠️ | Shows alert - not implemented |
-| Group Items | 🔄 | Shows alert + triggers full resync |
-| Collapse Items | 🔄 | Triggers full resync (silent) |
-| Expand Items | 🔄 | Triggers full resync (silent) |
+| Duplicate | ✅ | Implemented using gRPC ApiNodeGraph.copyNodes |
+| Group Items | ✅ | Implemented using gRPC ApiNodeGraph.groupItems |
+| Collapse Items | ✅ | Implemented using gRPC ApiItem.collapse |
+| Expand Items | ✅ | Implemented using gRPC ApiItem.expand |
 | Show in Lua API browser | ❌ | Shows alert "Coming soon!" |
 | Save as Macro | ❌ | Shows alert - requires LocalDB API |
 | Render Node | ❌ | Shows alert - requires render target API |
 
-### NodeGraph Context Menu: 2/11 items fully implemented (18%)
-### NodeGraph Context Menu: 6/11 items partially working (55%)
+### NodeGraph Context Menu: 9/11 items fully implemented (82%)
+### NodeGraph Context Menu: 2/11 items unimplemented (18%)
 
 ---
 
@@ -230,22 +230,17 @@ These items are essential for basic workflow:
 
 These items improve productivity:
 
-4. **Group/Ungroup** (Edit menu) 🔄
-   - Status: Placeholder (triggers resync)
-   - Needs: Octane grouping API
-   - Impact: Scene organization
-
-5. **Save/Load workspace layout** (Window menu) ❌
+4. **Save/Load workspace layout** (Window menu) ❌
    - Status: Not implemented
    - Needs: Layout serialization system
    - Impact: Workflow customization
 
-6. **Run last script again** (Script menu) ❌
+5. **Run last script again** (Script menu) ❌
    - Status: Not implemented
    - Needs: Script history tracking
    - Impact: Script iteration workflow
 
-7. **Load/Save render state** (File menu) ❌
+6. **Load/Save render state** (File menu) ❌
    - Status: Not implemented
    - Needs: Render state API
    - Impact: Render preset management
@@ -254,37 +249,32 @@ These items improve productivity:
 
 These are nice-to-have features:
 
-8. **Cloud rendering** (Cloud menu) ❌
+7. **Cloud rendering** (Cloud menu) ❌
    - Status: Not implemented
    - Needs: Cloud service integration
    - Impact: Optional cloud workflow
 
-9. **Package operations** (File menu) ⚠️/❌
+8. **Package operations** (File menu) ⚠️/❌
    - Status: Partial (dialog exists)
    - Needs: Backend implementation
    - Impact: Asset packaging
 
-10. **Window creation** (Window menu) ❌
-    - Status: Not implemented
-    - Needs: Multi-window system
-    - Impact: Advanced layout customization
+9. **Window creation** (Window menu) ❌
+   - Status: Not implemented
+   - Needs: Multi-window system
+   - Impact: Advanced layout customization
 
-11. **Collapse/Expand** (NodeGraph context) 🔄
-    - Status: Placeholder (triggers resync)
-    - Needs: Node UI state API
-    - Impact: Visual organization
-
-12. **Lua API browser** (NodeGraph context) ❌
+10. **Lua API browser** (NodeGraph context) ❌
     - Status: Not implemented
     - Needs: API documentation viewer
     - Impact: Developer tool
 
-13. **Save as Macro** (NodeGraph context) ❌
+11. **Save as Macro** (NodeGraph context) ❌
     - Status: Not implemented
     - Needs: LocalDB API (apilocaldb.proto)
     - Impact: Node preset system
 
-14. **Render Node** (NodeGraph context) ❌
+12. **Render Node** (NodeGraph context) ❌
     - Status: Not implemented
     - Needs: Render target switching API
     - Impact: Selective rendering
@@ -354,48 +344,49 @@ handleRedo: () => commandHistory.redo()
 
 ---
 
-### Group/Ungroup 🔄
+### Group/Ungroup ✅ **IMPLEMENTED**
 
-**Current State:**
-- Shows alert: "Grouping API not yet implemented"
-- Triggers full scene resync (placeholder)
+**Implementation:**
+- Uses `ApiNodeGraph.groupItems(items[], itemsCount)` to create group node
+- Uses `ApiNodeGraph.ungroup(groupHandle)` to ungroup nodes
+- Returns ungrouped item handles for scene updates
+- Properly updates scene tree and emits events
 
-**What's Needed:**
 ```typescript
-// 1. Create group node
-const groupHandle = await client.createNode('NT_GRP_GROUP');
+// Group multiple nodes
+const groupHandle = await client.groupNodes(nodeHandles);
 
-// 2. Reparent selected nodes
+// Ungroup a group node (can call on multiple selected groups)
 for (const node of selectedNodes) {
-  await client.setNodeParent(node.handle, groupHandle);
+  const ungroupedHandles = await client.ungroupNode(node.handle);
 }
-
-// 3. Update connections (complex)
-// Need to research Octane grouping behavior
 ```
 
-**Estimated Effort:** 3-5 days (depends on Octane API)
+**Completed:** Phase 2 implementation
 
 ---
 
-### Collapse/Expand 🔄
+### Collapse/Expand ✅ **IMPLEMENTED**
 
-**Current State:**
-- Triggers full scene resync (silent)
-- No UI state management
+**Implementation:**
+- Uses `ApiItem.collapse(nodeHandle)` to collapse node
+- Uses `ApiItem.expand(nodeHandle)` to expand node
+- Triggers scene refresh after operations
+- Applies to all selected nodes
 
-**What's Needed:**
 ```typescript
-// Option 1: Client-side UI state
-const [collapsedNodes, setCollapsedNodes] = useState<Set<number>>();
+// Collapse nodes
+for (const node of selectedNodes) {
+  await client.collapseNode(node.handle);
+}
 
-// Option 2: Octane API (if exists)
-await client.setNodeUIState(handle, { collapsed: true });
-
-// Update node rendering to show minimized view
+// Expand nodes
+for (const node of selectedNodes) {
+  await client.expandNode(node.handle);
+}
 ```
 
-**Estimated Effort:** 2-4 days
+**Completed:** Phase 2 implementation
 
 ---
 

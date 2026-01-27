@@ -293,4 +293,146 @@ export class NodeService extends BaseService {
       return [];
     }
   }
+
+  /**
+   * Group selected nodes into a group node
+   */
+  async groupNodes(nodeHandles: number[]): Promise<number | null> {
+    console.log('📦 Grouping nodes:', nodeHandles);
+    
+    try {
+      const rootResponse = await this.apiService.callApi('ApiProjectManager', 'rootNodeGraph', {});
+      if (!rootResponse?.result) {
+        console.error('❌ Failed to get root node graph');
+        return null;
+      }
+      
+      const graphHandle = rootResponse.result;
+      
+      const items = nodeHandles.map(h => ({ handle: h }));
+      
+      const groupResponse = await this.apiService.callApi('ApiNodeGraph', 'groupItems', graphHandle, {
+        items: items,
+        itemsCount: items.length
+      });
+      
+      if (!groupResponse?.result) {
+        console.error('❌ Failed to group nodes');
+        return null;
+      }
+      
+      const groupNodeHandle = Number(groupResponse.result.handle);
+      console.log('✅ Group created with handle:', groupNodeHandle);
+      
+      const scene = this.sceneService.getScene();
+      nodeHandles.forEach(h => {
+        scene.map.delete(h);
+        scene.tree = scene.tree.filter(n => n.handle !== h);
+      });
+      
+      await this.sceneService.buildSceneTree(groupNodeHandle);
+      
+      const groupNode = this.sceneService.getNodeByHandle(groupNodeHandle);
+      if (groupNode) {
+        this.emit('nodeAdded', { node: groupNode, handle: groupNodeHandle });
+      }
+      
+      nodeHandles.forEach(h => {
+        this.emit('nodeDeleted', { handle: h, collapsedChildren: [] });
+      });
+      
+      return groupNodeHandle;
+    } catch (error: any) {
+      console.error('❌ Error grouping nodes:', error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Ungroup a group node
+   */
+  async ungroupNode(groupNodeHandle: number): Promise<number[]> {
+    console.log('📦 Ungrouping node:', groupNodeHandle);
+    
+    try {
+      const ungroupResponse = await this.apiService.callApi('ApiNodeGraph', 'ungroup', groupNodeHandle, {});
+      
+      if (!ungroupResponse?.ungroupedItems) {
+        console.error('❌ Failed to ungroup node');
+        return [];
+      }
+      
+      console.log('📋 Ungroup response:', ungroupResponse);
+      
+      const ungroupedHandles: number[] = [];
+      
+      if (Array.isArray(ungroupResponse.ungroupedItems)) {
+        for (const item of ungroupResponse.ungroupedItems) {
+          if (item?.handle) {
+            ungroupedHandles.push(Number(item.handle));
+          }
+        }
+      } else if (ungroupResponse.ungroupedItems?.items) {
+        for (const item of ungroupResponse.ungroupedItems.items) {
+          if (item?.handle) {
+            ungroupedHandles.push(Number(item.handle));
+          }
+        }
+      }
+      
+      console.log('📋 Extracted ungrouped handles:', ungroupedHandles);
+      
+      const scene = this.sceneService.getScene();
+      scene.map.delete(groupNodeHandle);
+      scene.tree = scene.tree.filter(n => n.handle !== groupNodeHandle);
+      this.emit('nodeDeleted', { handle: groupNodeHandle, collapsedChildren: [] });
+      
+      for (const handle of ungroupedHandles) {
+        await this.sceneService.buildSceneTree(handle);
+        const newNode = this.sceneService.getNodeByHandle(handle);
+        if (newNode) {
+          this.emit('nodeAdded', { node: newNode, handle });
+        }
+      }
+      
+      console.log('✅ Ungrouped into nodes:', ungroupedHandles);
+      return ungroupedHandles;
+    } catch (error: any) {
+      console.error('❌ Error ungrouping node:', error.message);
+      return [];
+    }
+  }
+
+  /**
+   * Expand a node (show all children/pins)
+   */
+  async expandNode(nodeHandle: number): Promise<boolean> {
+    console.log('📈 Expanding node:', nodeHandle);
+    
+    try {
+      await this.apiService.callApi('ApiItem', 'expand', nodeHandle, {});
+      console.log('✅ Node expanded:', nodeHandle);
+      return true;
+    } catch (error: any) {
+      console.error('❌ Error expanding node:', error.message);
+      return false;
+    }
+  }
+
+  /**
+   * Collapse a node (hide children/pins)
+   */
+  async collapseNode(nodeHandle: number): Promise<boolean> {
+    console.log('📉 Collapsing node:', nodeHandle);
+    
+    try {
+      const response = await this.apiService.callApi('ApiItem', 'collapse', nodeHandle, {});
+      const collapsed = response?.result || false;
+      console.log('✅ Node collapse result:', collapsed);
+      return collapsed;
+    } catch (error: any) {
+      console.error('❌ Error collapsing node:', error.message);
+      return false;
+    }
+  }
 }

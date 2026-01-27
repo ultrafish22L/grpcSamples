@@ -311,6 +311,22 @@ export class OctaneClient extends EventEmitter {
     return this.nodeService.copyNodes(nodeHandles);
   }
 
+  async groupNodes(nodeHandles: number[]): Promise<number | null> {
+    return this.nodeService.groupNodes(nodeHandles);
+  }
+
+  async ungroupNode(groupNodeHandle: number): Promise<number[]> {
+    return this.nodeService.ungroupNode(groupNodeHandle);
+  }
+
+  async expandNode(nodeHandle: number): Promise<boolean> {
+    return this.nodeService.expandNode(nodeHandle);
+  }
+
+  async collapseNode(nodeHandle: number): Promise<boolean> {
+    return this.nodeService.collapseNode(nodeHandle);
+  }
+
   async connectPinByIndex(
     targetNodeHandle: number,
     pinIdx: number,
