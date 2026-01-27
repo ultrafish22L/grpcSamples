@@ -303,6 +303,14 @@ export class OctaneClient extends EventEmitter {
     return this.nodeService.deleteNodeOptimized(nodeHandle);
   }
 
+  async copyNode(nodeHandle: number): Promise<number | null> {
+    return this.nodeService.copyNode(nodeHandle);
+  }
+
+  async copyNodes(nodeHandles: number[]): Promise<number[]> {
+    return this.nodeService.copyNodes(nodeHandles);
+  }
+
   async connectPinByIndex(
     targetNodeHandle: number,
     pinIdx: number,

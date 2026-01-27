@@ -161,7 +161,7 @@ export function NodeContextMenu({
 
       {/* Copy */}
       <div
-        className="context-menu-item disabled"
+        className="context-menu-item"
         onClick={handleCopyClick}
       >
         Copy
@@ -169,7 +169,7 @@ export function NodeContextMenu({
 
       {/* Paste */}
       <div
-        className="context-menu-item disabled"
+        className="context-menu-item"
         onClick={handlePasteClick}
       >
         Paste

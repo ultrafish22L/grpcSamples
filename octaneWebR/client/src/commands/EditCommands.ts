@@ -127,50 +127,29 @@ export class EditCommands {
    * Copy selected nodes to clipboard
    * 
    * Flow:
-   * 1. Serialize selected nodes and connections
-   * 2. Store in localStorage (browser clipboard API requires user gesture)
+   * 1. Store node handles in localStorage
+   * 2. Octane will handle duplication on paste using copyFrom2 API
    */
   static async copyNodes(context: EditCommandContext): Promise<boolean> {
     const { selectedNodes } = context;
     
     if (!selectedNodes || selectedNodes.length === 0) {
       console.warn('⚠️ Copy: No nodes selected');
+      alert('Copy\n\nNo nodes selected.\n\nSelect one or more nodes first.');
       return false;
     }
 
     console.log(`📋 EditCommands.copy: ${selectedNodes.length} node(s)`);
     
     try {
-      // Serialize nodes for clipboard
-      const clipboardData = {
-        version: '1.0',
+      const clipboard = {
         type: 'octane-nodes',
-        timestamp: Date.now(),
-        nodes: selectedNodes.map(node => ({
-          handle: node.handle,
-          type: node.type,
-          label: node.label,
-          // Note: Full serialization would include:
-          // - All parameter values (requires getAttribute calls)
-          // - Pin connections (requires connection API)
-          // - Position data (for paste offset)
-          // This is a simplified version for now
-        }))
+        handles: selectedNodes.map(n => n.handle),
+        timestamp: Date.now()
       };
       
-      // Store in localStorage (always works, no user gesture required)
-      localStorage.setItem('octane-clipboard', JSON.stringify(clipboardData));
-      console.log('✅ Copied to clipboard (localStorage)');
-      
-      // Try browser clipboard API (may fail without user gesture)
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText(JSON.stringify(clipboardData));
-          console.log('✅ Copied to system clipboard');
-        }
-      } catch (clipError) {
-        console.log('ℹ️ System clipboard not available (requires user gesture)');
-      }
+      localStorage.setItem('octane-clipboard', JSON.stringify(clipboard));
+      console.log('✅ Copied to clipboard (localStorage):', clipboard.handles);
       
       return true;
     } catch (error) {
@@ -183,60 +162,60 @@ export class EditCommands {
    * Paste nodes from clipboard
    * 
    * Flow:
-   * 1. Read from clipboard
-   * 2. Deserialize and validate
-   * 3. Create new nodes via API (future implementation)
-   * 4. Restore connections (future implementation)
+   * 1. Read handles from clipboard
+   * 2. Use copyNodes API to duplicate them
+   * 3. Trigger scene refresh
    */
   static async pasteNodes(context: EditCommandContext): Promise<boolean> {
-    const { client: _client, onComplete } = context;
+    const { client, onComplete } = context;
     
     console.log('📋 EditCommands.paste: Reading from clipboard...');
     
     try {
-      // Try to read from localStorage
       const clipboardText = localStorage.getItem('octane-clipboard');
       if (!clipboardText) {
         console.warn('⚠️ Paste: Clipboard is empty');
-        alert('Clipboard is empty\n\nUse Copy or Cut first to add nodes to clipboard.');
+        alert('Clipboard is empty\n\nUse Copy first to add nodes to clipboard.');
         return false;
       }
       
-      const clipboardData = JSON.parse(clipboardText);
+      const clipboard = JSON.parse(clipboardText);
       
-      if (clipboardData.type !== 'octane-nodes') {
+      if (clipboard.type !== 'octane-nodes') {
         console.warn('⚠️ Paste: Invalid clipboard data type');
+        alert('Invalid clipboard data\n\nClipboard does not contain nodes.');
         return false;
       }
       
-      console.log(`📋 Paste: ${clipboardData.nodes.length} node(s) from clipboard`);
+      const sourceHandles = clipboard.handles;
+      if (!sourceHandles || sourceHandles.length === 0) {
+        console.warn('⚠️ Paste: No handles in clipboard');
+        alert('Clipboard is empty\n\nNo nodes to paste.');
+        return false;
+      }
       
-      // TODO: Implement full paste functionality
-      // This requires:
-      // 1. Create new nodes via client.createNode() for each clipboard node
-      // 2. Set parameter values via setAttribute for each parameter
-      // 3. Restore pin connections via connectPin API
-      // 4. Position nodes offset from originals
+      console.log(`📋 Paste: ${sourceHandles.length} node(s) from clipboard`);
       
-      console.log('ℹ️ Paste: Full implementation requires node duplication API');
-      alert(
-        `Paste Nodes\n\n` +
-        `Found ${clipboardData.nodes.length} node(s) in clipboard.\n\n` +
-        `Full paste implementation requires:\n` +
-        `• Node creation API (✓ available)\n` +
-        `• Parameter copying\n` +
-        `• Connection restoration\n` +
-        `• Position offset calculation\n\n` +
-        `Coming soon!`
-      );
+      const copiedHandles = await client.copyNodes(sourceHandles);
+      
+      if (copiedHandles.length === 0) {
+        console.error('❌ Paste: Failed to copy nodes');
+        alert('Paste Failed\n\nFailed to copy nodes from clipboard.');
+        return false;
+      }
+      
+      console.log(`✅ Pasted ${copiedHandles.length} node(s)`);
+      
+      client.emit('forceSceneRefresh');
       
       if (onComplete) {
         onComplete();
       }
       
-      return false; // Not yet fully implemented
+      return true;
     } catch (error) {
       console.error('❌ Paste failed:', error);
+      alert(`Paste Failed\n\n${error}`);
       return false;
     }
   }
@@ -245,26 +224,44 @@ export class EditCommands {
    * Duplicate selected nodes
    * 
    * Flow:
-   * 1. Copy selected nodes (without deleting)
-   * 2. Paste immediately (creates duplicates)
+   * 1. Use copyNodes API directly (no clipboard)
+   * 2. Trigger scene refresh
    */
   static async duplicateNodes(context: EditCommandContext): Promise<boolean> {
-    console.log('📑 EditCommands.duplicate: Starting...');
+    const { client, selectedNodes, onComplete } = context;
     
-    const copied = await this.copyNodes(context);
-    if (!copied) {
-      console.error('❌ Duplicate: Failed to copy nodes');
+    if (!selectedNodes || selectedNodes.length === 0) {
+      console.warn('⚠️ Duplicate: No nodes selected');
+      alert('Duplicate\n\nNo nodes selected.\n\nSelect one or more nodes first.');
       return false;
     }
+
+    console.log(`📑 EditCommands.duplicate: ${selectedNodes.length} node(s)`);
     
-    const pasted = await this.pasteNodes(context);
-    if (!pasted) {
-      console.error('❌ Duplicate: Failed to paste nodes');
+    try {
+      const sourceHandles = selectedNodes.map(n => n.handle).filter((h): h is number => h !== undefined);
+      const copiedHandles = await client.copyNodes(sourceHandles);
+      
+      if (copiedHandles.length === 0) {
+        console.error('❌ Duplicate: Failed to duplicate nodes');
+        alert('Duplicate Failed\n\nFailed to duplicate selected nodes.');
+        return false;
+      }
+      
+      console.log(`✅ Duplicated ${copiedHandles.length} node(s)`);
+      
+      client.emit('forceSceneRefresh');
+      
+      if (onComplete) {
+        onComplete();
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('❌ Duplicate failed:', error);
+      alert(`Duplicate Failed\n\n${error}`);
       return false;
     }
-    
-    console.log('✅ Duplicate complete');
-    return true;
   }
 
   /**

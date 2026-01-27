@@ -186,4 +186,111 @@ export class NodeService extends BaseService {
     
     return collapsed;
   }
+
+  /**
+   * Copy a single node (creates a duplicate)
+   */
+  async copyNode(nodeHandle: number): Promise<number | null> {
+    console.log('📋 Copying node:', nodeHandle);
+    
+    try {
+      const rootResponse = await this.apiService.callApi('ApiProjectManager', 'rootNodeGraph', {});
+      if (!rootResponse?.result) {
+        console.error('❌ Failed to get root node graph');
+        return null;
+      }
+      
+      const graphHandle = rootResponse.result;
+      
+      const copyResponse = await this.apiService.callApi('ApiNodeGraph', 'copyItemTree', graphHandle, {
+        rootItem: { handle: nodeHandle }
+      });
+      
+      if (!copyResponse?.result) {
+        console.error('❌ Failed to copy node');
+        return null;
+      }
+      
+      const copiedNodeHandle = Number(copyResponse.result.handle);
+      console.log('✅ Node copied with handle:', copiedNodeHandle);
+      
+      await this.sceneService.buildSceneTree(copiedNodeHandle);
+      
+      const newNode = this.sceneService.getNodeByHandle(copiedNodeHandle);
+      if (newNode) {
+        console.log('✅ Copied node added - emitting nodeAdded event');
+        this.emit('nodeAdded', { node: newNode, handle: copiedNodeHandle });
+      }
+      
+      return copiedNodeHandle;
+    } catch (error: any) {
+      console.error('❌ Error copying node:', error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Copy multiple nodes
+   */
+  async copyNodes(nodeHandles: number[]): Promise<number[]> {
+    console.log('📋 Copying multiple nodes:', nodeHandles);
+    
+    try {
+      const rootResponse = await this.apiService.callApi('ApiProjectManager', 'rootNodeGraph', {});
+      if (!rootResponse?.result) {
+        console.error('❌ Failed to get root node graph');
+        return [];
+      }
+      
+      const graphHandle = rootResponse.result;
+      
+      const sourceItems = nodeHandles.map(h => ({ handle: h }));
+      
+      const copyResponse = await this.apiService.callApi('ApiNodeGraph', 'copyFrom2', graphHandle, {
+        sourceItems: sourceItems,
+        sourceItemsCount: sourceItems.length,
+        origItems: sourceItems,
+        origItemsCount: sourceItems.length
+      });
+      
+      if (!copyResponse?.copiedItems) {
+        console.error('❌ Failed to copy nodes');
+        return [];
+      }
+      
+      console.log('📋 Copy response:', copyResponse);
+      
+      const copiedHandles: number[] = [];
+      
+      if (Array.isArray(copyResponse.copiedItems)) {
+        for (const item of copyResponse.copiedItems) {
+          if (item?.handle) {
+            copiedHandles.push(Number(item.handle));
+          }
+        }
+      } else if (copyResponse.copiedItems?.items) {
+        for (const item of copyResponse.copiedItems.items) {
+          if (item?.handle) {
+            copiedHandles.push(Number(item.handle));
+          }
+        }
+      }
+      
+      console.log('📋 Extracted copied handles:', copiedHandles);
+      
+      for (const handle of copiedHandles) {
+        await this.sceneService.buildSceneTree(handle);
+        const newNode = this.sceneService.getNodeByHandle(handle);
+        if (newNode) {
+          this.emit('nodeAdded', { node: newNode, handle });
+        }
+      }
+      
+      console.log('✅ Copied nodes:', copiedHandles);
+      return copiedHandles;
+    } catch (error: any) {
+      console.error('❌ Error copying nodes:', error.message);
+      return [];
+    }
+  }
 }
