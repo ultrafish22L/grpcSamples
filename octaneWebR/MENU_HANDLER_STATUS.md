@@ -44,17 +44,18 @@ This document tracks the implementation status of all menu action handlers in Oc
 
 | Action | Status | Implementation |
 |--------|--------|----------------|
-| `edit.cut` | ⚠️ | **NEEDS IMPLEMENTATION** |
-| `edit.copy` | ⚠️ | **NEEDS IMPLEMENTATION** |
-| `edit.paste` | ⚠️ | **NEEDS IMPLEMENTATION** |
-| `edit.group` | ⚠️ | **NEEDS IMPLEMENTATION** |
-| `edit.ungroup` | ⚠️ | **NEEDS IMPLEMENTATION** |
-| `edit.delete` | ⚠️ | **NEEDS IMPLEMENTATION** |
-| `edit.find` | ⚠️ | **NEEDS IMPLEMENTATION** |
+| `edit.cut` | ✅ | **WIRED** - Delegates to NodeGraph handler (shows alert - needs clipboard API) |
+| `edit.copy` | ✅ | **WIRED** - Delegates to NodeGraph handler (shows alert - needs clipboard API) |
+| `edit.paste` | ✅ | **WIRED** - Delegates to NodeGraph handler (shows alert - needs clipboard API) |
+| `edit.group` | ✅ | **WIRED** - Delegates to NodeGraph handler (shows alert - needs grouping API) |
+| `edit.ungroup` | ✅ | **WIRED** - Delegates to EditActionsContext (no handler yet) |
+| `edit.delete` | ✅ | **WIRED** - Delegates to NodeGraph handler (fully functional via GRPC) |
+| `edit.find` | ✅ | **WIRED** - Delegates to NodeGraph handler (opens search dialog) |
 | `edit.undo` | ✅ | Command history undo |
 | `edit.redo` | ✅ | Command history redo |
 
-**Summary:** 2 implemented, 7 placeholders
+**Summary:** 9 implemented/wired (via EditActionsContext)
+**Note:** Cut/Copy/Paste/Group show alerts as they need clipboard/grouping APIs. Delete and Find are fully functional.
 
 ---
 
@@ -122,7 +123,7 @@ No active menu items - shows "No modules installed" (disabled)
 | `help.docs` | ✅ | Opens online manual URL |
 | `help.crashReports` | ⚠️ | **NEEDS IMPLEMENTATION** |
 | `help.about` | ✅ | Opens About dialog |
-| `help.eula` | ✅ | Opens EULA URL |
+| `help.eula` | ✅ | Opens local EULA PDF in new tab |
 
 **Summary:** 3 implemented, 1 placeholder
 
@@ -176,20 +177,24 @@ No active menu items - shows "No modules installed" (disabled)
 ## Next Steps
 
 1. ✅ **Cleanup completed** - Removed duplicate render menu definition
-2. 🎯 **Implement Edit menu actions** - Most commonly used by users
+2. ✅ **Edit menu wired** - All actions delegate to NodeGraph handlers via EditActionsContext
 3. 🎯 **Add Window creation actions** - Core UI functionality
 4. 🎯 **Implement Cloud/Render Network** - Online rendering features
 5. 🎯 **File menu completion** - Render state, package settings
+6. 🎯 **Implement clipboard API** - For cut/copy/paste functionality
+7. 🎯 **Implement grouping API** - For group/ungroup functionality
 
 ---
 
 ## Notes
 
 - All missing handlers fall through to the `default` case which shows: `"Action {action} not yet implemented"`
-- Placeholder handlers show specific messages: `"{Action} not yet implemented"`
 - View menu handlers are fully implemented despite not being in the menu bar (keyboard shortcuts still work)
 - Module menu is empty by design (shows "No modules installed")
+- **Edit menu uses EditActionsContext** - Global context allows menu bar to trigger actions in focused component
+- Edit actions (Cut/Copy/Paste/Group) are wired but show alerts as they need API implementation
+- Delete and Find edit actions are fully functional
 
 ---
 
-*Last updated after commit 187b467a*
+*Last updated after commit d17d270f - Edit menu wired to NodeGraph context handlers*

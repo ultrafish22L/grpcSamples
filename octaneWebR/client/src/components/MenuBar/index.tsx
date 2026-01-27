@@ -557,8 +557,8 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
         break;
 
       case 'help.eula':
-        window.open('https://home.otoy.com/render/octane-render/eula/', '_blank');
-        console.log('📄 Opening EULA');
+        window.open('/eula.pdf', '_blank');
+        console.log('📄 Opening EULA PDF');
         break;
 
       default:
