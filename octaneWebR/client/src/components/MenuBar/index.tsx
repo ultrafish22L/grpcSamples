@@ -673,7 +673,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
   // Register keyboard shortcuts
   useKeyboardShortcuts(keyboardShortcuts);
 
-  const menuItems = ['file', 'edit', 'render', 'modules', 'script', 'view', 'window', 'help'];
+  const menuItems = ['file', 'edit', 'modules', 'script', 'window', 'help'];
 
   return (
     <nav ref={menuBarRef} className="main-menu">
