@@ -6,7 +6,8 @@
 import { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { SceneNode } from '../../services/OctaneClient';
-import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
+import { getIconForType } from '../../constants/PinTypes';
+import { formatColorValue } from '../../utils/ColorUtils';
 
 /**
  * Convert hex color to HSL
@@ -128,7 +129,7 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
   
   // Get node color from nodeInfo - desaturate for muted appearance
   const rawNodeColor = sceneNode.nodeInfo?.nodeColor 
-    ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
+    ? formatColorValue(sceneNode.nodeInfo.nodeColor)
     : '#666';
   const nodeColor = rawNodeColor; //desaturateColor(rawNodeColor, 0.4); // 40% saturation for muted look
 
@@ -149,7 +150,7 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
     }
   };
   const typeStr = String(sceneNode.type || sceneNode.outType || 'unknown');
-  const icon = sceneNode.icon || OctaneIconMapper.getNodeIcon(typeStr, sceneNode.name);
+  const icon = sceneNode.icon || getIconForType(typeStr, sceneNode.name);
 
 
   return (
@@ -208,7 +209,7 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
       {/* Input handles on top */}
       {inputs.map((input: any, index: number) => {
         const rawSocketColor = input.pinInfo?.pinColor !== undefined
-          ? OctaneIconMapper.formatColorValue(input.pinInfo.pinColor)
+          ? formatColorValue(input.pinInfo.pinColor)
           : '#f3dcde';
         const socketColor = saturateColor(rawSocketColor); // Fully saturated for vibrant pins
         
@@ -308,7 +309,7 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
       {/* Output handle on bottom */}
       {output && (() => {
         const rawOutputColor = sceneNode.nodeInfo?.nodeColor !== undefined
-          ? OctaneIconMapper.formatColorValue(sceneNode.nodeInfo.nodeColor)
+          ? formatColorValue(sceneNode.nodeInfo.nodeColor)
           : '#f3dcde';
         const outputColor = saturateColor(rawOutputColor); // Fully saturated for vibrant pins
         

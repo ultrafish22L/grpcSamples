@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { useOctane } from '../../hooks/useOctane';
 import { SceneNode, NodeAddedEvent, NodeDeletedEvent } from '../../services/OctaneClient';
-import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
+import { getIconForType } from '../../constants/PinTypes';
 import { SceneOutlinerContextMenu } from './SceneOutlinerContextMenu';
 
 const getNodeIcon = (node: SceneNode): string => {
@@ -15,9 +15,9 @@ const getNodeIcon = (node: SceneNode): string => {
     return '/icons/SCENE node.png'; // Scene icon for scene root
   }
   
-  // Use OctaneIconMapper for consistent icon mapping
+  // Use getIconForType for consistent icon mapping
   const outType = String(node.type || node.outType || 'unknown');
-  return OctaneIconMapper.getNodeIcon(outType, node.name);
+  return getIconForType(outType, node.name);
 };
 
 interface SceneTreeItemProps {

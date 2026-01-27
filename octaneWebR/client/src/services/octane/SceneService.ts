@@ -6,7 +6,7 @@
 import { BaseService } from './BaseService';
 import { ApiService } from './ApiService';
 import { Scene, SceneNode } from './types';
-import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
+import { getIconForType } from '../../constants/PinTypes';
 import { AttributeId } from '../../constants/OctaneTypes';
 
 export class SceneService extends BaseService {
@@ -365,6 +365,6 @@ export class SceneService extends BaseService {
 
   private getNodeIcon(outType: string | number, name?: string): string {
     const typeStr = typeof outType === 'string' ? outType : String(outType);
-    return OctaneIconMapper.getNodeIcon(typeStr, name);
+    return getIconForType(typeStr, name);
   }
 }

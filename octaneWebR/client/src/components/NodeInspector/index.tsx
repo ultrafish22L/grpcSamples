@@ -15,7 +15,8 @@ import React, { useState, useEffect } from 'react';
 import { SceneNode } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
 import { AttributeId, AttrType } from '../../constants/OctaneTypes';
-import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
+import { getIconForType } from '../../constants/PinTypes';
+import { formatColorValue, formatNodeColor } from '../../utils/ColorUtils';
 import { NodeInspectorContextMenu } from './NodeInspectorContextMenu';
 
 /**
@@ -91,8 +92,8 @@ function NodeParameter({
   const isEndNode = !hasChildren && node.attrInfo;
   const nodeId = `node-${node.handle}`;
   const typeStr = String(node.type || node.outType || 'unknown');
-  const icon = node.icon || OctaneIconMapper.getNodeIcon(typeStr, node.name);
-  const color = node.nodeInfo?.nodeColor ? OctaneIconMapper.formatNodeColor(node.nodeInfo.nodeColor) : '#666';
+  const icon = node.icon || getIconForType(typeStr, node.name);
+  const color = node.nodeInfo?.nodeColor ? formatNodeColor(node.nodeInfo.nodeColor) : '#666';
   const name = node.pinInfo?.staticLabel || node.name;
 
   // Fetch parameter value for end nodes (matching octaneWeb's GenericNodeRenderer.getValue())
@@ -366,7 +367,7 @@ function NodeParameter({
           
           // Check if this is a color (NT_TEX_RGB)
           if (isColor) {
-            const hexColor = OctaneIconMapper.formatColorValue(value);
+            const hexColor = formatColorValue(value);
             controlHtml = (
               <div className="parameter-control-container">
                 <input 

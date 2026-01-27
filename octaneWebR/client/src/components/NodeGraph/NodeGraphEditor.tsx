@@ -31,7 +31,7 @@ import '@xyflow/react/dist/style.css';
 import { SceneNode, NodeAddedEvent } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
 import { OctaneNode, OctaneNodeData } from './OctaneNode';
-import { OctaneIconMapper } from '../../utils/OctaneIconMapper';
+import { formatColorValue } from '../../utils/ColorUtils';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
 import { NodeContextMenu } from './NodeContextMenu';
 import { SearchDialog } from './SearchDialog';
@@ -205,7 +205,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
           if (nodeMap.has(sourceHandle) && nodeMap.has(targetHandle)) {
             // FIX: Check pinColor !== undefined to handle black (0) correctly
             const edgeColor = (childNode.pinInfo?.pinColor !== undefined && childNode.pinInfo?.pinColor !== null)
-              ? OctaneIconMapper.formatColorValue(childNode.pinInfo.pinColor)
+              ? formatColorValue(childNode.pinInfo.pinColor)
               : '#ffc107';
             
             const edge: Edge = {
@@ -680,14 +680,14 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       if (handleType === 'source' && nodeData.output?.pinInfo) {
         const pinColor = nodeData.output.pinInfo.pinColor;
         if (pinColor !== undefined && pinColor !== null) {
-          handleColor = OctaneIconMapper.formatColorValue(pinColor);
+          handleColor = formatColorValue(pinColor);
         }
       } else if (handleType === 'target' && nodeData.inputs) {
         const input = nodeData.inputs.find(i => i.id === handleId);
         if (input?.pinInfo) {
           const pinColor = input.pinInfo.pinColor;
           if (pinColor !== undefined && pinColor !== null) {
-            handleColor = OctaneIconMapper.formatColorValue(pinColor);
+            handleColor = formatColorValue(pinColor);
           }
         }
       }
@@ -989,7 +989,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         // FIX: Read edge color from actual pin info, not stale connectionLineColor state
         const pinColor = child.pinInfo.pinColor;
         const edgeColor = (pinColor !== undefined && pinColor !== null)
-          ? OctaneIconMapper.formatColorValue(pinColor)
+          ? formatColorValue(pinColor)
           : '#ffc107';
 
         // Connect pin in Octane
@@ -1529,7 +1529,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
           nodeColor={(node) => {
             const data = node.data as OctaneNodeData;
             return data.sceneNode.nodeInfo?.nodeColor
-              ? OctaneIconMapper.formatColorValue(data.sceneNode.nodeInfo.nodeColor)
+              ? formatColorValue(data.sceneNode.nodeInfo.nodeColor)
               : '#666';
           }}
           style={{
