@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { MenuItem, MenuAction } from '../../types/menu';
+import { MenuItem, MenuAction } from './types';
 
 interface MenuDropdownProps {
   items: MenuItem[];

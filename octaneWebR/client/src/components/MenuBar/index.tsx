@@ -16,7 +16,7 @@ import { DaylightAnimationDialog } from '../dialogs/DaylightAnimationDialog';
 import { TurntableAnimationDialog } from '../dialogs/TurntableAnimationDialog';
 import { AboutDialog } from '../dialogs/AboutDialog';
 import { SavePackageDialog } from '../dialogs/SavePackageDialog';
-import { MenuAction, MenuItem, MenuDefinition } from '../../types/menu';
+import { MenuAction, MenuItem, MenuDefinition } from './types';
 import { commandHistory } from '../../services/CommandHistory';
 import { getMenuIcon } from '../../utils/MenuIconMapping';
 
