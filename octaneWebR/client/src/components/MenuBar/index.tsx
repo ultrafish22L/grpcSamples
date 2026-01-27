@@ -31,7 +31,7 @@ interface PanelVisibility {
 /**
  * Build menu definitions with current state
  */
-function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelVisibility): MenuDefinition {
+function getMenuDefinitions(recentFiles: string[] = [], _panelVisibility?: PanelVisibility): MenuDefinition {
   // Build recent files submenu
   const recentFilesSubmenu: MenuItem[] = recentFiles.length > 0
     ? [
