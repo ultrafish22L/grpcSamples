@@ -378,29 +378,6 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   }, [nodes, fitView]);
 
   /**
-   * Register edit action handlers with global EditActionsContext
-   * This allows MenuBar Edit menu to trigger NodeGraph actions
-   */
-  useEffect(() => {
-    const handleFind = () => {
-      setSearchDialogVisible(true);
-    };
-
-    editActions.registerHandlers({
-      cut: handleCut,
-      copy: handleCopy,
-      paste: handlePaste,
-      delete: handleDeleteSelected,
-      group: handleGroupItems,
-      find: handleFind,
-    });
-
-    return () => {
-      editActions.unregisterHandlers();
-    };
-  }, [editActions, handleCut, handleCopy, handlePaste, handleDeleteSelected, handleGroupItems]);
-
-  /**
    * Connection Cutter: Mouse handlers
    * Per Octane SE manual: "Cuts off multiple connections by holding down 
    * the CTRL key and then click-dragging the mouse to form a line"
@@ -1390,6 +1367,29 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     // Requires: API to create node groups and maintain connections
     alert(`Group ${selectedNodes.length} nodes feature requires grouping API\n\nComing soon!`);
   }, [nodes]);
+
+  /**
+   * Register edit action handlers with global EditActionsContext
+   * This allows MenuBar Edit menu to trigger NodeGraph actions
+   */
+  useEffect(() => {
+    const handleFind = () => {
+      setSearchDialogVisible(true);
+    };
+
+    editActions.registerHandlers({
+      cut: handleCut,
+      copy: handleCopy,
+      paste: handlePaste,
+      delete: handleDeleteSelected,
+      group: handleGroupItems,
+      find: handleFind,
+    });
+
+    return () => {
+      editActions.unregisterHandlers();
+    };
+  }, [editActions, handleCut, handleCopy, handlePaste, handleDeleteSelected, handleGroupItems]);
 
   const handleShowInOutliner = useCallback(() => {
     console.log('🔍 Show in Outliner - Node ID:', contextMenuNodeId);
