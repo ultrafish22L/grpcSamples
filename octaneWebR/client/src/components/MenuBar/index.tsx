@@ -140,11 +140,10 @@ function getMenuDefinitions(recentFiles: string[] = [], panelVisibility?: PanelV
       { label: 'Create USD stage editor', action: 'window.createUSDStageEditor' }
     ],
     help: [
-      { label: 'Documentation', action: 'help.docs', shortcut: 'F1' },
-      { label: 'Keyboard Shortcuts', action: 'help.shortcuts' },
-      { type: 'separator' },
-      { label: 'Report Bug', action: 'help.bug' },
-      { label: 'About OctaneWebR', action: 'help.about' }
+      { label: 'Open online manual...', action: 'help.docs', shortcut: 'F1' },
+      { label: 'Manage crash reports ...', action: 'help.crashReports' },
+      { label: 'About OctaneRender...', action: 'help.about' },
+      { label: 'Show EULA...', action: 'help.eula' }
     ]
   };
 }
@@ -471,22 +470,24 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
         break;
 
       // Help menu actions
-      case 'help.shortcuts':
-        setIsShortcutsDialogOpen(true);
-        break;
-
       case 'help.docs':
         window.open('https://docs.otoy.com/standaloneSE/CoverPage.html', '_blank');
+        console.log('📖 Opening online manual');
         break;
 
-      case 'help.bug':
-        window.open('https://github.com/ultrafish22L/grpcSamples/issues/new', '_blank');
-        console.log('🐛 Opening GitHub issues for bug report');
+      case 'help.crashReports':
+        showNotification('Crash reports management not yet implemented', 'info');
+        console.log('📊 Crash reports management');
         break;
 
       case 'help.about':
         setIsAboutDialogOpen(true);
         console.log('ℹ️ Opening About dialog');
+        break;
+
+      case 'help.eula':
+        window.open('https://home.otoy.com/render/octane-render/eula/', '_blank');
+        console.log('📄 Opening EULA');
         break;
 
       default:

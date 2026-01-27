@@ -36,7 +36,7 @@ export function AboutDialog({ isOpen, onClose }: AboutDialogProps) {
     >
       <div className="about-dialog">
         <div className="modal-header">
-          <h2 id="about-title">About OctaneWebR</h2>
+          <h2 id="about-title">About OctaneRender</h2>
           <button
             className="modal-close-button"
             onClick={onClose}
