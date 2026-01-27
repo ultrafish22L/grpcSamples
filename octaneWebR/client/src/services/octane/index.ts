@@ -11,7 +11,6 @@ export { CameraService } from './CameraService';
 export { RenderService } from './RenderService';
 export { DeviceService } from './DeviceService';
 export { ViewportService } from './ViewportService';
-export { IconService } from './IconService';
 export { SceneService } from './SceneService';
 export { NodeService } from './NodeService';
 export { MaterialDatabaseService } from './MaterialDatabaseService';

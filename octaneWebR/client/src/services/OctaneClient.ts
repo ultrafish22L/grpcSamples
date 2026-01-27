@@ -12,7 +12,6 @@ import {
   RenderService,
   DeviceService,
   ViewportService,
-  IconService,
   SceneService,
   NodeService,
   MaterialDatabaseService,
@@ -53,7 +52,6 @@ export class OctaneClient extends EventEmitter {
   private renderService: RenderService;
   private deviceService: DeviceService;
   private viewportService: ViewportService;
-  private iconService: IconService;
   private sceneService: SceneService;
   private nodeService: NodeService;
   private materialDatabaseService: MaterialDatabaseService;
@@ -71,7 +69,6 @@ export class OctaneClient extends EventEmitter {
     this.renderService = new RenderService(this, this.serverUrl, this.apiService);
     this.deviceService = new DeviceService(this, this.serverUrl, this.apiService);
     this.viewportService = new ViewportService(this, this.serverUrl, this.apiService);
-    this.iconService = new IconService(this, this.serverUrl, this.apiService);
     this.sceneService = new SceneService(this, this.serverUrl, this.apiService);
     this.nodeService = new NodeService(this, this.serverUrl, this.apiService, this.sceneService);
     this.materialDatabaseService = new MaterialDatabaseService(this, this.serverUrl, this.apiService, this.sceneService);
@@ -126,20 +123,6 @@ export class OctaneClient extends EventEmitter {
   
   async resetCamera(): Promise<void> {
     return this.cameraService.resetCamera();
-  }
-
-  // ==================== Icon Methods ====================
-  
-  async getNodeIconImage(nodeType: string): Promise<string | null> {
-    return this.iconService.getNodeIconImage(nodeType);
-  }
-
-  queueIconFetch(nodeType: string): void {
-    this.iconService.queueIconFetch(nodeType);
-  }
-
-  getCachedIcon(nodeType: string): string | null {
-    return this.iconService.getCachedIcon(nodeType);
   }
 
   // ==================== Scene Methods ====================
