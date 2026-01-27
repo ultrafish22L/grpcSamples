@@ -255,6 +255,7 @@ export class SceneService extends BaseService {
     let graphInfo = null;
     let nodeInfo = null;
     let isGraph = false;
+    let position: { x: number; y: number } | null = null;
     
     if (item != null && item.handle != 0) {
       const handleNum = Number(item.handle);
@@ -278,6 +279,22 @@ export class SceneService extends BaseService {
         
         const isGraphResponse = await this.apiService.callApi('ApiItem', 'isGraph', item.handle);
         isGraph = isGraphResponse?.result || false;
+        
+        // Fetch position for top-level nodes (level 1)
+        if (level === 1) {
+          try {
+            const posResponse = await this.apiService.callApi('ApiItem', 'position', item.handle);
+            if (posResponse?.result) {
+              position = {
+                x: posResponse.result.x || 0,
+                y: posResponse.result.y || 0
+              };
+              console.log(`  📍 Position for ${itemName}: (${position.x}, ${position.y})`);
+            }
+          } catch (posError: any) {
+            console.warn(`  ⚠️ Failed to get position for ${itemName}:`, posError.message);
+          }
+        }
         
         if (isGraph) {
           const infoResponse = await this.apiService.callApi('ApiNodeGraph', 'info1', item.handle);
@@ -309,7 +326,8 @@ export class SceneService extends BaseService {
       graphInfo,
       nodeInfo,
       pinInfo,
-      children: []
+      children: [],
+      position
     };
     
     sceneItems.push(entry);

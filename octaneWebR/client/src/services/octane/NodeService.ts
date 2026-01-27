@@ -435,4 +435,41 @@ export class NodeService extends BaseService {
       return false;
     }
   }
+
+  /**
+   * Get the position of a node in the graph
+   */
+  async getNodePosition(nodeHandle: number): Promise<{ x: number; y: number } | null> {
+    try {
+      const response = await this.apiService.callApi('ApiItem', 'position', nodeHandle, {});
+      if (response?.result) {
+        return {
+          x: response.result.x || 0,
+          y: response.result.y || 0
+        };
+      }
+      return null;
+    } catch (error: any) {
+      console.error('❌ Error getting node position:', error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Set the position of a node in the graph
+   */
+  async setNodePosition(nodeHandle: number, x: number, y: number): Promise<boolean> {
+    console.log(`📍 Setting node position: handle=${nodeHandle}, x=${x}, y=${y}`);
+    
+    try {
+      await this.apiService.callApi('ApiItem', 'setPosition', nodeHandle, {
+        newPos: { x, y }
+      });
+      console.log('✅ Node position updated');
+      return true;
+    } catch (error: any) {
+      console.error('❌ Error setting node position:', error.message);
+      return false;
+    }
+  }
 }

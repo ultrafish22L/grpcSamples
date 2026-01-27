@@ -327,6 +327,14 @@ export class OctaneClient extends EventEmitter {
     return this.nodeService.collapseNode(nodeHandle);
   }
 
+  async getNodePosition(nodeHandle: number): Promise<{ x: number; y: number } | null> {
+    return this.nodeService.getNodePosition(nodeHandle);
+  }
+
+  async setNodePosition(nodeHandle: number, x: number, y: number): Promise<boolean> {
+    return this.nodeService.setNodePosition(nodeHandle, x, y);
+  }
+
   async connectPinByIndex(
     targetNodeHandle: number,
     pinIdx: number,

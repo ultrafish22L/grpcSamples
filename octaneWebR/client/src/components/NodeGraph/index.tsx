@@ -89,8 +89,31 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     }
   }, [fitView, onRecenterViewReady]);
   
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node<OctaneNodeData>>([]);
+  const [nodes, setNodes, onNodesChangeBase] = useNodesState<Node<OctaneNodeData>>([]);
   const [edges, setEdges, onEdgesChangeBase] = useEdgesState<Edge>([]);
+  
+  // Custom onNodesChange handler that saves position changes to Octane
+  const onNodesChange = useCallback((changes: any[]) => {
+    // First apply changes to the local state
+    onNodesChangeBase(changes);
+    
+    // Then save position changes to Octane
+    changes.forEach((change) => {
+      if (change.type === 'position' && change.position && !change.dragging) {
+        // Only save when drag is complete (dragging=false)
+        const nodeId = change.id;
+        const nodeHandle = Number(nodeId);
+        const { x, y } = change.position;
+        
+        if (client && connected && nodeHandle) {
+          console.log(`💾 Saving node position: handle=${nodeHandle}, x=${x}, y=${y}`);
+          client.setNodePosition(nodeHandle, x, y).catch((error: any) => {
+            console.error('❌ Failed to save node position:', error);
+          });
+        }
+      }
+    });
+  }, [onNodesChangeBase, client, connected]);
   
   // Context menu state
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
@@ -172,14 +195,16 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         pinInfo: item.pinInfo,
       };
 
-      // Position nodes horizontally with spacing
+      // Use position from Octane if available, otherwise calculate default position
+      const nodePosition = item.position 
+        ? { x: item.position.x, y: item.position.y }
+        : { x: 100 + (index * nodeSpacing), y: yCenter + (index * 20) };
+
+      // Position nodes using Octane's stored position or fallback to calculated spacing
       const node: Node<OctaneNodeData> = {
         id: handleStr,
         type: 'octane',
-        position: { 
-          x: 100 + (index * nodeSpacing),
-          y: yCenter + (index * 20),
-        },
+        position: nodePosition,
         data: {
           sceneNode: item,
           inputs: inputHandles,
