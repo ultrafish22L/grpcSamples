@@ -1426,7 +1426,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   }
 
   return (
-    <>
+    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       {/* Context Menus */}
       {contextMenuVisible && contextMenuType === 'add' && (
         <NodeTypeContextMenu
@@ -1492,7 +1492,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         onMouseDown={handlePaneMouseDown}
         onMouseMove={handlePaneMouseMove}
         onMouseUp={handlePaneMouseUp}
-        style={{ width: '100%', height: '100%', position: 'relative' }}
+        style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
       >
         {/* Node Graph Toolbar moved to App.tsx - always visible in node-graph-header */}
         <ReactFlow
@@ -1573,7 +1573,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         />
       </ReactFlow>
       </div>
-    </>
+    </div>
   );
 });
 
