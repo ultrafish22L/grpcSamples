@@ -126,7 +126,7 @@
     
     /* Layout Dimensions */
     --menu-height: 26px;
-    --panel-header-height: 28px;
+    --panel-header-height: 22px;
     --status-bar-height: 22px;
     --border-radius: var(--border-radius-sm);
 

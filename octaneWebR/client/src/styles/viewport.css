@@ -60,10 +60,6 @@
 }
 
 
-
-
- * BATCH RENDERING DIALOG
- * ======================================== */
 .batch-rendering-dialog {
     width: 650px;
     max-width: 90vw;
@@ -681,6 +677,7 @@
 
 
 .viewport-overlay {
+    background: var(--octane-bg-primary);
     position: absolute;
     top: 0;
     left: 0;
@@ -694,7 +691,7 @@
     position: absolute;
     bottom: 8px;
     left: 8px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--octane-bg-primary);
     padding: 4px 8px;
     border-radius: var(--border-radius);
     font-size: var(--font-size-small);
@@ -708,13 +705,13 @@
 
 /* Octane-style Render Toolbar */
 .render-toolbar-container {
-    background-color: var(--octane-bg-header);
+    background-color: var(--octane-bg-primary);
     border-bottom: 1px solid var(--octane-border);
 }
 
 /* Render Statistics Bar */
 .render-stats-bar {
-    background-color: var(--octane-bg-secondary);
+    background-color: var(--octane-bg-primary);
     border-bottom: 1px solid var(--octane-border);
     padding: 3px 8px;
     display: flex;
@@ -767,7 +764,7 @@
 
 /* Render Toolbar Icons */
 .render-toolbar {
-    background-color: var(--octane-bg-header);
+    background-color: var(--octane-bg-primary);
     padding: 2px 4px;
     height: 28px;
     display: flex;
