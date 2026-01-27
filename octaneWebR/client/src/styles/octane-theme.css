@@ -427,7 +427,6 @@ html, body {
 .panel-content {
     flex: 1;
     overflow: auto;
-    padding: 4px;
 }
 
 /* Left Panel - Scene Outliner */

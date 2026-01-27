@@ -13,10 +13,10 @@ export interface ToolbarIconMapping {
  */
 export const TOOLBAR_ICON_MAP: ToolbarIconMapping = {
   // Render Controls
-  'start-render': 'RENDER KERNEL node.png',
+  'start-render': 'PLAY window.png',
   'pause-render': 'PAUSE window.png',
   'stop-render': 'STOP window.png',
-  'restart-render': 'STOP window.png', // Using STOP as restart placeholder
+  'restart-render': 'REWIND window.png', // Using STOP as restart placeholder
   
   // Render Modes
   'realtime-mode': 'RENDER TARGET node.png',
@@ -30,22 +30,22 @@ export const TOOLBAR_ICON_MAP: ToolbarIconMapping = {
   
   // Camera Tools
   'pick-focus': 'MOUSE pipette focus.png',
-  'focus-picker': 'MOUSE pipette focus.png',
+  'focus-picker': 'PICK af.png',
   'pick-white-balance': 'MOUSE pipette color.png',
-  'white-balance-picker': 'MOUSE pipette color.png',
+  'white-balance-picker': 'PICKWB.png',
   'pick-material': 'MOUSE pipette material.png',
-  'material-picker': 'MOUSE pipette material.png',
+  'material-picker': 'PICK material.png',
   'pick-object': 'MOUSE pipette object.png',
-  'object-picker': 'MOUSE pipette object.png',
+  'object-picker': 'PICK object.png',
   'pick-camera-target': 'MOUSE pipette zoom.png',
-  'camera-target-picker': 'MOUSE pipette zoom.png',
+  'camera-target-picker': 'PICK zoom.png',
   'render-region': 'MOUSE pipette region.png',
-  'render-region-picker': 'MOUSE pipette region.png',
+  'render-region-picker': 'PICK reg.png',
   'film-region': 'MOUSE pipette film region.png',
-  'film-region-picker': 'MOUSE pipette film region.png',
+  'film-region-picker': 'PICK film region.png',
   'camera-presets': 'camera_view_presets.png',
   'recenter-view': 'RECENTER window.png',
-  'reset-camera': 'RECENTER window.png', // Using RECENTER as reset placeholder
+  'reset-camera': 'reset_camera.png', 
   
   // Export and Save
   'copy-clipboard': 'COPY TO CLIPBOARD image.png',

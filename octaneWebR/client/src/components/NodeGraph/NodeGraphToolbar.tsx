@@ -125,22 +125,22 @@ export function NodeGraphToolbar({
         <img src={getWindowControlIcon('RECENTER')} alt="Recenter" />
       </button>
 
-      {/* 2. Re-arrange Graph with Sub-graph */}
-      <button
-        className="toolbar-button"
-        onClick={handleRearrangeWithSubgraph}
-        title="Re-arrange Graph with Sub-graph"
-      >
-        <img src={getWindowControlIcon('UNFOLD_GRAPH_RECURSIVELY')} alt="Re-arrange with subgraphs" />
-      </button>
-
-      {/* 3. Re-arrange Graph */}
+      {/* 2. Re-arrange Graph */}
       <button
         className="toolbar-button"
         onClick={handleRearrangeGraph}
         title="Re-arrange Graph"
       >
         <img src={getWindowControlIcon('UNFOLD_GRAPH')} alt="Re-arrange graph" />
+      </button>
+
+      {/* 3. Re-arrange Graph with Sub-graph */}
+      <button
+        className="toolbar-button"
+        onClick={handleRearrangeWithSubgraph}
+        title="Re-arrange Graph with Sub-graph"
+      >
+        <img src={getWindowControlIcon('UNFOLD_GRAPH_RECURSIVELY')} alt="Re-arrange with subgraphs" />
       </button>
 
       {/* 4. View/Hide Render Target Preview Scene */}

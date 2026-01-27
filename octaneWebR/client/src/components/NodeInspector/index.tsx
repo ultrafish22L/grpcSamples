@@ -902,7 +902,6 @@ function NodeParameter({
                 <select className="octane-inspector-target-select">
                   <option value={dropdownValue}>{dropdownValue}</option>
                 </select>
-                <span className="octane-inspector-dropdown-arrow">▼</span>
               </div>
             )}
           </div>
@@ -1118,14 +1117,8 @@ export const NodeInspector = React.memo(function NodeInspector({ node }: NodeIns
   if (!node) {
     return (
       <div className="node-inspector">
-        <div className="node-inspector-header">
-          <div className="inspector-title">
-            <span className="inspector-icon">🎯</span>
-            <span>Node inspector</span>
-          </div>
-        </div>
         <div className="inspector-content">
-          <div className="empty-message">Empty</div>
+          <div className="scene-loading">Click refresh to load scene</div>
         </div>
       </div>
     );
