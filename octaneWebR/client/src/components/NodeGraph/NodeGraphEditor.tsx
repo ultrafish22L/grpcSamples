@@ -1465,7 +1465,6 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         onMouseDown={handlePaneMouseDown}
         onMouseMove={handlePaneMouseMove}
         onMouseUp={handlePaneMouseUp}
-        onContextMenu={(e) => e.preventDefault()} // Prevent browser context menu
         style={{ width: '100%', height: '100%', position: 'relative' }}
       >
         {/* Node Graph Toolbar moved to App.tsx - always visible in node-graph-header */}
