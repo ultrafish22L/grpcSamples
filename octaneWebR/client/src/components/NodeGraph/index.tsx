@@ -39,6 +39,7 @@ import { NodeTypeContextMenu } from './NodeTypeContextMenu';
 import { NodeContextMenu } from './NodeContextMenu';
 import { SearchDialog } from './SearchDialog';
 import { NodeType } from '../../constants/OctaneTypes';
+import { EditCommands } from '../../commands/EditCommands';
 
 interface NodeGraphEditorProps {
   sceneTree: SceneNode[];
@@ -1116,21 +1117,31 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
   /**
    * Handle node deletion with optimized cascade
+   * Called by ReactFlow when nodes are deleted (e.g., via Delete key)
    */
   const onNodesDelete = useCallback(
     async (deletedNodes: Node[]) => {
       try {
-        console.log(`🗑️ Deleting ${deletedNodes.length} nodes (optimized)...`);
-        for (const node of deletedNodes) {
-          const handle = parseInt(node.id);
-          await client.deleteNodeOptimized(handle);
-        }
-        console.log('✅ All nodes deleted (optimized)');
+        // Convert ReactFlow nodes to SceneNodes
+        const sceneNodes: SceneNode[] = (deletedNodes as Node<OctaneNodeData>[]).map(n => n.data.sceneNode);
+        
+        // Use unified EditCommands for consistent delete behavior
+        await EditCommands.deleteNodes({
+          client,
+          selectedNodes: sceneNodes,
+          onSelectionClear: () => {
+            // Clear selection in parent (Node Inspector)
+            onNodeSelect?.(null);
+          },
+          onComplete: () => {
+            console.log('✅ Delete operation completed via ReactFlow');
+          }
+        });
       } catch (error) {
         console.error('Failed to delete nodes:', error);
       }
     },
-    [client]
+    [client, onNodeSelect]
   );
 
   /**
@@ -1253,36 +1264,59 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   /**
    * Node context menu action handlers
    */
-  const handleCut = useCallback(() => {
+  const handleCut = useCallback(async () => {
     const selectedNodes = nodes.filter((n) => n.selected);
     if (selectedNodes.length === 0) {
       console.warn('⚠️ No nodes selected for cut');
       return;
     }
-    console.log('✂️ Cut - Selected nodes:', selectedNodes.length);
-    // TODO: Implement cut (copy to clipboard + delete)
-    // Requires: Clipboard API + node serialization
-    alert('Cut feature requires clipboard API integration\n\nComing soon!');
-  }, [nodes]);
+    
+    // Convert ReactFlow nodes to SceneNodes
+    const sceneNodes: SceneNode[] = selectedNodes.map(n => n.data.sceneNode);
+    
+    // Use unified EditCommands
+    await EditCommands.cutNodes({
+      client,
+      selectedNodes: sceneNodes,
+      onSelectionClear: () => {
+        setNodes(nodes.map(n => ({ ...n, selected: false })));
+        onNodeSelect?.(null);
+      },
+      onComplete: () => {
+        console.log('✅ Cut operation completed from NodeGraph');
+      }
+    });
+  }, [nodes, client, setNodes, onNodeSelect]);
 
-  const handleCopy = useCallback(() => {
+  const handleCopy = useCallback(async () => {
     const selectedNodes = nodes.filter((n) => n.selected);
     if (selectedNodes.length === 0) {
       console.warn('⚠️ No nodes selected for copy');
       return;
     }
-    console.log('📋 Copy - Selected nodes:', selectedNodes.length);
-    // TODO: Implement copy to clipboard
-    // Requires: Clipboard API + node serialization
-    alert('Copy feature requires clipboard API integration\n\nComing soon!');
-  }, [nodes]);
+    
+    // Convert ReactFlow nodes to SceneNodes
+    const sceneNodes: SceneNode[] = selectedNodes.map(n => n.data.sceneNode);
+    
+    // Use unified EditCommands
+    await EditCommands.copyNodes({
+      client,
+      selectedNodes: sceneNodes,
+    });
+  }, [nodes, client]);
 
-  const handlePaste = useCallback(() => {
+  const handlePaste = useCallback(async () => {
     console.log('📋 Paste at position:', contextMenuPosition);
-    // TODO: Implement paste from clipboard
-    // Requires: Clipboard API + node deserialization + creation
-    alert('Paste feature requires clipboard API integration\n\nComing soon!');
-  }, [contextMenuPosition]);
+    
+    // Use unified EditCommands
+    await EditCommands.pasteNodes({
+      client,
+      selectedNodes: [], // Not relevant for paste
+      onComplete: () => {
+        console.log('✅ Paste operation completed from NodeGraph');
+      }
+    });
+  }, [client, contextMenuPosition]);
 
   const handleCollapseItems = useCallback(() => {
     const selectedNodes = nodes.filter((n) => n.selected);
@@ -1323,21 +1357,24 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       return;
     }
 
-    console.log(`🗑️ Deleting ${selectedNodes.length} selected node(s)...`);
+    // Convert ReactFlow nodes to SceneNodes for EditCommands
+    const sceneNodes: SceneNode[] = selectedNodes.map(n => n.data.sceneNode);
     
-    for (const node of selectedNodes) {
-      try {
-        const success = await client.deleteNode(node.id);
-        if (success) {
-          console.log(`✅ Deleted node: ${node.id}`);
-        } else {
-          console.error(`❌ Failed to delete node: ${node.id}`);
-        }
-      } catch (error) {
-        console.error(`❌ Error deleting node ${node.id}:`, error);
+    // Use unified EditCommands for consistent delete behavior
+    await EditCommands.deleteNodes({
+      client,
+      selectedNodes: sceneNodes,
+      onSelectionClear: () => {
+        // Clear selection in ReactFlow
+        setNodes(nodes.map(n => ({ ...n, selected: false })));
+        // Clear selection in parent (Node Inspector)
+        onNodeSelect?.(null);
+      },
+      onComplete: () => {
+        console.log('✅ Delete operation completed from NodeGraph');
       }
-    }
-  }, [nodes, client]);
+    });
+  }, [nodes, client, setNodes, onNodeSelect]);
 
   const handleSaveAsMacro = useCallback(() => {
     const selectedNodes = nodes.filter((n) => n.selected);
@@ -1354,7 +1391,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     alert('Render Node feature requires render target switching API\n\nComing soon!');
   }, [contextMenuNodeId]);
 
-  const handleGroupItems = useCallback(() => {
+  const handleGroupItems = useCallback(async () => {
     const selectedNodes = nodes.filter((n) => n.selected);
     
     if (selectedNodes.length < 2) {
@@ -1362,11 +1399,18 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       return;
     }
     
-    console.log('📦 Group Items - Selected nodes:', selectedNodes.length);
-    // TODO: Implement node grouping
-    // Requires: API to create node groups and maintain connections
-    alert(`Group ${selectedNodes.length} nodes feature requires grouping API\n\nComing soon!`);
-  }, [nodes]);
+    // Convert ReactFlow nodes to SceneNodes
+    const sceneNodes: SceneNode[] = selectedNodes.map(n => n.data.sceneNode);
+    
+    // Use unified EditCommands
+    await EditCommands.groupNodes({
+      client,
+      selectedNodes: sceneNodes,
+      onComplete: () => {
+        console.log('✅ Group operation completed from NodeGraph');
+      }
+    });
+  }, [nodes, client]);
 
   /**
    * Register edit action handlers with global EditActionsContext

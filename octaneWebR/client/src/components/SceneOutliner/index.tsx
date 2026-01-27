@@ -8,6 +8,7 @@ import { useOctane } from '../../hooks/useOctane';
 import { SceneNode, NodeAddedEvent, NodeDeletedEvent } from '../../services/OctaneClient';
 import { getIconForType } from '../../constants/PinTypes';
 import { SceneOutlinerContextMenu } from './SceneOutlinerContextMenu';
+import { EditCommands } from '../../commands/EditCommands';
 
 const getNodeIcon = (node: SceneNode): string => {
   // Special case: Scene root
@@ -364,13 +365,21 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
   
   const handleDelete = async () => {
     if (!contextMenuNode || !client) return;
+    
     console.log('🗑️ Delete action for node:', contextMenuNode.name);
-    try {
-      await client.deleteNode(String(contextMenuNode.handle));
-      // Scene tree will be updated via event listener
-    } catch (error) {
-      console.error('❌ Failed to delete node:', error);
-    }
+    
+    // Use unified EditCommands for consistent delete behavior
+    await EditCommands.deleteNodes({
+      client,
+      selectedNodes: [contextMenuNode],
+      onSelectionClear: () => {
+        // Clear selection via parent callback
+        onNodeSelect?.(null);
+      },
+      onComplete: () => {
+        console.log('✅ Delete operation completed from SceneOutliner');
+      }
+    });
   };
   
   const handleShowInGraphEditor = () => {

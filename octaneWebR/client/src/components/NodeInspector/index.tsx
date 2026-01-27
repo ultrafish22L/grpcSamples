@@ -18,6 +18,7 @@ import { AttributeId, AttrType } from '../../constants/OctaneTypes';
 import { getIconForType } from '../../constants/PinTypes';
 import { formatColorValue, formatNodeColor } from '../../utils/ColorUtils';
 import { NodeInspectorContextMenu } from './NodeInspectorContextMenu';
+import { EditCommands } from '../../commands/EditCommands';
 
 /**
  * Format float value to maximum 6 decimal places
@@ -1158,12 +1159,18 @@ export const NodeInspector = React.memo(function NodeInspector({ node }: NodeIns
   
   const handleDelete = async () => {
     if (!node || !client) return;
+    
     console.log('🗑️ Delete action for node:', node.name);
-    try {
-      await client.deleteNode(String(node.handle));
-    } catch (error) {
-      console.error('❌ Failed to delete node:', error);
-    }
+    
+    // Use unified EditCommands for consistent delete behavior
+    // Note: App.tsx listens to 'nodeDeleted' event and clears selection
+    await EditCommands.deleteNodes({
+      client,
+      selectedNodes: [node],
+      onComplete: () => {
+        console.log('✅ Delete operation completed from NodeInspector');
+      }
+    });
   };
   
   const handleExpand = () => {
