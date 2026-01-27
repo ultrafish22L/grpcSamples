@@ -24,11 +24,11 @@
 
 :root {
     /* Octane Studio Color Palette - Matched to Octane SE screenshot */
-    --octane-bg-primary: #2b2b2b;      /* Main background - matches Octane SE */
-    --octane-bg-secondary: #3c3c3c;    /* Panel backgrounds */
+    --octane-bg-primary: #252525;      /* Main background - matches Octane SE */
+    --octane-bg-secondary: #454545;    /* Panel backgrounds */
     --octane-bg-parameter: #4c4c4c;    /* Panel backgrounds */
-    --octane-bg-darker: #323232;       /* Scene Outliner, side panels - LIGHTENED to match Octane SE */
-    --octane-bg-header: #404040;       /* Header/menu backgrounds - matches Octane SE */
+    --octane-bg-lighter: #808080;    /* Render viewport Panel background */
+    --octane-bg-header: #454545;       /* Header/menu backgrounds - matches Octane SE */
     --octane-bg-selected: #4a4a4a;     /* Selected items */
     --octane-bg-hover: #484848;        /* Hover states */
     --octane-bg-active: #525252;       /* Active/pressed states - slightly lighter than hover */
@@ -56,7 +56,7 @@
     --left-panel-min-width: 140px;         /* Scene outliner width */
     --octane-border-light: #666666;    /* Light borders */
     --octane-border-dark: #333333;     /* Dark borders */
-    --octane-border-darker: #1a1a1a;   /* Darker borders/backgrounds */
+    --octane-border-primary: #1a1a1a;   /* primary borders/backgrounds */
     --octane-border-medium: #555555;   /* Medium borders (same as --octane-border) */
     --octane-shadow: rgba(0, 0, 0, 0.3); /* Drop shadows */
     
@@ -112,7 +112,7 @@
     --octane-bg-semi-transparent: rgba(42, 42, 42, 0.95); /* Semi-transparent dark background */
     
     /* Layout Dimensions */
-    --menu-height: 40px;
+    --menu-height: 26px;
     --panel-header-height: 28px;
     --status-bar-height: 22px;
     --border-radius: var(--border-radius-sm);
@@ -287,7 +287,7 @@ html, body {
 
 /* Menu Bar */
 .menu-bar {
-    background-color: var(--octane-bg-header);
+    background-color: var(--octane-bg-primary);
     border-bottom: 1px solid var(--octane-border-dark);
     display: flex;
     align-items: center;
@@ -543,7 +543,6 @@ html, body {
 }
 
 .node-toggle:hover {
-    background-color: var(--octane-bg-selected);
     border-radius: var(--border-radius);
 }
 
@@ -759,7 +758,7 @@ html, body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--octane-bg-secondary);
+    background: var(--octane-bg-lighter);
 }
 
 .viewport-canvas-container {
@@ -769,7 +768,7 @@ html, body {
     align-items: center;
     justify-content: center;
     position: relative;
-    background: var(--octane-bg-secondary);
+    background: var(--octane-bg-lighter);
 }
 
 .viewport-canvas-container .render-canvas {
@@ -1185,7 +1184,7 @@ html, body {
 .node-graph {
     flex: 1;
     display: block;
-    background-color: var(--octane-bg-darker);
+    background-color: var(--octane-bg-primary);
     position: absolute; /* Position absolutely within container */
     top: 0;
     left: 0;
@@ -1219,7 +1218,7 @@ html, body {
 
 
 .node-selector {
-    background-color: var(--octane-bg-darker);
+    background-color: var(--octane-bg-primary);
     border: 1px solid var(--octane-border);
     color: var(--octane-text-primary);
     padding: 4px 8px;
@@ -1300,13 +1299,13 @@ html, body {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: var(--octane-bg-darker); /* Darker track for subtle appearance */
+    background-color: var(--octane-bg-primary); /* primary track for subtle appearance */
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--octane-border);
     border-radius: var(--border-radius-sm); /* Reduced from 6px to match Octane's minimal radius */
-    border: 1px solid var(--octane-bg-darker); /* Thinner border matching track color */
+    border: 1px solid var(--octane-bg-primary); /* Thinner border matching track color */
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -1314,7 +1313,7 @@ html, body {
 }
 
 ::-webkit-scrollbar-corner {
-    background-color: var(--octane-bg-darker); /* Match darker track */
+    background-color: var(--octane-bg-primary); /* Match primary track */
 }
 
 /* Context Menus and Modals */
@@ -1490,7 +1489,7 @@ html, body {
 .node-context-menu::-webkit-scrollbar-track,
 .context-submenu::-webkit-scrollbar-track,
 .context-submenu-multicolumn::-webkit-scrollbar-track {
-    background: var(--octane-bg-darker);
+    background: var(--octane-bg-primary);
 }
 
 .node-context-menu::-webkit-scrollbar-thumb,
@@ -1498,7 +1497,7 @@ html, body {
 .context-submenu-multicolumn::-webkit-scrollbar-thumb {
     background: var(--octane-border);
     border-radius: var(--border-radius-sm); /* Reduced from 4px to match global minimal radius */
-    border: 1px solid var(--octane-bg-darker); /* Add subtle border for consistency */
+    border: 1px solid var(--octane-bg-primary); /* Add subtle border for consistency */
 }
 
 .node-context-menu::-webkit-scrollbar-thumb:hover,
@@ -1554,38 +1553,6 @@ select {
     background-position: right 8px center;
     background-size: 12px;
     padding-right: 28px;
-}
-
-/* ==================== Node Graph Toolbar ==================== */
-
-.node-graph-tool {
-    width: 28px;
-    height: 28px;
-    background: none;
-    border: 1px solid var(--octane-border);
-    color: var(--octane-text-secondary);
-    cursor: pointer;
-    border-radius: var(--border-radius-base);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--font-size-xl);
-    transition: all 0.2s ease;
-}
-
-.node-graph-tool:hover:not(:disabled) {
-    background-color: var(--octane-bg-hover);
-    border-color: var(--octane-border-light);
-    color: var(--octane-text-primary);
-}
-
-.node-graph-tool:active:not(:disabled) {
-    background-color: var(--octane-bg-selected);
-}
-
-.node-graph-tool:disabled {
-    opacity: var(--opacity-light);
-    cursor: not-allowed;
 }
 
 /* ==================== Node Type Context Menu ==================== */

@@ -165,22 +165,22 @@ export function NodeInspectorControls({
         <img src={getNodeInspectorIcon('EXPAND_ALL_NODES')} alt="Expand all" />
       </button>
       
-      {/* Button 2: Render Target */}
+      {/* Button 2: Collapse All Nodes */}
+      <button 
+        className={`quick-btn ${activeButton === 'collapse-all' ? 'active' : ''}`}
+        title="Collapse All Nodes" 
+        onClick={handleCollapseAll}
+      >
+        <img src={getNodeInspectorIcon('COLLAPSE_ALL_NODES')} alt="Collapse all" />
+      </button>
+
+      {/* Button 3: Render Target */}
       <button 
         className={`quick-btn ${activeButton === 'rendertarget' ? 'active' : ''}`}
         title="Render Target" 
         onClick={handleRenderTargetClick}
       >
         <img src={getNodeInspectorIcon('RENDER_TARGET')} alt="Render target" />
-      </button>
-      
-      {/* Button 3: Active Render Layer */}
-      <button 
-        className={`quick-btn ${activeButton === 'render-layer' ? 'active' : ''}`}
-        title="Active Render Layer" 
-        onClick={handleRenderLayerClick}
-      >
-        <img src={getNodeInspectorIcon('ACTIVE_RENDER_LAYER')} alt="Render layer" />
       </button>
       
       {/* Button 4: Camera Settings */}
@@ -190,15 +190,6 @@ export function NodeInspectorControls({
         onClick={handleCameraClick}
       >
         <img src={getNodeInspectorIcon('CAMERA_SETTINGS')} alt="Camera" />
-      </button>
-      
-      {/* Button 5: Camera Imager */}
-      <button 
-        className={`quick-btn ${activeButton === 'camera-imager' ? 'active' : ''}`}
-        title="Camera Imager" 
-        onClick={handleCameraImagerClick}
-      >
-        <img src={getNodeInspectorIcon('CAMERA_IMAGER')} alt="Imager" />
       </button>
       
       {/* Button 6: Environment Settings */}
@@ -226,16 +217,7 @@ export function NodeInspectorControls({
         onClick={handleGeometryClick}
       >
         <img src={getNodeInspectorIcon('CURRENT_GEOMETRY')} alt="Geometry" />
-      </button>
-      
-      {/* Button 9: Post Processing */}
-      <button 
-        className={`quick-btn ${activeButton === 'post-processing' ? 'active' : ''}`}
-        title="Post Processing" 
-        onClick={handlePostProcessingClick}
-      >
-        <img src={getNodeInspectorIcon('POST_PROCESSING')} alt="Post processing" />
-      </button>
+      </button>      
 
       {/* Button 10: Film Settings */}
       <button 
@@ -246,6 +228,33 @@ export function NodeInspectorControls({
         <img src={getNodeInspectorIcon('FILM_SETTINGS')} alt="Film" />
       </button>
       
+      {/* Button 13: Animation Settings */}
+      <button 
+        className={`quick-btn ${activeButton === 'animation' ? 'active' : ''}`}
+        title="Animation Settings" 
+        onClick={handleAnimationClick}
+      >
+        <img src={getNodeInspectorIcon('ANIMATION_SETTINGS')} alt="Animation" />
+      </button>
+            
+      {/* Button 15: Current Kernel */}
+      <button 
+        className={`quick-btn ${activeButton === 'kernel' ? 'active' : ''}`}
+        title="Current Kernel" 
+        onClick={handleKernelClick}
+      >
+        <img src={getNodeInspectorIcon('CURRENT_KERNEL')} alt="Kernel" />
+      </button>
+
+      {/* Button 4: Active Render Layer */}
+      <button 
+        className={`quick-btn ${activeButton === 'render-layer' ? 'active' : ''}`}
+        title="Active Render Layer" 
+        onClick={handleRenderLayerClick}
+      >
+        <img src={getNodeInspectorIcon('ACTIVE_RENDER_LAYER')} alt="Render layer" />
+      </button>
+
       {/* Button 11: Render Passes */}
       <button 
         className={`quick-btn ${activeButton === 'render-passes' ? 'active' : ''}`}
@@ -263,42 +272,25 @@ export function NodeInspectorControls({
       >
         <img src={getNodeInspectorIcon('AOV_GROUP')} alt="AOV group" />
       </button>
-      
-      {/* Button 13: Animation Settings */}
+
+      {/* Button 5: Camera Imager */}
       <button 
-        className={`quick-btn ${activeButton === 'animation' ? 'active' : ''}`}
-        title="Animation Settings" 
-        onClick={handleAnimationClick}
+        className={`quick-btn ${activeButton === 'camera-imager' ? 'active' : ''}`}
+        title="Camera Imager" 
+        onClick={handleCameraImagerClick}
       >
-        <img src={getNodeInspectorIcon('ANIMATION_SETTINGS')} alt="Animation" />
+        <img src={getNodeInspectorIcon('CAMERA_IMAGER')} alt="Imager" />
       </button>
       
-      {/* Button 14: Render AOV Node */}
+      {/* Button 9: Post Processing */}
       <button 
-        className={`quick-btn ${activeButton === 'render-aov' ? 'active' : ''}`}
-        title="Render AOV Node" 
-        onClick={handleRenderAovClick}
+        className={`quick-btn ${activeButton === 'post-processing' ? 'active' : ''}`}
+        title="Post Processing" 
+        onClick={handlePostProcessingClick}
       >
-        <img src={getNodeInspectorIcon('RENDER_AOV_NODE')} alt="Render AOV" />
+        <img src={getNodeInspectorIcon('POST_PROCESSING')} alt="Post processing" />
       </button>
-      
-      {/* Button 15: Current Kernel */}
-      <button 
-        className={`quick-btn ${activeButton === 'kernel' ? 'active' : ''}`}
-        title="Current Kernel" 
-        onClick={handleKernelClick}
-      >
-        <img src={getNodeInspectorIcon('CURRENT_KERNEL')} alt="Kernel" />
-      </button>
-      
-      {/* Button 16: Collapse All Nodes */}
-      <button 
-        className={`quick-btn ${activeButton === 'collapse-all' ? 'active' : ''}`}
-        title="Collapse All Nodes" 
-        onClick={handleCollapseAll}
-      >
-        <img src={getNodeInspectorIcon('COLLAPSE_ALL_NODES')} alt="Collapse all" />
-      </button>
+
     </div>
   );
 }

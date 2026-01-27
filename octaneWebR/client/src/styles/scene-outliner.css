@@ -10,7 +10,7 @@
     line-height: var(--line-height-tight);
     color: var(--octane-text-primary);
     /* Added from octane-theme.css: */
-    background-color: var(--octane-bg-primary);
+    background-color: var(--octane-bg-secondary);
     contain: layout style;
     display: flex;
     flex: 1;
@@ -156,7 +156,7 @@ input:checked + .slider:before {
 /* Scene Outliner Button Bar - Official OTOY Always-Visible Button Bar Above Tabs */
 .scene-outliner-button-bar {
     display: flex;
-    background: var(--octane-bg-secondary);
+    background: var(--octane-bg-primary);
     border-bottom: 1px solid var(--octane-border);
     padding: 2px 4px;
     gap: var(--spacing-xxs);

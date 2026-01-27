@@ -15,7 +15,7 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: var(--octane-border-darker);
+  background: var(--octane-border-primary);
   color: var(--octane-text-primary);
   overflow: hidden;
 }
@@ -30,7 +30,7 @@ body {
   align-items: center;
   gap: var(--spacing-xl);
   padding: 6px 12px;
-  background: var(--octane-border-dark);
+  background: var(--octane-bg-primary);
   border-radius: var(--border-radius-base);
 }
 
@@ -66,7 +66,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--octane-bg-darker);
+  background: var(--octane-bg-primary);
   position: relative;
 }
 
@@ -75,7 +75,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--octane-border-darker);
+  background: var(--octane-border-primary);
   position: relative;
 }
 
@@ -100,7 +100,7 @@ body {
 .scene-tree {
   min-height: 200px;
   padding: 10px;
-  background: var(--octane-bg-darker);
+  background: var(--octane-bg-primary);
   border-radius: var(--border-radius-base);
 }
 
@@ -112,7 +112,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--octane-border-darker);
+  background: var(--octane-border-primary);
 }
 
 /* Scene Outliner */
@@ -243,7 +243,7 @@ body.resizing .panel-splitter {
     flex: 1;
     overflow: auto;
     padding: 8px;
-    background: var(--octane-bg-darker);
+    background: var(--octane-bg-primary);
     border-radius: var(--border-radius-base);
 }
 
@@ -417,7 +417,7 @@ body.resizing .react-flow__edge-interaction {
         var(--octane-shadow-ultra-subtle) 100%    /* 0.105 / 2 = 0.053 */
     );
     
-    /* Stronger 3D button effect - dimmer highlights to match darker background */
+    /* Stronger 3D button effect - dimmer highlights to match primary background */
     box-shadow: 
         inset 0 2px 1px var(--octane-highlight-subtle),   /* 0.105 / 2 = 0.053 */
         inset 0 -2px 1px var(--octane-overlay-light),         
@@ -617,7 +617,7 @@ body.drag-over * {
 /* Tooltip Components */
 .tooltip {
     position: absolute;
-    background-color: var(--octane-bg-darker);
+    background-color: var(--octane-bg-primary);
     color: var(--octane-text-primary);
     padding: 4px 8px;
     font-size: var(--font-size-small);
@@ -651,7 +651,7 @@ body.drag-over * {
     transform: translateX(-50%);
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-bottom: 4px solid var(--octane-bg-darker);
+    border-bottom: 4px solid var(--octane-bg-primary);
 }
 
 /* Progress Components */

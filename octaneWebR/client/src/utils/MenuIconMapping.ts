@@ -5,7 +5,7 @@
  * Used by menuDefinitions.ts to provide proper icons for all menu items
  */
 
-import { getEditorPanelIcon, getWindowControlIcon, getGeneralUIIcon, getPickerToolIcon } from './UIIconMapping';
+import { getEditorPanelIcon, getWindowControlIcon, getGeneralUIIcon } from './UIIconMapping';
 
 /**
  * Get icon for a menu action

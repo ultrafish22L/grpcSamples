@@ -47,7 +47,6 @@ function ParameterGroup({
   defaultExpanded?: boolean;
 }) {
   const [expanded, setExpanded] = useState(defaultExpanded);
-  const groupIcon = OctaneIconMapper.getPinGroupIcon(groupName);
 
   return (
     <div className="inspector-group-indent">
@@ -56,7 +55,6 @@ function ParameterGroup({
         onClick={() => setExpanded(!expanded)}
       >
         <span className="inspector-group-icon">{expanded ? '▼' : '▶'}</span>
-        <span className="inspector-group-name-icon">{groupIcon}</span>
         <span className="inspector-group-label">{groupName}</span>
       </div>
       <div 

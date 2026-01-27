@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxs);
-  background: var(--octane-bg-darker);
+  background: var(--octane-bg-primary);
   padding: 2px 2px 2px 2px;
   width: 26px;
   min-width: 26px;
@@ -550,7 +550,7 @@
   display: flex; /* Horizontal layout: toolbar on left, editor on right */
   flex-direction: row; /* Toolbar left, editor right */
   position: relative;
-  background-color: var(--octane-bg-darker);
+  background-color: var(--octane-bg-primary);
   overflow: hidden; /* Prevent scrollbars and contain canvas */
   contain: layout style paint; /* CSS containment for better performance */
   width: 100%; /* Explicit width for ReactFlow */
@@ -560,12 +560,12 @@
 
 /* ReactFlow background override - lighter gray like Octane SE */
 .node-graph-container .react-flow {
-  background: #4a4a4a;
+  background: #454545;
 }
 
 /* ReactFlow background pattern (grid) - lighter gray base */
 .node-graph-container .react-flow__background {
-  background: #4a4a4a;
+  background: #454545;
 }
 
 /* Grid lines - dark and visible like Octane SE */
@@ -672,7 +672,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  background-color: var(--octane-bg-darker);
+  background-color: var(--octane-bg-primary);
   border-bottom: 1px solid var(--octane-border);
 }
 
@@ -739,7 +739,7 @@
   font-size: var(--font-size-large);
   color: var(--octane-text-secondary);
   padding: 8px 12px;
-  background-color: var(--octane-bg-darker);
+  background-color: var(--octane-bg-primary);
   border-radius: var(--border-radius-base);
   font-family: 'Courier New', monospace;
 }
@@ -815,7 +815,7 @@
 }
 
 .gpu-statistics-content::-webkit-scrollbar-track {
-  background: var(--octane-bg-darker);
+  background: var(--octane-bg-primary);
 }
 
 .gpu-statistics-content::-webkit-scrollbar-thumb {
@@ -852,7 +852,7 @@
 
 /* Main Window */
 .material-database-window {
-  background: var(--octane-bg-darker);
+  background: var(--octane-bg-primary);
   border: 1px solid var(--octane-border-dark);
   border-radius: var(--border-radius-xl);
   width: 90%;
@@ -909,7 +909,7 @@
 
 .tab-button {
   padding: 8px 24px;
-  background: var(--octane-bg-darker);
+  background: var(--octane-bg-primary);
   border: 1px solid var(--octane-border-dark);
   border-radius: var(--border-radius-base) var(--border-radius-base) 0 0;
   color: var(--octane-text-muted);
@@ -925,9 +925,9 @@
 }
 
 .tab-button.active {
-  background: var(--octane-bg-darker);
+  background: var(--octane-bg-primary);
   color: var(--octane-accent-blue);
-  border-bottom-color: var(--octane-bg-darker);
+  border-bottom-color: var(--octane-bg-primary);
 }
 
 /* Controls */
@@ -936,7 +936,7 @@
   align-items: center;
   gap: var(--spacing-3xl);
   padding: 12px 16px;
-  background: var(--octane-bg-darker);
+  background: var(--octane-bg-primary);
   border-bottom: 1px solid var(--octane-border-dark);
 }
 
@@ -987,7 +987,7 @@
   flex: 1;
   overflow-y: auto;
   padding: 16px;
-  background: var(--octane-border-darker);
+  background: var(--octane-border-primary);
 }
 
 /* Loading / Empty States */
@@ -1027,7 +1027,7 @@
 .material-preview {
   width: 100%;
   aspect-ratio: 1;
-  background: var(--octane-border-darker);
+  background: var(--octane-border-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1075,13 +1075,13 @@
 }
 
 .material-database-content::-webkit-scrollbar-track {
-  background: var(--octane-border-darker);
+  background: var(--octane-border-primary);
 }
 
 .material-database-content::-webkit-scrollbar-thumb {
   background: var(--octane-border-dark);
   border-radius: var(--border-radius-lg);
-  border: 2px solid var(--octane-border-darker);
+  border: 2px solid var(--octane-border-primary);
 }
 
 .material-database-content::-webkit-scrollbar-thumb:hover {
