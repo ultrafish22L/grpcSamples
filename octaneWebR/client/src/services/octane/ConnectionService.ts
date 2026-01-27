@@ -72,9 +72,17 @@ export class ConnectionService extends BaseService {
       
       this.ws.onopen = () => {
         Logger.success('WebSocket connected');
-        // onopen fires only when connection is established, so WebSocket is ready by definition
-        if (this.ws) {
+        // Double-check readyState to handle browser timing issues
+        // Some browsers may fire onopen before WebSocket is fully ready
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
           this.ws.send(JSON.stringify({ type: 'subscribe' }));
+        } else if (this.ws) {
+          // If not ready yet, schedule retry after a brief delay
+          setTimeout(() => {
+            if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+              this.ws.send(JSON.stringify({ type: 'subscribe' }));
+            }
+          }, 100);
         }
       };
       
