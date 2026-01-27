@@ -2,7 +2,7 @@
  * Menu Icon Mapping
  * Maps menu actions to Octane icons
  * 
- * Used by menuDefinitions.ts to provide proper icons for all menu items
+ * Used by MenuBar component to provide proper icons for all menu items
  */
 
 import { getEditorPanelIcon, getWindowControlIcon, getGeneralUIIcon } from './UIIconMapping';
