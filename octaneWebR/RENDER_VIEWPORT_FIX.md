@@ -4,16 +4,30 @@
 The render viewport in octaneWebR was not displaying images after updating to the latest Octane and SDK versions.
 
 ## Root Cause
-By analyzing the C++ SDK example (`grpcSamples/sdk/grpc-api-examples/render-example/render-example.cpp`), I discovered that Octane's callback system works in **two separate steps**:
+By analyzing both the **C++** (`render-example.cpp`) and **Python** (`render_example.py`) SDK examples, discovered that Octane's callback system can work in two modes:
 
-1. **OnNewImage Callback** (lines 271-282 in render-example.cpp)
+### Understanding the Two Callback Modes
+
+**Mode 1: Direct Image Data (Possibly Newer API)**
+- Callback message includes `render_images` field with actual buffer data
+- Can emit immediately without additional API call
+- More efficient but may not be available in all Octane versions
+
+**Mode 2: Notification-Only (SDK Examples Pattern)**
+By analyzing the C++ and Python SDK examples, the callback system works in **two separate steps**:
+
+1. **OnNewImage Callback**
+   - C++: lines 271-282 in `render-example.cpp`
+   - Python: lines 1084-1095 in `render_example.py` (`handle_event` function)
    - This is a **notification only** - it signals that a new render is available
    - It does **NOT** contain the actual image data
 
-2. **grabRenderResult()** (lines 275, 883-926 in render-example.cpp)
+2. **grabRenderResult()**
+   - C++: lines 275, 883-926 in `render-example.cpp`
+   - Python: lines 1049-1071 in `render_example.py` (`grab_render_result` function)
    - Must be called **after** receiving the OnNewImage callback
    - This fetches the actual render image buffer from Octane
-   - Returns `ApiArrayApiRenderImage` with pixel data
+   - Returns `ApiArrayApiRenderImage` with pixel data (in `response.renderImages`)
 
 ## Bug Details
 In `server/src/grpc/client.ts` (line 345-374), the code was attempting to call `grabRenderResult()` but had two issues:
@@ -36,34 +50,99 @@ this.callMethod('ApiRenderEngine', 'grabRenderResult', {})
 - No case-sensitivity fallbacks for proto field names
 - Limited logging for debugging buffer data issues
 
+### Issue 3: Always Calling grabRenderResult()
+- Original code always called `grabRenderResult()` even if callback contained image data
+- This is inefficient and may fail if render engine doesn't have separate result buffer
+
+## Key Insight from Python SDK Example
+
+The **Python example** (`render_example.py`) revealed important differences:
+
+1. **No explicit callback registration** (lines 1142-1143, 1108-1118)
+   - Python code doesn't call `setOnNewImageCallback()`
+   - Just subscribes to `callbackChannel` stream directly
+   - Callbacks arrive automatically
+
+2. **Simple stream subscription** (lines 1115-1118)
+   ```python
+   stub = callbackstream_pb2_grpc.StreamCallbackServiceStub(channel)
+   for req in stub.callbackChannel(empty_pb2.Empty()):
+       handle_event(req)
+   ```
+
+3. **Always calls grabRenderResult()** (lines 1087-1092)
+   - Callback is treated as notification-only
+   - Always fetches data via `grab_render_result(global_channel)`
+   - No check for data in callback itself
+
+This suggests callback registration via `setOnNewImageCallback()` is **optional** and the stream works regardless.
+
 ## Solution Applied
 
 **File**: `server/src/grpc/client.ts` (lines 360-396)
 
-### Changes Made:
-1. ✅ **Use proper callMethod() pattern** - Matches the pattern used throughout the codebase
-2. ✅ **Promise-based error handling** - Cleaner async flow
-3. ✅ **Case-sensitivity fallbacks** - Handle both `renderImages` and `renderimages` field names
-4. ✅ **Enhanced logging** - Debug buffer size, type, and data structure
+### Changes Made (Latest - Commit 74ed51ae):
+
+1. ✅ **Smart callback data detection** - Check for image data in callback FIRST
+   - Priority 1: `response.render_images` (root level)
+   - Priority 2: `response.newImage.render_images` (nested in callback)
+   - Priority 3: `response.renderimages` (lowercase variant)
+   - Fallback: Call `grabRenderResult()` only if no data present
+
+2. ✅ **Optional callback registration** - Following Python SDK pattern
+   - `setOnNewImageCallback()` wrapped in try-catch
+   - Registration failure doesn't stop stream
+   - Callbacks work via `callbackChannel` regardless
+
+3. ✅ **Use proper callMethod() pattern** - Matches the pattern used throughout the codebase
+
+4. ✅ **Promise-based error handling** - Cleaner async flow
+
+5. ✅ **Improved logging** - Distinguish different failure modes:
+   - `result=false` (render initializing, normal)
+   - `result=true` but 0 images (unexpected)
+   - null/undefined response (critical error)
+   - Show where image data was found (callback vs grab)
 
 ### Key Code Section:
 ```typescript
-if (response.newImage) {
-  console.log('🖼️  OnNewImage callback received (notification only)');
+// Step 1: Check for image data in callback FIRST (multiple possible locations)
+let renderImages = null;
+let imageSource = '';
+
+if (response.render_images?.data?.length > 0) {
+  renderImages = response.render_images;
+  imageSource = 'root level';
+} else if (response.newImage?.render_images?.data?.length > 0) {
+  renderImages = response.newImage.render_images;
+  imageSource = 'newImage callback';
+} else if (response.renderimages?.data?.length > 0) {
+  renderImages = response.renderimages;
+  imageSource = 'root level (lowercase)';
+}
+
+// Step 2: If we found image data, emit directly
+if (renderImages) {
+  console.log(`✅ Found render images in callback (${imageSource})`);
+  this.emit('OnNewImage', { render_images: renderImages, ... });
+}
+// Step 3: Otherwise fall back to grabRenderResult()
+else if (response.newImage) {
+  console.log('🖼️  OnNewImage callback without data - calling grabRenderResult()');
   
-  // According to SDK examples: callbacks are notifications only!
-  // We must call grabRenderResult() to fetch the actual image data
   this.callMethod('ApiRenderEngine', 'grabRenderResult', {})
     .then((grabResponse: any) => {
-      if (!grabResponse || !grabResponse.result) {
-        console.log('ℹ️  No render result available yet');
+      if (!grabResponse) {
+        console.warn('⚠️  grabRenderResult returned null/undefined');
+        return;
+      }
+      if (grabResponse.result === false) {
+        console.log('ℹ️  No render result (result=false) - initializing');
         return;
       }
       
-      // Handle both camelCase and lowercase field names
-      const renderImages = grabResponse.renderImages || grabResponse.renderimages;
-      
-      if (renderImages && renderImages.data && renderImages.data.length > 0) {
+      const grabbedImages = grabResponse.renderImages || grabResponse.renderimages;
+      if (grabbedImages?.data?.length > 0) {
         this.emit('OnNewImage', {
           render_images: renderImages,
           callback_id: response.newImage?.callback_id,
@@ -198,10 +277,44 @@ Fix: Render viewport grabRenderResult() call pattern
 Fixes render viewport not displaying images after Octane/SDK update.
 ```
 
+## Debugging: When grabRenderResult() Returns 0 Images
+
+If you see "⚠️  grabRenderResult returned 0 images", check the console output carefully:
+
+### Case 1: `result=false` (Normal Early State)
+```
+ℹ️  No render result available (result=false) - render may be initializing
+```
+**Meaning**: Render engine hasn't produced a frame yet
+**Action**: Wait for more callbacks - this is normal at render start
+
+### Case 2: `result=true` but 0 images (Unexpected)
+```
+⚠️  grabRenderResult returned 0 images (result=true but no data): {
+  result: true,
+  hasRenderImages: true,
+  dataLength: 0
+}
+```
+**Meaning**: API says data is available but array is empty
+**Action**: Check if:
+- Callback might contain data directly (should be detected by priority checks)
+- Octane version has different API behavior
+- Check console for "✅ Found render images in callback" message
+
+### Case 3: Image Data in Callback (Efficient Path)
+```
+✅ [Stream] Found render images in callback (root level): { count: 1, ... }
+```
+**Meaning**: Callback included image data directly - no `grabRenderResult()` needed
+**Action**: This is the optimal path! No additional action needed.
+
 ## Next Steps
 If the viewport still doesn't work after this fix, check:
-1. **Octane is rendering** - Verify in standalone Octane that rendering works
-2. **gRPC connection** - Check that server can reach Octane on port 51022
-3. **Console errors** - Look for gRPC errors or protobuf parsing issues
-4. **Buffer encoding** - Verify buffer data is correctly encoded/decoded
-5. **Octane version** - Ensure using latest Octane 2024+ with gRPC API support
+1. **Console logs** - Look for which path is being taken (callback vs grab)
+2. **Octane is rendering** - Verify in standalone Octane that rendering works
+3. **gRPC connection** - Check that server can reach Octane on port 51022
+4. **Console errors** - Look for gRPC errors or protobuf parsing issues
+5. **Buffer encoding** - Verify buffer data is correctly encoded/decoded
+6. **Octane version** - Ensure using latest Octane 2024+ with gRPC API support
+7. **Callback registration** - Check if registration succeeded or was skipped (both should work)
