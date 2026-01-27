@@ -317,13 +317,23 @@ curl http://localhost:58407/api/health | python -m json.tool
 - **"WebSocket closed"** → Octane disconnected, restart Octane
 - **"Invalid handle"** → Node deleted, refresh scene tree
 
+### WebSocket Connection
+**Symptom**: WebSocket warnings in browser console on page refresh
+
+**Fix**: octaneWebR includes a 50ms delay in the WebSocket onopen handler to handle browser timing edge cases. Connection should be automatic and silent.
+
+**Debug**:
+1. Check browser console for `✅ WebSocket connected` message
+2. Verify `readyState: 1 (OPEN)` in debug logs
+3. Confirm `Sent subscribe message to WebSocket` appears
+
 ---
 
 ## 📚 Documentation
 
 - **[README.md](./README.md)** - This file (project overview)
 - **[QUICKSTART.md](./QUICKSTART.md)** - Setup guide and walkthrough
-- **[REPRO_PROMPT.md](./REPRO_PROMPT.md)** - Context for AI assistants
+- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Development guide and architecture
 
 ### External Resources
 - [Octane SE Manual](https://docs.otoy.com/standaloneSE/) - Complete UI reference
@@ -352,6 +362,6 @@ Octane Render® and OTOY® are registered trademarks of OTOY Inc.
 
 ---
 
-**Last Updated**: 2025-01-23  
+**Last Updated**: 2025-01-22  
 **Version**: 1.0.0  
 **Status**: Production-ready
