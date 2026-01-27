@@ -16,6 +16,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { OctaneProvider, useOctane } from './hooks/useOctane';
 import { useResizablePanels } from './hooks/useResizablePanels';
+import { EditActionsProvider } from './contexts/EditActionsContext';
 import { MenuBar } from './components/MenuBar';
 import { ConnectionStatus } from './components/ConnectionStatus';
 import { CallbackRenderViewport, CallbackRenderViewportHandle } from './components/CallbackRenderViewport';
@@ -461,7 +462,9 @@ function AppContent() {
 function App() {
   return (
     <OctaneProvider>
-      <AppContent />
+      <EditActionsProvider>
+        <AppContent />
+      </EditActionsProvider>
     </OctaneProvider>
   );
 }

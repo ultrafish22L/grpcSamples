@@ -32,6 +32,7 @@ import '@xyflow/react/dist/style.css';
 
 import { SceneNode, NodeAddedEvent } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
+import { useEditActions } from '../../contexts/EditActionsContext';
 import { OctaneNode, OctaneNodeData } from './OctaneNode';
 import { formatColorValue } from '../../utils/ColorUtils';
 import { NodeTypeContextMenu } from './NodeTypeContextMenu';
@@ -71,6 +72,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 }: NodeGraphEditorProps) {
   const { client, connected } = useOctane();
   const { fitView } = useReactFlow();
+  const editActions = useEditActions();
 
   // Track whether initial fitView has been called (should only happen once after initial scene sync)
   const hasInitialFitView = useRef(false);
@@ -374,6 +376,29 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       }, 100);
     }
   }, [nodes, fitView]);
+
+  /**
+   * Register edit action handlers with global EditActionsContext
+   * This allows MenuBar Edit menu to trigger NodeGraph actions
+   */
+  useEffect(() => {
+    const handleFind = () => {
+      setSearchDialogVisible(true);
+    };
+
+    editActions.registerHandlers({
+      cut: handleCut,
+      copy: handleCopy,
+      paste: handlePaste,
+      delete: handleDeleteSelected,
+      group: handleGroupItems,
+      find: handleFind,
+    });
+
+    return () => {
+      editActions.unregisterHandlers();
+    };
+  }, [editActions, handleCut, handleCopy, handlePaste, handleDeleteSelected, handleGroupItems]);
 
   /**
    * Connection Cutter: Mouse handlers

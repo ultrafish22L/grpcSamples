@@ -8,6 +8,7 @@ import { useFileDialog } from '../../hooks/useFileDialog';
 import { useRecentFiles } from '../../hooks/useRecentFiles';
 import { useOctane } from '../../hooks/useOctane';
 import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
+import { useEditActions } from '../../contexts/EditActionsContext';
 import { MenuDropdown } from './MenuDropdown';
 import { KeyboardShortcutsDialog } from '../dialogs/KeyboardShortcutsDialog';
 import { PreferencesDialog } from '../dialogs/PreferencesDialog';
@@ -181,6 +182,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
   const { openFileDialog } = useFileDialog();
   const { recentFiles, addRecentFile, clearRecentFiles, getRecentFilePaths } = useRecentFiles();
   const { client, connected } = useOctane();
+  const editActions = useEditActions();
 
   // Get menu definitions with current recent files and panel visibility
   const menuDefinitions = useMemo(() => {
@@ -398,40 +400,33 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
         console.log('🔧 Opening Preferences dialog');
         break;
 
-      // Edit menu actions
+      // Edit menu actions - delegated to active component via EditActionsContext
       case 'edit.cut':
-        showNotification('Cut not yet implemented', 'info');
-        console.log('✂️ Cut');
+        editActions.cut();
         break;
 
       case 'edit.copy':
-        showNotification('Copy not yet implemented', 'info');
-        console.log('📋 Copy');
+        editActions.copy();
         break;
 
       case 'edit.paste':
-        showNotification('Paste not yet implemented', 'info');
-        console.log('📋 Paste');
+        editActions.paste();
         break;
 
       case 'edit.group':
-        showNotification('Group items not yet implemented', 'info');
-        console.log('🔗 Group items');
+        editActions.group();
         break;
 
       case 'edit.ungroup':
-        showNotification('Ungroup items not yet implemented', 'info');
-        console.log('🔓 Ungroup items');
+        editActions.ungroup();
         break;
 
       case 'edit.delete':
-        showNotification('Delete not yet implemented', 'info');
-        console.log('🗑️ Delete');
+        editActions.delete();
         break;
 
       case 'edit.find':
-        showNotification('Find not yet implemented', 'info');
-        console.log('🔍 Find');
+        editActions.find();
         break;
 
       case 'edit.undo':
