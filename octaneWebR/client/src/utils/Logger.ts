@@ -1,7 +1,13 @@
 /**
  * Centralized logging utility for OctaneWebR
  * Provides environment-aware logging with configurable log levels
+ * 
+ * DEBUG_MODE controls server-side file logging to /tmp/octaneWebR_client.log
+ * Set to true to enable, false to disable
  */
+
+// Debug mode flag - when true, sends logs to /api/log endpoint for file logging
+const DEBUG_MODE = true;
 
 export enum LogLevel {
   DEBUG = 0,
@@ -18,9 +24,19 @@ export interface LoggerConfig {
   colors?: boolean;
 }
 
+interface LogEntry {
+  level: string;
+  message: string;
+  timestamp: number;
+}
+
 class LoggerInstance {
   private config: LoggerConfig;
   private readonly isDevelopment: boolean;
+  private logBuffer: LogEntry[] = [];
+  private flushInterval: NodeJS.Timeout | number | null = null;
+  private readonly MAX_BUFFER_SIZE = 100;
+  private readonly FLUSH_INTERVAL_MS = 1000;
 
   constructor() {
     // Detect environment
@@ -33,6 +49,11 @@ class LoggerInstance {
       timestamp: this.isDevelopment,
       colors: true,
     };
+
+    // Start flush timer if DEBUG_MODE is enabled
+    if (DEBUG_MODE) {
+      this.startFlushTimer();
+    }
   }
 
   /**
@@ -54,6 +75,95 @@ class LoggerInstance {
    */
   setLevel(level: LogLevel): void {
     this.config.level = level;
+  }
+
+  /**
+   * Start the timer to flush logs to server
+   */
+  private startFlushTimer(): void {
+    if (this.flushInterval) return;
+    
+    this.flushInterval = setInterval(() => {
+      this.flushLogs();
+    }, this.FLUSH_INTERVAL_MS);
+  }
+
+  /**
+   * Stop the flush timer
+   */
+  private stopFlushTimer(): void {
+    if (this.flushInterval) {
+      clearInterval(this.flushInterval as number);
+      this.flushInterval = null;
+    }
+  }
+
+  /**
+   * Add log entry to buffer for server-side file logging
+   */
+  private addToBuffer(level: string, ...args: unknown[]): void {
+    if (!DEBUG_MODE) return;
+
+    // Format args to string
+    const message = args
+      .map(arg => {
+        if (typeof arg === 'string') return arg;
+        if (arg instanceof Error) return arg.stack || arg.message;
+        try {
+          return JSON.stringify(arg);
+        } catch {
+          return String(arg);
+        }
+      })
+      .join(' ');
+
+    this.logBuffer.push({
+      level,
+      message,
+      timestamp: Date.now(),
+    });
+
+    // Flush immediately if buffer is full
+    if (this.logBuffer.length >= this.MAX_BUFFER_SIZE) {
+      this.flushLogs();
+    }
+  }
+
+  /**
+   * Flush log buffer to server endpoint
+   */
+  private async flushLogs(): Promise<void> {
+    if (this.logBuffer.length === 0) return;
+
+    const logsToSend = [...this.logBuffer];
+    this.logBuffer = [];
+
+    try {
+      // Send to server endpoint (handled by vite-plugin-octane-grpc.ts in dev mode)
+      await fetch('/api/log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          level: logsToSend[logsToSend.length - 1].level,
+          message: logsToSend
+            .map(log => `[${log.level.toUpperCase()}] ${log.message}`)
+            .join('\n'),
+        }),
+      });
+    } catch (error) {
+      // Silently fail if endpoint not available (e.g., production mode)
+      // Don't log to avoid infinite loop
+    }
+  }
+
+  /**
+   * Clean up resources
+   */
+  destroy(): void {
+    this.stopFlushTimer();
+    this.flushLogs(); // Final flush
   }
 
   /**
@@ -85,6 +195,7 @@ class LoggerInstance {
   debug(...args: unknown[]): void {
     if (this.config.level <= LogLevel.DEBUG) {
       console.log(...this.formatMessage('🔍', ...args));
+      this.addToBuffer('debug', ...args);
     }
   }
 
@@ -94,6 +205,7 @@ class LoggerInstance {
   info(...args: unknown[]): void {
     if (this.config.level <= LogLevel.INFO) {
       console.log(...this.formatMessage('ℹ️', ...args));
+      this.addToBuffer('info', ...args);
     }
   }
 
@@ -103,6 +215,7 @@ class LoggerInstance {
   success(...args: unknown[]): void {
     if (this.config.level <= LogLevel.INFO) {
       console.log(...this.formatMessage('✅', ...args));
+      this.addToBuffer('info', ...args);
     }
   }
 
@@ -112,6 +225,7 @@ class LoggerInstance {
   warn(...args: unknown[]): void {
     if (this.config.level <= LogLevel.WARN) {
       console.warn(...this.formatMessage('⚠️', ...args));
+      this.addToBuffer('warn', ...args);
     }
   }
 
@@ -121,6 +235,7 @@ class LoggerInstance {
   error(...args: unknown[]): void {
     if (this.config.level <= LogLevel.ERROR) {
       console.error(...this.formatMessage('❌', ...args));
+      this.addToBuffer('error', ...args);
     }
   }
 
