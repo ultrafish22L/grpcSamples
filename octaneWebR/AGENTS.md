@@ -199,6 +199,17 @@ import styles from './MyComponent.module.css';
 
 ## Recent Features
 
+### Tab Bar UI Refinements (Jan 2025) ✅
+**What**: Added tab bars to Scene Outliner and Node Graph Editor matching Octane SE styling  
+**Where**: `scene-outliner.css`, `node-graph.css`, `App.tsx`  
+**Key Details**:
+- Right-slanted trapezoid tabs using `clip-path: polygon()`
+- Z-index stacking for proper left-to-right overlap effect
+- Active tab: `--octane-bg-secondary`, Inactive: `--octane-bg-lighter`
+- Node Graph: Vertical toolbar (26px width) on left, tabs to right in horizontal row
+- Constrained tab width (max-width: 120px) matching reference screenshots
+**Status**: Complete
+
 ### Node Type Dropdown (Jan 2025) ✅
 **What**: Change a node's type via dropdown while preserving graph position  
 **Where**: NodeInspector component (`client/src/components/NodeInspector/index.tsx`)  
@@ -309,7 +320,7 @@ For detailed domain knowledge, see `.openhands/skills/`:
 
 ---
 
-**Last Updated**: 2025-01-28  
+**Last Updated**: 2025-01-29  
 **Version**: v1.0.0  
 **Status**: Active development
 

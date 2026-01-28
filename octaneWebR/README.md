@@ -367,7 +367,7 @@ Octane Render® and OTOY® are registered trademarks of OTOY Inc.
 
 ---
 
-**Last Updated**: 2025-01-28  
+**Last Updated**: 2025-01-29  
 **Version**: 1.0.0  
 **Status**: Production-ready  
-**Recent Changes**: OpenHands skills system, refactored documentation structure
+**Recent Changes**: UI refinements (tab bars matching Octane SE), documentation cleanup (24 temp files removed)

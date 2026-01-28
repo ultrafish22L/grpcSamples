@@ -17,7 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `scene-graph/SKILL.md` - Scene graph structure and patterns
   - `react-patterns/SKILL.md` - React/TypeScript conventions
 - Skills README.md documenting the on-demand knowledge system
-- `.openhands/REFACTOR_SUMMARY.md` documenting the refactor approach
 
 ### Changed
 - Refactored `AGENTS.md` from 595 lines to 315 lines (47% reduction)
@@ -25,6 +24,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated all core documentation files (README, QUICKSTART, DEVELOPMENT, CHANGELOG)
 - Removed external path references from documentation
 - Fixed port numbers throughout documentation (58407 → 57341)
+- Cleaned up 24 temporary markdown documentation files (icon extraction working docs, session reports, etc.)
+
+### UI Refinements
+- **Scene Outliner Tabs**: Added tab bar with right-slanted overlap effect matching Octane SE
+  - Black outline (1px solid) with 3px padding
+  - Active tab: `--octane-bg-secondary`, Inactive: `--octane-bg-lighter`
+  - Z-index stacking for proper left-to-right overlap
+- **Node Graph Editor Tabs**: Added matching tab bar with single "Scene" tab
+  - Vertical toolbar on left (26px width) extending to top
+  - Tab bar positioned to right of toolbar in horizontal row
+  - Tabs aligned to bottom of row for proper integration
+  - Constrained tab width (max-width: 120px) matching Octane SE reference
 
 ---
 
@@ -251,5 +262,5 @@ None yet (version 1.0.0 is first stable release).
 ---
 
 **Maintained by**: OTOY Development Team  
-**Last Updated**: 2025-01-28  
+**Last Updated**: 2025-01-29  
 **Status**: Active Development
