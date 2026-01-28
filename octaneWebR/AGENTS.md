@@ -199,6 +199,30 @@ import styles from './MyComponent.module.css';
 
 ## Recent Features
 
+### Logger System (Jan 2025) ✅
+**What**: Centralized logging system replacing all console.* calls (670+ logs)  
+**Where**: `client/src/utils/Logger.ts`  
+**Methods**: `Logger.debug()`, `Logger.error()`, `Logger.warn()`, `Logger.info()`, `Logger.success()`, `Logger.network()`, `Logger.api()`  
+**Usage**: 
+- High-frequency operations → `Logger.debug()` (scene building, position updates)
+- Errors → `Logger.error()` with descriptive messages
+- User actions → `Logger.info()` or `Logger.success()`
+- Network events → `Logger.network()` (connections, disconnects)
+**Emoji Prefixes**: 🔍 (debug), ❌ (error), ⚠️ (warn), ✅ (success), 🌐 (network)  
+**Status**: Complete (66% DEBUG, 24% ERROR, 9% WARN)
+
+### Code Documentation (Jan 2025) ✅
+**What**: Enhanced 7 core service files with architectural documentation  
+**Where**: `services/octane/*.ts`, `services/CommandHistory.ts`  
+**Key Additions**:
+- gRPC conventions (objectPtr requirements, service mappings)
+- WebSocket timing fixes (50ms delay rationale)
+- Scene tree building strategy (NodeGraph vs Node traversal)
+- Pin connection model (cycle checking, handle "0" = disconnect)
+- Render pipeline structure (RenderEngine → RenderTarget → FilmSettings)
+- Undo/redo branching behavior (new action discards redo stack)
+**Status**: Complete (created DOCUMENTATION_IMPROVEMENTS.md)
+
 ### Tab Bar UI Refinements (Jan 2025) ✅
 **What**: Added tab bars to Scene Outliner and Node Graph Editor matching Octane SE styling  
 **Where**: `scene-outliner.css`, `node-graph.css`, `App.tsx`  
@@ -320,7 +344,7 @@ For detailed domain knowledge, see `.openhands/skills/`:
 
 ---
 
-**Last Updated**: 2025-01-29  
+**Last Updated**: 2025-01-30  
 **Version**: v1.0.0  
 **Status**: Active development
 

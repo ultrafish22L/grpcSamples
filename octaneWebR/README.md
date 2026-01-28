@@ -96,11 +96,13 @@ Platform-aware shortcuts (Ctrl on Windows/Linux, Cmd on macOS):
 - `F11` - Fullscreen
 
 #### **Infrastructure**
-- TypeScript with strict type checking (no 'any' types)
-- Embedded gRPC-Web proxy (no separate server needed)
-- CSS custom properties theme system (Octane SE dark theme)
-- Hot module replacement (HMR) for instant updates
-- Cross-browser compatible (Chrome, Firefox, Edge, Safari)
+- **TypeScript**: Strict type checking with full gRPC type coverage
+- **Embedded gRPC Proxy**: Vite plugin provides transparent proxy (no separate server)
+- **Logging System**: Multi-level logger (DEBUG/INFO/WARN/ERROR/NETWORK/API) with console filtering
+- **Command History**: Full undo/redo support (50-command history, branching behavior)
+- **Theme System**: Pure CSS custom properties (134 variables, Octane SE dark theme)
+- **HMR**: Hot module replacement for instant development feedback
+- **Cross-browser**: Tested on Chrome, Firefox, Edge, Safari
 
 ---
 
@@ -114,37 +116,62 @@ Platform-aware shortcuts (Ctrl on Windows/Linux, Cmd on macOS):
 - **Styling**: CSS Modules + CSS Variables (theme system)
 
 ### Service Layer
-octaneWebR uses a modular service architecture:
+octaneWebR uses a modular service architecture that wraps Octane's gRPC API:
 
 ```
 services/
 ├── octane/
-│   ├── ApiService.ts          - Core gRPC API operations
-│   ├── BaseService.ts         - Shared service functionality
-│   ├── CameraService.ts       - Camera and viewport controls
-│   ├── ConnectionService.ts   - WebSocket connection management
-│   ├── DeviceService.ts       - Device and system operations
-│   ├── MaterialDatabaseService.ts - LiveDB/LocalDB access
-│   ├── NodeService.ts         - Node CRUD operations
-│   ├── RenderService.ts       - Render control and streaming
-│   ├── RenderExportService.ts - Render export operations
-│   ├── SceneService.ts        - Scene tree and node operations
-│   ├── ViewportService.ts     - Viewport state management
+│   ├── ApiService.ts          - Core gRPC API wrapper with objectPtr handling
+│   ├── BaseService.ts         - Shared event emitter and error handling
+│   ├── CameraService.ts       - Camera position/target/up vector controls
+│   ├── ConnectionService.ts   - WebSocket lifecycle + reconnection logic
+│   ├── DeviceService.ts       - GPU statistics and device info
+│   ├── MaterialDatabaseService.ts - LocalDB (offline) + LiveDB (online marketplace)
+│   ├── NodeService.ts         - Node CRUD, pin connections, group/ungroup
+│   ├── RenderService.ts       - Render pipeline, film settings, render region
+│   ├── RenderExportService.ts - Image export and render output
+│   ├── SceneService.ts        - Scene tree building (recursive + incremental)
+│   ├── ViewportService.ts     - Viewport state and picker tools
 │   ├── index.ts               - Service exports
-│   └── types.ts               - Shared type definitions
-└── OctaneClient.ts            - Main API facade
+│   └── types.ts               - Shared TypeScript interfaces
+├── CommandHistory.ts          - Undo/redo command pattern implementation
+└── OctaneClient.ts            - Main API facade (single entry point)
 ```
 
-All services extend `BaseService` which provides:
-- Event emitter for UI synchronization
-- Consistent error handling
-- Centralized connection state
+**Service Architecture**:
+- All services extend `BaseService` for consistent event emission and error handling
+- **ApiService** handles gRPC conventions (objectPtr wrapping, service-to-ObjectType mapping)
+- **SceneService** builds scene tree recursively (NodeGraphs → owned items, Nodes → pins)
+- **ConnectionService** manages WebSocket with automatic reconnection (5s delay, browser timing fixes)
+- **CommandHistory** enables full undo/redo with branching behavior (discards redo stack on new action)
+
+**Key Design Patterns**:
+- **Incremental Updates**: SceneService can rebuild single nodes instead of full tree
+- **Collapsed Node Cleanup**: NodeService removes orphaned nodes from scene.map after rewiring
+- **Depth Limiting**: Scene recursion limited to 5 levels (prevents circular graph loops)
+- **Level 1 Optimization**: Only top-level nodes build deep children (avoids exponential API calls)
 
 ### gRPC Integration
-- **Vite Plugin**: `vite-plugin-octane-grpc.ts` provides embedded proxy
-- **Proto Generation**: TypeScript types auto-generated from .proto files
-- **Streaming**: WebSocket-based callback streaming for render updates
-- **Type Safety**: Full TypeScript coverage of gRPC API
+octaneWebR communicates with Octane via gRPC-Web with a custom Vite plugin:
+
+**Architecture**:
+- **Vite Plugin** (`vite-plugin-octane-grpc.ts`): Embedded proxy server, no separate backend needed
+- **Proto Files**: 30+ .proto definitions in `server/proto/` (TypeScript types auto-generated)
+- **Callback Streaming**: WebSocket-based streaming for render updates and scene changes
+- **ObjectPtr Convention**: Some gRPC services require `{ objectPtr: { handle, type } }` wrapper
+- **Type Safety**: Full TypeScript coverage—no 'any' types in service layer
+
+**Connection Flow**:
+1. Browser → `http://localhost:57341/api/grpc/{service}/{method}` (HTTP/2)
+2. Vite plugin proxies to `localhost:51022` (Octane LiveLink gRPC server)
+3. WebSocket separate channel for callbacks (`ws://localhost:57341/ws`)
+4. Automatic reconnection with 5s delay on disconnect
+
+**API Conventions**:
+- **Handle "0"**: Represents disconnected pins or null nodes
+- **Cycle Checking**: All pin connections use `doCycleCheck: true` to prevent crashes
+- **Evaluate Flag**: Most operations trigger scene evaluation (`evaluate: true`)
+- **Pin Indexing**: 0-based pin indices (e.g., pin 15 = P_FILM_SETTINGS on RenderTarget)
 
 ### Styling & Theming
 octaneWebR uses a pure CSS variable-based theme system:
@@ -350,12 +377,15 @@ curl http://localhost:57341/api/health | python -m json.tool
 
 ## 📊 Project Statistics
 
-- **Code**: ~18,000 lines of TypeScript/TSX
-- **Components**: 30+ React components
-- **Services**: 8 modular gRPC service wrappers
-- **Node Types**: 755+ Octane node types supported
+- **Code**: ~18,000 lines of TypeScript/TSX (strict typing, no 'any')
+- **Components**: 35+ React components (functional with hooks)
+- **Services**: 11 modular gRPC service wrappers
+- **Node Types**: 755+ Octane node types (25 categories)
 - **Icons**: 300+ PNG icons for node types
-- **Proto Files**: 30+ API service definitions
+- **Proto Files**: 30+ gRPC API service definitions
+- **Logger Calls**: 670+ logging statements (66% DEBUG, 24% ERROR, 9% WARN)
+- **CSS Variables**: 134 theme variables in octane-theme.css
+- **Commands**: Full undo/redo with 50-action history
 
 ---
 
@@ -367,7 +397,10 @@ Octane Render® and OTOY® are registered trademarks of OTOY Inc.
 
 ---
 
-**Last Updated**: 2025-01-29  
+**Last Updated**: 2025-01-30  
 **Version**: 1.0.0  
 **Status**: Production-ready  
-**Recent Changes**: UI refinements (tab bars matching Octane SE), documentation cleanup (24 temp files removed)
+**Recent Changes**: 
+- Code review: Converted 400+ console.* to Logger.* with appropriate log levels
+- Documentation: Enhanced 7 core service files with architectural comments
+- Cleaned up redundant comments, added design rationale documentation

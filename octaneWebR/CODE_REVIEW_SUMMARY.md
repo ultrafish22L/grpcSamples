@@ -215,6 +215,59 @@ All modified files have `.backup` copies for rollback if needed.
 
 ---
 
-**Review Completed**: 2025-01-28
+---
+
+## Documentation Improvements (Pass 3 - 2025-01-30)
+
+### Enhanced Service Documentation
+Added architectural documentation to 7 core service files:
+
+**Services Enhanced**:
+1. **ApiService.ts** (+3 lines)
+   - Documented objectPtr wrapper requirements
+   - Explained service-to-ObjectType mapping convention
+   
+2. **ConnectionService.ts** (+3 lines)
+   - WebSocket timing race condition fix (50ms delay)
+   - Browser onopen timing edge case
+   
+3. **SceneService.ts** (+27 lines)
+   - Scene tree building strategy (NodeGraphs vs Nodes)
+   - Depth limiting rationale (5 levels max)
+   - Level 1 optimization explanation
+   
+4. **NodeService.ts** (+19 lines)
+   - Pin connection model documentation
+   - Cycle checking importance
+   - Handle "0" = disconnected convention
+   
+5. **RenderService.ts** (+13 lines)
+   - Render pipeline structure (RenderEngine → RenderTarget → FilmSettings)
+   - Pin 15 = P_FILM_SETTINGS
+   
+6. **MaterialDatabaseService.ts** (+9 lines)
+   - LocalDB vs LiveDB distinction
+   - Hierarchical API similarities
+   
+7. **CommandHistory.ts** (+13 lines)
+   - Undo/redo branching behavior with examples
+   - Why redo stack is discarded on new action
+
+**Total**: +87 lines of valuable architectural context
+
+### Documentation Philosophy
+- ✅ **Why not What** - Explains design decisions, not obvious code
+- ✅ **Edge Cases** - Documents gotchas and timing issues
+- ✅ **API Quirks** - Octane conventions and requirements
+- ✅ **Performance** - Optimization rationale
+- ❌ **Redundancy** - Removed obvious comments
+
+### Output
+Created `DOCUMENTATION_IMPROVEMENTS.md` with detailed before/after examples and impact analysis.
+
+---
+
+**Review Completed**: 2025-01-30 (3 passes)
 **Reviewer**: AI Code Review Agent
 **Status**: ✅ Complete and verified
+**Commits**: 3 (32a834e1, 83e67eb5, 56179eaf)

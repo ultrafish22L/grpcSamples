@@ -79,15 +79,20 @@ export abstract class BaseService {
 ```
 
 **Key Services**:
-- `ConnectionService` - WebSocket connection management
-- `SceneService` - Scene tree, node operations
-- `NodeService` - Node CRUD operations
-- `ViewportService` - Camera controls, viewport state
-- `RenderService` - Render control, image streaming
-- `MaterialDatabaseService` - LiveDB/LocalDB access
+- `ApiService` - Core gRPC wrapper with objectPtr handling, service-to-ObjectType mapping
+- `ConnectionService` - WebSocket lifecycle, auto-reconnect (5s delay), browser timing fixes
+- `SceneService` - Recursive scene tree building (NodeGraphs → items, Nodes → pins)
+- `NodeService` - Node CRUD, pin connections, group/ungroup, collapsed node cleanup
+- `CameraService` - Camera position/target/up vectors, original state capture
+- `ViewportService` - Viewport state, picker tools
+- `RenderService` - Render pipeline (RenderEngine → RenderTarget → FilmSettings), render region
+- `MaterialDatabaseService` - LocalDB (offline library) + LiveDB (online marketplace)
+- `DeviceService` - GPU statistics, device info
+- `RenderExportService` - Image export, render output
+- `CommandHistory` - Undo/redo with branching behavior (50-action history)
 
 **Main Facade**:
-- `OctaneClient` - Aggregates all services, exposes unified API
+- `OctaneClient` - Aggregates all services, single entry point, event coordination
 
 ### Event-Driven Architecture
 Services emit events for UI synchronization:
@@ -186,15 +191,40 @@ callback.proto         - Streaming callbacks
 // In service class
 async myMethod(param: Type): Promise<ResultType> {
   try {
-    const request = { param };
-    const response = await this.client.grpcMethod(request);
-    return response.data;
-  } catch (error) {
-    console.error('[ServiceName] myMethod failed:', error);
+    const response = await this.apiService.callApi('ApiService', 'method', handle, {
+      param1: value1,
+      param2: value2
+    });
+    
+    if (!response?.result) {
+      Logger.error('❌ Method failed - no result');
+      return null;
+    }
+    
+    Logger.debug('✅ Method succeeded:', response.result);
+    return response.result;
+  } catch (error: any) {
+    Logger.error('❌ Method error:', error.message);
     throw error;
   }
 }
 ```
+
+**Logging Conventions**:
+- Use `Logger.*` instead of `console.*` (centralized, filterable)
+- High-frequency operations → `Logger.debug()` (network checks, polling)
+- Errors → `Logger.error()` with descriptive messages
+- Warnings → `Logger.warn()` for non-critical issues
+- User actions → `Logger.info()` or `Logger.success()`
+- Network events → `Logger.network()` (connections, disconnects)
+- API calls → `Logger.api(service, method, handle)` (optional, debug mode)
+
+**gRPC Conventions**:
+- Some services need objectPtr: `{ objectPtr: { handle: "123", type: ObjectType.NODE } }`
+- Others use handle directly: `{ handle: 123 }`
+- Check `OctaneTypes.ts` for service-to-ObjectType mapping
+- Handle "0" means disconnected/null
+- Always use `doCycleCheck: true` for pin connections (prevents crashes)
 
 ### Callback Streaming
 Real-time render updates use WebSocket:
@@ -645,19 +675,62 @@ Make executable: `chmod +x test-dev.sh`
 ```
 
 ### Debugging Tools
-```typescript
-// Service logging
-console.log('[ServiceName] Method called:', { params });
 
-// Component lifecycle logging
+#### Logger System
+octaneWebR uses a centralized logging system with multiple levels:
+
+```typescript
+// utils/Logger.ts - Multi-level logger
+import { Logger } from '../utils/Logger';
+
+// Debug logs (development, high-frequency operations)
+Logger.debug('🔍 Scene tree building:', nodeCount);
+
+// Info logs (user actions, important events)
+Logger.info('ℹ️ User saved scene:', filename);
+
+// Success logs (positive confirmations)
+Logger.success('✅ Connection established');
+
+// Warning logs (non-critical issues)
+Logger.warn('⚠️ No Film Settings found - using defaults');
+
+// Error logs (failures requiring attention)
+Logger.error('❌ Failed to load scene:', error.message);
+
+// Network logs (connection events)
+Logger.network('🌐 WebSocket connected');
+
+// API logs (gRPC calls, debug only)
+Logger.api('ApiNode', 'create', nodeHandle);
+```
+
+**Logger Distribution** (670+ calls):
+- 66% DEBUG - Development/high-frequency (scene building, position updates)
+- 24% ERROR - Failures and exceptions
+- 9% WARN - Non-critical issues
+- <1% INFO/SUCCESS/NETWORK/API - Special events
+
+**Console Filtering**:
+```javascript
+// In browser console, filter by emoji prefix:
+// 🔍 - Debug
+// ❌ - Errors
+// ⚠️ - Warnings
+// ✅ - Success
+// 🌐 - Network
+```
+
+#### Component Lifecycle Logging
+```typescript
 useEffect(() => {
-  console.log('[ComponentName] Mounted');
-  return () => console.log('[ComponentName] Unmounted');
+  Logger.debug('[ComponentName] Mounted');
+  return () => Logger.debug('[ComponentName] Unmounted');
 }, []);
 
 // Event logging
 client.on('*', (event, data) => {
-  console.log('[Event]', event, data);
+  Logger.debug('[Event]', event, data);
 });
 ```
 

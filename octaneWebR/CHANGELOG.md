@@ -9,6 +9,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Code Quality (2025-01-30)
+- **Logger System**: Centralized multi-level logging (670+ calls)
+  - `Logger.debug()`, `Logger.error()`, `Logger.warn()`, `Logger.info()`, `Logger.success()`
+  - `Logger.network()`, `Logger.api()` for specialized logging
+  - Distribution: 66% DEBUG, 24% ERROR, 9% WARN, <1% other
+  - Emoji prefixes for easy console filtering (🔍 ❌ ⚠️ ✅ 🌐)
+- **Command History**: Full undo/redo implementation
+  - 50-action history with branching behavior
+  - Discards redo stack on new action (prevents complex tree history)
+  - Command pattern implementation in `services/CommandHistory.ts`
+- **Architectural Documentation**: Enhanced 7 core service files
+  - Added design rationale comments (why, not what)
+  - Documented gRPC conventions, API quirks, edge cases
+  - Explained scene tree building strategy, pin connection model
+  - Added render pipeline documentation (RenderEngine → RenderTarget → FilmSettings)
+  - Created `DOCUMENTATION_IMPROVEMENTS.md` summary
+
+### Changed - Code Review (2025-01-30)
+- **Logging Conversion**: Replaced 400+ `console.*` calls with `Logger.*`
+  - High-frequency operations → `Logger.debug()` (connection checks, position updates)
+  - Errors → `Logger.error()` with descriptive messages
+  - User actions → `Logger.info()` or `Logger.success()`
+  - Network events → `Logger.network()` (connections, disconnects)
+- **Comment Cleanup**: Removed redundant comments across 33 files
+  - Eliminated obvious "what" comments (code is self-documenting)
+  - Kept non-obvious "why" comments (design decisions, edge cases)
+  - Added architectural context where missing
+- **Service Documentation**:
+  - `ApiService.ts`: Documented objectPtr wrapper requirements
+  - `ConnectionService.ts`: Explained WebSocket timing race condition fix
+  - `SceneService.ts`: Added tree building strategy docs (NodeGraph vs Node)
+  - `NodeService.ts`: Documented pin connection model and cleanup logic
+  - `RenderService.ts`: Explained render pipeline structure
+  - `MaterialDatabaseService.ts`: Clarified LocalDB vs LiveDB differences
+  - `CommandHistory.ts`: Documented undo/redo branching with examples
+
+### Commits (2025-01-30)
+- `56179eaf` - Improve code documentation for experienced programmers (+87 lines)
+- `83e67eb5` - Convert high-frequency network/success logs to DEBUG (pass 2)
+- `32a834e1` - Code review: Convert console.* to Logger.* with appropriate log levels (+899/-666)
+
+---
+
+## [1.0.1] - 2025-01-29
+
 ### Added
 - OpenHands skills system in `.openhands/skills/` directory
   - `octane-grpc/SKILL.md` - gRPC patterns and troubleshooting
