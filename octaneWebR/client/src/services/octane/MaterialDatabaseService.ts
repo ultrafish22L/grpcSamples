@@ -1,6 +1,12 @@
 /**
  * Material Database Service - Local and Live material database access
- * Handles browsing and loading materials from LocalDB and LiveDB
+ * 
+ * Two material database systems:
+ * - LocalDB: Offline library of pre-built materials stored on disk (categories, materials)
+ * - LiveDB: Online Octane material marketplace with downloadable/purchasable materials
+ * 
+ * Both use similar hierarchical APIs (categories → subcategories → materials)
+ * but different service endpoints (ApiLocalDB vs ApiLiveDB)
  */
 
 import { Logger } from '../../utils/Logger';
@@ -19,7 +25,7 @@ export class MaterialDatabaseService extends BaseService {
     this.sceneService = sceneService;
   }
 
-  // ==================== LocalDB Methods ====================
+  // ==================== LocalDB Methods (Offline Material Library) ====================
   
   async getLocalDBRoot(): Promise<number | null> {
     try {
@@ -149,7 +155,7 @@ export class MaterialDatabaseService extends BaseService {
     }
   }
 
-  // ==================== LiveDB Methods ====================
+  // ==================== LiveDB Methods (Online Material Marketplace) ====================
   
   async getLiveDBCategories(): Promise<MaterialCategory[]> {
     try {

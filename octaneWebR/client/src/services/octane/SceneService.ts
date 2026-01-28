@@ -24,8 +24,12 @@ export class SceneService extends BaseService {
     };
   }
 
+  /**
+   * Builds or updates the scene tree
+   * @param newNodeHandle - If provided, only builds metadata for this specific node (incremental update)
+   *                        If omitted, performs full scene tree rebuild
+   */
   async buildSceneTree(newNodeHandle?: number): Promise<SceneNode[]> {
-    // Optimized update: if a specific node handle is provided, only build node metadata
     if (newNodeHandle !== undefined) {
       Logger.debug('➕ Building new node metadata:', newNodeHandle);
       
@@ -53,7 +57,10 @@ export class SceneService extends BaseService {
       }
     }
     
-    // Full rebuild
+    /**
+     * Full rebuild: Clears scene state and reconstructs entire tree from root.
+     * Used on initial connection or when incremental updates aren't sufficient.
+     */
     Logger.debug('🌳 Building scene tree...');
     
     this.scene = {
@@ -131,6 +138,13 @@ export class SceneService extends BaseService {
     return this.scene;
   }
 
+  /**
+   * Recursively builds scene tree by traversing node graphs and their pins
+   * @param itemHandle - Current item to process (null = start from root)
+   * @param sceneItems - Accumulator array for nodes at this level
+   * @param isGraph - Whether current item is a NodeGraph (contains owned items vs pins)
+   * @param level - Current recursion depth (limited to 5 to prevent infinite loops)
+   */
   private async syncSceneRecurse(
     itemHandle: number | null,
     sceneItems: SceneNode[] | null,
@@ -143,6 +157,7 @@ export class SceneService extends BaseService {
     
     level = level + 1;
     
+    // Safety limit: Prevent runaway recursion in circular graphs
     if (level > 5) {
       Logger.warn(`⚠️ Recursion depth limit reached at level ${level}`);
       return sceneItems;
@@ -160,6 +175,12 @@ export class SceneService extends BaseService {
         isGraph = isGraphResponse?.result || false;
       }
       
+      /**
+       * NodeGraph vs Node traversal strategy:
+       * - NodeGraphs contain "owned items" (child nodes) via getOwnedItems()
+       * - Regular Nodes expose connections via their pins via connectedNodeIx()
+       * This branch handles NodeGraphs by iterating their owned items array
+       */
       if (isGraph) {
         const ownedResponse = await this.apiService.callApi('ApiNodeGraph', 'getOwnedItems', itemHandle);
         if (!ownedResponse || !ownedResponse.list || !ownedResponse.list.handle) {
@@ -179,6 +200,7 @@ export class SceneService extends BaseService {
           }
         }
         
+        // Only build deep children for top-level items (avoids exponential API calls)
         if (level === 1) {
           Logger.debug(`🔄 Building children for ${sceneItems.length} level 1 items`);
           for (const item of sceneItems) {
@@ -190,6 +212,7 @@ export class SceneService extends BaseService {
           Logger.debug(`✅ Finished building children for all level 1 items`);
         }
       } else if (itemHandle != 0) {
+        // Regular nodes: iterate through pins to find connected nodes
         Logger.debug(`📌 Level ${level}: Processing node pins for handle ${itemHandle}`);
         
         try {

@@ -71,15 +71,17 @@ export class ConnectionService extends BaseService {
       this.ws = new WebSocket(wsUrl);
       
       this.ws.onopen = () => {
-        // Store ws reference to avoid potential race conditions
         const ws = this.ws;
         if (!ws) return;
         
         Logger.success('WebSocket connected');
         Logger.debug(`WebSocket readyState on open: ${ws.readyState} (OPEN=${WebSocket.OPEN})`);
         
-        // Use a small delay to ensure WebSocket is fully transitioned to OPEN state
-        // This handles edge cases where some browsers may call onopen slightly early
+        /**
+         * Race condition mitigation: Some browsers fire onopen before the WebSocket
+         * is truly ready to send. A 50ms delay ensures the OPEN state is stable.
+         * Without this, early send() calls may fail silently or throw exceptions.
+         */
         setTimeout(() => {
           if (ws && ws.readyState === WebSocket.OPEN) {
             ws.send(JSON.stringify({ type: 'subscribe' }));

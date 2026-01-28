@@ -99,6 +99,13 @@ export class NodeService extends BaseService {
     return this.deleteNodeOptimized(handleNum);
   }
 
+  /**
+   * Connects a source node to a target node's input pin
+   * @param targetNodeHandle - Node receiving the connection
+   * @param pinIdx - Pin index on target node (0-based)
+   * @param sourceNodeHandle - Node providing the output
+   * @param evaluate - Whether to trigger scene evaluation after connection
+   */
   async connectPinByIndex(
     targetNodeHandle: number,
     pinIdx: number,
@@ -114,12 +121,15 @@ export class NodeService extends BaseService {
         type: ObjectType.ApiNode,
       },
       evaluate,
-      doCycleCheck: true,
+      doCycleCheck: true, // Prevents circular dependency crashes
     });
     
     Logger.debug('✅ Pin connected in Octane');
   }
 
+  /**
+   * Disconnects a pin by connecting handle 0 (Octane's null node)
+   */
   async disconnectPin(
     nodeHandle: number,
     pinIdx: number,
@@ -140,6 +150,13 @@ export class NodeService extends BaseService {
     Logger.debug('✅ Pin disconnected in Octane');
   }
 
+  /**
+   * Cleans up collapsed nodes after pin rewiring
+   * 
+   * When a node's parent connection changes, the old source may become orphaned.
+   * If it was collapsed (not in scene.tree), remove it from scene.map to prevent
+   * memory leaks and stale references in the UI.
+   */
   async handlePinConnectionCleanup(oldSourceHandle: number | null): Promise<void> {
     if (!oldSourceHandle) return;
     

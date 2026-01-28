@@ -118,9 +118,17 @@ export class RenderService extends BaseService {
     }
   }
 
+  /**
+   * Gets the Film Settings node connected to the render target
+   * 
+   * Octane's render pipeline structure:
+   * RenderEngine → RenderTarget → FilmSettings (pin 15 = P_FILM_SETTINGS)
+   * 
+   * Film Settings controls resolution, AOVs, and output options.
+   * Returns null if no render target exists or no Film Settings connected.
+   */
   private async getFilmSettingsNode(): Promise<number | null> {
     try {
-      // Get render target
       const renderTargetResponse = await this.apiService.callApi('ApiRenderEngine', 'getRenderTargetNode', {});
       if (!renderTargetResponse?.result?.handle) {
         Logger.warn('⚠️ No render target found');
@@ -129,11 +137,10 @@ export class RenderService extends BaseService {
       
       const renderTargetHandle = renderTargetResponse.result.handle;
       
-      // Get Film Settings connected to render target (typically pin 15)
       const filmSettingsResponse = await this.apiService.callApi('ApiNode', 'connectedNode', renderTargetHandle, { pinId: PinId.P_FILM_SETTINGS });
       const handle = filmSettingsResponse?.result?.handle;
       
-      // Handle "0" means no connection, treat as null
+      // API returns "0" string/number for disconnected pins
       if (!handle || handle === "0" || handle === 0) {
         Logger.warn('⚠️ No Film Settings node connected to render target');
         return null;

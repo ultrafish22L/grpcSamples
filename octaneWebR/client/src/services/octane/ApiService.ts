@@ -44,28 +44,28 @@ export class ApiService extends BaseService {
     
     Logger.api(service, method, handle);
     
-    // Build request body - following octaneWeb's makeApiCall logic
+    /**
+     * Request body construction follows Octane's gRPC conventions:
+     * - Some services (ApiItem, ApiNode, etc.) require an objectPtr wrapper:
+     *   { objectPtr: { handle: "123", type: ObjectType.NODE } }
+     * - Others accept the handle directly: { handle: 123 }
+     * - OctaneTypes.ts maps service names to their required ObjectType
+     */
     let body: ApiRequestBody = {};
     
-    // If handle is a string or number (typical case), check if service needs objectPtr wrapping
     if (typeof handle === 'string' || typeof handle === 'number') {
       const objectType = getObjectTypeForService(service);
       
       if (objectType !== undefined) {
-        // Service requires objectPtr structure
-        // Convert handle to string for objectPtr (proto expects string handles)
         body.objectPtr = createObjectPtr(String(handle), objectType);
         Logger.debug('Created objectPtr:', body.objectPtr);
       } else {
-        // No objectPtr needed, pass handle directly
         body.handle = handle;
       }
     } else if (handle !== undefined && handle !== null) {
-      // Handle is an object, merge it into body
       body = { ...handle };
     }
     
-    // Merge additional params
     if (params && Object.keys(params).length > 0) {
       body = { ...body, ...params };
       Logger.debug('Added params:', params);
