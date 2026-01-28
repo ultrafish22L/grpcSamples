@@ -1684,7 +1684,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
           color="#454545"
         />
 
-        {/* Minimap for navigation - top-left with yellow Octane styling and draggable viewport */}
+        {/* Minimap for navigation - top-left flush with no padding, matching Octane SE */}
         <MiniMap
           position="top-left"
           nodeColor={(node) => {
@@ -1694,12 +1694,14 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
               : '#666';
           }}
           style={{
-            width: 220,
-            height: 160,
+            width: 240,
+            height: 180,
             background: '#454545',
             border: '2px solid rgba(200, 180, 80, 0.8)',
             borderRadius: 4,
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+            margin: 0,
+            padding: 0,
           }}
           maskColor='#454545'
           maskStrokeColor="rgba(255, 215, 0, 0.9)"
@@ -1707,6 +1709,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
           pannable={true}
           zoomable={false}
           nodeStrokeWidth={3}
+          offsetScale={0}
         />
       </ReactFlow>
       </div>
