@@ -728,9 +728,6 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
         >
           <span id="render-samples-display">
             {renderStats.samples.toFixed(1)} spp
-            {renderStats.status === 'rendering' && renderStats.samplesPerSecond > 0 && (
-              <span className="samples-per-second"> ({renderStats.samplesPerSecond.toFixed(2)} sps)</span>
-            )}
           </span>
           <span className="stats-separator">, </span>
           <span id="render-time-display">{renderStats.time}</span>
@@ -745,13 +742,11 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
           style={{ cursor: 'context-menu' }}
           title="Right-click for GPU resource statistics"
         >
-          <span id="render-resolution-display">{renderStats.resolution}</span>
-          <span className="stats-separator">, </span>
           <span id="render-mesh-count">{renderStats.meshCount} mesh</span>
           <span className="stats-separator">, </span>
           <span id="render-gpu-info">{renderStats.gpu}</span>
           <span className="stats-separator">, </span>
-          <span id="render-memory-combined">{renderStats.version} / {renderStats.memory}</span>
+          <span id="render-memory-combined">{renderStats.version} {renderStats.memory}</span>
         </div>
       </div>
 
