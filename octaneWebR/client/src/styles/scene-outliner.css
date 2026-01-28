@@ -217,7 +217,7 @@ input:checked + .slider:before {
     background: var(--octane-bg-primary);
     border-bottom: 1px solid var(--octane-border);
     padding: 0;
-    gap: 2px;
+    gap: 0;
     align-items: stretch;
     position: relative;
 }
@@ -227,26 +227,31 @@ input:checked + .slider:before {
     border: none;
     color: var(--octane-text-secondary);
     cursor: pointer;
-    padding: 6px 16px 6px 12px;
+    padding: 6px 18px 6px 12px;
     font-size: var(--font-size-small);
     transition: all 0.15s ease;
     flex: 1;
     text-align: center;
     position: relative;
-    z-index: var(--z-base);
-    clip-path: polygon(4px 0%, calc(100% - 4px) 0%, 100% 100%, 0% 100%);
+    z-index: 1;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
+    margin-right: -10px;
+}
+
+.scene-tab:last-child {
+    margin-right: 0;
 }
 
 .scene-tab:hover {
     background: var(--octane-bg-hover);
     color: var(--octane-text-primary);
-    z-index: var(--z-low);
+    z-index: 10;
 }
 
 .scene-tab.active {
     background: linear-gradient(180deg, rgba(200, 140, 40, 0.9) 0%, rgba(180, 120, 30, 0.85) 100%);
     color: var(--octane-text-primary);
-    z-index: var(--z-tab-active);
+    z-index: 20;
     font-weight: var(--font-weight-header);
     box-shadow: inset 0 1px 2px rgba(255, 200, 100, 0.3);
 }
