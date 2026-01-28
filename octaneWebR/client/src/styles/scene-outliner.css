@@ -255,7 +255,7 @@ input:checked + .slider:before {
 }
 
 .scene-tab.active {
-    background: var(--octane-bg-primary);
+    background: var(--octane-bg-secondary);
     color: var(--octane-text-primary);
     z-index: 20 !important;
     font-weight: var(--font-weight-header);
