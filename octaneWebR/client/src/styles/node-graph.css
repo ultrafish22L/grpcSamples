@@ -579,6 +579,40 @@
   position: relative;
 }
 
+.node-graph-tabgraph {
+  flex: 1; /* Take remaining space in the node graph section */
+  display: flex; /* Horizontal layout: toolbar on left, editor on right */
+  flex-direction: column; /* tabbar top, editor bottom */
+  position: relative;
+  background-color: var(--octane-bg-secondary);
+  overflow: hidden; /* Prevent scrollbars and contain canvas */
+  contain: layout style paint; /* CSS containment for better performance */
+  width: 100%; /* Explicit width for ReactFlow */
+  height: 100%; /* Explicit height for ReactFlow */
+  min-height: 150px; /* Minimum height for ReactFlow */
+}
+
+/* ReactFlow background override - lighter gray like Octane SE */
+.node-graph-tabgraph .react-flow {
+  background: #454545;
+}
+
+/* ReactFlow background pattern (grid) - lighter gray base */
+.node-graph-tabgraph .react-flow__background {
+  background: #454545;
+}
+
+/* Grid lines - dark and visible like Octane SE */
+.node-graph-tabgraph .react-flow__background line {
+  stroke: #2a2a2a !important; /* Dark grid lines on lighter background */
+}
+
+/* NodeGraphEditor takes full remaining space after toolbar */
+.node-graph-tabgraph > div:not(.node-graph-toolbar) {
+  flex: 1;
+  position: relative;
+}
+
 .toolbar-button {
   background: var(--octane-bg-primary);
   border: 1px solid var(--octane-border);
@@ -1133,7 +1167,6 @@
 /* .node-graph-container - removed duplicate, see node-graph.css line 548 (exact match) */
 
 .node-graph {
-    flex: 1;
     display: block;
     background-color: var(--octane-bg-primary);
     position: absolute; /* Position absolutely within container */
@@ -1380,13 +1413,14 @@
  * ======================================== */
 /* Node Graph Editor Tabs - Matching Scene Outliner Style */
 .node-graph-tabs {
-    display: flex;
+    display:block;
     background: var(--octane-bg-primary);
     border-bottom: 1px solid var(--octane-border);
     padding: 3px 3px 0 3px;
     gap: 0;
     align-items: stretch;
     position: relative;
+    height: 22;
 }
 
 .node-graph-tab {

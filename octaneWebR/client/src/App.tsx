@@ -416,17 +416,6 @@ function AppContent() {
               <div className="node-graph-header">
                 <h3>Node graph editor</h3>
               </div>
-              
-              {/* Node Graph Tabs */}
-              <div className="node-graph-tabs">
-                <button 
-                  className="node-graph-tab active" 
-                  title="Scene node graph"
-                >
-                  Scene
-                </button>
-              </div>
-              
               <div className="node-graph-container">
                 {/* Node Graph Toolbar - Figure 10 vertical buttons, docked left */}
                 <NodeGraphToolbar
@@ -436,16 +425,28 @@ function AppContent() {
                   setSnapToGrid={setSnapToGrid}
                   onRecenterView={recenterViewCallback || undefined}
                 />
-                <NodeGraphEditor 
-                  sceneTree={sceneTree} 
-                  selectedNode={selectedNode}
-                  onNodeSelect={setSelectedNode}
-                  gridVisible={gridVisible}
-                  setGridVisible={setGridVisible}
-                  snapToGrid={snapToGrid}
-                  setSnapToGrid={setSnapToGrid}
-                  onRecenterViewReady={(callback) => setRecenterViewCallback(() => callback)}
-                />
+                <div className="node-graph-tabgraph">
+                  {/* Node Graph Tabs */}
+                  <div className="node-graph-tabs">
+                    <button 
+                      className="node-graph-tab active" 
+                      title="Scene node graph"
+                    >
+                      Scene
+                    </button>
+                  </div>
+                  {/* Node Graph Toolbar - Figure 10 vertical buttons, docked left */}                
+                  <NodeGraphEditor 
+                    sceneTree={sceneTree} 
+                    selectedNode={selectedNode}
+                    onNodeSelect={setSelectedNode}
+                    gridVisible={gridVisible}
+                    setGridVisible={setGridVisible}
+                    snapToGrid={snapToGrid}
+                    setSnapToGrid={setSnapToGrid}
+                    onRecenterViewReady={(callback) => setRecenterViewCallback(() => callback)}
+                  />
+                </div>
               </div>
             </section>
           </>
