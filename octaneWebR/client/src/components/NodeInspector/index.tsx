@@ -992,13 +992,17 @@ function NodeParameter({
             {collapseIcon && <span className="collapse-icon">{collapseIcon}</span>}
             <span className="node-title">{name}</span>
             {showDropdown && (
-              <div className="octane-inspector-dropdown-inline">
+              <div 
+                className="octane-inspector-dropdown-inline"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <select 
                   className="octane-inspector-target-select"
                   name="octane-inspector-target-select"
                   autoComplete="off"
                   value={currentNodeType}
                   onChange={handleNodeTypeChange}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   {compatibleNodeTypes.map((nodeType) => {
                     const nodeTypeInfo = getNodeTypeInfo(nodeType);
