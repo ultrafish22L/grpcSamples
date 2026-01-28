@@ -111,6 +111,8 @@ export class OctaneGrpcClient extends EventEmitter {
       'ApiNodeArray': 'apinodesystem_5.proto',
       'ApiRenderEngine': 'apirender.proto',
       'ApiRenderEngineService': 'apirender.proto',
+      'ApiInfo': 'apiinfo.proto',
+      'ApiInfoService': 'apiinfo.proto',
     };
     
     const protoFileName = serviceToProtoMap[serviceName] || (serviceName.toLowerCase() + '.proto');
@@ -518,6 +520,174 @@ export class OctaneGrpcClient extends EventEmitter {
     } catch (error: any) {
       console.error('❌ Failed to start callback streaming:', error.message);
       throw error;
+    }
+  }
+
+  // ========== Scene & Device Info APIs ==========
+
+  /**
+   * Get geometry statistics for the current scene
+   * Returns triangle counts, primitive counts, etc.
+   */
+  async getGeometryStatistics(): Promise<any> {
+    try {
+      const response = await this.callMethod(
+        'ApiRenderEngineService',
+        'getGeometryStatistics',
+        {}
+      );
+      console.log('📊 Geometry statistics:', JSON.stringify(response.stats, null, 2));
+      return response.stats || response;
+    } catch (error: any) {
+      console.error('❌ Failed to get geometry statistics:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Get the number of available render devices
+   */
+  async getDeviceCount(): Promise<number> {
+    try {
+      const response = await this.callMethod(
+        'ApiRenderEngineService',
+        'getDeviceCount',
+        {}
+      );
+      return response.result || 0;
+    } catch (error: any) {
+      console.error('❌ Failed to get device count:', error.message);
+      return 0;
+    }
+  }
+
+  /**
+   * Get the name of a specific render device
+   * @param index Device index (0-based)
+   */
+  async getDeviceName(index: number = 0): Promise<string> {
+    try {
+      const response = await this.callMethod(
+        'ApiRenderEngineService',
+        'getDeviceName',
+        { index }
+      );
+      return response.result || 'Unknown GPU';
+    } catch (error: any) {
+      console.error(`❌ Failed to get device name for index ${index}:`, error.message);
+      return 'Unknown GPU';
+    }
+  }
+
+  /**
+   * Check if a device uses hardware ray tracing
+   * @param index Device index (0-based)
+   */
+  async deviceUsesHardwareRayTracing(index: number = 0): Promise<boolean> {
+    try {
+      const response = await this.callMethod(
+        'ApiRenderEngineService',
+        'deviceUsesHardwareRayTracing',
+        { index }
+      );
+      return response.result || false;
+    } catch (error: any) {
+      console.error(`❌ Failed to check hardware RT for device ${index}:`, error.message);
+      return false;
+    }
+  }
+
+  /**
+   * Get memory usage for a specific device
+   * @param deviceIx Device index (0-based)
+   */
+  async getMemoryUsage(deviceIx: number = 0): Promise<any> {
+    try {
+      const response = await this.callMethod(
+        'ApiRenderEngineService',
+        'getMemoryUsage',
+        { deviceIx }
+      );
+      console.log(`💾 Memory usage for device ${deviceIx}:`, JSON.stringify(response.memUsage, null, 2));
+      return response.memUsage || response;
+    } catch (error: any) {
+      console.error(`❌ Failed to get memory usage for device ${deviceIx}:`, error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Get Octane version name/string
+   */
+  async getOctaneVersion(): Promise<string> {
+    try {
+      const response = await this.callMethod(
+        'ApiInfoService',
+        'octaneName',
+        {}
+      );
+      return response.result || 'Unknown Version';
+    } catch (error: any) {
+      console.error('❌ Failed to get Octane version:', error.message);
+      return 'Unknown Version';
+    }
+  }
+
+  /**
+   * Get complete system info for render stats bar (right side)
+   * Combines geometry stats, device info, memory, and version
+   */
+  async getSystemInfo(): Promise<{
+    primitiveCount: number;
+    meshCount: number;
+    gpuName: string;
+    hasHardwareRT: boolean;
+    totalMemoryGB: number;
+    octaneVersion: string;
+  }> {
+    try {
+      // Fetch all data in parallel
+      const [geometryStats, gpuName, hasRT, memUsage, version] = await Promise.all([
+        this.getGeometryStatistics(),
+        this.getDeviceName(0),
+        this.deviceUsesHardwareRayTracing(0),
+        this.getMemoryUsage(0),
+        this.getOctaneVersion()
+      ]);
+
+      // Calculate total primitive count
+      const primitiveCount = (
+        (geometryStats.triCount || 0) +
+        (geometryStats.dispTriCount || 0) +
+        (geometryStats.hairSegCount || 0) +
+        (geometryStats.sphereCount || 0) +
+        (geometryStats.emitPriCount || 0)
+      );
+
+      // Convert memory from bytes to GB
+      const totalMemoryGB = memUsage.totalDeviceMemory
+        ? parseFloat((memUsage.totalDeviceMemory / (1024 * 1024 * 1024)).toFixed(1))
+        : 0;
+
+      return {
+        primitiveCount,
+        meshCount: 1, // TODO: Get actual mesh count from scene graph
+        gpuName,
+        hasHardwareRT: hasRT,
+        totalMemoryGB,
+        octaneVersion: version
+      };
+    } catch (error: any) {
+      console.error('❌ Failed to get system info:', error.message);
+      // Return fallback values
+      return {
+        primitiveCount: 0,
+        meshCount: 1,
+        gpuName: 'Unknown GPU',
+        hasHardwareRT: false,
+        totalMemoryGB: 0,
+        octaneVersion: 'Unknown'
+      };
     }
   }
 }

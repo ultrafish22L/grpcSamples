@@ -53,6 +53,64 @@ app.get('/api/health', async (req, res) => {
   }
 });
 
+// System info endpoint - for render stats bar (primitives, GPU, memory, version)
+app.get('/api/system/info', async (req, res) => {
+  try {
+    const systemInfo = await grpcClient.getSystemInfo();
+    res.json(systemInfo);
+  } catch (error: any) {
+    console.error('❌ Failed to get system info:', error.message);
+    res.status(500).json({
+      error: error.message || 'Failed to retrieve system info',
+      code: error.code || 'UNKNOWN'
+    });
+  }
+});
+
+// Geometry statistics endpoint
+app.get('/api/scene/geometry', async (req, res) => {
+  try {
+    const geometryStats = await grpcClient.getGeometryStatistics();
+    res.json(geometryStats);
+  } catch (error: any) {
+    console.error('❌ Failed to get geometry statistics:', error.message);
+    res.status(500).json({
+      error: error.message || 'Failed to retrieve geometry statistics',
+      code: error.code || 'UNKNOWN'
+    });
+  }
+});
+
+// Device info endpoint
+app.get('/api/device/info', async (req, res) => {
+  try {
+    const deviceIndex = parseInt(req.query.index as string || '0');
+    const [name, hasRT, memory] = await Promise.all([
+      grpcClient.getDeviceName(deviceIndex),
+      grpcClient.deviceUsesHardwareRayTracing(deviceIndex),
+      grpcClient.getMemoryUsage(deviceIndex)
+    ]);
+    
+    res.json({
+      index: deviceIndex,
+      name,
+      hasHardwareRT: hasRT,
+      memory: {
+        used: memory.usedDeviceMemory,
+        free: memory.freeDeviceMemory,
+        total: memory.totalDeviceMemory,
+        totalGB: parseFloat((memory.totalDeviceMemory / (1024 * 1024 * 1024)).toFixed(1))
+      }
+    });
+  } catch (error: any) {
+    console.error('❌ Failed to get device info:', error.message);
+    res.status(500).json({
+      error: error.message || 'Failed to retrieve device info',
+      code: error.code || 'UNKNOWN'
+    });
+  }
+});
+
 // Generic gRPC endpoint (matches octaneWeb pattern)
 // POST /api/grpc/:service/:method
 app.post('/api/grpc/:service/:method', async (req, res) => {
