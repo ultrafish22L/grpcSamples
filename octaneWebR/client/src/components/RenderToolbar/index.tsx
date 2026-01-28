@@ -23,11 +23,7 @@ interface RenderStats {
   meshCount: number;                // 1 mesh
   gpu: string;                      // GPU name
   version: string;                  // Version string
-  memory: string;                   // Memory string (formatted: "used/free/total GB")
-  usedVramGB: number;               // Used VRAM in GB
-  freeVramGB: number;               // Free VRAM in GB
-  totalVramGB: number;              // Total VRAM in GB
-  vramPercent: number;              // 0-100 for VRAM progress bar
+  memory: string;                   // Memory string
 }
 
 interface ToolbarState {
@@ -73,11 +69,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
     meshCount: 1,
     gpu: 'NVIDIA GeForce RTX 4090 (RT)',
     version: '1:48.21.2',
-    memory: '0.0/24.0/24.0 GB',
-    usedVramGB: 0,
-    freeVramGB: 24.0,
-    totalVramGB: 24.0,
-    vramPercent: 0
+    memory: '24.0 GB'
   });
 
   const [state, setState] = useState<ToolbarState>({
@@ -182,24 +174,6 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
           const systemInfo = await response.json();
           Logger.debug('📊 System info received:', systemInfo);
 
-          // Fetch VRAM usage for device 0
-          let usedVram = 0;
-          let freeVram = 24.0;
-          let totalVram = 24.0;
-          let vramPercent = 0;
-
-          if (client) {
-            const memUsage = await client.getMemoryUsage(0);
-            if (memUsage) {
-              // Convert bytes to GB
-              usedVram = memUsage.usedDeviceMemory / (1024 ** 3);
-              freeVram = memUsage.freeDeviceMemory / (1024 ** 3);
-              totalVram = memUsage.totalDeviceMemory / (1024 ** 3);
-              vramPercent = (usedVram / totalVram) * 100;
-              Logger.debug(`🎮 VRAM: ${usedVram.toFixed(2)}/${freeVram.toFixed(2)}/${totalVram.toFixed(2)} GB (${vramPercent.toFixed(1)}%)`);
-            }
-          }
-
           // Update render stats with system info
           setRenderStats(prev => ({
             ...prev,
@@ -209,11 +183,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
               ? `${systemInfo.gpuName} (RT)` 
               : systemInfo.gpuName,
             version: systemInfo.octaneVersion || 'Unknown',
-            memory: `${usedVram.toFixed(2)}/${freeVram.toFixed(1)}/${totalVram.toFixed(1)} GB`,
-            usedVramGB: usedVram,
-            freeVramGB: freeVram,
-            totalVramGB: totalVram,
-            vramPercent: vramPercent
+            memory: `${systemInfo.totalMemoryGB.toFixed(1)} GB`
           }));
         }
       } catch (error) {
@@ -233,41 +203,6 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
 
     return () => {
       client.off('OnRenderStart', handleRenderStart);
-    };
-  }, [connected, client]);
-
-  // Poll VRAM usage periodically during rendering
-  useEffect(() => {
-    if (!connected || !client) return;
-
-    const pollVramUsage = async () => {
-      try {
-        const memUsage = await client.getMemoryUsage(0);
-        if (memUsage) {
-          const usedVram = memUsage.usedDeviceMemory / (1024 ** 3);
-          const freeVram = memUsage.freeDeviceMemory / (1024 ** 3);
-          const totalVram = memUsage.totalDeviceMemory / (1024 ** 3);
-          const vramPercent = (usedVram / totalVram) * 100;
-
-          setRenderStats(prev => ({
-            ...prev,
-            memory: `${usedVram.toFixed(2)}/${freeVram.toFixed(1)}/${totalVram.toFixed(1)} GB`,
-            usedVramGB: usedVram,
-            freeVramGB: freeVram,
-            totalVramGB: totalVram,
-            vramPercent: vramPercent
-          }));
-        }
-      } catch (error) {
-        Logger.debug('Failed to poll VRAM usage:', error);
-      }
-    };
-
-    // Poll every 2 seconds
-    const intervalId = setInterval(pollVramUsage, 2000);
-
-    return () => {
-      clearInterval(intervalId);
     };
   }, [connected, client]);
 
@@ -859,14 +794,14 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
           style={{ cursor: 'context-menu', position: 'relative', display: 'flex', alignItems: 'center', gap: '8px' }}
           title="Right-click for GPU resource statistics"
         >
-          {/* Samples Progress Bar */}
+          {/* Progress Bar */}
           <div style={{
             position: 'absolute',
             left: 0,
             top: 0,
             bottom: 0,
             width: `${renderStats.progressPercent}%`,
-            backgroundColor: 'rgba(0, 150, 255, 0.25)',
+            backgroundColor: 'rgba(0, 150, 255, 0.15)',
             transition: 'width 0.3s ease',
             pointerEvents: 'none',
             zIndex: 0
@@ -890,32 +825,16 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
         <div 
           className="render-stats-right"
           onContextMenu={handleStatsContextMenu}
-          style={{ cursor: 'context-menu', position: 'relative', display: 'flex', alignItems: 'center', gap: '8px' }}
+          style={{ cursor: 'context-menu' }}
           title="Right-click for GPU resource statistics"
         >
-          {/* VRAM Progress Bar */}
-          <div style={{
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            bottom: 0,
-            width: `${renderStats.vramPercent}%`,
-            backgroundColor: 'rgba(255, 100, 0, 0.25)',
-            transition: 'width 0.3s ease',
-            pointerEvents: 'none',
-            zIndex: 0
-          }} />
-          
-          {/* Stats Text (above progress bar) */}
-          <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span id="render-primitive-count">{renderStats.primitiveCount} pri</span>
-            <span className="stats-separator">, </span>
-            <span id="render-mesh-count">{renderStats.meshCount} mesh</span>
-            <span className="stats-separator">, </span>
-            <span id="render-gpu-info">{renderStats.gpu}</span>
-            <span className="stats-separator">, </span>
-            <span id="render-memory-combined">{renderStats.version}/{renderStats.memory}</span>
-          </span>
+          <span id="render-primitive-count">{renderStats.primitiveCount} pri</span>
+          <span className="stats-separator">, </span>
+          <span id="render-mesh-count">{renderStats.meshCount} mesh</span>
+          <span className="stats-separator">, </span>
+          <span id="render-gpu-info">{renderStats.gpu}</span>
+          <span className="stats-separator">, </span>
+          <span id="render-memory-combined">{renderStats.version}/{renderStats.memory}</span>
         </div>
       </div>
 
