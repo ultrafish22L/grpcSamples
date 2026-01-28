@@ -452,17 +452,13 @@ export class OctaneGrpcClient extends EventEmitter {
           }
           // Handle OnStatisticsData callback
           else if (response.newStatistics) {
-            console.log('📊 OnStatisticsData callback received - fetching render statistics');
+            console.log('📊 OnStatisticsData callback received:', JSON.stringify(response.newStatistics, null, 2));
             
             // Fetch full statistics data from Octane
             this.callMethod('ApiRenderEngine', 'getRenderStatistics', {})
               .then((statsResponse: any) => {
                 if (statsResponse?.statistics) {
-                  console.log('✅ Got render statistics:', {
-                    samples: statsResponse.statistics.samples,
-                    renderTime: statsResponse.statistics.renderTime,
-                    maxSamples: statsResponse.statistics.maxSamples
-                  });
+                  console.log('✅ Got render statistics (FULL RESPONSE):', JSON.stringify(statsResponse.statistics, null, 2));
                   
                   this.emit('OnNewStatistics', {
                     statistics: statsResponse.statistics,

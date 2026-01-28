@@ -38,7 +38,7 @@ export function setupCallbackStreaming(
     const forwardNewStatistics = (data: any) => {
       if (ws.readyState === WebSocket.OPEN) {
         try {
-          console.log('📊 [WebSocket] Forwarding OnNewStatistics to client');
+          console.log('📊 [WebSocket] Forwarding OnNewStatistics to client (FULL DATA):', JSON.stringify(data, null, 2));
           ws.send(JSON.stringify({
             type: 'newStatistics',
             data,

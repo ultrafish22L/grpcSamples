@@ -106,7 +106,7 @@ export class CallbackManager extends EventEmitter {
    */
   private handleOnNewStatistics(data: any): void {
     try {
-      console.log('📊 [CallbackManager] Received render statistics');
+      console.log('📊 [CallbackManager] Received render statistics (FULL DATA):', JSON.stringify(data, null, 2));
       
       // Emit OnNewStatistics event to WebSocket clients
       this.emit('OnNewStatistics', {
