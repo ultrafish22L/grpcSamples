@@ -1398,7 +1398,7 @@
     padding: 6px 18px 6px 12px;
     font-size: var(--font-size-small);
     transition: all 0.15s ease;
-    flex: 1;
+    max-width: 120px;
     text-align: center;
     position: relative;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
