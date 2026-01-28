@@ -234,11 +234,15 @@ input:checked + .slider:before {
     flex: 1;
     text-align: center;
     position: relative;
-    z-index: 1;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
     margin-right: -10px;
     filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
 }
+
+/* Z-index stacking: left tabs on top, right tabs underneath */
+.scene-tab:nth-child(1) { z-index: 3; }
+.scene-tab:nth-child(2) { z-index: 2; }
+.scene-tab:nth-child(3) { z-index: 1; }
 
 .scene-tab:last-child {
     margin-right: 0;
@@ -247,13 +251,13 @@ input:checked + .slider:before {
 .scene-tab:hover {
     background: var(--octane-bg-hover);
     color: var(--octane-text-primary);
-    z-index: 10;
+    z-index: 10 !important;
 }
 
 .scene-tab.active {
     background: var(--octane-bg-primary);
     color: var(--octane-text-primary);
-    z-index: 20;
+    z-index: 20 !important;
     font-weight: var(--font-weight-header);
     filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.8));
 }
