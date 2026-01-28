@@ -470,6 +470,168 @@ const data = await client.fetchData(); // Type inferred from return type
 
 ## Testing and Debugging
 
+### Standard Development & Testing Workflow
+
+This is the proven workflow for making changes and testing them. Follow this routine for all development work.
+
+#### 1. Stop Running Servers
+```bash
+# Kill any processes on dev ports
+lsof -ti:57341,49019 2>/dev/null | xargs kill -9 2>/dev/null
+echo "✅ Stopped all servers"
+```
+
+#### 2. Build Client
+```bash
+cd /workspace/project/grpcSamples/octaneWebR
+
+# Type check first (catches errors early)
+npx tsc --noEmit
+echo "✅ TypeScript compilation passed"
+
+# Build production bundle
+npm run build
+echo "✅ Client build completed"
+
+# Verify build output
+ls -lh dist/client/assets/ | head -10
+```
+
+**Expected Output**:
+```
+dist/client/
+├── assets/
+│   ├── index-[hash].js      (~800KB)
+│   ├── index-[hash].css     (~50KB)
+│   └── vendor-[hash].js     (~600KB)
+└── index.html
+```
+
+#### 3. Start Development Server
+```bash
+# Start fresh dev server
+npm run dev &
+DEV_PID=$!
+
+# Wait for server to be ready
+sleep 5
+
+# Verify server is running
+curl -s http://localhost:57341/api/health | python3 -m json.tool
+```
+
+**Expected Response**:
+```json
+{
+  "status": "ok",
+  "octane": "connected",
+  "timestamp": 1737504000000
+}
+```
+
+#### 4. Test in Browser
+```bash
+# Check server logs (should show):
+# ✅ Vite dev server running at http://localhost:57341
+# ✅ Connected to Octane at host.docker.internal:51022
+# ✅ Callback registration successful
+# ✅ WebSocket server listening
+```
+
+**Browser Checklist**:
+1. Open `http://localhost:57341` in browser
+2. Check browser console for connection logs:
+   - ✅ "Connected to Octane"
+   - ✅ "Scene tree loaded"
+   - ✅ No errors
+3. Test UI components:
+   - Scene Outliner: Expand/collapse nodes
+   - Node Graph Editor: Create/connect/delete nodes
+   - Node Inspector: Edit parameters, test dropdowns
+   - Viewport: Camera controls, render output
+
+**Visual Verification**:
+- Take screenshot for documentation if needed
+- Check component rendering
+- Verify icons load correctly
+- Test interaction (click, hover, select)
+
+#### 5. Test Feature-Specific Functionality
+
+Example for **Node Type Dropdown** feature:
+```javascript
+// In browser console:
+1. Select a node in Node Graph
+2. Check Node Inspector shows dropdown
+3. Open dropdown → verify compatible types shown
+4. Select different type → verify node replacement
+5. Check scene tree updated
+6. Verify no console errors
+```
+
+#### 6. Review Logs
+```bash
+# Check for errors in terminal
+# Look for:
+# ✅ No TypeScript errors
+# ✅ No gRPC connection errors
+# ✅ No WebSocket disconnections
+# ✅ No render callback failures
+```
+
+#### 7. Stop Servers (When Done Testing)
+```bash
+# Clean shutdown
+kill $DEV_PID 2>/dev/null
+lsof -ti:57341,49019 2>/dev/null | xargs kill -9 2>/dev/null
+echo "✅ Stopped all servers"
+```
+
+### Quick Test Script
+
+Save this as `test-dev.sh` in project root:
+
+```bash
+#!/bin/bash
+set -e
+
+echo "🧪 Starting development test routine..."
+
+# 1. Stop servers
+echo "1️⃣ Stopping existing servers..."
+lsof -ti:57341,49019 2>/dev/null | xargs kill -9 2>/dev/null || true
+
+# 2. Type check
+echo "2️⃣ Running TypeScript check..."
+npx tsc --noEmit
+
+# 3. Build
+echo "3️⃣ Building client..."
+npm run build
+
+# 4. Start server
+echo "4️⃣ Starting dev server..."
+npm run dev &
+DEV_PID=$!
+
+# 5. Wait and test
+echo "5️⃣ Waiting for server..."
+sleep 5
+curl -s http://localhost:57341/api/health | python3 -m json.tool
+
+echo ""
+echo "✅ Dev server ready at http://localhost:57341"
+echo "📋 Manual testing checklist:"
+echo "   1. Open http://localhost:57341 in browser"
+echo "   2. Check browser console for connection"
+echo "   3. Test UI components"
+echo "   4. Verify feature functionality"
+echo ""
+echo "⏹️  To stop: kill $DEV_PID"
+```
+
+Make executable: `chmod +x test-dev.sh`
+
 ### Manual Testing Checklist
 ```
 ✓ Start Octane with LiveLink enabled
@@ -478,6 +640,7 @@ const data = await client.fetchData(); // Type inferred from return type
 ✓ Test node creation (right-click in Node Graph)
 ✓ Test node connection (drag pin to pin)
 ✓ Test parameter editing (Node Inspector)
+✓ Test node type dropdown (select different compatible types)
 ✓ Test scene outliner (expand/collapse)
 ✓ Test camera controls (orbit, pan, zoom)
 ✓ Test picker tools (material, object, focus)
@@ -513,6 +676,9 @@ client.on('*', (event, data) => {
 
 **Issue**: Icons not showing  
 **Fix**: Check icon file exists in `client/public/icons/`, verify mapping
+
+**Issue**: TypeScript build fails  
+**Fix**: Run `npx tsc --noEmit` to see specific errors, check for unused variables or incorrect types
 
 ---
 

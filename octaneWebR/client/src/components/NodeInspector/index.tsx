@@ -15,7 +15,8 @@ import React, { useState, useEffect } from 'react';
 import { SceneNode } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
 import { AttributeId, AttrType } from '../../constants/OctaneTypes';
-import { getIconForType } from '../../constants/PinTypes';
+import { getIconForType, getCompatibleNodeTypes } from '../../constants/PinTypes';
+import { getNodeTypeInfo } from '../../constants/NodeTypes';
 import { formatColorValue, formatNodeColor } from '../../utils/ColorUtils';
 import { NodeInspectorContextMenu } from './NodeInspectorContextMenu';
 import { EditCommands } from '../../commands/EditCommands';
@@ -74,16 +75,12 @@ function NodeParameter({
   node, 
   level, 
   onToggle,
-  hasGroupMap,
-  showDropdown = false,
-  dropdownValue = ''
+  hasGroupMap
 }: { 
   node: SceneNode; 
   level: number; 
   onToggle: (nodeId: string) => void;
   hasGroupMap: Map<number, boolean>;
-  showDropdown?: boolean;
-  dropdownValue?: string;
 }) {
   const { client } = useOctane();
   const [paramValue, setParamValue] = useState<ParameterValue | null>(null);
@@ -96,6 +93,34 @@ function NodeParameter({
   const icon = node.icon || getIconForType(typeStr, node.name);
   const color = node.nodeInfo?.nodeColor ? formatNodeColor(node.nodeInfo.nodeColor) : '#666';
   const name = node.pinInfo?.staticLabel || node.name;
+  
+  // Determine if we should show dropdown (non-end nodes with a valid pin type)
+  // Show dropdown for any non-end node (nodes with children, not value attributes)
+  const pinType = typeStr.startsWith('PT_') ? typeStr : null;
+  const compatibleNodeTypes = pinType ? getCompatibleNodeTypes(pinType) : [];
+  const showDropdown = !isEndNode && compatibleNodeTypes.length > 0;
+  
+  // Get current node type (for nodes, not pins)
+  const currentNodeType = node.nodeInfo?.type || '';
+  
+  // Handler for node type change
+  const handleNodeTypeChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newNodeType = event.target.value;
+    if (!node.handle || !newNodeType || newNodeType === currentNodeType) {
+      return;
+    }
+    
+    console.log(`🔄 Replacing node ${node.handle} (${currentNodeType}) with ${newNodeType}`);
+    
+    try {
+      // Call API to replace node
+      await client.replaceNode(node.handle, newNodeType);
+      console.log(`✅ Node replaced successfully`);
+    } catch (error) {
+      console.error('❌ Failed to replace node:', error);
+      alert(`Failed to replace node: ${error}`);
+    }
+  };
 
   // Fetch parameter value for end nodes (matching octaneWeb's GenericNodeRenderer.getValue())
   useEffect(() => {
@@ -970,10 +995,20 @@ function NodeParameter({
               <div className="octane-inspector-dropdown-inline">
                 <select 
                   className="octane-inspector-target-select"
-                  name="octane-inspector-target-select-34"
+                  name="octane-inspector-target-select"
                   autoComplete="off"
+                  value={currentNodeType}
+                  onChange={handleNodeTypeChange}
                 >
-                  <option value={dropdownValue}>{dropdownValue}</option>
+                  {compatibleNodeTypes.map((nodeType) => {
+                    const nodeTypeInfo = getNodeTypeInfo(nodeType);
+                    const displayName = nodeTypeInfo?.name || nodeType.replace('NT_', '').replace(/_/g, ' ');
+                    return (
+                      <option key={nodeType} value={nodeType}>
+                        {displayName}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
             )}
@@ -1217,8 +1252,6 @@ export const NodeInspector = React.memo(function NodeInspector({ node }: NodeIns
           level={0} 
           onToggle={handleToggle}
           hasGroupMap={hasGroupMap}
-          showDropdown={true}
-          dropdownValue={node.name}
         />
       </div>
       

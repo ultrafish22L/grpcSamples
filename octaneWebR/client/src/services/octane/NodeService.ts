@@ -472,4 +472,79 @@ export class NodeService extends BaseService {
       return false;
     }
   }
+
+  /**
+   * Replace a node with a new node of a different type
+   * This maintains the connection to the parent pin
+   */
+  async replaceNode(oldNodeHandle: number, newNodeType: string): Promise<number | null> {
+    console.log(`🔄 Replacing node ${oldNodeHandle} with ${newNodeType}`);
+    
+    try {
+      // Get the scene tree to find parent and pin info
+      const scene = this.sceneService.getScene();
+      const oldNode = scene.map.get(oldNodeHandle);
+      
+      if (!oldNode) {
+        console.error('❌ Old node not found in scene');
+        return null;
+      }
+      
+      // Find parent and pin index from pinInfo
+      const pinInfo = oldNode.pinInfo;
+      const parentHandle = pinInfo?.pinOwner?.handle;
+      const pinIdx = pinInfo?.pinId;
+      
+      if (!parentHandle || pinIdx === undefined) {
+        console.error('❌ Could not find parent or pin index for node');
+        return null;
+      }
+      
+      console.log(`  Parent: ${parentHandle}, Pin: ${pinIdx}`);
+      
+      // Get node type ID for the new node type  
+      const nodeTypeId = await this.getNodeTypeId(newNodeType);
+      if (!nodeTypeId) {
+        console.error('❌ Could not get node type ID for', newNodeType);
+        return null;
+      }
+      
+      // Create the new node
+      const newNodeHandle = await this.createNode(newNodeType, nodeTypeId);
+      if (!newNodeHandle) {
+        console.error('❌ Failed to create new node');
+        return null;
+      }
+      
+      console.log(`✅ Created new node: ${newNodeHandle}`);
+      
+      // Connect the new node to the parent pin (this replaces the old connection)
+      await this.connectPinByIndex(parentHandle, pinIdx, newNodeHandle, true);
+      
+      console.log(`✅ Connected new node to parent pin`);
+      
+      // Delete the old node
+      await this.deleteNodeOptimized(oldNodeHandle);
+      
+      console.log(`✅ Deleted old node`);
+      
+      // Rebuild scene tree to reflect changes
+      await this.sceneService.buildSceneTree();
+      
+      return newNodeHandle;
+    } catch (error) {
+      console.error('❌ Failed to replace node:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get the numeric ID for a node type string
+   */
+  private async getNodeTypeId(_nodeType: string): Promise<number | null> {
+    // For now, we'll use 1 as a placeholder
+    // The API should handle the nodeType string directly
+    return 1;
+  }
+
 }

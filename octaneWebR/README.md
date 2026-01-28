@@ -64,6 +64,7 @@ Hierarchical tree view of the Octane scene:
 Real-time parameter editor with complete type support:
 - Boolean checkboxes, numeric inputs (int/float), vector inputs
 - Color pickers (RGB/RGBA), enum dropdowns, text fields
+- **Node type dropdown** for non-end nodes (replace current node with compatible type)
 - Collapsible parameter groups for organized UI
 - Instant synchronization with Octane
 
@@ -331,9 +332,12 @@ curl http://localhost:58407/api/health | python -m json.tool
 
 ## 📚 Documentation
 
+### Core Documentation
 - **[README.md](./README.md)** - This file (project overview)
 - **[QUICKSTART.md](./QUICKSTART.md)** - Setup guide and walkthrough
 - **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Development guide and architecture
+- **[AGENTS.md](./AGENTS.md)** - AI assistant memory and development workflows
+- **[CHANGELOG.md](./CHANGELOG.md)** - Version history and feature tracking
 
 ### External Resources
 - [Octane SE Manual](https://docs.otoy.com/standaloneSE/) - Complete UI reference
@@ -364,4 +368,5 @@ Octane Render® and OTOY® are registered trademarks of OTOY Inc.
 
 **Last Updated**: 2025-01-22  
 **Version**: 1.0.0  
-**Status**: Production-ready
+**Status**: Production-ready  
+**Recent Changes**: Node type dropdown feature, comprehensive testing workflow

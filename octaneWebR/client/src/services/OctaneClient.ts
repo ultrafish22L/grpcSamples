@@ -335,6 +335,10 @@ export class OctaneClient extends EventEmitter {
     return this.nodeService.setNodePosition(nodeHandle, x, y);
   }
 
+  async replaceNode(oldNodeHandle: number, newNodeType: string): Promise<number | null> {
+    return this.nodeService.replaceNode(oldNodeHandle, newNodeType);
+  }
+
   async connectPinByIndex(
     targetNodeHandle: number,
     pinIdx: number,
