@@ -415,6 +415,17 @@ function AppContent() {
               <div className="node-graph-header">
                 <h3>Node graph editor</h3>
               </div>
+              
+              {/* Node Graph Tabs */}
+              <div className="node-graph-tabs">
+                <button 
+                  className="node-graph-tab active" 
+                  title="Scene node graph"
+                >
+                  Scene
+                </button>
+              </div>
+              
               <div className="node-graph-container">
                 {/* Node Graph Toolbar - Figure 10 vertical buttons, docked left */}
                 <NodeGraphToolbar
