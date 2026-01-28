@@ -34,7 +34,7 @@ npm install              # First time only
 npm run dev              # Start development server
 ```
 
-Open **http://localhost:58407** in your browser.
+Open **http://localhost:57341** in your browser.
 
 **Connection**: Application connects to Octane at `localhost:51022` (LiveLink default port).
 
@@ -259,7 +259,7 @@ ls -lh dist/client/
 # 2. Start octaneWebR
 npm run dev
 
-# 3. Open http://localhost:58407 in browser
+# 3. Open http://localhost:57341 in browser
 # 4. Check browser console for connection logs:
 #    ✅ "Connected to Octane"
 #    ✅ "Scene tree loaded"
@@ -276,7 +276,7 @@ npm run dev
 
 ### Health Check
 ```bash
-curl http://localhost:58407/api/health | python -m json.tool
+curl http://localhost:57341/api/health | python -m json.tool
 ```
 
 **Expected Response**:
@@ -333,11 +333,12 @@ curl http://localhost:58407/api/health | python -m json.tool
 ## 📚 Documentation
 
 ### Core Documentation
-- **[README.md](./README.md)** - This file (project overview)
-- **[QUICKSTART.md](./QUICKSTART.md)** - Setup guide and walkthrough
-- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Development guide and architecture
-- **[AGENTS.md](./AGENTS.md)** - AI assistant memory and development workflows
-- **[CHANGELOG.md](./CHANGELOG.md)** - Version history and feature tracking
+- **[README.md](./README.md)** - This file (project overview and features)
+- **[QUICKSTART.md](./QUICKSTART.md)** - First-time setup guide with copy-paste commands
+- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Development guide with code patterns and architecture
+- **[AGENTS.md](./AGENTS.md)** - AI assistant memory (always-loaded essentials)
+- **[CHANGELOG.md](./CHANGELOG.md)** - Version history (Keep a Changelog format)
+- **[.openhands/skills/](./.openhands/skills/)** - On-demand domain knowledge for AI assistants
 
 ### External Resources
 - [Octane SE Manual](https://docs.otoy.com/standaloneSE/) - Complete UI reference
@@ -366,7 +367,7 @@ Octane Render® and OTOY® are registered trademarks of OTOY Inc.
 
 ---
 
-**Last Updated**: 2025-01-22  
+**Last Updated**: 2025-01-28  
 **Version**: 1.0.0  
 **Status**: Production-ready  
-**Recent Changes**: Node type dropdown feature, comprehensive testing workflow
+**Recent Changes**: OpenHands skills system, refactored documentation structure

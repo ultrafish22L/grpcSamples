@@ -483,8 +483,6 @@ echo "✅ Stopped all servers"
 
 #### 2. Build Client
 ```bash
-cd /workspace/project/grpcSamples/octaneWebR
-
 # Type check first (catches errors early)
 npx tsc --noEmit
 echo "✅ TypeScript compilation passed"

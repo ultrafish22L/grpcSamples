@@ -29,10 +29,11 @@ octaneWebR communicates with Octane via the LiveLink gRPC API.
 
 ## Step 2: Install octaneWebR
 
-Navigate to the project directory and install dependencies:
+Open a terminal in the octaneWebR directory and install dependencies:
 
 ```bash
-cd /path/to/octaneWebR
+# Make sure you're in the octaneWebR directory
+# Then install all dependencies
 npm install
 ```
 
@@ -56,12 +57,12 @@ npm run dev
 ```
 VITE v5.x.x  ready in XXX ms
 
-➜  Local:   http://localhost:58407/
-➜  Network: http://192.168.x.x:58407/
+➜  Local:   http://localhost:57341/
+➜  Network: http://192.168.x.x:57341/
 ```
 
 **What's happening**:
-- Vite dev server starts on port `58407`
+- Vite dev server starts on port `57341`
 - Embedded gRPC proxy connects to Octane at `localhost:51022`
 - Hot module replacement (HMR) enabled for instant updates
 
@@ -69,7 +70,7 @@ VITE v5.x.x  ready in XXX ms
 
 ## Step 4: Open in Browser
 
-1. Open your browser to **http://localhost:58407**
+1. Open your browser to **http://localhost:57341**
 2. You should see the octaneWebR interface
 3. Check the browser console (F12) for connection logs:
    - ✅ `"Connected to Octane"`
@@ -265,7 +266,7 @@ octaneWebR has a 5-panel layout:
 **Solutions**:
 1. Open browser console (F12) and check for errors
 2. Ensure `npm run dev` is running
-3. Check terminal for actual port (might not be `58407`)
+3. Verify you're going to the correct URL: `http://localhost:57341`
 4. Try a different browser
 
 ### ❌ Scene tree is empty
@@ -334,8 +335,8 @@ Now that you're up and running:
 5. **Read the Manual**: [Octane SE Manual](https://docs.otoy.com/standaloneSE/)
 
 For more details, see:
-- **[README.md](./README.md)** - Complete feature list and architecture
-- **[REPRO_PROMPT.md](./REPRO_PROMPT.md)** - Developer context and architecture details
+- **[README.md](./README.md)** - Complete feature list and architecture overview
+- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Development guide with code patterns
 
 ---
 

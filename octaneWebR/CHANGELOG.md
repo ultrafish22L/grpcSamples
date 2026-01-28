@@ -10,13 +10,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Node type dropdown for all non-end nodes in NodeInspector
-- Comprehensive testing workflow documentation in AGENTS.md
-- CHANGELOG.md for version tracking
+- OpenHands skills system in `.openhands/skills/` directory
+  - `octane-grpc/SKILL.md` - gRPC patterns and troubleshooting
+  - `node-inspector/SKILL.md` - NodeInspector architecture and dropdown feature
+  - `testing-workflow/SKILL.md` - Complete testing routine and debugging
+  - `scene-graph/SKILL.md` - Scene graph structure and patterns
+  - `react-patterns/SKILL.md` - React/TypeScript conventions
+- Skills README.md documenting the on-demand knowledge system
+- `.openhands/REFACTOR_SUMMARY.md` documenting the refactor approach
 
 ### Changed
-- Updated core documentation files (README, DEVELOPMENT, QUICKSTART)
-- Cleaned up legacy implementation status documents
+- Refactored `AGENTS.md` from 595 lines to 315 lines (47% reduction)
+- Moved domain-specific knowledge from AGENTS.md to specialized skill files
+- Updated all core documentation files (README, QUICKSTART, DEVELOPMENT, CHANGELOG)
+- Removed external path references from documentation
+- Fixed port numbers throughout documentation (58407 → 57341)
 
 ---
 
@@ -243,5 +251,5 @@ None yet (version 1.0.0 is first stable release).
 ---
 
 **Maintained by**: OTOY Development Team  
-**Last Updated**: 2025-01-22  
+**Last Updated**: 2025-01-28  
 **Status**: Active Development
