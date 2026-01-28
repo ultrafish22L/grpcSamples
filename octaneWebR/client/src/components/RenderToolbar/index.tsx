@@ -10,15 +10,19 @@ import { GPUStatisticsDialog } from '../dialogs/GPUStatisticsDialog';
 import { ToolbarIcon } from '../UI/ToolbarIcon';
 
 interface RenderStats {
-  samples: number;
-  time: string;
+  currentSamples: number;           // 1304
+  denoisedSamples: number;          // 2720
+  maxSamples: number;               // 5000
+  megaSamplesPerSec: number;        // 695 Ms/sec
+  currentTime: string;              // 00:00:02
+  estimatedTime: string;            // 00:00:03
+  progressPercent: number;          // 0-100 for progress bar
   status: 'rendering' | 'finished' | 'paused' | 'stopped' | 'waiting' | 'error';
-  resolution: string;
-  samplesPerSecond: number;
-  meshCount: number;
-  gpu: string;
-  version: string;
-  memory: string;
+  primitiveCount: number;           // 4032 prt
+  meshCount: number;                // 1 mesh
+  gpu: string;                      // GPU name
+  version: string;                  // Version string
+  memory: string;                   // Memory string
 }
 
 interface ToolbarState {
@@ -52,11 +56,15 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
   const { connected, client } = useOctane();
   
   const [renderStats, setRenderStats] = useState<RenderStats>({
-    samples: 1.0,
-    time: '00:00:00',
+    currentSamples: 0,
+    denoisedSamples: 0,
+    maxSamples: 5000,
+    megaSamplesPerSec: 0,
+    currentTime: '00:00:00',
+    estimatedTime: '00:00:00',
+    progressPercent: 0,
     status: 'finished',
-    resolution: '1920x1080',
-    samplesPerSecond: 0.0,
+    primitiveCount: 0,
     meshCount: 1,
     gpu: 'NVIDIA GeForce RTX 4090 (RT)',
     version: '1:48.21.2',
@@ -162,29 +170,45 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
       try {
         // Parse the statistics object from Octane callback
         // RenderResultStatistics proto fields:
-        // - setSize (uint32_2) - resolution
-        // - beautySamplesPerPixel (uint32) - samples
-        // - renderTime (double) - seconds elapsed
-        // - state (RenderState enum) - 0=stopped, 1=waiting, 2=rendering, 3=paused, 4=finished
+        // - beautySamplesPerPixel (uint32) - current samples
+        // - denoisedSamplesPerPixel (uint32) - denoised samples
+        // - beautyMaxSamplesPerPixel (uint32) - max target samples
         // - beautySamplesPerSecond (double) - samples per second
+        // - renderTime (double) - seconds elapsed
+        // - estimatedRenderTime (double) - estimated total seconds
+        // - state (RenderState enum) - 0=stopped, 1=waiting, 2=rendering, 3=paused, 4=finished
         const stats = data.statistics;
         if (stats) {
-          // Parse resolution from setSize
-          const width = stats.setSize?.x || stats.setSize?.[0] || renderStats.resolution.split('x')[0];
-          const height = stats.setSize?.y || stats.setSize?.[1] || renderStats.resolution.split('x')[1];
-          const resolution = `${width}x${height}`;
+          // Parse samples (current/denoised/max)
+          const currentSamples = stats.beautySamplesPerPixel !== undefined ? stats.beautySamplesPerPixel : renderStats.currentSamples;
+          const denoisedSamples = stats.denoisedSamplesPerPixel !== undefined ? stats.denoisedSamplesPerPixel : renderStats.denoisedSamples;
+          const maxSamples = stats.beautyMaxSamplesPerPixel !== undefined ? stats.beautyMaxSamplesPerPixel : renderStats.maxSamples;
           
-          // Parse samples (beautySamplesPerPixel)
-          const samples = stats.beautySamplesPerPixel !== undefined ? stats.beautySamplesPerPixel : renderStats.samples;
+          // Calculate progress percentage
+          const progressPercent = maxSamples > 0 ? Math.min(100, (currentSamples / maxSamples) * 100) : 0;
           
-          // Parse render time (renderTime in seconds) and format as HH:MM:SS
-          let timeStr = renderStats.time;
+          // Parse samples per second and convert to mega-samples/sec
+          const samplesPerSecond = stats.beautySamplesPerSecond !== undefined ? stats.beautySamplesPerSecond : 0;
+          const megaSamplesPerSec = samplesPerSecond / 1000000;
+          
+          // Format current time (renderTime in seconds) as HH:MM:SS
+          let currentTime = renderStats.currentTime;
           if (stats.renderTime !== undefined) {
             const totalSeconds = Math.floor(stats.renderTime);
             const hours = Math.floor(totalSeconds / 3600);
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const seconds = totalSeconds % 60;
-            timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            currentTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+          }
+          
+          // Format estimated time (estimatedRenderTime in seconds) as HH:MM:SS
+          let estimatedTime = renderStats.estimatedTime;
+          if (stats.estimatedRenderTime !== undefined) {
+            const totalSeconds = Math.floor(stats.estimatedRenderTime);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            estimatedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
           }
           
           // Parse render state (state enum)
@@ -201,17 +225,17 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
             }
           }
           
-          // Parse samples per second (beautySamplesPerSecond)
-          const samplesPerSecond = stats.beautySamplesPerSecond !== undefined ? stats.beautySamplesPerSecond : renderStats.samplesPerSecond;
-          
           // Update render stats with real data from callback
           setRenderStats(prev => ({
             ...prev,
-            resolution,
-            samples,
-            time: timeStr,
+            currentSamples,
+            denoisedSamples,
+            maxSamples,
+            megaSamplesPerSec,
+            currentTime,
+            estimatedTime,
+            progressPercent,
             status,
-            samplesPerSecond,
           }));
         }
       } catch (error) {
@@ -723,17 +747,35 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
         <div 
           className="render-stats-left" 
           onContextMenu={handleStatsContextMenu}
-          style={{ cursor: 'context-menu' }}
+          style={{ cursor: 'context-menu', position: 'relative', display: 'flex', alignItems: 'center', gap: '8px' }}
           title="Right-click for GPU resource statistics"
         >
-          <span id="render-samples-display">
-            {renderStats.samples.toFixed(1)} spp
-          </span>
-          <span className="stats-separator">, </span>
-          <span id="render-time-display">{renderStats.time}</span>
-          <span> </span>
-          <span id="render-status-display" className={`render-status-${renderStats.status}`}>
-            ({renderStats.status})
+          {/* Progress Bar */}
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: `${renderStats.progressPercent}%`,
+            backgroundColor: 'rgba(0, 150, 255, 0.15)',
+            transition: 'width 0.3s ease',
+            pointerEvents: 'none',
+            zIndex: 0
+          }} />
+          
+          {/* Stats Text (above progress bar) */}
+          <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span id="render-samples-display" style={{ fontWeight: 500 }}>
+              {renderStats.currentSamples}/{renderStats.denoisedSamples}/{renderStats.maxSamples} s/px
+            </span>
+            <span className="stats-separator">, </span>
+            <span id="render-speed-display">{Math.round(renderStats.megaSamplesPerSec)} Ms/sec</span>
+            <span className="stats-separator">, </span>
+            <span id="render-time-display">{renderStats.currentTime}/{renderStats.estimatedTime}</span>
+            <span> </span>
+            <span id="render-status-display" className={`render-status-${renderStats.status}`}>
+              ({renderStats.status === 'rendering' ? 'rendering...' : renderStats.status})
+            </span>
           </span>
         </div>
         <div 
@@ -742,11 +784,13 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
           style={{ cursor: 'context-menu' }}
           title="Right-click for GPU resource statistics"
         >
+          <span id="render-primitive-count">{renderStats.primitiveCount} prt</span>
+          <span className="stats-separator">, </span>
           <span id="render-mesh-count">{renderStats.meshCount} mesh</span>
           <span className="stats-separator">, </span>
           <span id="render-gpu-info">{renderStats.gpu}</span>
           <span className="stats-separator">, </span>
-          <span id="render-memory-combined">{renderStats.version} {renderStats.memory}</span>
+          <span id="render-memory-combined">{renderStats.version}/{renderStats.memory}</span>
         </div>
       </div>
 
