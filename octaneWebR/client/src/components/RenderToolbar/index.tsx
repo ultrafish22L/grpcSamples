@@ -856,35 +856,23 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
         <div 
           className="render-stats-left" 
           onContextMenu={handleStatsContextMenu}
-          style={{ cursor: 'context-menu', position: 'relative', display: 'flex', alignItems: 'center', gap: '8px', paddingLeft: '6px' }}
+          style={{ cursor: 'context-menu', position: 'relative', display: 'flex', alignItems: 'center', gap: '8px' }}
           title="Right-click for GPU resource statistics"
         >
-          {/* Samples Progress Bar - Horizontal bar at bottom of left section */}
+          {/* Samples Progress Bar */}
           <div style={{
             position: 'absolute',
             left: 0,
-            right: 0,
+            top: 0,
             bottom: 0,
-            height: '3px',
-            backgroundColor: 'rgba(60, 60, 60, 0.8)',
-            overflow: 'hidden',
+            width: `${renderStats.progressPercent}%`,
+            backgroundColor: 'rgba(0, 150, 255, 0.25)',
+            transition: 'width 0.3s ease',
             pointerEvents: 'none',
-            zIndex: 10
-          }}>
-            {/* Progress Fill (fills from left to right) */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: `${Math.min(100, renderStats.progressPercent)}%`,
-              backgroundColor: 'rgb(70, 180, 255)',
-              transition: 'width 0.3s ease',
-              boxShadow: '0 0 4px rgba(70, 180, 255, 0.5)'
-            }} />
-          </div>
+            zIndex: 0
+          }} />
           
-          {/* Stats Text */}
+          {/* Stats Text (above progress bar) */}
           <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '4px' }}>
             <span id="render-samples-display" style={{ fontWeight: 500 }}>
               {renderStats.currentSamples}/{renderStats.denoisedSamples}/{renderStats.maxSamples} s/px
@@ -902,35 +890,23 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
         <div 
           className="render-stats-right"
           onContextMenu={handleStatsContextMenu}
-          style={{ cursor: 'context-menu', position: 'relative', display: 'flex', alignItems: 'center', gap: '8px', paddingRight: '6px' }}
+          style={{ cursor: 'context-menu', position: 'relative', display: 'flex', alignItems: 'center', gap: '8px' }}
           title="Right-click for GPU resource statistics"
         >
-          {/* VRAM Progress Bar - Horizontal bar at bottom of right section */}
+          {/* VRAM Progress Bar */}
           <div style={{
             position: 'absolute',
-            left: 0,
             right: 0,
+            top: 0,
             bottom: 0,
-            height: '3px',
-            backgroundColor: 'rgba(60, 60, 60, 0.8)',
-            overflow: 'hidden',
+            width: `${renderStats.vramPercent}%`,
+            backgroundColor: 'rgba(255, 100, 0, 0.25)',
+            transition: 'width 0.3s ease',
             pointerEvents: 'none',
-            zIndex: 10
-          }}>
-            {/* Progress Fill (fills from left to right) */}
-            <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: `${Math.min(100, renderStats.vramPercent)}%`,
-              backgroundColor: 'rgb(255, 140, 0)',
-              transition: 'width 0.3s ease',
-              boxShadow: '0 0 4px rgba(255, 140, 0, 0.5)'
-            }} />
-          </div>
+            zIndex: 0
+          }} />
           
-          {/* Stats Text */}
+          {/* Stats Text (above progress bar) */}
           <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '4px' }}>
             <span id="render-primitive-count">{renderStats.primitiveCount} pri</span>
             <span className="stats-separator">, </span>
