@@ -416,29 +416,29 @@ function AppContent() {
                 <h3>Node graph editor</h3>
               </div>
               
-              <div className="node-graph-container">
-                {/* Node Graph Toolbar & Tabs Row - toolbar vertical on left, tabs to right */}
-                <div className="node-graph-toolbar-tabs-row">
-                  {/* Node Graph Toolbar - vertical buttons on left */}
-                  <NodeGraphToolbar
-                    gridVisible={gridVisible}
-                    setGridVisible={setGridVisible}
-                    snapToGrid={snapToGrid}
-                    setSnapToGrid={setSnapToGrid}
-                    onRecenterView={recenterViewCallback || undefined}
-                  />
-                  
-                  {/* Node Graph Tabs - to the right of toolbar */}
-                  <div className="node-graph-tabs">
-                    <button 
-                      className="node-graph-tab active" 
-                      title="Scene node graph"
-                    >
-                      Scene
-                    </button>
-                  </div>
-                </div>
+              {/* Node Graph Toolbar & Tabs Row */}
+              <div className="node-graph-toolbar-tabs-row">
+                {/* Node Graph Toolbar - Figure 10 vertical buttons, now horizontal at top */}
+                <NodeGraphToolbar
+                  gridVisible={gridVisible}
+                  setGridVisible={setGridVisible}
+                  snapToGrid={snapToGrid}
+                  setSnapToGrid={setSnapToGrid}
+                  onRecenterView={recenterViewCallback || undefined}
+                />
                 
+                {/* Node Graph Tabs */}
+                <div className="node-graph-tabs">
+                  <button 
+                    className="node-graph-tab active" 
+                    title="Scene node graph"
+                  >
+                    Scene
+                  </button>
+                </div>
+              </div>
+              
+              <div className="node-graph-container">
                 <NodeGraphEditor 
                   sceneTree={sceneTree} 
                   selectedNode={selectedNode}
