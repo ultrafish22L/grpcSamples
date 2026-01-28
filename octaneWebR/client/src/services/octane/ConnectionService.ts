@@ -93,10 +93,18 @@ export class ConnectionService extends BaseService {
       this.ws.onmessage = (event: MessageEvent) => {
         try {
           const message = JSON.parse(event.data as string);
+          
           if (message.type === 'newImage') {
             this.emit('OnNewImage', message.data);
           } else if (message.type === 'newStatistics') {
+            Logger.debug('📊 [ConnectionService] Received newStatistics callback');
             this.emit('OnNewStatistics', message.data);
+          } else if (message.type === 'renderFailure') {
+            Logger.error('❌ [ConnectionService] Received renderFailure callback');
+            this.emit('OnRenderFailure', message.data);
+          } else if (message.type === 'projectManagerChanged') {
+            Logger.debug('📁 [ConnectionService] Received projectManagerChanged callback');
+            this.emit('OnProjectManagerChanged', message.data);
           }
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : 'Unknown error';

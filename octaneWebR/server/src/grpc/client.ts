@@ -449,8 +449,54 @@ export class OctaneGrpcClient extends EventEmitter {
               .catch((error: any) => {
                 console.error('❌ grabRenderResult failed:', error.message, error.code);
               });
-          } else {
-            console.log('ℹ️  Callback received but no image data (normal for other callback types)');
+          }
+          // Handle OnStatisticsData callback
+          else if (response.newStatistics) {
+            console.log('📊 OnStatisticsData callback received - fetching render statistics');
+            
+            // Fetch full statistics data from Octane
+            this.callMethod('ApiRenderEngine', 'getRenderStatistics', {})
+              .then((statsResponse: any) => {
+                if (statsResponse?.statistics) {
+                  console.log('✅ Got render statistics:', {
+                    samples: statsResponse.statistics.samples,
+                    renderTime: statsResponse.statistics.renderTime,
+                    maxSamples: statsResponse.statistics.maxSamples
+                  });
+                  
+                  this.emit('OnNewStatistics', {
+                    statistics: statsResponse.statistics,
+                    user_data: response.newStatistics?.user_data,
+                    timestamp: Date.now()
+                  });
+                } else {
+                  console.warn('⚠️  getRenderStatistics returned no data');
+                }
+              })
+              .catch((error: any) => {
+                console.error('❌ getRenderStatistics failed:', error.message);
+              });
+          }
+          // Handle OnRenderFailureData callback
+          else if (response.renderFailure) {
+            console.log('❌ OnRenderFailureData callback received');
+            
+            this.emit('OnRenderFailure', {
+              user_data: response.renderFailure?.user_data,
+              timestamp: Date.now()
+            });
+          }
+          // Handle OnProjectManagerData callback
+          else if (response.projectManagerChanged) {
+            console.log('📁 OnProjectManagerData callback received');
+            
+            this.emit('OnProjectManagerChanged', {
+              user_data: response.projectManagerChanged?.user_data,
+              timestamp: Date.now()
+            });
+          }
+          else {
+            console.log('ℹ️  Callback received but no recognized data type');
           }
         } catch (error: any) {
           console.error('❌ Error processing callback data:', error.message);

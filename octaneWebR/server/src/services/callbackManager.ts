@@ -33,7 +33,22 @@ export class CallbackManager extends EventEmitter {
 
       // Listen for OnNewImage events from the gRPC client
       this.grpcClient.on('OnNewImage', (data: any) => {
-        this.handleCallbackData(data);
+        this.handleOnNewImage(data);
+      });
+
+      // Listen for OnNewStatistics events
+      this.grpcClient.on('OnNewStatistics', (data: any) => {
+        this.handleOnNewStatistics(data);
+      });
+
+      // Listen for OnRenderFailure events
+      this.grpcClient.on('OnRenderFailure', (data: any) => {
+        this.handleOnRenderFailure(data);
+      });
+
+      // Listen for OnProjectManagerChanged events
+      this.grpcClient.on('OnProjectManagerChanged', (data: any) => {
+        this.handleOnProjectManagerChanged(data);
       });
 
       // Start callback streaming (registers callback + opens stream)
@@ -49,9 +64,9 @@ export class CallbackManager extends EventEmitter {
   }
 
   /**
-   * Handle incoming callback data from Octane
+   * Handle OnNewImage callback from Octane
    */
-  private handleCallbackData(data: any): void {
+  private handleOnNewImage(data: any): void {
     try {
       // Extract render images from callback
       // Check if render_images exists, has a data array, AND that array is not empty
@@ -82,7 +97,59 @@ export class CallbackManager extends EventEmitter {
         });
       }
     } catch (error: any) {
-      console.error('❌ Error handling callback data:', error.message);
+      console.error('❌ Error handling OnNewImage callback:', error.message);
+    }
+  }
+
+  /**
+   * Handle OnNewStatistics callback from Octane
+   */
+  private handleOnNewStatistics(data: any): void {
+    try {
+      console.log('📊 [CallbackManager] Received render statistics');
+      
+      // Emit OnNewStatistics event to WebSocket clients
+      this.emit('OnNewStatistics', {
+        statistics: data.statistics,
+        user_data: data.user_data,
+        timestamp: data.timestamp
+      });
+    } catch (error: any) {
+      console.error('❌ Error handling OnNewStatistics callback:', error.message);
+    }
+  }
+
+  /**
+   * Handle OnRenderFailure callback from Octane
+   */
+  private handleOnRenderFailure(data: any): void {
+    try {
+      console.log('❌ [CallbackManager] Received render failure notification');
+      
+      // Emit OnRenderFailure event to WebSocket clients
+      this.emit('OnRenderFailure', {
+        user_data: data.user_data,
+        timestamp: data.timestamp
+      });
+    } catch (error: any) {
+      console.error('❌ Error handling OnRenderFailure callback:', error.message);
+    }
+  }
+
+  /**
+   * Handle OnProjectManagerChanged callback from Octane
+   */
+  private handleOnProjectManagerChanged(data: any): void {
+    try {
+      console.log('📁 [CallbackManager] Received project manager changed notification');
+      
+      // Emit OnProjectManagerChanged event to WebSocket clients
+      this.emit('OnProjectManagerChanged', {
+        user_data: data.user_data,
+        timestamp: data.timestamp
+      });
+    } catch (error: any) {
+      console.error('❌ Error handling OnProjectManagerChanged callback:', error.message);
     }
   }
 

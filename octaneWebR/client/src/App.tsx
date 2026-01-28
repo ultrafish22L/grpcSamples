@@ -229,16 +229,32 @@ function AppContent() {
       });
     };
 
+    const handleRenderFailure = (data: any) => {
+      console.error('❌ Render failure detected:', data);
+      // TODO: Show user-facing error notification
+      alert('Render Failed: Octane encountered an error during rendering. Check console for details.');
+    };
+
+    const handleProjectManagerChanged = (data: any) => {
+      console.log('📁 Project manager changed:', data);
+      // Refresh scene tree when project changes
+      setSceneRefreshTrigger(prev => prev + 1);
+    };
+
     // Listen for node deletion (emitted by deleteNodeOptimized)
     // NOTE: nodeAdded is handled by SceneOutliner, which propagates via onSceneTreeChange
     client.on('nodeDeleted', handleNodeDeleted);
+    client.on('OnRenderFailure', handleRenderFailure);
+    client.on('OnProjectManagerChanged', handleProjectManagerChanged);
     
-    console.log('✅ Listening for nodeDeleted event');
+    console.log('✅ Listening for callback events (nodeDeleted, OnRenderFailure, OnProjectManagerChanged)');
 
     // Cleanup listener on unmount
     return () => {
       client.off('nodeDeleted', handleNodeDeleted);
-      console.log('🔇 Stopped listening for nodeDeleted event');
+      client.off('OnRenderFailure', handleRenderFailure);
+      client.off('OnProjectManagerChanged', handleProjectManagerChanged);
+      console.log('🔇 Stopped listening for callback events');
     };
   }, [client]); // Only re-register when client changes, not on every selection
 

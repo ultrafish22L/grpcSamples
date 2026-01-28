@@ -18,8 +18,8 @@ export function setupCallbackStreaming(
   wss.on('connection', (ws: WebSocket) => {
     console.log('🔌 Callback client connected');
     
-    // Forward callback events from CallbackManager to WebSocket
-    const forwardCallback = (data: any) => {
+    // Forward OnNewImage events from CallbackManager to WebSocket
+    const forwardNewImage = (data: any) => {
       if (ws.readyState === WebSocket.OPEN) {
         try {
           console.log('📡 [WebSocket] Forwarding OnNewImage to client');
@@ -29,13 +29,64 @@ export function setupCallbackStreaming(
             timestamp: Date.now()
           }));
         } catch (error: any) {
-          console.error('❌ Error forwarding callback:', error.message);
+          console.error('❌ Error forwarding OnNewImage:', error.message);
+        }
+      }
+    };
+
+    // Forward OnNewStatistics events from CallbackManager to WebSocket
+    const forwardNewStatistics = (data: any) => {
+      if (ws.readyState === WebSocket.OPEN) {
+        try {
+          console.log('📊 [WebSocket] Forwarding OnNewStatistics to client');
+          ws.send(JSON.stringify({
+            type: 'newStatistics',
+            data,
+            timestamp: Date.now()
+          }));
+        } catch (error: any) {
+          console.error('❌ Error forwarding OnNewStatistics:', error.message);
+        }
+      }
+    };
+
+    // Forward OnRenderFailure events from CallbackManager to WebSocket
+    const forwardRenderFailure = (data: any) => {
+      if (ws.readyState === WebSocket.OPEN) {
+        try {
+          console.log('❌ [WebSocket] Forwarding OnRenderFailure to client');
+          ws.send(JSON.stringify({
+            type: 'renderFailure',
+            data,
+            timestamp: Date.now()
+          }));
+        } catch (error: any) {
+          console.error('❌ Error forwarding OnRenderFailure:', error.message);
+        }
+      }
+    };
+
+    // Forward OnProjectManagerChanged events from CallbackManager to WebSocket
+    const forwardProjectManagerChanged = (data: any) => {
+      if (ws.readyState === WebSocket.OPEN) {
+        try {
+          console.log('📁 [WebSocket] Forwarding OnProjectManagerChanged to client');
+          ws.send(JSON.stringify({
+            type: 'projectManagerChanged',
+            data,
+            timestamp: Date.now()
+          }));
+        } catch (error: any) {
+          console.error('❌ Error forwarding OnProjectManagerChanged:', error.message);
         }
       }
     };
     
-    // Listen for OnNewImage callbacks from CallbackManager
-    callbackManager.on('OnNewImage', forwardCallback);
+    // Listen for all callback types from CallbackManager
+    callbackManager.on('OnNewImage', forwardNewImage);
+    callbackManager.on('OnNewStatistics', forwardNewStatistics);
+    callbackManager.on('OnRenderFailure', forwardRenderFailure);
+    callbackManager.on('OnProjectManagerChanged', forwardProjectManagerChanged);
     
     // Handle messages from client
     ws.on('message', (message: Buffer) => {
@@ -55,7 +106,10 @@ export function setupCallbackStreaming(
     
     ws.on('close', () => {
       console.log('🔌 Callback client disconnected');
-      callbackManager.off('OnNewImage', forwardCallback);
+      callbackManager.off('OnNewImage', forwardNewImage);
+      callbackManager.off('OnNewStatistics', forwardNewStatistics);
+      callbackManager.off('OnRenderFailure', forwardRenderFailure);
+      callbackManager.off('OnProjectManagerChanged', forwardProjectManagerChanged);
     });
     
     ws.on('error', (error) => {
