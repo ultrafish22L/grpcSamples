@@ -4,15 +4,23 @@
  */
 
 /* Node Graph Components */
+/* Node graph toolbar & tabs row - horizontal layout at top */
+.node-graph-toolbar-tabs-row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  background: var(--octane-bg-primary);
+  border-bottom: 1px solid var(--octane-border);
+}
+
 /* Node graph toolbar - consolidated from octane-theme.css and components.css duplicates */
 .node-graph-toolbar {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: var(--spacing-xxs);
   background: var(--octane-bg-primary);
-  padding: 2px 2px 2px 2px;
-  width: 26px;
-  min-width: 26px;
+  padding: 2px;
+  align-items: center;
 }
 
 /* Node Graph Editor Styles */
@@ -547,8 +555,7 @@
 /* Node Graph Container - contains toolbar + editor */
 .node-graph-container {
   flex: 1; /* Take remaining space in the node graph section */
-  display: flex; /* Horizontal layout: toolbar on left, editor on right */
-  flex-direction: row; /* Toolbar left, editor right */
+  display: flex;
   position: relative;
   background-color: var(--octane-bg-secondary);
   overflow: hidden; /* Prevent scrollbars and contain canvas */
@@ -573,8 +580,8 @@
   stroke: #2a2a2a !important; /* Dark grid lines on lighter background */
 }
 
-/* NodeGraphEditor takes full remaining space after toolbar */
-.node-graph-container > div:not(.node-graph-toolbar) {
+/* NodeGraphEditor takes full space */
+.node-graph-container > div {
   flex: 1;
   position: relative;
 }
@@ -1382,11 +1389,11 @@
 .node-graph-tabs {
     display: flex;
     background: var(--octane-bg-primary);
-    border-bottom: 1px solid var(--octane-border);
     padding: 3px 3px 0 3px;
     gap: 0;
     align-items: stretch;
     position: relative;
+    flex: 1;
 }
 
 .node-graph-tab {
