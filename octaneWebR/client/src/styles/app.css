@@ -930,7 +930,7 @@ body.drag-over * {
 /* Status Bar */
 /* Status Bar */
 .status-bar {
-    background-color: var(--octane-bg-header);
+    background-color: var(--octane-bg-primary);
     border-top: 1px solid var(--octane-border);
     padding: 0 8px;
     display: flex;

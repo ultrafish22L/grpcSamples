@@ -444,14 +444,12 @@ function AppContent() {
       {/* Status Bar */}
       <footer className="status-bar">
         <div className="status-left">
-          <span className="status-item">Ready</span>
+          <span className="status-item">OctaneWebR - React TypeScript + Node.js gRPC</span>
         </div>
         <div className="status-center">
-          <span className="status-item">OctaneWebR - React TypeScript + Node.js gRPC</span>
         </div>
         <div className="status-right">
           <span className="status-item">OctaneLive: <span id="octane-status">{connected ? 'connected' : 'disconnected'}</span></span>
-          <span className="status-item">FPS: <span id="fps-counter">0</span></span>
         </div>
       </footer>
 
