@@ -3,6 +3,7 @@
  * Handles saving renders, grabbing for clipboard, and exporting passes
  */
 
+import { Logger } from '../../utils/Logger';
 import { BaseService } from './BaseService';
 import { ApiService } from './ApiService';
 
@@ -43,14 +44,14 @@ export class RenderExportService extends BaseService {
       const success = response?.result ?? false;
       
       if (success) {
-        console.log(`✅ Render saved successfully: ${filePath}`);
+        Logger.debug(`✅ Render saved successfully: ${filePath}`);
       } else {
-        console.error(`❌ Failed to save render: ${filePath}`);
+        Logger.error(`❌ Failed to save render: ${filePath}`);
       }
       
       return success;
     } catch (error: any) {
-      console.error('❌ Error saving render:', error.message);
+      Logger.error('❌ Error saving render:', error.message);
       return false;
     }
   }
@@ -60,14 +61,14 @@ export class RenderExportService extends BaseService {
       const response = await this.apiService.callApi('ApiRenderEngine', 'grabRenderResult', {});
       
       if (!response?.result || !response.renderImages?.data?.length) {
-        console.error('❌ No render images available');
+        Logger.error('❌ No render images available');
         return null;
       }
       
       const renderImage = response.renderImages.data[0];
       
       if (!renderImage?.buffer?.data) {
-        console.error('❌ No image buffer data');
+        Logger.error('❌ No image buffer data');
         return null;
       }
       
@@ -77,7 +78,7 @@ export class RenderExportService extends BaseService {
       
       return base64Data;
     } catch (error: any) {
-      console.error('❌ Error grabbing render for clipboard:', error.message);
+      Logger.error('❌ Error grabbing render for clipboard:', error.message);
       return null;
     }
   }
@@ -111,14 +112,14 @@ export class RenderExportService extends BaseService {
       const success = response?.result ?? false;
       
       if (success) {
-        console.log(`✅ Render passes exported successfully to: ${outputDirectory}`);
+        Logger.debug(`✅ Render passes exported successfully to: ${outputDirectory}`);
       } else {
-        console.error(`❌ Failed to export render passes to: ${outputDirectory}`);
+        Logger.error(`❌ Failed to export render passes to: ${outputDirectory}`);
       }
       
       return success;
     } catch (error: any) {
-      console.error('❌ Error exporting render passes:', error.message);
+      Logger.error('❌ Error exporting render passes:', error.message);
       return false;
     }
   }

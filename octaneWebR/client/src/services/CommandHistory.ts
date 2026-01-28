@@ -3,6 +3,8 @@
  * Implements undo/redo functionality using the Command pattern
  */
 
+import { Logger } from '../utils/Logger';
+
 export interface Command {
   execute(): Promise<void> | void;
   undo(): Promise<void> | void;
@@ -36,8 +38,8 @@ export class CommandHistory {
       this.currentIndex--;
     }
 
-    console.log(`✓ Executed: ${command.description}`);
-    console.log(`History: ${this.currentIndex + 1}/${this.history.length}`);
+    Logger.debug(`✓ Executed: ${command.description}`);
+    Logger.debug(`History: ${this.currentIndex + 1}/${this.history.length}`);
   }
 
   /**
@@ -45,7 +47,7 @@ export class CommandHistory {
    */
   async undo(): Promise<boolean> {
     if (!this.canUndo()) {
-      console.warn('Cannot undo: no commands in history');
+      Logger.warn('Cannot undo: no commands in history');
       return false;
     }
 
@@ -53,8 +55,8 @@ export class CommandHistory {
     await command.undo();
     this.currentIndex--;
 
-    console.log(`↶ Undone: ${command.description}`);
-    console.log(`History: ${this.currentIndex + 1}/${this.history.length}`);
+    Logger.debug(`↶ Undone: ${command.description}`);
+    Logger.debug(`History: ${this.currentIndex + 1}/${this.history.length}`);
     return true;
   }
 
@@ -63,7 +65,7 @@ export class CommandHistory {
    */
   async redo(): Promise<boolean> {
     if (!this.canRedo()) {
-      console.warn('Cannot redo: no commands to redo');
+      Logger.warn('Cannot redo: no commands to redo');
       return false;
     }
 
@@ -71,8 +73,8 @@ export class CommandHistory {
     const command = this.history[this.currentIndex];
     await command.execute();
 
-    console.log(`↷ Redone: ${command.description}`);
-    console.log(`History: ${this.currentIndex + 1}/${this.history.length}`);
+    Logger.debug(`↷ Redone: ${command.description}`);
+    Logger.debug(`History: ${this.currentIndex + 1}/${this.history.length}`);
     return true;
   }
 
@@ -112,7 +114,7 @@ export class CommandHistory {
   clear(): void {
     this.history = [];
     this.currentIndex = -1;
-    console.log('Command history cleared');
+    Logger.debug('Command history cleared');
   }
 
   /**

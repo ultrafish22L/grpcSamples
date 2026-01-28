@@ -3,6 +3,7 @@
  * Manages drag-to-resize functionality for panel boundaries
  */
 
+import { Logger } from '../utils/Logger';
 import { useState, useCallback, useEffect, useRef } from 'react';
 
 interface PanelSizes {
@@ -40,7 +41,7 @@ export function useResizablePanels() {
 
   // Reset panel sizes to default
   const resetPanelSizes = useCallback(() => {
-    console.log('↺ Resetting panel sizes to defaults (60% render viewport, 40% node graph)');
+    Logger.debug('↺ Resetting panel sizes to defaults (60% render viewport, 40% node graph)');
     setPanelSizes({
       ...DEFAULT_PANEL_SIZES,
       top: getInitialTopHeight(),
@@ -49,7 +50,7 @@ export function useResizablePanels() {
 
   // Handle mouse down on splitter
   const handleSplitterMouseDown = useCallback((type: 'left' | 'right' | 'top') => {
-    console.log(`🖱️ Splitter drag started: ${type}`);
+    Logger.debug(`🖱️ Splitter drag started: ${type}`);
     setIsDragging(true);
     setDragType(type);
     document.body.style.cursor = type === 'top' ? 'row-resize' : 'col-resize';
@@ -76,7 +77,7 @@ export function useResizablePanels() {
           const minLeft = 150;
           const maxLeft = containerRect.width - prev.right - TOTAL_SPLITTERS - 400;
           const newLeft = Math.max(minLeft, Math.min(maxLeft, mouseX));
-          console.log(`📏 Left panel resize: ${newLeft}px (mouse: ${mouseX}px)`);
+          Logger.debug(`📏 Left panel resize: ${newLeft}px (mouse: ${mouseX}px)`);
           
           return {
             ...prev,
@@ -88,7 +89,7 @@ export function useResizablePanels() {
           const maxRight = containerRect.width - prev.left - TOTAL_SPLITTERS - 400;
           const distanceFromRight = containerRect.width - mouseX;
           const newRight = Math.max(minRight, Math.min(maxRight, distanceFromRight));
-          console.log(`📏 Right panel resize: ${newRight}px (mouse: ${mouseX}px)`);
+          Logger.debug(`📏 Right panel resize: ${newRight}px (mouse: ${mouseX}px)`);
           
           return {
             ...prev,
@@ -99,7 +100,7 @@ export function useResizablePanels() {
           const minTop = 200;
           const maxTop = containerRect.height - 150; // Leave room for node graph
           const newTop = Math.max(minTop, Math.min(maxTop, mouseY));
-          console.log(`📏 Top row resize: ${newTop}px (mouse: ${mouseY}px)`);
+          Logger.debug(`📏 Top row resize: ${newTop}px (mouse: ${mouseY}px)`);
           
           return {
             ...prev,
@@ -112,7 +113,7 @@ export function useResizablePanels() {
     };
 
     const handleMouseUp = () => {
-      console.log('🖱️ Splitter drag ended');
+      Logger.debug('🖱️ Splitter drag ended');
       setIsDragging(false);
       setDragType(null);
       document.body.style.cursor = '';

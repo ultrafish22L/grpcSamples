@@ -3,6 +3,7 @@
  * React hook for managing recent files list using localStorage
  */
 
+import { Logger } from '../utils/Logger';
 import { useState, useCallback, useEffect } from 'react';
 
 const STORAGE_KEY = 'octaneWebR.recentFiles';
@@ -29,7 +30,7 @@ export function useRecentFiles() {
           setRecentFiles(files);
         }
       } catch (error) {
-        console.error('Failed to load recent files:', error);
+        Logger.error('Failed to load recent files:', error);
         setRecentFiles([]);
       }
     };
@@ -45,7 +46,7 @@ export function useRecentFiles() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
       setRecentFiles(files);
     } catch (error) {
-      console.error('Failed to save recent files:', error);
+      Logger.error('Failed to save recent files:', error);
     }
   }, []);
 
@@ -74,7 +75,7 @@ export function useRecentFiles() {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
       } catch (error) {
-        console.error('Failed to save recent files:', error);
+        Logger.error('Failed to save recent files:', error);
       }
 
       return trimmed;

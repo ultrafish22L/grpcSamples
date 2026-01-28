@@ -11,6 +11,7 @@
  * - Professional dark theme matching Octane Studio
  */
 
+import { Logger } from '../../utils/Logger';
 import React, { useState, useEffect } from 'react';
 import { SceneNode } from '../../services/OctaneClient';
 import { useOctane } from '../../hooks/useOctane';
@@ -110,14 +111,14 @@ function NodeParameter({
       return;
     }
     
-    console.log(`🔄 Replacing node ${node.handle} (${currentNodeType}) with ${newNodeType}`);
+    Logger.debug(`🔄 Replacing node ${node.handle} (${currentNodeType}) with ${newNodeType}`);
     
     try {
       // Call API to replace node
       await client.replaceNode(node.handle, newNodeType);
-      console.log(`✅ Node replaced successfully`);
+      Logger.debug(`✅ Node replaced successfully`);
     } catch (error) {
-      console.error('❌ Failed to replace node:', error);
+      Logger.error('❌ Failed to replace node:', error);
       alert(`Failed to replace node: ${error}`);
     }
   };
@@ -128,26 +129,26 @@ function NodeParameter({
       // Verbose parameter logging (commented out to reduce log flooding)
       // Log every node to understand the tree structure
       // if (level < 3) {  // Only log first 3 levels to avoid spam
-      //   console.log(`📋 NodeParameter: "${node.name}" - hasChildren:${hasChildren}, has attrInfo:${!!node.attrInfo}, isEndNode:${isEndNode}, handle:${node.handle}`);
+      //   Logger.debug(`📋 NodeParameter: "${node.name}" - hasChildren:${hasChildren}, has attrInfo:${!!node.attrInfo}, isEndNode:${isEndNode}, handle:${node.handle}`);
       // }
       
       if (!node.attrInfo || !node.handle || !isEndNode) {
         return;  // Skip without verbose logging
       }
       
-      // console.log(`🔍 Fetching value for end node: "${node.name}"`);
-      // console.log(`  - handle: ${node.handle}`);
-      // console.log(`  - attrInfo.type: ${node.attrInfo.type}`);
-      // console.log(`  - AttributeId.A_VALUE: ${AttributeId.A_VALUE}`);
+      // Logger.debug(`🔍 Fetching value for end node: "${node.name}"`);
+      // Logger.debug(`  - handle: ${node.handle}`);
+      // Logger.debug(`  - attrInfo.type: ${node.attrInfo.type}`);
+      // Logger.debug(`  - AttributeId.A_VALUE: ${AttributeId.A_VALUE}`);
 
       try {
         // attrInfo.type is already a STRING like "AT_FLOAT3" from the API
         // Use it directly, no conversion needed
         const expectedType = AttrType[node.attrInfo.type as keyof typeof AttrType];
         
-        // console.log(`🔍 Calling getByAttrID for ${node.name}:`);
-        // console.log(`  - attribute_id: ${AttributeId.A_VALUE}`);
-        // console.log(`  - expected_type: ${expectedType}`);
+        // Logger.debug(`🔍 Calling getByAttrID for ${node.name}:`);
+        // Logger.debug(`  - attribute_id: ${AttributeId.A_VALUE}`);
+        // Logger.debug(`  - expected_type: ${expectedType}`);
 
         // Pass just the handle string - callApi will wrap it in objectPtr automatically
         const response = await client.callApi(
@@ -161,7 +162,7 @@ function NodeParameter({
         );
         
         if (response) {
-          // console.log(`✅ Got value for ${node.name}:`, response);
+          // Logger.debug(`✅ Got value for ${node.name}:`, response);
           // Extract the actual value from the response
           // API returns format like: {float_value: 2, value: "float_value"}
           // We need to get the value from the field indicated by response.value
@@ -175,7 +176,7 @@ function NodeParameter({
         }
       } catch (error) {
         // Silently ignore - not all end nodes have values
-        // console.log(`❌ No value for ${node.name}:`, error);
+        // Logger.debug(`❌ No value for ${node.name}:`, error);
       }
     };
     
@@ -249,11 +250,11 @@ function NodeParameter({
           formattedValue = String(newValue);
           break;
         default:
-          console.warn(`⚠️  Unsupported type for setValue: ${node.attrInfo.type}`);
+          Logger.warn(`⚠️  Unsupported type for setValue: ${node.attrInfo.type}`);
           return;
       }
       
-      console.log(`📝 Setting ${node.name} = ${JSON.stringify(formattedValue)}`);
+      Logger.debug(`📝 Setting ${node.name} = ${JSON.stringify(formattedValue)}`);
       
       // Call setValueByAttrID to update the value in Octane
       // Note: evaluate: false is required (matches octaneWeb behavior)
@@ -275,13 +276,13 @@ function NodeParameter({
         type: expectedType
       });
       
-      console.log(`✅ Successfully updated ${node.name}`);
+      Logger.debug(`✅ Successfully updated ${node.name}`);
       
       // Trigger render update to see changes
       await client.callApi('ApiChangeManager', 'update', {});
       
     } catch (error: any) {
-      console.error(`❌ Failed to update ${node.name}:`, error.message || error);
+      Logger.error(`❌ Failed to update ${node.name}:`, error.message || error);
     }
   };
 
@@ -1172,34 +1173,34 @@ export const NodeInspector = React.memo(function NodeInspector({ node }: NodeIns
   };
   
   const handleSave = () => {
-    console.log('💾 Save action for node:', node?.name);
+    Logger.debug('💾 Save action for node:', node?.name);
     // TODO: Implement save action
   };
   
   const handleCut = () => {
-    console.log('✂️ Cut action for node:', node?.name);
+    Logger.debug('✂️ Cut action for node:', node?.name);
     // TODO: Implement cut action
   };
   
   const handleCopy = () => {
-    console.log('📋 Copy action for node:', node?.name);
+    Logger.debug('📋 Copy action for node:', node?.name);
     // TODO: Implement copy action
   };
   
   const handlePaste = () => {
-    console.log('📌 Paste action for node:', node?.name);
+    Logger.debug('📌 Paste action for node:', node?.name);
     // TODO: Implement paste action
   };
   
   const handleFillEmptyPins = () => {
-    console.log('📌 Fill empty pins for node:', node?.name);
+    Logger.debug('📌 Fill empty pins for node:', node?.name);
     // TODO: Implement fill empty pins action
   };
   
   const handleDelete = async () => {
     if (!node || !client) return;
     
-    console.log('🗑️ Delete action for node:', node.name);
+    Logger.debug('🗑️ Delete action for node:', node.name);
     
     // Use unified EditCommands for consistent delete behavior
     // Note: App.tsx listens to 'nodeDeleted' event and clears selection
@@ -1207,28 +1208,28 @@ export const NodeInspector = React.memo(function NodeInspector({ node }: NodeIns
       client,
       selectedNodes: [node],
       onComplete: () => {
-        console.log('✅ Delete operation completed from NodeInspector');
+        Logger.debug('✅ Delete operation completed from NodeInspector');
       }
     });
   };
   
   const handleExpand = () => {
-    console.log('📂 Expand action for node:', node?.name);
+    Logger.debug('📂 Expand action for node:', node?.name);
     // TODO: Implement expand all children action
   };
   
   const handleShowInOutliner = () => {
-    console.log('🔍 Show in Outliner:', node?.name);
+    Logger.debug('🔍 Show in Outliner:', node?.name);
     // TODO: Implement outliner navigation
   };
   
   const handleShowInGraphEditor = () => {
-    console.log('🔍 Show in Graph Editor:', node?.name);
+    Logger.debug('🔍 Show in Graph Editor:', node?.name);
     // TODO: Implement graph editor navigation
   };
   
   const handleShowInLuaBrowser = () => {
-    console.log('🔍 Show in Lua Browser:', node?.name);
+    Logger.debug('🔍 Show in Lua Browser:', node?.name);
     // TODO: Implement Lua browser navigation
   };
 

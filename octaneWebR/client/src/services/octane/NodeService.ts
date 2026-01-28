@@ -8,6 +8,7 @@ import { ApiService } from './ApiService';
 import { SceneNode } from './types';
 import { SceneService } from './SceneService';
 import { ObjectType } from '../../constants/OctaneTypes';
+import { Logger } from '../../utils/Logger';
 
 export class NodeService extends BaseService {
   private apiService: ApiService;
@@ -20,17 +21,17 @@ export class NodeService extends BaseService {
   }
 
   async createNode(nodeType: string, nodeTypeId: number): Promise<number | null> {
-    console.log('🔧 Creating node:', nodeType, 'ID:', nodeTypeId);
+    Logger.debug('🔧 Creating node:', nodeType, 'ID:', nodeTypeId);
     
     try {
       const rootResponse = await this.apiService.callApi('ApiProjectManager', 'rootNodeGraph', {});
       if (!rootResponse?.result) {
-        console.error('❌ Failed to get root node graph');
+        Logger.error('❌ Failed to get root node graph');
         return null;
       }
       
       const owner = rootResponse.result;
-      console.log('📦 Root node graph:', owner);
+      Logger.debug('📦 Root node graph:', owner);
       
       const createResponse = await this.apiService.callApi('ApiNode', 'create', null, {
         type: nodeTypeId,
@@ -39,56 +40,56 @@ export class NodeService extends BaseService {
       });
       
       if (!createResponse?.result) {
-        console.error('❌ Failed to create node');
+        Logger.error('❌ Failed to create node');
         return null;
       }
       
       const createdNodeHandle = Number(createResponse.result.handle);
-      console.log('✅ Node created with handle:', createdNodeHandle);
+      Logger.debug('✅ Node created with handle:', createdNodeHandle);
       
-      console.log('➕ Adding node to scene tree...');
+      Logger.debug('➕ Adding node to scene tree...');
       await this.sceneService.buildSceneTree(createdNodeHandle);
       
       const newNode = this.sceneService.getNodeByHandle(createdNodeHandle);
       if (newNode) {
-        console.log('✅ Node added incrementally - emitting nodeAdded event');
+        Logger.debug('✅ Node added incrementally - emitting nodeAdded event');
         this.emit('nodeAdded', { node: newNode, handle: createdNodeHandle });
       } else {
-        console.error('❌ Failed to find newly created node in scene map');
+        Logger.error('❌ Failed to find newly created node in scene map');
       }
       
       return createdNodeHandle;
     } catch (error: any) {
-      console.error('❌ Error creating node:', error.message);
+      Logger.error('❌ Error creating node:', error.message);
       return null;
     }
   }
 
   async deleteNodeOptimized(nodeHandle: number): Promise<boolean> {
-    console.log('🗑️ Deleting node (optimized):', nodeHandle);
+    Logger.debug('🗑️ Deleting node (optimized):', nodeHandle);
     
     try {
       const scene = this.sceneService.getScene();
       const node = scene.map.get(nodeHandle);
       
       const collapsedChildren = this.findCollapsedChildren(node);
-      console.log(`🔍 Found ${collapsedChildren.length} collapsed children to remove`);
+      Logger.debug(`🔍 Found ${collapsedChildren.length} collapsed children to remove`);
       
       await this.apiService.callApi('ApiItem', 'destroy', nodeHandle, {});
-      console.log('✅ Node deleted from Octane');
+      Logger.debug('✅ Node deleted from Octane');
       
       scene.map.delete(nodeHandle);
       collapsedChildren.forEach(h => scene.map.delete(h));
       
       scene.tree = scene.tree.filter(n => n.handle !== nodeHandle);
       
-      console.log('✅ Scene map and tree updated (optimized)');
+      Logger.debug('✅ Scene map and tree updated (optimized)');
       
       this.emit('nodeDeleted', { handle: nodeHandle, collapsedChildren });
       
       return true;
     } catch (error: any) {
-      console.error('❌ Error deleting node:', error.message);
+      Logger.error('❌ Error deleting node:', error.message);
       return false;
     }
   }
@@ -104,7 +105,7 @@ export class NodeService extends BaseService {
     sourceNodeHandle: number,
     evaluate: boolean = true
   ): Promise<void> {
-    console.log(`🔌 Connecting pin: target=${targetNodeHandle}, pin=${pinIdx}, source=${sourceNodeHandle}`);
+    Logger.debug(`🔌 Connecting pin: target=${targetNodeHandle}, pin=${pinIdx}, source=${sourceNodeHandle}`);
     
     await this.apiService.callApi('ApiNode', 'connectToIx', targetNodeHandle, {
       pinIdx,
@@ -116,7 +117,7 @@ export class NodeService extends BaseService {
       doCycleCheck: true,
     });
     
-    console.log('✅ Pin connected in Octane');
+    Logger.debug('✅ Pin connected in Octane');
   }
 
   async disconnectPin(
@@ -124,7 +125,7 @@ export class NodeService extends BaseService {
     pinIdx: number,
     evaluate: boolean = true
   ): Promise<void> {
-    console.log(`🔌 Disconnecting pin: node=${nodeHandle}, pin=${pinIdx}`);
+    Logger.debug(`🔌 Disconnecting pin: node=${nodeHandle}, pin=${pinIdx}`);
     
     await this.apiService.callApi('ApiNode', 'connectToIx', nodeHandle, {
       pinIdx,
@@ -136,18 +137,18 @@ export class NodeService extends BaseService {
       doCycleCheck: true,
     });
     
-    console.log('✅ Pin disconnected in Octane');
+    Logger.debug('✅ Pin disconnected in Octane');
   }
 
   async handlePinConnectionCleanup(oldSourceHandle: number | null): Promise<void> {
     if (!oldSourceHandle) return;
     
-    console.log('🔍 Checking if old source node is collapsed:', oldSourceHandle);
+    Logger.debug('🔍 Checking if old source node is collapsed:', oldSourceHandle);
     
     const scene = this.sceneService.getScene();
     
     if (!this.isNodeExpanded(oldSourceHandle)) {
-      console.log('🗑️ Removing orphaned collapsed node from map:', oldSourceHandle);
+      Logger.debug('🗑️ Removing orphaned collapsed node from map:', oldSourceHandle);
       
       const oldSourceNode = scene.map.get(oldSourceHandle);
       const collapsedChildren = this.findCollapsedChildren(oldSourceNode);
@@ -155,9 +156,9 @@ export class NodeService extends BaseService {
       scene.map.delete(oldSourceHandle);
       collapsedChildren.forEach(h => scene.map.delete(h));
       
-      console.log(`✅ Removed ${1 + collapsedChildren.length} collapsed nodes from map`);
+      Logger.debug(`✅ Removed ${1 + collapsedChildren.length} collapsed nodes from map`);
     } else {
-      console.log('✅ Old source is expanded, keeping in scene tree');
+      Logger.debug('✅ Old source is expanded, keeping in scene tree');
     }
     
     this.emit('sceneUpdated', scene);
@@ -191,12 +192,12 @@ export class NodeService extends BaseService {
    * Copy a single node (creates a duplicate)
    */
   async copyNode(nodeHandle: number): Promise<number | null> {
-    console.log('📋 Copying node:', nodeHandle);
+    Logger.debug('📋 Copying node:', nodeHandle);
     
     try {
       const rootResponse = await this.apiService.callApi('ApiProjectManager', 'rootNodeGraph', {});
       if (!rootResponse?.result) {
-        console.error('❌ Failed to get root node graph');
+        Logger.error('❌ Failed to get root node graph');
         return null;
       }
       
@@ -207,24 +208,24 @@ export class NodeService extends BaseService {
       });
       
       if (!copyResponse?.result) {
-        console.error('❌ Failed to copy node');
+        Logger.error('❌ Failed to copy node');
         return null;
       }
       
       const copiedNodeHandle = Number(copyResponse.result.handle);
-      console.log('✅ Node copied with handle:', copiedNodeHandle);
+      Logger.debug('✅ Node copied with handle:', copiedNodeHandle);
       
       await this.sceneService.buildSceneTree(copiedNodeHandle);
       
       const newNode = this.sceneService.getNodeByHandle(copiedNodeHandle);
       if (newNode) {
-        console.log('✅ Copied node added - emitting nodeAdded event');
+        Logger.debug('✅ Copied node added - emitting nodeAdded event');
         this.emit('nodeAdded', { node: newNode, handle: copiedNodeHandle });
       }
       
       return copiedNodeHandle;
     } catch (error: any) {
-      console.error('❌ Error copying node:', error.message);
+      Logger.error('❌ Error copying node:', error.message);
       return null;
     }
   }
@@ -233,12 +234,12 @@ export class NodeService extends BaseService {
    * Copy multiple nodes
    */
   async copyNodes(nodeHandles: number[]): Promise<number[]> {
-    console.log('📋 Copying multiple nodes:', nodeHandles);
+    Logger.debug('📋 Copying multiple nodes:', nodeHandles);
     
     try {
       const rootResponse = await this.apiService.callApi('ApiProjectManager', 'rootNodeGraph', {});
       if (!rootResponse?.result) {
-        console.error('❌ Failed to get root node graph');
+        Logger.error('❌ Failed to get root node graph');
         return [];
       }
       
@@ -254,11 +255,11 @@ export class NodeService extends BaseService {
       });
       
       if (!copyResponse?.copiedItems) {
-        console.error('❌ Failed to copy nodes');
+        Logger.error('❌ Failed to copy nodes');
         return [];
       }
       
-      console.log('📋 Copy response:', copyResponse);
+      Logger.debug('📋 Copy response:', copyResponse);
       
       const copiedHandles: number[] = [];
       
@@ -276,7 +277,7 @@ export class NodeService extends BaseService {
         }
       }
       
-      console.log('📋 Extracted copied handles:', copiedHandles);
+      Logger.debug('📋 Extracted copied handles:', copiedHandles);
       
       for (const handle of copiedHandles) {
         await this.sceneService.buildSceneTree(handle);
@@ -286,10 +287,10 @@ export class NodeService extends BaseService {
         }
       }
       
-      console.log('✅ Copied nodes:', copiedHandles);
+      Logger.debug('✅ Copied nodes:', copiedHandles);
       return copiedHandles;
     } catch (error: any) {
-      console.error('❌ Error copying nodes:', error.message);
+      Logger.error('❌ Error copying nodes:', error.message);
       return [];
     }
   }
@@ -298,12 +299,12 @@ export class NodeService extends BaseService {
    * Group selected nodes into a group node
    */
   async groupNodes(nodeHandles: number[]): Promise<number | null> {
-    console.log('📦 Grouping nodes:', nodeHandles);
+    Logger.debug('📦 Grouping nodes:', nodeHandles);
     
     try {
       const rootResponse = await this.apiService.callApi('ApiProjectManager', 'rootNodeGraph', {});
       if (!rootResponse?.result) {
-        console.error('❌ Failed to get root node graph');
+        Logger.error('❌ Failed to get root node graph');
         return null;
       }
       
@@ -317,12 +318,12 @@ export class NodeService extends BaseService {
       });
       
       if (!groupResponse?.result) {
-        console.error('❌ Failed to group nodes');
+        Logger.error('❌ Failed to group nodes');
         return null;
       }
       
       const groupNodeHandle = Number(groupResponse.result.handle);
-      console.log('✅ Group created with handle:', groupNodeHandle);
+      Logger.debug('✅ Group created with handle:', groupNodeHandle);
       
       const scene = this.sceneService.getScene();
       nodeHandles.forEach(h => {
@@ -343,7 +344,7 @@ export class NodeService extends BaseService {
       
       return groupNodeHandle;
     } catch (error: any) {
-      console.error('❌ Error grouping nodes:', error.message);
+      Logger.error('❌ Error grouping nodes:', error.message);
       return null;
     }
   }
@@ -352,17 +353,17 @@ export class NodeService extends BaseService {
    * Ungroup a group node
    */
   async ungroupNode(groupNodeHandle: number): Promise<number[]> {
-    console.log('📦 Ungrouping node:', groupNodeHandle);
+    Logger.debug('📦 Ungrouping node:', groupNodeHandle);
     
     try {
       const ungroupResponse = await this.apiService.callApi('ApiNodeGraph', 'ungroup', groupNodeHandle, {});
       
       if (!ungroupResponse?.ungroupedItems) {
-        console.error('❌ Failed to ungroup node');
+        Logger.error('❌ Failed to ungroup node');
         return [];
       }
       
-      console.log('📋 Ungroup response:', ungroupResponse);
+      Logger.debug('📋 Ungroup response:', ungroupResponse);
       
       const ungroupedHandles: number[] = [];
       
@@ -380,7 +381,7 @@ export class NodeService extends BaseService {
         }
       }
       
-      console.log('📋 Extracted ungrouped handles:', ungroupedHandles);
+      Logger.debug('📋 Extracted ungrouped handles:', ungroupedHandles);
       
       const scene = this.sceneService.getScene();
       scene.map.delete(groupNodeHandle);
@@ -395,10 +396,10 @@ export class NodeService extends BaseService {
         }
       }
       
-      console.log('✅ Ungrouped into nodes:', ungroupedHandles);
+      Logger.debug('✅ Ungrouped into nodes:', ungroupedHandles);
       return ungroupedHandles;
     } catch (error: any) {
-      console.error('❌ Error ungrouping node:', error.message);
+      Logger.error('❌ Error ungrouping node:', error.message);
       return [];
     }
   }
@@ -407,14 +408,14 @@ export class NodeService extends BaseService {
    * Expand a node (show all children/pins)
    */
   async expandNode(nodeHandle: number): Promise<boolean> {
-    console.log('📈 Expanding node:', nodeHandle);
+    Logger.debug('📈 Expanding node:', nodeHandle);
     
     try {
       await this.apiService.callApi('ApiItem', 'expand', nodeHandle, {});
-      console.log('✅ Node expanded:', nodeHandle);
+      Logger.debug('✅ Node expanded:', nodeHandle);
       return true;
     } catch (error: any) {
-      console.error('❌ Error expanding node:', error.message);
+      Logger.error('❌ Error expanding node:', error.message);
       return false;
     }
   }
@@ -423,15 +424,15 @@ export class NodeService extends BaseService {
    * Collapse a node (hide children/pins)
    */
   async collapseNode(nodeHandle: number): Promise<boolean> {
-    console.log('📉 Collapsing node:', nodeHandle);
+    Logger.debug('📉 Collapsing node:', nodeHandle);
     
     try {
       const response = await this.apiService.callApi('ApiItem', 'collapse', nodeHandle, {});
       const collapsed = response?.result || false;
-      console.log('✅ Node collapse result:', collapsed);
+      Logger.debug('✅ Node collapse result:', collapsed);
       return collapsed;
     } catch (error: any) {
-      console.error('❌ Error collapsing node:', error.message);
+      Logger.error('❌ Error collapsing node:', error.message);
       return false;
     }
   }
@@ -450,7 +451,7 @@ export class NodeService extends BaseService {
       }
       return null;
     } catch (error: any) {
-      console.error('❌ Error getting node position:', error.message);
+      Logger.error('❌ Error getting node position:', error.message);
       return null;
     }
   }
@@ -459,16 +460,16 @@ export class NodeService extends BaseService {
    * Set the position of a node in the graph
    */
   async setNodePosition(nodeHandle: number, x: number, y: number): Promise<boolean> {
-    console.log(`📍 Setting node position: handle=${nodeHandle}, x=${x}, y=${y}`);
+    Logger.debug(`📍 Setting node position: handle=${nodeHandle}, x=${x}, y=${y}`);
     
     try {
       await this.apiService.callApi('ApiItem', 'setPosition', nodeHandle, {
         newPos: { x, y }
       });
-      console.log('✅ Node position updated');
+      Logger.debug('✅ Node position updated');
       return true;
     } catch (error: any) {
-      console.error('❌ Error setting node position:', error.message);
+      Logger.error('❌ Error setting node position:', error.message);
       return false;
     }
   }
@@ -478,62 +479,53 @@ export class NodeService extends BaseService {
    * This maintains the connection to the parent pin
    */
   async replaceNode(oldNodeHandle: number, newNodeType: string): Promise<number | null> {
-    console.log(`🔄 Replacing node ${oldNodeHandle} with ${newNodeType}`);
+    Logger.debug(`🔄 Replacing node ${oldNodeHandle} with ${newNodeType}`);
     
     try {
-      // Get the scene tree to find parent and pin info
       const scene = this.sceneService.getScene();
       const oldNode = scene.map.get(oldNodeHandle);
       
       if (!oldNode) {
-        console.error('❌ Old node not found in scene');
+        Logger.error('❌ Old node not found in scene');
         return null;
       }
       
-      // Find parent and pin index from pinInfo
       const pinInfo = oldNode.pinInfo;
       const parentHandle = pinInfo?.pinOwner?.handle;
       const pinIdx = pinInfo?.pinId;
       
       if (!parentHandle || pinIdx === undefined) {
-        console.error('❌ Could not find parent or pin index for node');
+        Logger.error('❌ Could not find parent or pin index for node');
         return null;
       }
       
-      console.log(`  Parent: ${parentHandle}, Pin: ${pinIdx}`);
+      Logger.debug(`  Parent: ${parentHandle}, Pin: ${pinIdx}`);
       
-      // Get node type ID for the new node type  
       const nodeTypeId = await this.getNodeTypeId(newNodeType);
       if (!nodeTypeId) {
-        console.error('❌ Could not get node type ID for', newNodeType);
+        Logger.error('❌ Could not get node type ID for', newNodeType);
         return null;
       }
       
-      // Create the new node
       const newNodeHandle = await this.createNode(newNodeType, nodeTypeId);
       if (!newNodeHandle) {
-        console.error('❌ Failed to create new node');
+        Logger.error('❌ Failed to create new node');
         return null;
       }
       
-      console.log(`✅ Created new node: ${newNodeHandle}`);
+      Logger.debug(`✅ Created new node: ${newNodeHandle}`);
       
-      // Connect the new node to the parent pin (this replaces the old connection)
       await this.connectPinByIndex(parentHandle, pinIdx, newNodeHandle, true);
+      Logger.debug(`✅ Connected new node to parent pin`);
       
-      console.log(`✅ Connected new node to parent pin`);
-      
-      // Delete the old node
       await this.deleteNodeOptimized(oldNodeHandle);
+      Logger.debug(`✅ Deleted old node`);
       
-      console.log(`✅ Deleted old node`);
-      
-      // Rebuild scene tree to reflect changes
       await this.sceneService.buildSceneTree();
       
       return newNodeHandle;
     } catch (error) {
-      console.error('❌ Failed to replace node:', error);
+      Logger.error('❌ Failed to replace node:', error);
       return null;
     }
   }

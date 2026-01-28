@@ -4,6 +4,7 @@
  * Based on: https://docs.otoy.com/standaloneSE/ThePackagerandtheORBXFile.html
  */
 
+import { Logger } from '../../utils/Logger';
 import React, { useState } from 'react';
 import { useOctane } from '../../hooks/useOctane';
 
@@ -70,7 +71,7 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
         exportNestedReferenceGraphs: settings.exportNestedReferenceGraphs,
       };
 
-      console.log('🎁 Saving package:', filename, referencePackageSettings);
+      Logger.debug('🎁 Saving package:', filename, referencePackageSettings);
 
       const response = await client.callApi('ApiProjectManager', 'saveProjectAsReferencePackage', {
         path: filename,
@@ -78,15 +79,15 @@ function SavePackageDialog({ isOpen, onClose }: SavePackageDialogProps) {
       });
 
       if (response && response.result) {
-        console.log('✅ Package saved successfully');
+        Logger.debug('✅ Package saved successfully');
         alert(`Package saved successfully: ${filename}`);
         onClose();
       } else {
-        console.error('❌ Failed to save package');
+        Logger.error('❌ Failed to save package');
         alert('Failed to save package');
       }
     } catch (error) {
-      console.error('Error saving package:', error);
+      Logger.error('Error saving package:', error);
       alert(`Error saving package: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       setIsProcessing(false);

@@ -3,6 +3,7 @@
  * Hierarchical tree view of Octane scene
  */
 
+import { Logger } from '../../utils/Logger';
 import React, { useEffect, useState } from 'react';
 import { useOctane } from '../../hooks/useOctane';
 import { SceneNode, NodeAddedEvent, NodeDeletedEvent } from '../../services/OctaneClient';
@@ -334,39 +335,39 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
   };
   
   const handleRender = () => {
-    console.log('🎬 Render action for node:', contextMenuNode?.name);
+    Logger.debug('🎬 Render action for node:', contextMenuNode?.name);
     // TODO: Implement render action
   };
   
   const handleSave = () => {
-    console.log('💾 Save action for node:', contextMenuNode?.name);
+    Logger.debug('💾 Save action for node:', contextMenuNode?.name);
     // TODO: Implement save action
   };
   
   const handleCut = () => {
-    console.log('✂️ Cut action for node:', contextMenuNode?.name);
+    Logger.debug('✂️ Cut action for node:', contextMenuNode?.name);
     // TODO: Implement cut action
   };
   
   const handleCopy = () => {
-    console.log('📋 Copy action for node:', contextMenuNode?.name);
+    Logger.debug('📋 Copy action for node:', contextMenuNode?.name);
     // TODO: Implement copy action
   };
   
   const handlePaste = () => {
-    console.log('📌 Paste action for node:', contextMenuNode?.name);
+    Logger.debug('📌 Paste action for node:', contextMenuNode?.name);
     // TODO: Implement paste action
   };
   
   const handleFillEmptyPins = () => {
-    console.log('📌 Fill empty pins for node:', contextMenuNode?.name);
+    Logger.debug('📌 Fill empty pins for node:', contextMenuNode?.name);
     // TODO: Implement fill empty pins action
   };
   
   const handleDelete = async () => {
     if (!contextMenuNode || !client) return;
     
-    console.log('🗑️ Delete action for node:', contextMenuNode.name);
+    Logger.debug('🗑️ Delete action for node:', contextMenuNode.name);
     
     // Use unified EditCommands for consistent delete behavior
     await EditCommands.deleteNodes({
@@ -377,19 +378,19 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
         onNodeSelect?.(null);
       },
       onComplete: () => {
-        console.log('✅ Delete operation completed from SceneOutliner');
+        Logger.debug('✅ Delete operation completed from SceneOutliner');
       }
     });
   };
   
   const handleShowInGraphEditor = () => {
-    console.log('🔍 Show in Graph Editor:', contextMenuNode?.name);
+    Logger.debug('🔍 Show in Graph Editor:', contextMenuNode?.name);
     // The node is already selected, the graph editor should show it
     // TODO: Add explicit navigation to graph editor tab if needed
   };
   
   const handleShowInLuaBrowser = () => {
-    console.log('🔍 Show in Lua Browser:', contextMenuNode?.name);
+    Logger.debug('🔍 Show in Lua Browser:', contextMenuNode?.name);
     // TODO: Implement Lua browser navigation
   };
 
@@ -398,7 +399,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
       return;
     }
 
-    console.log('🔄 Loading scene tree from Octane...');
+    Logger.debug('🔄 Loading scene tree from Octane...');
     setLoading(true);
     onSyncStateChange?.(true);
     
@@ -408,7 +409,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
       setSceneTree(tree);
       onSceneTreeChange?.(tree);
       
-      console.log(`✅ Loaded ${tree.length} top-level items`);
+      Logger.debug(`✅ Loaded ${tree.length} top-level items`);
 
       // Auto-select render target node after scene is loaded
       const findRenderTarget = (nodes: SceneNode[]): SceneNode | null => {
@@ -429,7 +430,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
         handleNodeSelect(renderTarget);
       }
     } catch (error: any) {
-      console.error('❌ Failed to load scene tree:', error);
+      Logger.error('❌ Failed to load scene tree:', error);
     } finally {
       setLoading(false);
       onSyncStateChange?.(false);
@@ -444,7 +445,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     try {
       const rootHandle = await client.getLocalDBRoot();
       if (!rootHandle) {
-        console.warn('⚠️ LocalDB not available or empty');
+        Logger.warn('⚠️ LocalDB not available or empty');
         setLocalDBRoot(null);
         return;
       }
@@ -461,9 +462,9 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
       // Load root level categories and packages
       await loadCategoryChildren(root);
       setLocalDBRoot(root);
-      console.log('✅ LocalDB loaded:', root);
+      Logger.debug('✅ LocalDB loaded:', root);
     } catch (error) {
-      console.error('❌ Failed to load LocalDB:', error);
+      Logger.error('❌ Failed to load LocalDB:', error);
       setLocalDBRoot(null);
     } finally {
       setLocalDBLoading(false);
@@ -506,7 +507,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
 
       category.loaded = true;
     } catch (error) {
-      console.error('❌ Failed to load category children:', error);
+      Logger.error('❌ Failed to load category children:', error);
     }
   };
 
@@ -515,7 +516,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     if (!client) return;
     
     try {
-      console.log(`Loading package: ${pkg.name}`);
+      Logger.debug(`Loading package: ${pkg.name}`);
       const success = await client.loadPackage(pkg.handle);
       if (success) {
         alert(`✅ Package "${pkg.name}" loaded successfully!\n\nCheck the Node Graph to see the loaded nodes.`);
@@ -523,7 +524,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
         alert(`❌ Failed to load package "${pkg.name}"`);
       }
     } catch (error) {
-      console.error('❌ Failed to load package:', error);
+      Logger.error('❌ Failed to load package:', error);
       alert(`❌ Error loading package: ${error}`);
     }
   };
@@ -536,7 +537,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     try {
       const rawCategories = await client.getLiveDBCategories();
       if (!rawCategories || rawCategories.length === 0) {
-        console.warn('⚠️ LiveDB not available or empty');
+        Logger.warn('⚠️ LiveDB not available or empty');
         setLiveDBCategories([]);
         return;
       }
@@ -553,9 +554,9 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
       }));
 
       setLiveDBCategories(categories);
-      console.log(`✅ LiveDB loaded with ${categories.length} categories`);
+      Logger.debug(`✅ LiveDB loaded with ${categories.length} categories`);
     } catch (error) {
-      console.error('❌ Failed to load LiveDB:', error);
+      Logger.error('❌ Failed to load LiveDB:', error);
       setLiveDBCategories([]);
     } finally {
       setLiveDBLoading(false);
@@ -569,7 +570,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     // If not loaded yet, load materials for this category
     if (!category.loaded && !category.expanded) {
       try {
-        console.log(`Loading materials for category: ${category.name}`);
+        Logger.debug(`Loading materials for category: ${category.name}`);
         const materials = await client.getLiveDBMaterials(category.id);
         
         // Load preview thumbnails for first few materials (limit to avoid overwhelming the server)
@@ -584,7 +585,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
         category.materials = [...materialsWithPreviews, ...materials.slice(10)];
         category.loaded = true;
       } catch (error) {
-        console.error(`❌ Failed to load materials for category ${category.name}:`, error);
+        Logger.error(`❌ Failed to load materials for category ${category.name}:`, error);
       }
     }
 
@@ -598,7 +599,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     if (!client) return;
     
     try {
-      console.log(`Downloading material: ${material.name}`);
+      Logger.debug(`Downloading material: ${material.name}`);
       const materialHandle = await client.downloadLiveDBMaterial(material.id);
       if (materialHandle) {
         alert(`✅ Material "${material.name}" downloaded successfully!\n\nCheck the Node Graph to see the material nodes.`);
@@ -606,7 +607,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
         alert(`❌ Failed to download material "${material.name}"`);
       }
     } catch (error) {
-      console.error('❌ Failed to download material:', error);
+      Logger.error('❌ Failed to download material:', error);
       alert(`❌ Error downloading material: ${error}`);
     }
   };
@@ -643,7 +644,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     if (!client) return;
 
     const handleNodeAdded = (event: NodeAddedEvent) => {
-      console.log('🌲 SceneOutliner: Adding node incrementally:', event.node.name);
+      Logger.debug('🌲 SceneOutliner: Adding node incrementally:', event.node.name);
       setSceneTree(prev => {
         const updated = [...prev, event.node];
         // Schedule parent callback after state update completes
@@ -653,10 +654,10 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     };
 
     const handleNodeDeleted = (event: NodeDeletedEvent) => {
-      console.log('🌲 SceneOutliner: nodeDeleted event received, handle:', event.handle, 'type:', typeof event.handle);
+      Logger.debug('🌲 SceneOutliner: nodeDeleted event received, handle:', event.handle, 'type:', typeof event.handle);
       setSceneTree(prev => {
-        console.log('🌲 SceneOutliner: Current tree has', prev.length, 'root nodes');
-        console.log('🌲 SceneOutliner: Root handles:', prev.map(n => `${n.handle} (${typeof n.handle})`).join(', '));
+        Logger.debug('🌲 SceneOutliner: Current tree has', prev.length, 'root nodes');
+        Logger.debug('🌲 SceneOutliner: Root handles:', prev.map(n => `${n.handle} (${typeof n.handle})`).join(', '));
         
         // Optimized delete with structural sharing
         // Only creates new objects in the path to the deleted node
@@ -668,7 +669,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
           for (const node of nodes) {
             // If this is the node to delete, skip it
             if (node.handle === event.handle) {
-              console.log(`🗑️ SceneOutliner: Filtering out node ${node.handle} "${node.name}"`);
+              Logger.debug(`🗑️ SceneOutliner: Filtering out node ${node.handle} "${node.name}"`);
               changed = true;
               continue;
             }
@@ -700,16 +701,16 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
         const result = filterDeleted(prev);
         
         if (!result.changed) {
-          console.log('⚠️ SceneOutliner: Node not found in tree, no changes made');
+          Logger.debug('⚠️ SceneOutliner: Node not found in tree, no changes made');
           return prev; // Return same reference if nothing changed
         }
         
-        console.log('🌲 SceneOutliner: Updated tree has', result.updated.length, 'root nodes (was', prev.length, ')');
-        console.log('✅ SceneOutliner: Structural sharing preserved unaffected nodes');
+        Logger.debug('🌲 SceneOutliner: Updated tree has', result.updated.length, 'root nodes (was', prev.length, ')');
+        Logger.debug('✅ SceneOutliner: Structural sharing preserved unaffected nodes');
         
         // Schedule parent callback after state update completes
         setTimeout(() => {
-          console.log('🌲 SceneOutliner: Calling onSceneTreeChange callback with', result.updated.length, 'nodes');
+          Logger.debug('🌲 SceneOutliner: Calling onSceneTreeChange callback with', result.updated.length, 'nodes');
           onSceneTreeChange?.(result.updated);
         }, 0);
         return result.updated;
@@ -717,7 +718,7 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
     };
 
     const handleSceneTreeUpdated = (scene: any) => {
-      console.log('🌲 SceneOutliner: Full scene tree update');
+      Logger.debug('🌲 SceneOutliner: Full scene tree update');
       const tree = scene.tree || [];
       setSceneTree(tree);
       // Schedule parent callback after state update completes

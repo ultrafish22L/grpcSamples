@@ -5,6 +5,7 @@
  * Requires Daylight Environment node connected to Render Target
  */
 
+import { Logger } from '../../utils/Logger';
 import { useState, useEffect } from 'react';
 
 interface DaylightAnimationDialogProps {
@@ -45,11 +46,11 @@ export function DaylightAnimationDialog({ isOpen, onClose }: DaylightAnimationDi
 
   const handleSelectOutputPath = () => {
     // TODO: Implement folder selection dialog
-    console.log('Select output folder dialog');
+    Logger.debug('Select output folder dialog');
   };
 
   const handleStartAnimation = () => {
-    console.log('Starting daylight animation with settings:', {
+    Logger.debug('Starting daylight animation with settings:', {
       startHour,
       endHour,
       duration,

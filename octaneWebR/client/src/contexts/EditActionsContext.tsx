@@ -4,6 +4,7 @@
  * Allows MenuBar to trigger actions that are handled by the currently focused component
  */
 
+import { Logger } from '../utils/Logger';
 import { createContext, useContext, useRef, useCallback, ReactNode } from 'react';
 
 export interface EditActionsHandler {
@@ -45,7 +46,7 @@ export function EditActionsProvider({ children }: { children: ReactNode }) {
     if (handlersRef.current.cut) {
       handlersRef.current.cut();
     } else {
-      console.log('✂️ Cut action - no handler registered');
+      Logger.debug('✂️ Cut action - no handler registered');
     }
   }, []);
 
@@ -53,7 +54,7 @@ export function EditActionsProvider({ children }: { children: ReactNode }) {
     if (handlersRef.current.copy) {
       handlersRef.current.copy();
     } else {
-      console.log('📋 Copy action - no handler registered');
+      Logger.debug('📋 Copy action - no handler registered');
     }
   }, []);
 
@@ -61,7 +62,7 @@ export function EditActionsProvider({ children }: { children: ReactNode }) {
     if (handlersRef.current.paste) {
       handlersRef.current.paste();
     } else {
-      console.log('📋 Paste action - no handler registered');
+      Logger.debug('📋 Paste action - no handler registered');
     }
   }, []);
 
@@ -69,7 +70,7 @@ export function EditActionsProvider({ children }: { children: ReactNode }) {
     if (handlersRef.current.delete) {
       handlersRef.current.delete();
     } else {
-      console.log('🗑️ Delete action - no handler registered');
+      Logger.debug('🗑️ Delete action - no handler registered');
     }
   }, []);
 
@@ -77,7 +78,7 @@ export function EditActionsProvider({ children }: { children: ReactNode }) {
     if (handlersRef.current.group) {
       handlersRef.current.group();
     } else {
-      console.log('🔗 Group action - no handler registered');
+      Logger.debug('🔗 Group action - no handler registered');
     }
   }, []);
 
@@ -85,7 +86,7 @@ export function EditActionsProvider({ children }: { children: ReactNode }) {
     if (handlersRef.current.ungroup) {
       handlersRef.current.ungroup();
     } else {
-      console.log('🔓 Ungroup action - no handler registered');
+      Logger.debug('🔓 Ungroup action - no handler registered');
     }
   }, []);
 
@@ -93,7 +94,7 @@ export function EditActionsProvider({ children }: { children: ReactNode }) {
     if (handlersRef.current.find) {
       handlersRef.current.find();
     } else {
-      console.log('🔍 Find action - no handler registered');
+      Logger.debug('🔍 Find action - no handler registered');
     }
   }, []);
 

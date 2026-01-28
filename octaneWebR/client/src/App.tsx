@@ -13,6 +13,7 @@
  * - Status Bar (bottom)
  */
 
+import { Logger } from './utils/Logger';
 import { useEffect, useState, useRef } from 'react';
 import { OctaneProvider, useOctane } from './hooks/useOctane';
 import { useResizablePanels } from './hooks/useResizablePanels';
@@ -62,14 +63,14 @@ function AppContent() {
 
   // Scene tree change handler
   const handleSceneTreeChange = (tree: SceneNode[]) => {
-    console.log('🔄 App.tsx: handleSceneTreeChange called with', tree.length, 'nodes');
+    Logger.debug('🔄 App.tsx: handleSceneTreeChange called with', tree.length, 'nodes');
     setSceneTree(tree);
   };
 
   // Scene sync state handler
   const handleSyncStateChange = (syncing: boolean) => {
     setIsSyncing(syncing);
-    console.log(syncing ? '🔄 Scene sync started...' : '✅ Scene sync complete');
+    Logger.debug(syncing ? '🔄 Scene sync started...' : '✅ Scene sync complete');
   };
 
   // Scene refresh handler for MenuBar
@@ -82,27 +83,27 @@ function AppContent() {
   /*
   const handleAddNode = async () => {
     if (!connected || !client) {
-      console.log('⚠️ Cannot create node: not connected to Octane');
+      Logger.debug('⚠️ Cannot create node: not connected to Octane');
       return;
     }
 
     if (isSyncing) {
-      console.log('⚠️ Cannot create node: scene is currently syncing');
+      Logger.debug('⚠️ Cannot create node: scene is currently syncing');
       return;
     }
 
-    console.log('➕ Creating geometric plane primitive...');
+    Logger.debug('➕ Creating geometric plane primitive...');
     
     try {
       const createdHandle = await client.createNode('NT_GEO_PLANE', NodeType.NT_GEO_PLANE);
       if (createdHandle) {
-        console.log('✅ Geometric plane created with handle:', createdHandle);
+        Logger.debug('✅ Geometric plane created with handle:', createdHandle);
         // Note: UI will auto-refresh via sceneUpdated event listener
       } else {
-        console.error('❌ Failed to create geometric plane');
+        Logger.error('❌ Failed to create geometric plane');
       }
     } catch (error) {
-      console.error('❌ Error creating node:', error);
+      Logger.error('❌ Error creating node:', error);
     }
   };
   */
@@ -110,14 +111,14 @@ function AppContent() {
   // Copy render to clipboard handler
   const handleCopyToClipboard = async () => {
     if (!viewportRef.current) {
-      console.warn('⚠️ Viewport not available for clipboard copy');
+      Logger.warn('⚠️ Viewport not available for clipboard copy');
       return;
     }
 
     try {
       await viewportRef.current.copyToClipboard();
     } catch (error) {
-      console.error('❌ Failed to copy to clipboard:', error);
+      Logger.error('❌ Failed to copy to clipboard:', error);
     }
   };
 
@@ -134,18 +135,18 @@ function AppContent() {
   // Viewport lock change handler
   const handleViewportLockChange = (locked: boolean) => {
     setViewportLocked(locked);
-    console.log(`🔒 App.tsx: Viewport lock ${locked ? 'enabled' : 'disabled'}`);
+    Logger.debug(`🔒 App.tsx: Viewport lock ${locked ? 'enabled' : 'disabled'}`);
   };
 
   // Toggle viewport lock handler (for context menu)
   const handleToggleLockViewport = () => {
     setViewportLocked(prev => !prev);
-    console.log(`🔒 App.tsx: Viewport lock toggled to ${!viewportLocked ? 'enabled' : 'disabled'}`);
+    Logger.debug(`🔒 App.tsx: Viewport lock toggled to ${!viewportLocked ? 'enabled' : 'disabled'}`);
   };
 
   // Set background image handler (for context menu)
   const handleSetBackgroundImage = () => {
-    console.log('🖼️  Set Background Image - TODO: Implement file picker');
+    Logger.debug('🖼️  Set Background Image - TODO: Implement file picker');
     // TODO: Implement file picker and set background image
     alert('Set Background Image: Feature coming soon!\n\nThis will allow you to set a background image visible through alpha channel.');
   };
@@ -153,23 +154,23 @@ function AppContent() {
   // Picking mode change handler
   const handlePickingModeChange = (mode: 'none' | 'focus' | 'whiteBalance' | 'material' | 'object' | 'cameraTarget' | 'renderRegion' | 'filmRegion') => {
     setPickingMode(mode);
-    console.log(`🎯 App.tsx: Picking mode changed to: ${mode}`);
+    Logger.debug(`🎯 App.tsx: Picking mode changed to: ${mode}`);
   };
 
   // Recenter view handler - resets 2D canvas pan/zoom
   const handleRecenterView = () => {
-    console.log('⌖ App.tsx: Recenter view requested');
+    Logger.debug('⌖ App.tsx: Recenter view requested');
     viewportRef.current?.recenterView();
   };
 
   // Material Database handlers
   const handleMaterialDatabaseOpen = () => {
-    console.log('💎 Opening Material Database');
+    Logger.debug('💎 Opening Material Database');
     setMaterialDatabaseVisible(true);
   };
 
   const handleMaterialDatabaseClose = () => {
-    console.log('💎 Closing Material Database');
+    Logger.debug('💎 Closing Material Database');
     setMaterialDatabaseVisible(false);
   };
 
@@ -179,12 +180,12 @@ function AppContent() {
       ...prev,
       [panel]: !prev[panel]
     }));
-    console.log(`👁️ Toggled ${panel} visibility`);
+    Logger.debug(`👁️ Toggled ${panel} visibility`);
   };
 
   // Reset layout handler - resets all panels to visible and default sizes
   const handleResetLayout = () => {
-    console.log('↺ Resetting layout to defaults');
+    Logger.debug('↺ Resetting layout to defaults');
     
     // Reset all panels to visible
     setPanelVisibility({
@@ -200,15 +201,15 @@ function AppContent() {
 
   useEffect(() => {
     // Auto-connect on mount
-    console.log('🚀 OctaneWebR starting...');
+    Logger.debug('🚀 OctaneWebR starting...');
     connect().then(success => {
       if (success) {
-        console.log('✅ Auto-connected to server');
+        Logger.debug('✅ Auto-connected to server');
       } else {
-        console.log('⚠️ Could not connect to server');
+        Logger.debug('⚠️ Could not connect to server');
       }
     }).catch(error => {
-      console.error('❌ App.tsx: connect() threw error:', error);
+      Logger.error('❌ App.tsx: connect() threw error:', error);
     });
   }, [connect]);
 
@@ -217,12 +218,12 @@ function AppContent() {
     if (!client) return;
 
     const handleNodeDeleted = (event: NodeDeletedEvent) => {
-      console.log('🗑️ App: Node deleted event received:', event.handle);
+      Logger.debug('🗑️ App: Node deleted event received:', event.handle);
       
       // If selected node was deleted, clear selection (Node Inspector behavior)
       setSelectedNode(current => {
         if (current && current.handle === event.handle) {
-          console.log('⚠️ Selected node was deleted - clearing selection');
+          Logger.debug('⚠️ Selected node was deleted - clearing selection');
           return null;
         }
         return current;
@@ -230,13 +231,13 @@ function AppContent() {
     };
 
     const handleRenderFailure = (data: any) => {
-      console.error('❌ Render failure detected:', data);
+      Logger.error('❌ Render failure detected:', data);
       // TODO: Show user-facing error notification
       alert('Render Failed: Octane encountered an error during rendering. Check console for details.');
     };
 
     const handleProjectManagerChanged = (data: any) => {
-      console.log('📁 Project manager changed:', data);
+      Logger.debug('📁 Project manager changed:', data);
       // Refresh scene tree when project changes
       setSceneRefreshTrigger(prev => prev + 1);
     };
@@ -247,14 +248,14 @@ function AppContent() {
     client.on('OnRenderFailure', handleRenderFailure);
     client.on('OnProjectManagerChanged', handleProjectManagerChanged);
     
-    console.log('✅ Listening for callback events (nodeDeleted, OnRenderFailure, OnProjectManagerChanged)');
+    Logger.debug('✅ Listening for callback events (nodeDeleted, OnRenderFailure, OnProjectManagerChanged)');
 
     // Cleanup listener on unmount
     return () => {
       client.off('nodeDeleted', handleNodeDeleted);
       client.off('OnRenderFailure', handleRenderFailure);
       client.off('OnProjectManagerChanged', handleProjectManagerChanged);
-      console.log('🔇 Stopped listening for callback events');
+      Logger.debug('🔇 Stopped listening for callback events');
     };
   }, [client]); // Only re-register when client changes, not on every selection
 

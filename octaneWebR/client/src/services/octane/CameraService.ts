@@ -3,6 +3,7 @@
  * Handles all camera-related operations via LiveLink service
  */
 
+import { Logger } from '../../utils/Logger';
 import { BaseService } from './BaseService';
 import { ApiService } from './ApiService';
 import { CameraState } from './types';
@@ -49,20 +50,20 @@ export class CameraService extends BaseService {
   async resetCamera(): Promise<void> {
     // Reset camera to original position captured at connection time
     if (!this.originalCameraState) {
-      console.warn('⚠️ No original camera state stored - fetching current as fallback');
+      Logger.warn('⚠️ No original camera state stored - fetching current as fallback');
       this.originalCameraState = await this.getCamera();
     }
     
-    console.log('📷 Resetting camera to original state:', this.originalCameraState);
+    Logger.debug('📷 Resetting camera to original state:', this.originalCameraState);
     await this.apiService.callApi('LiveLink', 'SetCamera', this.originalCameraState);
   }
 
   async captureOriginalCameraState(): Promise<void> {
     try {
       this.originalCameraState = await this.getCamera();
-      console.log('📷 Captured original camera state:', this.originalCameraState);
+      Logger.debug('📷 Captured original camera state:', this.originalCameraState);
     } catch (error: any) {
-      console.warn('⚠️ Could not capture initial camera state:', error.message);
+      Logger.warn('⚠️ Could not capture initial camera state:', error.message);
     }
   }
 }

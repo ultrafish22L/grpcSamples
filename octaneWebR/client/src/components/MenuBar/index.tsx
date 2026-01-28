@@ -3,6 +3,7 @@
  * Main application menu bar with dropdowns and file operations
  */
 
+import { Logger } from '../../utils/Logger';
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { useFileDialog } from '../../hooks/useFileDialog';
 import { useRecentFiles } from '../../hooks/useRecentFiles';
@@ -203,7 +204,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
   }, []);
 
   const showNotification = useCallback((message: string, type: 'success' | 'error' | 'info' = 'info') => {
-    console.log(`[${type.toUpperCase()}] ${message}`);
+    Logger.debug(`[${type.toUpperCase()}] ${message}`);
     // TODO: Implement toast notification system
   }, []);
 
@@ -213,7 +214,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
 
   // Menu action handlers
   const handleMenuAction = useCallback(async (action: MenuAction, data?: any) => {
-    console.log('🎯 Menu action:', action, data);
+    Logger.debug('🎯 Menu action:', action, data);
     closeMenu();
 
     switch (action) {
@@ -230,7 +231,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
             onSceneRefresh?.();
           }
         } catch (error) {
-          console.error('Failed to create new scene:', error);
+          Logger.error('Failed to create new scene:', error);
           showNotification('Failed to create new scene', 'error');
         }
         break;
@@ -243,7 +244,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
           });
           if (files && files.length > 0) {
             const file = files[0];
-            console.log('Opening scene file:', file.name);
+            Logger.debug('Opening scene file:', file.name);
             
             if (!connected) {
               showWarnNotConnected('open scene');
@@ -263,7 +264,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
                 onSceneRefresh?.();
               }
             } catch (error) {
-              console.error('Failed to open scene:', error);
+              Logger.error('Failed to open scene:', error);
               showNotification(`Failed to open ${file.name}`, 'error');
             }
           }
@@ -272,7 +273,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
 
       case 'file.openRecent':
         if (data) {
-          console.log('Opening recent file:', data);
+          Logger.debug('Opening recent file:', data);
           if (!connected) {
             showWarnNotConnected('open recent file');
             return;
@@ -286,7 +287,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
               onSceneRefresh?.();
             }
           } catch (error) {
-            console.error('Failed to open recent file:', error);
+            Logger.error('Failed to open recent file:', error);
             showNotification(`Failed to open ${data}`, 'error');
           }
         }
@@ -308,7 +309,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
             showNotification('Scene saved', 'success');
           }
         } catch (error) {
-          console.error('Failed to save scene:', error);
+          Logger.error('Failed to save scene:', error);
           showNotification('Failed to save scene', 'error');
         }
         break;
@@ -334,7 +335,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
                 showNotification(`Saved as: ${filename}`, 'success');
               }
             } catch (error) {
-              console.error('Failed to save scene as:', error);
+              Logger.error('Failed to save scene as:', error);
               showNotification(`Failed to save as ${filename}`, 'error');
             }
           }
@@ -343,7 +344,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
 
       case 'file.saveAsPackage':
         setIsSavePackageDialogOpen(true);
-        console.log('📦 Opening Save as Package dialog');
+        Logger.debug('📦 Opening Save as Package dialog');
         break;
 
       case 'file.saveAsDefault':
@@ -361,19 +362,19 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
             // Store the default scene path in localStorage for future reference
             localStorage.setItem('octaneWebR_defaultScene', defaultScenePath);
             showNotification('Current scene saved as default', 'success');
-            console.log('✅ Default scene saved:', defaultScenePath);
+            Logger.debug('✅ Default scene saved:', defaultScenePath);
           } else {
             showNotification('Failed to save default scene', 'error');
           }
         } catch (error) {
-          console.error('Failed to save default scene:', error);
+          Logger.error('Failed to save default scene:', error);
           showNotification('Failed to save default scene', 'error');
         }
         break;
 
       case 'file.preferences':
         setIsPreferencesDialogOpen(true);
-        console.log('🔧 Opening Preferences dialog');
+        Logger.debug('🔧 Opening Preferences dialog');
         break;
 
       // Edit menu actions - delegated to active component via EditActionsContext
@@ -411,12 +412,12 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
           const success = await commandHistory.undo();
           if (success) {
             showNotification(`Undone: ${undoDescription}`, 'success');
-            console.log('↶ Undo successful');
+            Logger.debug('↶ Undo successful');
           } else {
             showNotification('Nothing to undo', 'info');
           }
         } catch (error) {
-          console.error('Undo failed:', error);
+          Logger.error('Undo failed:', error);
           showNotification('Undo failed', 'error');
         }
         break;
@@ -427,12 +428,12 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
           const success = await commandHistory.redo();
           if (success) {
             showNotification(`Redone: ${redoDescription}`, 'success');
-            console.log('↷ Redo successful');
+            Logger.debug('↷ Redo successful');
           } else {
             showNotification('Nothing to redo', 'info');
           }
         } catch (error) {
-          console.error('Redo failed:', error);
+          Logger.error('Redo failed:', error);
           showNotification('Redo failed', 'error');
         }
         break;
@@ -440,69 +441,69 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
       // Script menu actions
       case 'script.rescanFolder':
         showNotification('Rescanning script folder...', 'info');
-        console.log('📂 Rescan script folder');
+        Logger.debug('📂 Rescan script folder');
         break;
 
       case 'script.runLast':
         showNotification('Run last script not yet implemented', 'info');
-        console.log('▶️ Run last script again');
+        Logger.debug('▶️ Run last script again');
         break;
 
       case 'script.batchRender':
         setIsBatchRenderingDialogOpen(true);
-        console.log('🎬 Opening Batch Rendering dialog');
+        Logger.debug('🎬 Opening Batch Rendering dialog');
         break;
 
       case 'script.daylightAnimation':
         setIsDaylightAnimationDialogOpen(true);
-        console.log('☀️ Opening Daylight Animation dialog');
+        Logger.debug('☀️ Opening Daylight Animation dialog');
         break;
 
       case 'script.turntableAnimation':
         setIsTurntableAnimationDialogOpen(true);
-        console.log('🔄 Opening Turntable Animation dialog');
+        Logger.debug('🔄 Opening Turntable Animation dialog');
         break;
 
       // Cloud/Render menu actions
       case 'render.uploadSnapshot':
         showNotification('Upload scene snapshot not yet implemented', 'info');
-        console.log('☁️ Upload scene snapshot');
+        Logger.debug('☁️ Upload scene snapshot');
         break;
 
       case 'render.render':
         showNotification('Cloud render not yet implemented', 'info');
-        console.log('☁️ Cloud render');
+        Logger.debug('☁️ Cloud render');
         break;
 
       case 'render.openRenderNetwork':
         showNotification('Open Render Network not yet implemented', 'info');
-        console.log('🌐 Open Render Network');
+        Logger.debug('🌐 Open Render Network');
         break;
 
       case 'render.openRenderNetworkExternal':
         showNotification('Open Render Network (external) not yet implemented', 'info');
-        console.log('🌐 Open Render Network (external)');
+        Logger.debug('🌐 Open Render Network (external)');
         break;
 
       // View menu actions
       case 'view.renderViewport':
         onTogglePanelVisibility?.('renderViewport');
-        console.log('👁️ Toggled Render Viewport visibility');
+        Logger.debug('👁️ Toggled Render Viewport visibility');
         break;
       
       case 'view.nodeInspector':
         onTogglePanelVisibility?.('nodeInspector');
-        console.log('👁️ Toggled Node Inspector visibility');
+        Logger.debug('👁️ Toggled Node Inspector visibility');
         break;
       
       case 'view.graphEditor':
         onTogglePanelVisibility?.('graphEditor');
-        console.log('👁️ Toggled Graph Editor visibility');
+        Logger.debug('👁️ Toggled Graph Editor visibility');
         break;
       
       case 'view.sceneOutliner':
         onTogglePanelVisibility?.('sceneOutliner');
-        console.log('👁️ Toggled Scene Outliner visibility');
+        Logger.debug('👁️ Toggled Scene Outliner visibility');
         break;
 
       // Window menu actions
@@ -519,26 +520,26 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
       // Help menu actions
       case 'help.docs':
         window.open('https://docs.otoy.com/standaloneSE/CoverPage.html', '_blank');
-        console.log('📖 Opening online manual');
+        Logger.debug('📖 Opening online manual');
         break;
 
       case 'help.crashReports':
         showNotification('Crash reports management not yet implemented', 'info');
-        console.log('📊 Crash reports management');
+        Logger.debug('📊 Crash reports management');
         break;
 
       case 'help.about':
         setIsAboutDialogOpen(true);
-        console.log('ℹ️ Opening About dialog');
+        Logger.debug('ℹ️ Opening About dialog');
         break;
 
       case 'help.eula':
         window.open('/eula.pdf', '_blank');
-        console.log('📄 Opening EULA PDF');
+        Logger.debug('📄 Opening EULA PDF');
         break;
 
       default:
-        console.warn('Menu action not yet implemented:', action);
+        Logger.warn('Menu action not yet implemented:', action);
         showNotification(`Action "${action}" not yet implemented`, 'info');
     }
   }, [
@@ -654,7 +655,7 @@ function MenuBar({ onSceneRefresh, onMaterialDatabaseOpen, panelVisibility, onTo
       handler: () => {
         if (!document.fullscreenElement) {
           document.documentElement.requestFullscreen().catch(err => {
-            console.error('Failed to enter fullscreen:', err);
+            Logger.error('Failed to enter fullscreen:', err);
           });
         } else {
           document.exitFullscreen();

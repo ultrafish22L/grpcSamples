@@ -40,6 +40,7 @@ import { NodeContextMenu } from './NodeContextMenu';
 import { SearchDialog } from './SearchDialog';
 import { NodeType } from '../../constants/OctaneTypes';
 import { EditCommands } from '../../commands/EditCommands';
+import Logger from '../../utils/Logger';
 
 interface NodeGraphEditorProps {
   sceneTree: SceneNode[];
@@ -106,9 +107,9 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         const { x, y } = change.position;
         
         if (client && connected && nodeHandle) {
-          console.log(`💾 Saving node position: handle=${nodeHandle}, x=${x}, y=${y}`);
+          Logger.debug(`💾 Saving node position: handle=${nodeHandle}, x=${x}, y=${y}`);
           client.setNodePosition(nodeHandle, x, y).catch((error: any) => {
-            console.error('❌ Failed to save node position:', error);
+            Logger.error('Failed to save node position:', error);
           });
         }
       }
@@ -261,13 +262,13 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
             };
 
             graphEdges.push(edge);
-            console.log(`🔗 Edge created: ${sourceHandle} → ${targetHandle} (color: ${edgeColor})`);
+            Logger.debug(`🔗 Edge created: ${sourceHandle} → ${targetHandle} (color: ${edgeColor})`);
           }
         }
       });
     });
 
-    console.log(`🔄 Node Graph: ${graphNodes.length} nodes, ${graphEdges.length} edges`);
+    Logger.debug(`🔄 Node Graph: ${graphNodes.length} nodes, ${graphEdges.length} edges`);
 
     return { nodes: graphNodes, edges: graphEdges };
   }, [client]); // Add client dependency for scene map access
@@ -277,10 +278,10 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
    * Optimization: Skip full rebuild if incremental add/delete handlers are active
    */
   useEffect(() => {
-    console.log('📊 NodeGraphEditor: sceneTree changed, length =', sceneTree?.length || 0);
+    Logger.debug('📊 NodeGraphEditor: sceneTree changed, length =', sceneTree?.length || 0);
     
     if (!sceneTree || sceneTree.length === 0) {
-      console.log('📊 NodeGraphEditor: Empty scene tree, clearing graph');
+      Logger.debug('📊 NodeGraphEditor: Empty scene tree, clearing graph');
       setNodes([]);
       setEdges([]);
       return;
@@ -291,24 +292,24 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     // - nodeDeleted: currentNodes.length > sceneTree.length
     // If so, skip full rebuild - the event handlers will update incrementally
     setNodes((currentNodes) => {
-      console.log(`📊 NodeGraphEditor: currentNodes=${currentNodes.length}, sceneTree=${sceneTree.length}`);
+      Logger.debug(`📊 NodeGraphEditor: currentNodes=${currentNodes.length}, sceneTree=${sceneTree.length}`);
       
       // If current graph has fewer nodes, nodeAdded is handling it
       if (currentNodes.length < sceneTree.length && currentNodes.length > 0) {
-        console.log('📊 NodeGraphEditor: Skipping full rebuild - nodeAdded handler active');
+        Logger.debug('📊 NodeGraphEditor: Skipping full rebuild - nodeAdded handler active');
         return currentNodes; // Don't rebuild
       }
       
       // If current graph has more nodes, nodeDeleted is handling it
       if (currentNodes.length > sceneTree.length && currentNodes.length > 0) {
-        console.log('📊 NodeGraphEditor: Skipping full rebuild - nodeDeleted handler active');
+        Logger.debug('📊 NodeGraphEditor: Skipping full rebuild - nodeDeleted handler active');
         return currentNodes; // Don't rebuild
       }
       
       // Full rebuild needed (initial load, sync issues, or other changes)
-      console.log('📊 NodeGraphEditor: Full graph rebuild triggered');
+      Logger.debug('📊 NodeGraphEditor: Full graph rebuild triggered');
       const { nodes: graphNodes, edges: graphEdges } = convertSceneToGraph(sceneTree);
-      console.log(`📊 NodeGraphEditor: Rebuilt graph with ${graphNodes.length} nodes, ${graphEdges.length} edges`);
+      Logger.debug(`📊 NodeGraphEditor: Rebuilt graph with ${graphNodes.length} nodes, ${graphEdges.length} edges`);
       setEdges(graphEdges);
       return graphNodes;
     });
@@ -321,7 +322,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     if (!connected || !client) return;
 
     const handleNodeAdded = (event: NodeAddedEvent) => {
-      console.log('📊 NodeGraphEditor: Adding node incrementally:', event.node.name);
+      Logger.debug('📊 NodeGraphEditor: Adding node incrementally:', event.node.name);
       
       // Convert just the new node to a ReactFlow node
       const nodeIndex = sceneTree.length - 1; // New node position
@@ -361,7 +362,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       // Add node to graph without rebuilding everything
       setNodes((nds) => [...nds, newReactFlowNode]);
       
-      console.log('✅ NodeGraphEditor: Node added to canvas');
+      Logger.debug('NodeGraphEditor: Node added to canvas');
     };
 
     client.on('nodeAdded', handleNodeAdded);
@@ -378,25 +379,25 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     if (!connected || !client) return;
 
     const handleNodeDeleted = (event: NodeDeletedEvent) => {
-      console.log('📊 NodeGraphEditor: Deleting node incrementally, handle:', event.handle);
+      Logger.debug('📊 NodeGraphEditor: Deleting node incrementally, handle:', event.handle);
       
       const handleStr = String(event.handle);
       
       // Remove node from graph without rebuilding everything
       setNodes((nds) => {
         const filtered = nds.filter(node => node.id !== handleStr);
-        console.log(`📊 NodeGraphEditor: Removed node ${handleStr}, ${nds.length} → ${filtered.length} nodes`);
+        Logger.debug(`📊 NodeGraphEditor: Removed node ${handleStr}, ${nds.length} → ${filtered.length} nodes`);
         return filtered;
       });
       
       // Remove connected edges
       setEdges((eds) => {
         const filtered = eds.filter(edge => edge.source !== handleStr && edge.target !== handleStr);
-        console.log(`📊 NodeGraphEditor: Removed edges for node ${handleStr}`);
+        Logger.debug(`📊 NodeGraphEditor: Removed edges for node ${handleStr}`);
         return filtered;
       });
       
-      console.log('✅ NodeGraphEditor: Node removed from canvas');
+      Logger.debug('NodeGraphEditor: Node removed from canvas');
     };
 
     client.on('nodeDeleted', handleNodeDeleted);
@@ -469,7 +470,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       cutterStartRef.current = { x, y };
       setCutterPath([{ x, y }]);
       
-      console.log('✂️ Connection cutter activated');
+      Logger.debug('✂️ Connection cutter activated');
     }
   }, []);
 
@@ -522,7 +523,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
       // Delete intersected edges
       if (edgesToDelete.length > 0) {
-        console.log(`✂️ Cutting ${edgesToDelete.length} connection(s)`);
+        Logger.debug(`✂️ Cutting ${edgesToDelete.length} connection(s)`);
         
         for (const edge of edgesToDelete) {
           // Delete via API
@@ -535,7 +536,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
             
             if (targetHandle && !isNaN(targetPinIndex)) {
               await client.disconnectPin(targetHandle, targetPinIndex);
-              console.log(`✂️ Disconnected pin ${targetPinIndex} on node ${targetHandle}`);
+              Logger.debug(`✂️ Disconnected pin ${targetPinIndex} on node ${targetHandle}`);
             }
           }
         }
@@ -584,7 +585,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   const handlePasteNodes = useCallback(async () => {
     if (copiedNodes.length === 0 || !client) return;
 
-    console.log(`📋 Pasting ${copiedNodes.length} node(s)...`);
+    Logger.debug(`📋 Pasting ${copiedNodes.length} node(s)...`);
 
     try {
       // Map old node IDs to new node handles
@@ -596,14 +597,14 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         const nodeTypeName = nodeData.sceneNode.nodeInfo?.nodeTypeName;
         
         if (!nodeTypeName) {
-          console.warn('⚠️ Cannot paste node without type name:', nodeData.sceneNode.name);
+          Logger.warn('Cannot paste node without type name:', nodeData.sceneNode.name);
           continue;
         }
 
         // Look up numeric node type ID
         const nodeTypeId = NodeType[nodeTypeName];
         if (!nodeTypeId) {
-          console.warn('⚠️ Unknown node type:', nodeTypeName);
+          Logger.warn('Unknown node type:', nodeTypeName);
           continue;
         }
 
@@ -612,7 +613,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         
         if (newHandle) {
           oldToNewHandleMap.set(copiedNode.id, newHandle);
-          console.log(`✅ Created ${nodeTypeName} with handle ${newHandle}`);
+          Logger.debug(`✅ Created ${nodeTypeName} with handle ${newHandle}`);
         }
       }
 
@@ -636,14 +637,14 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
         // Connect the pins
         await client.connectPinByIndex(newTargetHandle, targetPinIndex, newSourceHandle);
-        console.log(`🔗 Connected ${newSourceHandle} → ${newTargetHandle}[${targetPinIndex}]`);
+        Logger.debug(`🔗 Connected ${newSourceHandle} → ${newTargetHandle}[${targetPinIndex}]`);
       }
 
-      console.log(`✅ Pasted ${copiedNodes.length} node(s) successfully`);
+      Logger.debug(`✅ Pasted ${copiedNodes.length} node(s) successfully`);
       
       // Note: Scene will auto-refresh via sceneTree prop update from parent
     } catch (error) {
-      console.error('❌ Failed to paste nodes:', error);
+      Logger.error('Failed to paste nodes:', error);
     }
   }, [copiedNodes, copiedEdges, client]);
 
@@ -683,7 +684,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
         setCopiedNodes(selectedNodes);
         setCopiedEdges(relatedEdges);
-        console.log(`📋 Copied ${selectedNodes.length} node(s)`);
+        Logger.debug(`📋 Copied ${selectedNodes.length} node(s)`);
       }
 
       // Ctrl+V: Paste nodes
@@ -727,7 +728,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
    */
   const onConnectStart: OnConnectStart = useCallback(
     (event, { nodeId, handleId, handleType }) => {
-      console.log('🔌 Connection drag started:', { nodeId, handleId, handleType });
+      Logger.debug('Connection drag started:', { nodeId, handleId, handleType });
       
       // Check if Ctrl/Cmd is held for multi-connect feature
       const isCtrlHeld = (event as MouseEvent)?.ctrlKey || (event as MouseEvent)?.metaKey;
@@ -739,7 +740,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
           // Activate multi-connect mode
           isMultiConnectingRef.current = true;
           multiConnectSourcesRef.current = selectedNodes.map(n => n.id);
-          console.log(`🔗 Multi-connect activated: ${selectedNodes.length} selected nodes will connect`);
+          Logger.debug(`🔗 Multi-connect activated: ${selectedNodes.length} selected nodes will connect`);
         }
       } else {
         isMultiConnectingRef.current = false;
@@ -771,7 +772,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         }
       }
 
-      console.log('🎨 Setting connection line color:', handleColor);
+      Logger.debug('🎨 Setting connection line color:', handleColor);
       setConnectionLineColor(handleColor);
 
       // OCTANE BEHAVIOR: Keep original connections visible during drag
@@ -784,14 +785,14 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         );
         
         if (existingEdge) {
-          console.log('📌 Input pin has existing connection:', existingEdge.id, '(will replace on success)');
+          Logger.debug('📌 Input pin has existing connection:', existingEdge.id, '(will replace on success)');
           connectingEdgeRef.current = existingEdge;
         } else {
           connectingEdgeRef.current = null;
         }
       } else {
         // Output pin - allow multiple connections, don't track for removal
-        console.log('📤 Output pin - allowing multiple connections');
+        Logger.debug('📤 Output pin - allowing multiple connections');
         connectingEdgeRef.current = null;
       }
     },
@@ -803,7 +804,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
    * Original edges stay visible during drag, so nothing to restore
    */
   const onConnectEnd: OnConnectEnd = useCallback(() => {
-    console.log('🔌 Connection drag ended');
+    Logger.debug('Connection drag ended');
     
     // Reset state
     setConnectionLineColor('#ffc107'); // Reset to default
@@ -820,14 +821,14 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
    * Uses ReactFlow's reconnectEdge utility as per best practices
    */
   const onReconnect = useCallback((oldEdge: Edge, newConnection: Connection) => {
-    console.log('🔄 RECONNECT triggered:', oldEdge.id, '→', newConnection);
+    Logger.debug('🔄 RECONNECT triggered:', oldEdge.id, '→', newConnection);
     
     // Detect no-op reconnection: user dropped edge back on the same pin
     if (oldEdge.target === newConnection.target && 
         oldEdge.targetHandle === newConnection.targetHandle &&
         oldEdge.source === newConnection.source &&
         oldEdge.sourceHandle === newConnection.sourceHandle) {
-      console.log('⏭️ No-op reconnection detected - ignoring (same source and target)');
+      Logger.debug('⏭️ No-op reconnection detected - ignoring (same source and target)');
       return;
     }
     
@@ -836,7 +837,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
     // Sync with Octane in background (async operations after state update)
     if (!client) {
-      console.warn('⚠️ Cannot sync edge reconnection: No Octane client');
+      Logger.warn('Cannot sync edge reconnection: No Octane client');
       return;
     }
 
@@ -848,7 +849,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         const oldPinIdx = oldEdge.targetHandle ? 
           parseInt(oldEdge.targetHandle.split('-')[1]) : 0;
         
-        console.log(`🔌 Disconnecting old: node=${oldTargetHandle}, pin=${oldPinIdx}`);
+        Logger.debug(`🔌 Disconnecting old: node=${oldTargetHandle}, pin=${oldPinIdx}`);
         await client.disconnectPin(oldTargetHandle, oldPinIdx);
         
         // Connect new connection
@@ -857,11 +858,11 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         const newPinIdx = newConnection.targetHandle ? 
           parseInt(newConnection.targetHandle.split('-')[1]) : 0;
         
-        console.log(`🔌 Connecting new: source=${newSourceHandle} → target=${newTargetHandle}, pin=${newPinIdx}`);
+        Logger.debug(`🔌 Connecting new: source=${newSourceHandle} → target=${newTargetHandle}, pin=${newPinIdx}`);
         await client.connectPinByIndex(newTargetHandle, newPinIdx, newSourceHandle, true);
-        console.log('✅ Octane edge reconnected');
+        Logger.debug('Octane edge reconnected');
       } catch (error) {
-        console.error('❌ Failed to sync edge reconnection with Octane:', error);
+        Logger.error('Failed to sync edge reconnection with Octane:', error);
       }
     })();
   }, [client, setEdges]);
@@ -875,20 +876,20 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
    */
   const onReconnectEnd: OnReconnectEnd = useCallback(
     (_event, edge, _handleType, connectionState) => {
-      console.log('🔄 RECONNECT END:', edge.id, 'isValid:', connectionState.isValid);
+      Logger.debug('🔄 RECONNECT END:', edge.id, 'isValid:', connectionState.isValid);
       
       // If reconnection succeeded (connectionState.isValid === true), onReconnect already handled it
       if (connectionState.isValid) {
-        console.log('✅ Reconnection succeeded - onReconnect already handled sync');
+        Logger.debug('Reconnection succeeded - onReconnect already handled sync');
         return;
       }
 
       // Failed reconnection - user dropped on empty space or invalid target
       // Disconnect the edge in Octane and remove from UI
-      console.log('❌ Reconnection failed - disconnecting edge:', edge.id);
+      Logger.debug('Reconnection failed - disconnecting edge:', edge.id);
 
       if (!client) {
-        console.warn('⚠️ Cannot disconnect edge: No Octane client');
+        Logger.warn('Cannot disconnect edge: No Octane client');
         return;
       }
 
@@ -901,16 +902,16 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
             ? parseInt(edge.targetHandle.split('-')[1]) 
             : 0;
 
-          console.log(`🔌 Disconnecting in Octane: node=${targetHandle}, pin=${pinIdx}`);
+          Logger.debug(`🔌 Disconnecting in Octane: node=${targetHandle}, pin=${pinIdx}`);
           await client.disconnectPin(targetHandle, pinIdx);
-          console.log('✅ Pin disconnected in Octane');
+          Logger.debug('Pin disconnected in Octane');
 
           // Remove edge from UI
           setEdges((eds) => eds.filter(e => e.id !== edge.id));
-          console.log('✅ Edge removed from UI');
+          Logger.debug('Edge removed from UI');
           
         } catch (error) {
-          console.error('❌ Failed to disconnect edge:', error);
+          Logger.error('Failed to disconnect edge:', error);
         }
       })();
     }, 
@@ -935,11 +936,11 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     async (connection: Connection) => {
       try {
         if (!connection.source || !connection.target) {
-          console.warn('⚠️ Invalid connection - missing source or target');
+          Logger.warn('Invalid connection - missing source or target');
           return;
         }
 
-        console.log('🔗 Starting connection creation:', {
+        Logger.debug('Starting connection creation:', {
           source: connection.source,
           target: connection.target,
           sourceHandle: connection.sourceHandle,
@@ -948,7 +949,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
         // Multi-connect: if active, connect ALL selected nodes to this target pin
         if (isMultiConnectingRef.current && multiConnectSourcesRef.current.length > 0) {
-          console.log(`🔗 Multi-connect: connecting ${multiConnectSourcesRef.current.length} nodes to target`);
+          Logger.debug(`🔗 Multi-connect: connecting ${multiConnectSourcesRef.current.length} nodes to target`);
           
           const targetHandle = parseInt(connection.target);
           const pinIdx = connection.targetHandle 
@@ -960,20 +961,20 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
             const sourceHandle = parseInt(sourceNodeId);
             
             try {
-              console.log(`🔗 Multi-connecting ${sourceNodeId} → ${connection.target}[${pinIdx}]`);
+              Logger.debug(`🔗 Multi-connecting ${sourceNodeId} → ${connection.target}[${pinIdx}]`);
               
               // For input pins, we can only connect one at a time
               // So we'll create separate target pins or skip if target already connected
               // For now, just connect the first one successfully
               await client.connectPinByIndex(targetHandle, pinIdx, sourceHandle, true);
-              console.log(`✅ Multi-connect succeeded for ${sourceNodeId}`);
+              Logger.debug(`✅ Multi-connect succeeded for ${sourceNodeId}`);
               
               // Only connect first one to avoid overwriting same input pin
               // In real Octane, this might create multiple target nodes or handle differently
               break;
               
             } catch (error) {
-              console.error(`❌ Failed to multi-connect ${sourceNodeId}:`, error);
+              Logger.error(`❌ Failed to multi-connect ${sourceNodeId}:`, error);
             }
           }
           
@@ -993,7 +994,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         // Detect no-op: reconnecting to same source (duplicate connection)
         if (existingTargetEdge && existingTargetEdge.source === connection.source && 
             existingTargetEdge.sourceHandle === connection.sourceHandle) {
-          console.log('⏭️ No-op connection detected - already connected to same source, ignoring');
+          Logger.debug('⏭️ No-op connection detected - already connected to same source, ignoring');
           connectingEdgeRef.current = null;
           return;
         }
@@ -1003,12 +1004,12 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         const nodesToRemove: string[] = [];
         
         if (connectingEdgeRef.current) {
-          console.log('🔄 Removing old source connection:', connectingEdgeRef.current.id);
+          Logger.debug('🔄 Removing old source connection:', connectingEdgeRef.current.id);
           edgesToRemove.push(connectingEdgeRef.current.id);
         }
         
         if (existingTargetEdge && existingTargetEdge.id !== connectingEdgeRef.current?.id) {
-          console.log('🔄 Removing old target connection:', existingTargetEdge.id);
+          Logger.debug('🔄 Removing old target connection:', existingTargetEdge.id);
           edgesToRemove.push(existingTargetEdge.id);
           
           // COLLAPSED NODE CLEANUP: Check if old connection points to a collapsed (default value) node
@@ -1026,7 +1027,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
                                    oldSourceNode.name?.includes('color');
             
             if (isCollapsedNode) {
-              console.log('🗑️ Detected collapsed node to remove:', oldSourceNode.name, oldSourceHandle);
+              Logger.debug('Detected collapsed node to remove:', oldSourceNode.name, oldSourceHandle);
               nodesToRemove.push(existingTargetEdge.source);
             }
           }
@@ -1041,7 +1042,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
           ? parseInt(connection.targetHandle.split('-')[1]) 
           : 0;
 
-        console.log('📤 Calling ApiNode.connectToIx:', {
+        Logger.debug('📤 Calling ApiNode.connectToIx:', {
           targetHandle,
           pinIdx,
           sourceHandle,
@@ -1051,17 +1052,17 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         const outputItem = connectingEdgeRef.current ? client.lookupItem(targetHandle) : client.lookupItem(sourceHandle);
 
         if (!inputItem || !outputItem || !inputItem.children) {
-          console.error('❌ Input or Output item not found');
+          Logger.error('Input or Output item not found');
           return;
         }
         const child = inputItem.children[pinIdx];
 
         if (!child || !child.pinInfo) {
-          console.error('❌ Input item has no pin', pinIdx);
+          Logger.error('Input item has no pin', pinIdx);
           return;
         }
         if (child.pinInfo.type != outputItem.outType) {
-          console.error('❌ Input pin does not match output type', child.pinInfo.type, outputItem.outType);
+          Logger.error('Input pin does not match output type', child.pinInfo.type, outputItem.outType);
           return;
         }
 
@@ -1073,7 +1074,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
         // Connect pin in Octane
         await client.connectPinByIndex(targetHandle, pinIdx, sourceHandle, true);
-        console.log('✅ Pin connected in Octane');
+        Logger.debug('Pin connected in Octane');
 
         // Create edge ID matching the format used in scene tree building
         const edgeId = `e${sourceHandle}-${targetHandle}-${pinIdx}`;
@@ -1088,7 +1089,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
           // Check if edge already exists (shouldn't happen, but safety check)
           const edgeExists = filtered.find(e => e.id === edgeId);
           if (edgeExists) {
-            console.log('⚠️ Edge already exists, not adding duplicate:', edgeId);
+            Logger.debug('Edge already exists, not adding duplicate:', edgeId);
             return eds;
           }
           
@@ -1111,13 +1112,13 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
             },
           };
           
-          console.log('✅ Adding new edge to ReactFlow:', newEdge, 'with color:', edgeColor);
+          Logger.debug('Adding new edge to ReactFlow:', newEdge, 'with color:', edgeColor);
           return addEdge(newEdge, filtered);
         });
 
         // Remove collapsed nodes from scene and ReactFlow
         if (nodesToRemove.length > 0) {
-          console.log('🗑️ Removing', nodesToRemove.length, 'collapsed node(s)');
+          Logger.debug('Removing', nodesToRemove.length, 'collapsed node(s)');
           
           // Remove from ReactFlow nodes
           setNodes((nds) => nds.filter(n => !nodesToRemove.includes(n.id)));
@@ -1127,12 +1128,12 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
             const handleNum = parseInt(nodeId);
             const removedNode = client.lookupItem(handleNum);
             if (removedNode) {
-              console.log('  🗑️ Removed from scene.map:', removedNode.name, handleNum);
+              Logger.debug('  🗑️ Removed from scene.map:', removedNode.name, handleNum);
               client.removeFromScene(handleNum);
             }
           });
           
-          console.log('✅ Collapsed node cleanup complete');
+          Logger.debug('Collapsed node cleanup complete');
         }
 
         // Clear the connecting edge ref
@@ -1140,10 +1141,10 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
         // NO scene sync - connection only updates local UI state
         // Collapsed nodes removed locally, no full rebuild needed
-        console.log('✅ Connection complete!');
+        Logger.debug('Connection complete!');
         
       } catch (error) {
-        console.error('❌ Failed to create connection:', error);
+        Logger.error('Failed to create connection:', error);
         
         // If API call failed, don't add edge to state
         connectingEdgeRef.current = null;
@@ -1161,13 +1162,13 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     (connection: Edge | Connection) => {
       // Basic validation
       if (!connection.source || !connection.target) {
-        console.warn('⚠️ Invalid connection: Missing source or target');
+        Logger.warn('Invalid connection: Missing source or target');
         return false;
       }
       
       // Prevent self-connections
       if (connection.source === connection.target) {
-        console.warn('⚠️ Invalid connection: Self-connection not allowed');
+        Logger.warn('Invalid connection: Self-connection not allowed');
         return false;
       }
       
@@ -1182,7 +1183,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) => {
       // DEBUG: Log edge changes
-      console.log('📝 EDGE CHANGES:', changes);
+      Logger.debug('📝 EDGE CHANGES:', changes);
       // Apply changes using the base handler from useEdgesState
       onEdgesChangeBase(changes);
     },
@@ -1208,11 +1209,11 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
             onNodeSelect?.(null);
           },
           onComplete: () => {
-            console.log('✅ Delete operation completed via ReactFlow');
+            Logger.debug('Delete operation completed via ReactFlow');
           }
         });
       } catch (error) {
-        console.error('Failed to delete nodes:', error);
+        Logger.error('Failed to delete nodes:', error);
       }
     },
     [client, onNodeSelect]
@@ -1225,7 +1226,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     (_event: React.MouseEvent, node: Node<OctaneNodeData>) => {
       const sceneNode = node.data.sceneNode;
       onNodeSelect?.(sceneNode);
-      console.log('🎯 Node Graph: Selected node:', sceneNode.name);
+      Logger.debug('Node Graph: Selected node:', sceneNode.name);
     },
     [onNodeSelect]
   );
@@ -1235,7 +1236,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
    */
   const onEdgeClick = useCallback(
     (_event: React.MouseEvent, edge: Edge) => {
-      console.log('🔗 Edge clicked:', edge.id);
+      Logger.debug('Edge clicked:', edge.id);
       // Edge selection is handled automatically by ReactFlow
     },
     []
@@ -1250,7 +1251,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
    */
   const onEdgesDelete = useCallback(
     async (deletedEdges: Edge[]) => {
-      console.log(`✂️ Deleted ${deletedEdges.length} edge(s) from graph (visual only)`);
+      Logger.debug(`✂️ Deleted ${deletedEdges.length} edge(s) from graph (visual only)`);
       // TODO: When backend connection sync is implemented, add API calls here
       // For each edge: await client.callApi('ApiNode', 'connectToIx', targetHandle, {
       //   pinIdx,
@@ -1268,7 +1269,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   // Handle right-click on empty pane (add node menu)
   // Using ReactFlow v12's official onPaneContextMenu prop
   const handlePaneContextMenu = useCallback((event: React.MouseEvent | MouseEvent) => {
-    console.log('🖱️ [NodeGraphEditor] Pane context menu triggered', {
+    Logger.debug('🖱️ [NodeGraphEditor] Pane context menu triggered', {
       position: { x: event.clientX, y: event.clientY },
     });
     event.preventDefault();
@@ -1280,7 +1281,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
 
   // Handle right-click on a node (node actions menu)
   const handleNodeContextMenu = useCallback((event: React.MouseEvent, nodeId: string) => {
-    console.log('🖱️ [NodeGraphEditor] handleNodeContextMenu fired!', {
+    Logger.debug('🖱️ [NodeGraphEditor] handleNodeContextMenu fired!', {
       nodeId,
       position: { x: event.clientX, y: event.clientY }
     });
@@ -1299,7 +1300,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     const sceneNode = sceneTree.find((item) => String(item.handle) === nodeId);
     if (sceneNode && onNodeSelect) {
       onNodeSelect(sceneNode);
-      console.log('✅ Node selected app-wide:', sceneNode.name);
+      Logger.debug('Node selected app-wide:', sceneNode.name);
     }
     
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
@@ -1311,20 +1312,20 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   const handleSelectNodeType = useCallback(async (nodeType: string) => {
     const nodeTypeId = NodeType[nodeType];
     if (nodeTypeId === undefined) {
-      console.error('❌ Unknown node type:', nodeType);
+      Logger.error('Unknown node type:', nodeType);
       return;
     }
 
     try {
       const createdHandle = await client.createNode(nodeType, nodeTypeId);
       if (createdHandle) {
-        console.log('✅ Node created successfully:', createdHandle);
+        Logger.debug('Node created successfully:', createdHandle);
         // Note: createNode() already performs optimized scene tree update
       } else {
-        console.error('❌ Failed to create node');
+        Logger.error('Failed to create node');
       }
     } catch (error) {
-      console.error('❌ Error creating node:', error);
+      Logger.error('Error creating node:', error);
     }
   }, [client]);
 
@@ -1341,7 +1342,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   const handleCut = useCallback(async () => {
     const selectedNodes = nodes.filter((n) => n.selected);
     if (selectedNodes.length === 0) {
-      console.warn('⚠️ No nodes selected for cut');
+      Logger.warn('No nodes selected for cut');
       return;
     }
     
@@ -1357,7 +1358,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         onNodeSelect?.(null);
       },
       onComplete: () => {
-        console.log('✅ Cut operation completed from NodeGraph');
+        Logger.debug('Cut operation completed from NodeGraph');
       }
     });
   }, [nodes, client, setNodes, onNodeSelect]);
@@ -1365,7 +1366,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   const handleCopy = useCallback(async () => {
     const selectedNodes = nodes.filter((n) => n.selected);
     if (selectedNodes.length === 0) {
-      console.warn('⚠️ No nodes selected for copy');
+      Logger.warn('No nodes selected for copy');
       return;
     }
     
@@ -1380,14 +1381,14 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   }, [nodes, client]);
 
   const handlePaste = useCallback(async () => {
-    console.log('📋 Paste at position:', contextMenuPosition);
+    Logger.debug('Paste at position:', contextMenuPosition);
     
     // Use unified EditCommands
     await EditCommands.pasteNodes({
       client,
       selectedNodes: [], // Not relevant for paste
       onComplete: () => {
-        console.log('✅ Paste operation completed from NodeGraph');
+        Logger.debug('Paste operation completed from NodeGraph');
       }
     });
   }, [client, contextMenuPosition]);
@@ -1395,7 +1396,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   const handleCollapseItems = useCallback(async () => {
     const selectedNodes = nodes.filter((n) => n.selected);
     if (selectedNodes.length === 0) {
-      console.warn('⚠️ No nodes selected for collapse');
+      Logger.warn('No nodes selected for collapse');
       return;
     }
     
@@ -1407,7 +1408,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       client,
       selectedNodes: sceneNodes,
       onComplete: () => {
-        console.log('✅ Collapse operation completed from NodeGraph');
+        Logger.debug('Collapse operation completed from NodeGraph');
       }
     });
   }, [nodes, client]);
@@ -1415,7 +1416,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   const handleExpandItems = useCallback(async () => {
     const selectedNodes = nodes.filter((n) => n.selected);
     if (selectedNodes.length === 0) {
-      console.warn('⚠️ No nodes selected for expand');
+      Logger.warn('No nodes selected for expand');
       return;
     }
     
@@ -1427,13 +1428,13 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       client,
       selectedNodes: sceneNodes,
       onComplete: () => {
-        console.log('✅ Expand operation completed from NodeGraph');
+        Logger.debug('Expand operation completed from NodeGraph');
       }
     });
   }, [nodes, client]);
 
   const handleShowInLuaBrowser = useCallback(() => {
-    console.log('🔍 Show in Lua API browser - Node ID:', contextMenuNodeId);
+    Logger.debug('🔍 Show in Lua API browser - Node ID:', contextMenuNodeId);
     // TODO: Implement Lua API browser integration
     // Requires: LUA API documentation viewer/browser component
     alert('Lua API browser integration coming soon!');
@@ -1443,7 +1444,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     const selectedNodes = nodes.filter((n) => n.selected);
     
     if (selectedNodes.length === 0) {
-      console.warn('⚠️ No nodes selected for deletion');
+      Logger.warn('No nodes selected for deletion');
       return;
     }
 
@@ -1461,21 +1462,21 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
         onNodeSelect?.(null);
       },
       onComplete: () => {
-        console.log('✅ Delete operation completed from NodeGraph');
+        Logger.debug('Delete operation completed from NodeGraph');
       }
     });
   }, [nodes, client, setNodes, onNodeSelect]);
 
   const handleSaveAsMacro = useCallback(() => {
     const selectedNodes = nodes.filter((n) => n.selected);
-    console.log('💾 Save as Macro - Selected nodes:', selectedNodes.length);
+    Logger.debug('💾 Save as Macro - Selected nodes:', selectedNodes.length);
     // TODO: Implement save to LocalDB
     // Requires: apilocaldb.proto API integration
     alert('Save as Macro feature requires LocalDB API integration\n(apilocaldb.proto)\n\nComing soon!');
   }, [nodes]);
 
   const handleRenderNode = useCallback(() => {
-    console.log('🎬 Render Node - Node ID:', contextMenuNodeId);
+    Logger.debug('🎬 Render Node - Node ID:', contextMenuNodeId);
     // TODO: Implement render target switching
     // Requires: API to set render target to specific node
     alert('Render Node feature requires render target switching API\n\nComing soon!');
@@ -1485,7 +1486,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
     const selectedNodes = nodes.filter((n) => n.selected);
     
     if (selectedNodes.length < 2) {
-      console.warn('⚠️ Need at least 2 nodes selected to create a group');
+      Logger.warn('Need at least 2 nodes selected to create a group');
       return;
     }
     
@@ -1497,7 +1498,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       client,
       selectedNodes: sceneNodes,
       onComplete: () => {
-        console.log('✅ Group operation completed from NodeGraph');
+        Logger.debug('Group operation completed from NodeGraph');
       }
     });
   }, [nodes, client]);
@@ -1526,7 +1527,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
   }, [editActions, handleCut, handleCopy, handlePaste, handleDeleteSelected, handleGroupItems]);
 
   const handleShowInOutliner = useCallback(() => {
-    console.log('🔍 Show in Outliner - Node ID:', contextMenuNodeId);
+    Logger.debug('🔍 Show in Outliner - Node ID:', contextMenuNodeId);
     
     // Find the node and its corresponding scene node
     const reactFlowNode = nodes.find((n) => n.id === contextMenuNodeId);
@@ -1535,7 +1536,7 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
       const sceneNode = sceneTree.find((item) => String(item.handle) === reactFlowNode.id);
       if (sceneNode && onNodeSelect) {
         onNodeSelect(sceneNode);
-        console.log('✅ Node selected in outliner:', sceneNode.name);
+        Logger.debug('Node selected in outliner:', sceneNode.name);
       }
     }
   }, [contextMenuNodeId, nodes, sceneTree, onNodeSelect]);

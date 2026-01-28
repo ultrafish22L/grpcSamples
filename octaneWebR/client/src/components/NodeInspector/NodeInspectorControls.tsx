@@ -4,6 +4,7 @@
  * Port of octaneWeb/js/components/NodeInspectorControls.js
  */
 
+import { Logger } from '../../utils/Logger';
 import { useState, useCallback } from 'react';
 import { SceneNode } from '../../services/OctaneClient';
 import { getNodeInspectorIcon } from '../../constants/UIIconMapping';
@@ -62,7 +63,7 @@ export function NodeInspectorControls({
    * Jump to specific node type
    */
   const jumpToNode = useCallback((buttonId: string, nodeType: string) => {
-    console.log(`🎯 Jumping to ${nodeType} node`);
+    Logger.debug(`🎯 Jumping to ${nodeType} node`);
     
     // Update active button state
     setActiveButton(buttonId);
@@ -118,20 +119,20 @@ export function NodeInspectorControls({
     }
 
     if (targetNode) {
-      console.log(`✅ Found ${nodeType} node:`, targetNode.name);
+      Logger.debug(`✅ Found ${nodeType} node:`, targetNode.name);
       onNodeSelect(targetNode);
     } else {
-      console.warn(`⚠️ Could not find ${nodeType} node in scene tree`);
+      Logger.warn(`⚠️ Could not find ${nodeType} node in scene tree`);
     }
   }, [sceneTree, onNodeSelect, findNodeByType, findNodeByName]);
 
   const handleExpandAll = useCallback(() => {
-    console.log('📂 Expanding all nodes');
+    Logger.debug('📂 Expanding all nodes');
     if (onExpandAll) onExpandAll();
   }, [onExpandAll]);
 
   const handleCollapseAll = useCallback(() => {
-    console.log('📁 Collapsing all nodes');
+    Logger.debug('📁 Collapsing all nodes');
     if (onCollapseAll) onCollapseAll();
   }, [onCollapseAll]);
 

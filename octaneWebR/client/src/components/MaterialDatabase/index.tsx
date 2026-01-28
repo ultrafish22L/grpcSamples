@@ -9,6 +9,7 @@
  * - gRPC API: ApiDBMaterialManager (getCategories, getMaterials, downloadMaterial)
  */
 
+import { Logger } from '../../utils/Logger';
 import { useState, useEffect } from 'react';
 import { useOctane } from '../../hooks/useOctane';
 
@@ -47,7 +48,7 @@ export function MaterialDatabase({ visible, onClose }: MaterialDatabaseProps) {
       setError(null);
 
       try {
-        console.log(`🗂️ Loading ${activeTab === 'livedb' ? 'LiveDB' : 'LocalDB'} categories...`);
+        Logger.debug(`🗂️ Loading ${activeTab === 'livedb' ? 'LiveDB' : 'LocalDB'} categories...`);
         
         // Call gRPC API to get categories
         const response = await client.callApi('ApiDBMaterialManager', 'getCategories', {
@@ -56,13 +57,13 @@ export function MaterialDatabase({ visible, onClose }: MaterialDatabaseProps) {
 
         if (response && response.categories) {
           setCategories(response.categories);
-          console.log(`✅ Loaded ${response.categories.length} categories`);
+          Logger.debug(`✅ Loaded ${response.categories.length} categories`);
         } else {
           setCategories([]);
-          console.warn('⚠️ No categories returned from API');
+          Logger.warn('⚠️ No categories returned from API');
         }
       } catch (err: any) {
-        console.error('❌ Failed to load categories:', err);
+        Logger.error('❌ Failed to load categories:', err);
         setError(`Failed to load categories: ${err.message}`);
         setCategories([]);
       } finally {
@@ -82,7 +83,7 @@ export function MaterialDatabase({ visible, onClose }: MaterialDatabaseProps) {
       setError(null);
 
       try {
-        console.log(`📦 Loading materials for category ${selectedCategory}...`);
+        Logger.debug(`📦 Loading materials for category ${selectedCategory}...`);
         
         const response = await client.callApi('ApiDBMaterialManager', 'getMaterials', {
           categoryId: selectedCategory,
@@ -91,13 +92,13 @@ export function MaterialDatabase({ visible, onClose }: MaterialDatabaseProps) {
 
         if (response && response.materials) {
           setMaterials(response.materials);
-          console.log(`✅ Loaded ${response.materials.length} materials`);
+          Logger.debug(`✅ Loaded ${response.materials.length} materials`);
         } else {
           setMaterials([]);
-          console.warn('⚠️ No materials returned from API');
+          Logger.warn('⚠️ No materials returned from API');
         }
       } catch (err: any) {
-        console.error('❌ Failed to load materials:', err);
+        Logger.error('❌ Failed to load materials:', err);
         setError(`Failed to load materials: ${err.message}`);
         setMaterials([]);
       } finally {
@@ -110,23 +111,23 @@ export function MaterialDatabase({ visible, onClose }: MaterialDatabaseProps) {
 
   const handleDownloadMaterial = async (materialId: number, materialName: string) => {
     if (!connected) {
-      console.warn('⚠️ Cannot download material: not connected');
+      Logger.warn('⚠️ Cannot download material: not connected');
       return;
     }
 
     try {
-      console.log(`⬇️ Downloading material: ${materialName} (ID: ${materialId})`);
+      Logger.debug(`⬇️ Downloading material: ${materialName} (ID: ${materialId})`);
       
       await client.callApi('ApiDBMaterialManager', 'downloadMaterial', {
         materialId,
         dbType: activeTab === 'livedb' ? 0 : 1
       });
 
-      console.log(`✅ Material downloaded: ${materialName}`);
+      Logger.debug(`✅ Material downloaded: ${materialName}`);
       
       // TODO: Show success notification
     } catch (err: any) {
-      console.error(`❌ Failed to download material ${materialName}:`, err);
+      Logger.error(`❌ Failed to download material ${materialName}:`, err);
       setError(`Failed to download material: ${err.message}`);
     }
   };

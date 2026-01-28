@@ -3,6 +3,7 @@
  * Handles render operations, modes, regions, and statistics
  */
 
+import { Logger } from '../../utils/Logger';
 import { BaseService } from './BaseService';
 import { ApiService } from './ApiService';
 import { RenderState, RenderRegion } from './types';
@@ -72,7 +73,7 @@ export class RenderService extends BaseService {
       const response = await this.apiService.callApi('ApiRenderEngine', 'getRenderStatistics', 0, {});
       return response?.statistics || null;
     } catch (error: any) {
-      console.error('❌ Failed to get render statistics:', error.message);
+      Logger.error('❌ Failed to get render statistics:', error.message);
       return null;
     }
   }
@@ -87,7 +88,7 @@ export class RenderService extends BaseService {
         featherWidth: response?.featherWidth ?? 0
       };
     } catch (error: any) {
-      console.error('❌ Failed to get render region:', error.message);
+      Logger.error('❌ Failed to get render region:', error.message);
       return {
         active: false,
         regionMin: { x: 0, y: 0 },
@@ -110,9 +111,9 @@ export class RenderService extends BaseService {
         regionMax,
         featherWidth
       });
-      console.log(`✅ Render region ${active ? 'enabled' : 'disabled'}:`, { regionMin, regionMax, featherWidth });
+      Logger.debug(`✅ Render region ${active ? 'enabled' : 'disabled'}:`, { regionMin, regionMax, featherWidth });
     } catch (error: any) {
-      console.error('❌ Failed to set render region:', error.message);
+      Logger.error('❌ Failed to set render region:', error.message);
       throw error;
     }
   }
@@ -122,7 +123,7 @@ export class RenderService extends BaseService {
       // Get render target
       const renderTargetResponse = await this.apiService.callApi('ApiRenderEngine', 'getRenderTargetNode', {});
       if (!renderTargetResponse?.result?.handle) {
-        console.warn('⚠️ No render target found');
+        Logger.warn('⚠️ No render target found');
         return null;
       }
       
@@ -134,13 +135,13 @@ export class RenderService extends BaseService {
       
       // Handle "0" means no connection, treat as null
       if (!handle || handle === "0" || handle === 0) {
-        console.warn('⚠️ No Film Settings node connected to render target');
+        Logger.warn('⚠️ No Film Settings node connected to render target');
         return null;
       }
       
       return handle;
     } catch (error: any) {
-      console.error('❌ Failed to get Film Settings node:', error.message);
+      Logger.error('❌ Failed to get Film Settings node:', error.message);
       return null;
     }
   }
@@ -159,7 +160,7 @@ export class RenderService extends BaseService {
       });
       return valueResponse?.bool_value ?? false;
     } catch (error: any) {
-      console.error('❌ Failed to get viewport resolution lock:', error.message);
+      Logger.error('❌ Failed to get viewport resolution lock:', error.message);
       return false;
     }
   }
@@ -177,7 +178,7 @@ export class RenderService extends BaseService {
         bool_value: locked
       });
     } catch (error: any) {
-      console.error('❌ Failed to set viewport resolution lock:', error.message);
+      Logger.error('❌ Failed to set viewport resolution lock:', error.message);
       throw error;
     }
   }

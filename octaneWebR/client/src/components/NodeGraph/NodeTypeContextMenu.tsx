@@ -4,6 +4,7 @@
  * Matches octaneWeb's NodeGraphEditor.js showContextMenu() functionality
  */
 
+import { Logger } from '../../utils/Logger';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { getCategoriesInOrder, getNodeTypesForCategory, OCTANE_NODE_TYPES, getNodeIconPath } from '../../constants/NodeTypes';
@@ -217,10 +218,10 @@ export function NodeTypeContextMenu({
         >
           All items
         </div>
-        <div className="context-menu-item" onClick={() => console.log('Find type')}>
+        <div className="context-menu-item" onClick={() => Logger.debug('Find type')}>
           Find type...
         </div>
-        <div className="context-menu-item" onClick={() => console.log('Import')}>
+        <div className="context-menu-item" onClick={() => Logger.debug('Import')}>
           Import...
         </div>
         <div className="context-menu-item disabled">

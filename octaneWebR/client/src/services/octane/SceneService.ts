@@ -3,6 +3,7 @@
  * Handles building and maintaining the scene hierarchy
  */
 
+import { Logger } from '../../utils/Logger';
 import { BaseService } from './BaseService';
 import { ApiService } from './ApiService';
 import { Scene, SceneNode } from './types';
@@ -26,7 +27,7 @@ export class SceneService extends BaseService {
   async buildSceneTree(newNodeHandle?: number): Promise<SceneNode[]> {
     // Optimized update: if a specific node handle is provided, only build node metadata
     if (newNodeHandle !== undefined) {
-      console.log('➕ Building new node metadata:', newNodeHandle);
+      Logger.debug('➕ Building new node metadata:', newNodeHandle);
       
       try {
         const tempArray: SceneNode[] = [];
@@ -38,22 +39,22 @@ export class SceneService extends BaseService {
         );
         
         if (newNode) {
-          console.log(`🔄 Building children for new node: ${newNode.name}`);
+          Logger.debug(`🔄 Building children for new node: ${newNode.name}`);
           await this.addItemChildren(newNode);
-          console.log('✅ Node metadata built:', newNode.name);
+          Logger.debug('✅ Node metadata built:', newNode.name);
         } else {
-          console.error('❌ Failed to create new scene node');
+          Logger.error('❌ Failed to create new scene node');
         }
         
         return this.scene.tree;
       } catch (error: any) {
-        console.error('❌ Failed to build new node metadata:', error.message);
+        Logger.error('❌ Failed to build new node metadata:', error.message);
         throw error;
       }
     }
     
     // Full rebuild
-    console.log('🌳 Building scene tree...');
+    Logger.debug('🌳 Building scene tree...');
     
     this.scene = {
       tree: [],
@@ -62,33 +63,33 @@ export class SceneService extends BaseService {
     };
     
     try {
-      console.log('🔍 Step 1: Getting root node graph...');
+      Logger.debug('🔍 Step 1: Getting root node graph...');
       const rootResponse = await this.apiService.callApi('ApiProjectManager', 'rootNodeGraph', {});
       if (!rootResponse || !rootResponse.result || !rootResponse.result.handle) {
         throw new Error('Failed to get root node graph');
       }
       
       const rootHandle = rootResponse.result.handle;
-      console.log('📍 Root handle:', rootHandle);
+      Logger.debug('📍 Root handle:', rootHandle);
       
-      console.log('🔍 Step 2: Checking if root is graph...');
+      Logger.debug('🔍 Step 2: Checking if root is graph...');
       const isGraphResponse = await this.apiService.callApi('ApiItem', 'isGraph', rootHandle);
       const isGraph = isGraphResponse?.result || false;
-      console.log('📍 Is graph:', isGraph);
+      Logger.debug('📍 Is graph:', isGraph);
       
-      console.log('🔍 Step 3: Building tree recursively...');
+      Logger.debug('🔍 Step 3: Building tree recursively...');
       this.scene.tree = await this.syncSceneRecurse(rootHandle, null, isGraph, 0);
       
-      console.log('✅ Scene tree built:', this.scene.tree.length, 'top-level items');
-      console.log('✅ Scene map has', this.scene.map.size, 'items');
-      console.log('🔍 Step 4: Emitting sceneTreeUpdated event...');
+      Logger.debug('✅ Scene tree built:', this.scene.tree.length, 'top-level items');
+      Logger.debug('✅ Scene map has', this.scene.map.size, 'items');
+      Logger.debug('🔍 Step 4: Emitting sceneTreeUpdated event...');
       this.emit('sceneTreeUpdated', this.scene);
-      console.log('✅ SceneTreeUpdated event emitted');
+      Logger.debug('✅ SceneTreeUpdated event emitted');
       
       return this.scene.tree;
     } catch (error: any) {
-      console.error('❌ Failed to build scene tree:', error.message);
-      console.error('❌ Error stack:', error.stack);
+      Logger.error('❌ Failed to build scene tree:', error.message);
+      Logger.error('❌ Error stack:', error.stack);
       throw error;
     }
   }
@@ -143,7 +144,7 @@ export class SceneService extends BaseService {
     level = level + 1;
     
     if (level > 5) {
-      console.warn(`⚠️ Recursion depth limit reached at level ${level}`);
+      Logger.warn(`⚠️ Recursion depth limit reached at level ${level}`);
       return sceneItems;
     }
     
@@ -169,7 +170,7 @@ export class SceneService extends BaseService {
         const sizeResponse = await this.apiService.callApi('ApiItemArray', 'size', ownedItemsHandle);
         const size = sizeResponse?.result || 0;
         
-        console.log(`📦 Level ${level}: Found ${size} owned items`);
+        Logger.debug(`📦 Level ${level}: Found ${size} owned items`);
         
         for (let i = 0; i < size; i++) {
           const itemResponse = await this.apiService.callApi('ApiItemArray', 'get', ownedItemsHandle, { index: i });
@@ -179,23 +180,23 @@ export class SceneService extends BaseService {
         }
         
         if (level === 1) {
-          console.log(`🔄 Building children for ${sceneItems.length} level 1 items`);
+          Logger.debug(`🔄 Building children for ${sceneItems.length} level 1 items`);
           for (const item of sceneItems) {
-            console.log(`📍 Before addItemChildren for ${item.name} (handle: ${item.handle})`);
+            Logger.debug(`📍 Before addItemChildren for ${item.name} (handle: ${item.handle})`);
             await this.addItemChildren(item);
-            console.log(`📍 After addItemChildren for ${item.name}, children count: ${item.children?.length || 0}`);
+            Logger.debug(`📍 After addItemChildren for ${item.name}, children count: ${item.children?.length || 0}`);
             await new Promise(resolve => setTimeout(resolve, 50));
           }
-          console.log(`✅ Finished building children for all level 1 items`);
+          Logger.debug(`✅ Finished building children for all level 1 items`);
         }
       } else if (itemHandle != 0) {
-        console.log(`📌 Level ${level}: Processing node pins for handle ${itemHandle}`);
+        Logger.debug(`📌 Level ${level}: Processing node pins for handle ${itemHandle}`);
         
         try {
           const pinCountResponse = await this.apiService.callApi('ApiNode', 'pinCount', itemHandle);
           const pinCount = pinCountResponse?.result || 0;
           
-          console.log(`  Found ${pinCount} pins`);
+          Logger.debug(`  Found ${pinCount} pins`);
           
           for (let i = 0; i < pinCount; i++) {
             try {
@@ -229,16 +230,16 @@ export class SceneService extends BaseService {
                 }
               }
             } catch (pinError: any) {
-              console.warn(`  ⚠️ Failed to load pin ${i}:`, pinError.message);
+              Logger.warn(`  ⚠️ Failed to load pin ${i}:`, pinError.message);
             }
           }
         } catch (pinCountError: any) {
-          console.error(`  ❌ Failed to get pin count:`, pinCountError.message);
+          Logger.error(`  ❌ Failed to get pin count:`, pinCountError.message);
         }
       }
       
     } catch (error: any) {
-      console.error('❌ syncSceneRecurse failed:', error.message);
+      Logger.error('❌ syncSceneRecurse failed:', error.message);
     }
     
     return sceneItems;
@@ -275,7 +276,7 @@ export class SceneService extends BaseService {
         const outTypeResponse = await this.apiService.callApi('ApiItem', 'outType', item.handle);
         outType = outTypeResponse?.result || '';
         
-        console.log(`  🔍 API returned outType: "${outType}" (type: ${typeof outType}) for ${itemName}`);
+        Logger.debug(`  🔍 API returned outType: "${outType}" (type: ${typeof outType}) for ${itemName}`);
         
         const isGraphResponse = await this.apiService.callApi('ApiItem', 'isGraph', item.handle);
         isGraph = isGraphResponse?.result || false;
@@ -289,10 +290,10 @@ export class SceneService extends BaseService {
                 x: posResponse.result.x || 0,
                 y: posResponse.result.y || 0
               };
-              console.log(`  📍 Position for ${itemName}: (${position.x}, ${position.y})`);
+              Logger.debug(`  📍 Position for ${itemName}: (${position.x}, ${position.y})`);
             }
           } catch (posError: any) {
-            console.warn(`  ⚠️ Failed to get position for ${itemName}:`, posError.message);
+            Logger.warn(`  ⚠️ Failed to get position for ${itemName}:`, posError.message);
           }
         }
         
@@ -305,10 +306,10 @@ export class SceneService extends BaseService {
         }
         
       } catch (error: any) {
-        console.error('❌ addSceneItem failed to fetch item data:', error.message);
+        Logger.error('❌ addSceneItem failed to fetch item data:', error.message);
       }
     } else {
-      console.log(`  ⚪ Unconnected pin: ${itemName}`);
+      Logger.debug(`  ⚪ Unconnected pin: ${itemName}`);
     }
     
     const displayName = pinInfo?.staticLabel || itemName;
@@ -335,7 +336,7 @@ export class SceneService extends BaseService {
     if (item != null && item.handle != 0) {
       const handleNum = Number(item.handle);
       this.scene.map.set(handleNum, entry);
-      console.log(`  📄 Added item: ${itemName} (type: "${outType}", icon: ${icon}, level: ${level})`);
+      Logger.debug(`  📄 Added item: ${itemName} (type: "${outType}", icon: ${icon}, level: ${level})`);
       
       if (level > 1) {
         await this.addItemChildren(entry);
@@ -367,17 +368,17 @@ export class SceneService extends BaseService {
           
           if (attrInfoResponse?.result && attrInfoResponse.result.type != "AT_UNKNOWN") {
             item.attrInfo = attrInfoResponse.result;
-            console.log(`  📊 End node: ${item.name} (${attrInfoResponse.result.type})`);
+            Logger.debug(`  📊 End node: ${item.name} (${attrInfoResponse.result.type})`);
           }
         } catch (attrError: any) {
-          console.log(`  ℹ️ No attrInfo for ${item.name}`);
+          Logger.debug(`  ℹ️ No attrInfo for ${item.name}`);
         }
       } else {
-        console.log(`  👶 Added ${children.length} children to ${item.name}`);
+        Logger.debug(`  👶 Added ${children.length} children to ${item.name}`);
       }
       
     } catch (error: any) {
-      console.error('❌ addItemChildren failed:', error.message);
+      Logger.error('❌ addItemChildren failed:', error.message);
     }
   }
 

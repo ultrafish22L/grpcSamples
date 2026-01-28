@@ -4,6 +4,7 @@
  * Matches Octane SE: Script > Batch Rendering...
  */
 
+import { Logger } from '../../utils/Logger';
 import React, { useState } from 'react';
 
 interface BatchRenderingDialogProps {
@@ -45,11 +46,11 @@ function BatchRenderingDialog({ isOpen, onClose }: BatchRenderingDialogProps) {
 
   const handleSelectOutputFolder = () => {
     // TODO: Implement file dialog for folder selection
-    console.log('Select output folder dialog');
+    Logger.debug('Select output folder dialog');
   };
 
   const handleStartRender = () => {
-    console.log('Starting batch render with settings:', {
+    Logger.debug('Starting batch render with settings:', {
       format: selectedFormat,
       frameRange: [startFrame, endFrame],
       filenameTemplate,

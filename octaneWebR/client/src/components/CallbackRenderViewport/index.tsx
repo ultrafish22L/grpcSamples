@@ -11,6 +11,7 @@
 import React, { useEffect, useRef, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { useOctane } from '../../hooks/useOctane';
 import { ViewportContextMenu } from './ViewportContextMenu';
+import Logger from '../../utils/Logger';
 
 interface OctaneImageData {
   type: number | string;  // Can be numeric (0, 1) or string enum ("IMAGE_TYPE_LDR_RGBA", etc.)
@@ -115,7 +116,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
     try {
       await client.callApi('ApiChangeManager', 'update', {});
     } catch (error: any) {
-      console.error('❌ Failed to trigger render:', error.message);
+      Logger.error('Failed to trigger render:', error.message);
     }
   }, [client]);
 
@@ -129,19 +130,17 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
       const response = await client.getCamera();
       
       if (!response || !response.position || !response.target) {
-        console.warn('⚠️  No camera data from Octane, using defaults');
+        Logger.debug('No camera data from Octane, using defaults');
         return;
       }
 
       const position = response.position;
       const target = response.target;
       
-      console.log('📷 Camera from Octane:', { position, target });
+      Logger.debug('Camera from Octane:', { position, target });
       
-      // Update target (center point)
       cameraRef.current.center = [target.x, target.y, target.z];
       
-      // Calculate spherical coordinates from cartesian position
       const dx = position.x - target.x;
       const dy = position.y - target.y;
       const dz = position.z - target.z;
@@ -150,10 +149,9 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
       cameraRef.current.theta = Math.atan2(dz, dx);
       cameraRef.current.phi = Math.asin(dy / cameraRef.current.radius);
       
-      console.log('✅ Camera initialized:', cameraRef.current);
+      Logger.debug('Camera initialized:', cameraRef.current);
     } catch (error: any) {
-      console.warn('⚠️  Failed to initialize camera from Octane:', error.message);
-      console.warn('   Using default camera settings');
+      Logger.warn('Failed to initialize camera from Octane:', error.message);
     }
   }, [client]);
 
@@ -164,14 +162,13 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
   const copyToClipboard = useCallback(async () => {
     const canvas = canvasRef.current;
     if (!canvas) {
-      console.warn('⚠️  Cannot copy to clipboard: canvas not available');
+      Logger.warn('Cannot copy to clipboard: canvas not available');
       return;
     }
 
     try {
-      console.log('📋 Copying render to clipboard...');
+      Logger.debug('Copying render to clipboard...');
       
-      // Convert canvas to blob
       const blob = await new Promise<Blob | null>((resolve) => {
         canvas.toBlob(resolve, 'image/png');
       });
@@ -180,16 +177,15 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
         throw new Error('Failed to convert canvas to blob');
       }
 
-      // Copy to clipboard using Clipboard API
       await navigator.clipboard.write([
         new ClipboardItem({
           'image/png': blob
         })
       ]);
 
-      console.log('✅ Render copied to clipboard');
+      Logger.info('Render copied to clipboard');
     } catch (error: any) {
-      console.error('❌ Failed to copy to clipboard:', error.message);
+      Logger.error('Failed to copy to clipboard:', error.message);
       throw error;
     }
   }, []);
@@ -201,14 +197,13 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
   const saveRenderToDisk = useCallback(async () => {
     const canvas = canvasRef.current;
     if (!canvas) {
-      console.warn('⚠️  Cannot save render: canvas not available');
+      Logger.warn('Cannot save render: canvas not available');
       return;
     }
 
     try {
-      console.log('💾 Saving render to disk...');
+      Logger.debug('Saving render to disk...');
       
-      // Convert canvas to blob
       const blob = await new Promise<Blob | null>((resolve) => {
         canvas.toBlob(resolve, 'image/png');
       });
@@ -217,37 +212,31 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
         throw new Error('Failed to convert canvas to blob');
       }
 
-      // Create download link
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       
-      // Generate filename with timestamp
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
       link.download = `octane-render-${timestamp}.png`;
       link.href = url;
       
-      // Trigger download
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       
-      // Clean up
       URL.revokeObjectURL(url);
 
-      console.log('✅ Render saved to disk');
+      Logger.info('Render saved to disk');
     } catch (error: any) {
-      console.error('❌ Failed to save render:', error.message);
+      Logger.error('Failed to save render:', error.message);
       throw error;
     }
   }, []);
 
   /**
    * Recenter View - Resets 2D canvas pan/zoom to default centered view
-   * Octane SE Manual: "Centers the render view display area in the Render Viewport.
-   * This re-centers the render view display area without affecting the current zoom level."
    */
   const recenterView = useCallback(() => {
-    console.log('⌖ Recenter view - resetting 2D canvas transform');
+    Logger.debug('Recenter view - resetting 2D canvas transform');
     setCanvasTransform({ scale: 1.0, offsetX: 0, offsetY: 0 });
   }, []);
 
@@ -262,7 +251,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
     try {
       await copyToClipboard();
     } catch (error) {
-      console.error('Context menu: Copy failed', error);
+      Logger.error('Context menu: Copy failed', error);
     }
   }, [copyToClipboard]);
 
@@ -270,7 +259,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
     try {
       await saveRenderToDisk();
     } catch (error) {
-      console.error('Context menu: Save failed', error);
+      Logger.error('Context menu: Save failed', error);
     }
   }, [saveRenderToDisk]);
 
@@ -278,7 +267,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
     if (onExportPasses) {
       onExportPasses();
     } else {
-      console.warn('Export Passes handler not provided');
+      Logger.debug('Export Passes handler not provided');
     }
   }, [onExportPasses]);
 
@@ -286,7 +275,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
     if (onSetBackgroundImage) {
       onSetBackgroundImage();
     } else {
-      console.warn('Set Background Image handler not provided');
+      Logger.debug('Set Background Image handler not provided');
     }
   }, [onSetBackgroundImage]);
 
@@ -294,7 +283,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
     if (onToggleLockViewport) {
       onToggleLockViewport();
     } else {
-      console.warn('Toggle Lock Viewport handler not provided');
+      Logger.debug('Toggle Lock Viewport handler not provided');
     }
   }, [onToggleLockViewport]);
 
@@ -333,7 +322,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
       // Trigger render update
       await triggerOctaneUpdate();
     } catch (error: any) {
-      console.error('❌ Failed to update camera:', error.message);
+      Logger.error('Failed to update camera:', error.message);
     }
   }, [connected, client, triggerOctaneUpdate]);
 
@@ -390,14 +379,14 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
     try {
       const canvas = canvasRef.current;
       if (!canvas) {
-        console.error('❌ [displayCallbackImage] Canvas ref is null');
+        Logger.debug('[displayCallbackImage] Canvas ref is null');
         return;
       }
 
       setFrameCount(prev => prev + 1);
 
       if (!imageData.buffer || !imageData.buffer.data) {
-        console.error('❌ [displayCallbackImage] No image buffer in callback data');
+        Logger.debug('[displayCallbackImage] No image buffer in callback data');
         return;
       }
 
@@ -416,7 +405,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
 
       const ctx = canvas.getContext('2d');
       if (!ctx) {
-        console.error('❌ [displayCallbackImage] Failed to get 2d context');
+        Logger.debug('[displayCallbackImage] Failed to get 2d context');
         return;
       }
 
@@ -437,11 +426,11 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
             bytes[i] = binaryString.charCodeAt(i);
           }
         } catch (error: any) {
-          console.error('❌ [displayCallbackImage] Base64 decode error:', error?.message || error?.toString() || JSON.stringify(error));
+          Logger.debug('[displayCallbackImage] Base64 decode error:', error?.message || error?.toString() || JSON.stringify(error));
           return;
         }
       } else {
-        console.error('❌ [displayCallbackImage] Unknown buffer format:', typeof bufferData, bufferData);
+        Logger.debug('[displayCallbackImage] Unknown buffer format:', typeof bufferData, bufferData);
         return;
       }
 
@@ -457,7 +446,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
         `${imageData.tonemappedSamplesPerPixel.toFixed(1)} spp`
       );
     } catch (error: any) {
-      console.error('❌ [displayCallbackImage] Error displaying callback image:', error);
+      Logger.debug('[displayCallbackImage] Error displaying callback image:', error);
     }
   }, []);
 
@@ -483,7 +472,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
     } else if (isHDR) {
       convertHDRRGBA(buffer, width, height, imageData.pitch, canvasImageData);
     } else {
-      console.warn(`Unsupported image type: ${imageType}, defaulting to LDR RGBA`);
+      Logger.debug(`Unsupported image type: ${imageType}, defaulting to LDR RGBA`);
       convertLDRRGBA(buffer, width, height, imageData.pitch, canvasImageData);
     }
   };
@@ -624,9 +613,9 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
         setIsRendering(true);
         setStatus('Waiting for render...');
         
-        console.log('✅ Render viewport initialized');
+        Logger.debug('Render viewport initialized');
       } catch (error: any) {
-        console.error('❌ Failed to initialize rendering:', error);
+        Logger.error('Failed to initialize rendering:', error);
         setStatus(`Error: ${error.message}`);
       }
     };
@@ -646,7 +635,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
       if (data.render_images && data.render_images.data && data.render_images.data.length > 0) {
         displayCallbackImage(data.render_images.data[0]);
       } else {
-        console.warn('⚠️  [CallbackViewport] No valid image data in callback');
+        Logger.debug('[CallbackViewport] No valid image data in callback');
       }
     };
 
@@ -792,7 +781,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
         const clampedMaxX = Math.max(0, Math.min(1, maxX));
         const clampedMaxY = Math.max(0, Math.min(1, maxY));
         
-        console.log('🎯 Render region selected:', {
+        Logger.debug(' Render region selected:', {
           minX: clampedMinX.toFixed(3),
           minY: clampedMinY.toFixed(3),
           maxX: clampedMaxX.toFixed(3),
@@ -811,9 +800,9 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
           // Trigger render update to show the region
           await triggerOctaneUpdate();
           
-          console.log('✅ Render region applied to Octane');
+          Logger.debug(' Render region applied to Octane');
         } catch (error: any) {
-          console.error('❌ Failed to set render region:', error.message);
+          Logger.error('Failed to set render region:', error.message);
         }
         
         // Clear region selection (visual overlay will be removed)
@@ -828,14 +817,14 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
         const canvasX = Math.floor((lastMousePosRef.current.x - rect.left) / rect.width * canvas.width);
         const canvasY = Math.floor((lastMousePosRef.current.y - rect.top) / rect.height * canvas.height);
 
-        console.log(`🎯 ${pickingMode} picker activated at (${canvasX}, ${canvasY})`);
+        Logger.debug(`${pickingMode} picker activated at (${canvasX}, ${canvasY})`);
 
         try {
           if (pickingMode === 'whiteBalance') {
             // White Balance Picker - Calculate white point from picked location
             const whitePoint = await client.pickWhitePoint(canvasX, canvasY);
             if (whitePoint) {
-              console.log('✅ White balance picked:', { r: whitePoint.x, g: whitePoint.y, b: whitePoint.z });
+              Logger.debug(' White balance picked:', { r: whitePoint.x, g: whitePoint.y, b: whitePoint.z });
               // TODO: Apply white point to camera/renderer settings
               // Would need to set this on the camera imager node or post-processing
             }
@@ -849,12 +838,12 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
                 const x = position.x ?? position[0] ?? 0;
                 const y = position.y ?? position[1] ?? 0;
                 const z = position.z ?? position[2] ?? 0;
-                console.log(`🎯 Camera target set to: [${x.toFixed(3)}, ${y.toFixed(3)}, ${z.toFixed(3)}]`);
+                Logger.debug(`Camera target set to: [${x.toFixed(3)}, ${y.toFixed(3)}, ${z.toFixed(3)}]`);
                 cameraRef.current.center = [x, y, z];
                 await updateOctaneCamera();
               }
             } else {
-              console.log('🎯 Camera target pick: No intersection found');
+              Logger.debug(' Camera target pick: No intersection found');
             }
           } else if (pickingMode === 'focus') {
             // Auto Focus Picker - Set camera focus distance to picked depth
@@ -863,12 +852,12 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
               const firstHit = intersections[0];
               const depth = firstHit.depth;
               if (depth !== undefined) {
-                console.log(`🎯 Focus distance set to: ${depth.toFixed(3)}`);
+                Logger.debug(`Focus distance set to: ${depth.toFixed(3)}`);
                 // TODO: Set camera focus distance in Octane
                 // Would need to update the camera node's focus distance parameter
               }
             } else {
-              console.log('🎯 Focus pick: No intersection found');
+              Logger.debug(' Focus pick: No intersection found');
             }
           } else if (pickingMode === 'material') {
             // Material Picker - Select and inspect material at picked location
@@ -878,7 +867,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
               const geometryNode = firstHit.node;
               const materialPinIndex = firstHit.materialPinIx ?? firstHit.materialPinIndex;
               
-              console.log('🎨 Material pick:', {
+              Logger.debug(' Material pick:', {
                 geometryNode: geometryNode?.handle,
                 materialPinIndex,
                 depth: firstHit.depth
@@ -893,7 +882,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
                   
                   if (materialResponse?.result?.handle) {
                     const materialHandle = materialResponse.result.handle;
-                    console.log(`✅ Material found: handle=${materialHandle}`);
+                    Logger.debug(`Material found: handle=${materialHandle}`);
                     
                     // Emit event to select material in Node Inspector
                     client.emit('nodeSelected', { handle: materialHandle });
@@ -901,14 +890,14 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
                     // Highlight in Scene Outliner (optional)
                     client.emit('highlightNode', { handle: materialHandle });
                   } else {
-                    console.log('⚠️ No material connected to this geometry');
+                    Logger.debug(' No material connected to this geometry');
                   }
                 } catch (err: any) {
-                  console.error('❌ Failed to get material node:', err.message);
+                  Logger.error('Failed to get material node:', err.message);
                 }
               }
             } else {
-              console.log('🎨 Material pick: No intersection found');
+              Logger.debug(' Material pick: No intersection found');
             }
           } else if (pickingMode === 'object') {
             // Object Picker - Select and inspect object (geometry node) at picked location
@@ -917,7 +906,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
               const firstHit = intersections[0];
               const geometryNode = firstHit.node;
               
-              console.log('📦 Object pick:', {
+              Logger.debug(' Object pick:', {
                 node: geometryNode?.handle,
                 depth: firstHit.depth,
                 primitiveType: firstHit.primitiveType
@@ -925,7 +914,7 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
               
               if (geometryNode?.handle !== undefined) {
                 const objectHandle = geometryNode.handle;
-                console.log(`✅ Object found: handle=${objectHandle}`);
+                Logger.debug(`Object found: handle=${objectHandle}`);
                 
                 // Emit event to select object in Node Inspector
                 client.emit('nodeSelected', { handle: objectHandle });
@@ -937,11 +926,11 @@ export const CallbackRenderViewport = React.memo(forwardRef<CallbackRenderViewpo
                 client.emit('selectNodeInGraph', { handle: objectHandle });
               }
             } else {
-              console.log('📦 Object pick: No intersection found');
+              Logger.debug(' Object pick: No intersection found');
             }
           }
         } catch (error: any) {
-          console.error(`❌ Picking failed (${pickingMode}):`, error.message);
+          Logger.error(`Picking failed (${pickingMode}):`, error.message);
         }
         return;
       }

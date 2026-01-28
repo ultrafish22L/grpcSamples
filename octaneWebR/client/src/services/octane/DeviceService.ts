@@ -3,6 +3,7 @@
  * Handles device count, names, memory usage, and resource statistics
  */
 
+import { Logger } from '../../utils/Logger';
 import { BaseService } from './BaseService';
 import { ApiService } from './ApiService';
 
@@ -19,7 +20,7 @@ export class DeviceService extends BaseService {
       const response = await this.apiService.callApi('ApiRenderEngine', 'getDeviceCount', {});
       return response?.result ?? 0;
     } catch (error: any) {
-      console.error('❌ Failed to get device count:', error.message);
+      Logger.error('❌ Failed to get device count:', error.message);
       return 0;
     }
   }
@@ -29,7 +30,7 @@ export class DeviceService extends BaseService {
       const response = await this.apiService.callApi('ApiRenderEngine', 'getDeviceName', null, { deviceIndex });
       return response?.result ?? 'Unknown Device';
     } catch (error: any) {
-      console.error(`❌ Failed to get device name for device ${deviceIndex}:`, error.message);
+      Logger.error(`❌ Failed to get device name for device ${deviceIndex}:`, error.message);
       return 'Unknown Device';
     }
   }
@@ -45,7 +46,7 @@ export class DeviceService extends BaseService {
       const response = await this.apiService.callApi('ApiRenderEngine', 'getMemoryUsage', null, { deviceIndex });
       return response?.result ?? null;
     } catch (error: any) {
-      console.error(`❌ Failed to get memory usage for device ${deviceIndex}:`, error.message);
+      Logger.error(`❌ Failed to get memory usage for device ${deviceIndex}:`, error.message);
       return null;
     }
   }
@@ -63,7 +64,7 @@ export class DeviceService extends BaseService {
       const response = await this.apiService.callApi('ApiRenderEngine', 'getResourceStatistics', null, { deviceIndex });
       return response?.result ?? null;
     } catch (error: any) {
-      console.error(`❌ Failed to get resource statistics for device ${deviceIndex}:`, error.message);
+      Logger.error(`❌ Failed to get resource statistics for device ${deviceIndex}:`, error.message);
       return null;
     }
   }
@@ -84,7 +85,7 @@ export class DeviceService extends BaseService {
       const response = await this.apiService.callApi('ApiRenderEngine', 'getGeometryStatistics', null, { deviceIndex });
       return response?.result ?? null;
     } catch (error: any) {
-      console.error(`❌ Failed to get geometry statistics for device ${deviceIndex}:`, error.message);
+      Logger.error(`❌ Failed to get geometry statistics for device ${deviceIndex}:`, error.message);
       return null;
     }
   }
@@ -100,7 +101,7 @@ export class DeviceService extends BaseService {
       const response = await this.apiService.callApi('ApiRenderEngine', 'getTexturesStatistics', null, { deviceIndex });
       return response?.result ?? null;
     } catch (error: any) {
-      console.error(`❌ Failed to get textures statistics for device ${deviceIndex}:`, error.message);
+      Logger.error(`❌ Failed to get textures statistics for device ${deviceIndex}:`, error.message);
       return null;
     }
   }
@@ -110,7 +111,7 @@ export class DeviceService extends BaseService {
       const response = await this.apiService.callApi('ApiInfo', 'octaneVersion', {});
       return response?.result ?? 'Unknown';
     } catch (error: any) {
-      console.error('❌ Failed to get Octane version:', error.message);
+      Logger.error('❌ Failed to get Octane version:', error.message);
       return 'Unknown';
     }
   }

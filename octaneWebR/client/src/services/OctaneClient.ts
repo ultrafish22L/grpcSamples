@@ -4,6 +4,7 @@
  * Refactored to use modular service architecture
  */
 
+import { Logger } from '../utils/Logger';
 import { EventEmitter } from '../utils/EventEmitter';
 import {
   ApiService,
@@ -60,7 +61,7 @@ export class OctaneClient extends EventEmitter {
   constructor(serverUrl?: string) {
     super();
     this.serverUrl = serverUrl || window.location.origin;
-    console.log('🎬 OctaneClient initialized:', this.serverUrl);
+    Logger.debug('🎬 OctaneClient initialized:', this.serverUrl);
     
     // Initialize services
     this.apiService = new ApiService(this, this.serverUrl);

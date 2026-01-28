@@ -5,6 +5,7 @@
  * Renders images that are pieced together to form turntable animation
  */
 
+import { Logger } from '../../utils/Logger';
 import { useState, useEffect } from 'react';
 
 interface TurntableAnimationDialogProps {
@@ -44,11 +45,11 @@ export function TurntableAnimationDialog({ isOpen, onClose }: TurntableAnimation
 
   const handleSelectOutputPath = () => {
     // TODO: Implement folder selection dialog
-    console.log('Select output folder dialog');
+    Logger.debug('Select output folder dialog');
   };
 
   const handleStartAnimation = () => {
-    console.log('Starting turntable animation with settings:', {
+    Logger.debug('Starting turntable animation with settings:', {
       duration,
       frameRate,
       frames,

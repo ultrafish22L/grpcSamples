@@ -4,6 +4,7 @@
  * Located below the render viewport, above the node graph editor
  */
 
+import { Logger } from '../../utils/Logger';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useOctane } from '../../hooks/useOctane';
 import { GPUStatisticsDialog } from '../dialogs/GPUStatisticsDialog';
@@ -124,9 +125,9 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
           memory: totalMemory
         }));
         
-        console.log('🖥️ GPU data loaded:', { gpu: gpuName, version, memory: totalMemory });
+        Logger.debug('🖥️ GPU data loaded:', { gpu: gpuName, version, memory: totalMemory });
       } catch (error: any) {
-        console.error('❌ Failed to fetch GPU data:', error.message);
+        Logger.error('❌ Failed to fetch GPU data:', error.message);
       }
     };
 
@@ -142,20 +143,20 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
         // Initialize clay mode
         const clayModeValue = await client.getClayMode();
         setState(prev => ({ ...prev, clayMode: clayModeValue !== 0 }));
-        console.log('🎨 Clay mode initialized:', clayModeValue === 0 ? 'OFF' : 'ON');
+        Logger.debug('🎨 Clay mode initialized:', clayModeValue === 0 ? 'OFF' : 'ON');
 
         // Initialize sub-sampling mode
         const subSampleValue = await client.getSubSampleMode();
         const subSamplingMode = subSampleValue === 2 ? '2x2' : subSampleValue === 4 ? '4x4' : 'none';
         setState(prev => ({ ...prev, subSampling: subSamplingMode }));
-        console.log('📐 Sub-sampling initialized:', subSamplingMode.toUpperCase());
+        Logger.debug('📐 Sub-sampling initialized:', subSamplingMode.toUpperCase());
 
         // Initialize viewport resolution lock
         const resolutionLock = await client.getViewportResolutionLock();
         setState(prev => ({ ...prev, viewportResolutionLock: resolutionLock }));
-        console.log('🔒 Viewport resolution lock initialized:', resolutionLock ? 'ON' : 'OFF');
+        Logger.debug('🔒 Viewport resolution lock initialized:', resolutionLock ? 'ON' : 'OFF');
       } catch (err) {
-        console.error('❌ Failed to initialize render settings:', err);
+        Logger.error('❌ Failed to initialize render settings:', err);
       }
     };
 
@@ -171,7 +172,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
         const response = await fetch('http://localhost:45769/api/system/info');
         if (response.ok) {
           const systemInfo = await response.json();
-          console.log('📊 System info received:', systemInfo);
+          Logger.debug('📊 System info received:', systemInfo);
 
           // Update render stats with system info
           setRenderStats(prev => ({
@@ -186,7 +187,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
           }));
         }
       } catch (error) {
-        console.error('Failed to fetch system info:', error);
+        Logger.error('Failed to fetch system info:', error);
       }
     };
 
@@ -282,7 +283,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
           }));
         }
       } catch (error) {
-        console.error('Failed to process render statistics:', error);
+        Logger.error('Failed to process render statistics:', error);
       }
     };
 
@@ -331,7 +332,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
   // ========================================
 
   const applyRenderPriority = useCallback(async (priority: 'low' | 'normal' | 'high') => {
-    console.log(`⚙️ Setting render priority: ${priority.toUpperCase()}`);
+    Logger.debug(`⚙️ Setting render priority: ${priority.toUpperCase()}`);
     
     try {
       // Map priority to API values (assuming 0=low, 1=normal, 2=high based on common conventions)
@@ -339,9 +340,9 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
       
       await client.callApi('ApiRenderEngine', 'setRenderPriority', { priority: priorityValue });
       setState(prev => ({ ...prev, renderPriority: priority, showRenderPriorityMenu: false }));
-      console.log(`✅ Render priority set to ${priority.toUpperCase()}`);
+      Logger.debug(`✅ Render priority set to ${priority.toUpperCase()}`);
     } catch (err) {
-      console.error(`❌ Failed to set render priority to ${priority}:`, err);
+      Logger.error(`❌ Failed to set render priority to ${priority}:`, err);
     }
   }, [client]);
 
@@ -350,7 +351,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
   // ========================================
 
   const applyCameraPreset = useCallback(async (presetName: string) => {
-    console.log(`📷 Applying camera preset: ${presetName}`);
+    Logger.debug(`📷 Applying camera preset: ${presetName}`);
     
     const distance = 10; // Distance from origin for camera position
     const target = { x: 0, y: 0, z: 0 }; // Look at origin
@@ -377,7 +378,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
         position = { x: 0, y: -distance, z: 0 };
         break;
       default:
-        console.warn(`Unknown camera preset: ${presetName}`);
+        Logger.warn(`Unknown camera preset: ${presetName}`);
         return;
     }
     
@@ -386,10 +387,10 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
         position.x, position.y, position.z,
         target.x, target.y, target.z
       );
-      console.log(`✅ Camera preset "${presetName}" applied successfully`);
+      Logger.debug(`✅ Camera preset "${presetName}" applied successfully`);
       setState(prev => ({ ...prev, showCameraPresetsMenu: false })); // Close menu after selection
     } catch (err) {
-      console.error(`❌ Failed to apply camera preset "${presetName}":`, err);
+      Logger.error(`❌ Failed to apply camera preset "${presetName}":`, err);
     }
   }, [client]);
 
@@ -398,73 +399,73 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
   // ========================================
 
   const handleToolbarAction = useCallback((actionId: string) => {
-    console.log(`🔧 RenderToolbar action: ${actionId}`);
+    Logger.debug(`🔧 RenderToolbar action: ${actionId}`);
 
     switch (actionId) {
       // Camera & View Controls
       case 'recenter-view':
-        console.log('⌖ Recenter view - resetting 2D canvas transform');
+        Logger.debug('⌖ Recenter view - resetting 2D canvas transform');
         onRecenterView?.();
         break;
       case 'reset-camera':
-        console.log('📷 Reset camera to original position');
+        Logger.debug('📷 Reset camera to original position');
         client.resetCamera().then(() => {
-          console.log('✅ Camera reset successful');
+          Logger.debug('✅ Camera reset successful');
         }).catch(err => {
-          console.error('❌ Failed to reset camera:', err);
+          Logger.error('❌ Failed to reset camera:', err);
         });
         break;
       case 'camera-presets':
         setState(prev => ({ ...prev, showCameraPresetsMenu: !prev.showCameraPresetsMenu }));
-        console.log('📸 Camera presets menu:', !state.showCameraPresetsMenu ? 'OPEN' : 'CLOSED');
+        Logger.debug('📸 Camera presets menu:', !state.showCameraPresetsMenu ? 'OPEN' : 'CLOSED');
         break;
 
       // Render Controls
       case 'stop-render':
-        console.log('🛑 Stop render');
+        Logger.debug('🛑 Stop render');
         client.stopRender().then(() => {
           setRenderStats(prev => ({ ...prev, status: 'stopped' }));
         }).catch(err => {
-          console.error('❌ Failed to stop render:', err);
+          Logger.error('❌ Failed to stop render:', err);
         });
         break;
       case 'restart-render':
-        console.log('🔄 Restart render');
+        Logger.debug('🔄 Restart render');
         client.restartRender().then(() => {
           setRenderStats(prev => ({ ...prev, samples: 0, time: '00:00:00', status: 'rendering' }));
         }).catch(err => {
-          console.error('❌ Failed to restart render:', err);
+          Logger.error('❌ Failed to restart render:', err);
         });
         break;
       case 'pause-render':
-        console.log('⏸️ Pause render');
+        Logger.debug('⏸️ Pause render');
         client.pauseRender().then(() => {
           setRenderStats(prev => ({ ...prev, status: 'paused' }));
         }).catch(err => {
-          console.error('❌ Failed to pause render:', err);
+          Logger.error('❌ Failed to pause render:', err);
         });
         break;
       case 'start-render':
-        console.log('▶️ Start render');
+        Logger.debug('▶️ Start render');
         client.startRender().then(() => {
           setRenderStats(prev => ({ ...prev, status: 'rendering' }));
         }).catch(err => {
-          console.error('❌ Failed to start render:', err);
+          Logger.error('❌ Failed to start render:', err);
         });
         break;
       case 'real-time-render':
         const newRealTimeMode = !state.realTimeMode;
         setState(prev => ({ ...prev, realTimeMode: newRealTimeMode }));
-        console.log(`⚡ Real-time mode: ${newRealTimeMode ? 'ON' : 'OFF'}`);
+        Logger.debug(`⚡ Real-time mode: ${newRealTimeMode ? 'ON' : 'OFF'}`);
         // Real-time mode uses high priority for interactive experience
         // Set render priority: high for real-time, normal for standard
         const rtPriority = newRealTimeMode ? 2 : 1; // 0=low, 1=normal, 2=high
         client.callApi('ApiRenderEngine', 'setRenderPriority', { priority: rtPriority }).then(() => {
           const priorityName = newRealTimeMode ? 'HIGH' : 'NORMAL';
-          console.log(`✅ Real-time mode ${newRealTimeMode ? 'enabled' : 'disabled'} - priority set to ${priorityName}`);
+          Logger.debug(`✅ Real-time mode ${newRealTimeMode ? 'enabled' : 'disabled'} - priority set to ${priorityName}`);
           setState(prev => ({ ...prev, renderPriority: newRealTimeMode ? 'high' : 'normal' }));
         }).catch(err => {
-          console.error('❌ Failed to set real-time rendering priority:', err);
+          Logger.error('❌ Failed to set real-time rendering priority:', err);
           setState(prev => ({ ...prev, realTimeMode: state.realTimeMode })); // Revert on error
         });
         break;
@@ -498,12 +499,12 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
       case 'clay-mode':
         const newClayMode = !state.clayMode;
         setState(prev => ({ ...prev, clayMode: newClayMode }));
-        console.log(`🎨 Clay mode: ${newClayMode ? 'ON' : 'OFF'}`);
+        Logger.debug(`🎨 Clay mode: ${newClayMode ? 'ON' : 'OFF'}`);
         // CLAY_MODE_NONE = 0, CLAY_MODE_GREY = 1
         client.setClayMode(newClayMode ? 1 : 0).then(() => {
-          console.log('✅ Clay mode updated in Octane');
+          Logger.debug('✅ Clay mode updated in Octane');
         }).catch(err => {
-          console.error('❌ Failed to set clay mode:', err);
+          Logger.error('❌ Failed to set clay mode:', err);
           // Revert UI state on error
           setState(prev => ({ ...prev, clayMode: !newClayMode }));
         });
@@ -511,66 +512,66 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
       case 'subsample-2x2':
         const new2x2Mode = state.subSampling === '2x2' ? 'none' : '2x2';
         setState(prev => ({ ...prev, subSampling: new2x2Mode }));
-        console.log(`📐 Sub-sampling 2x2: ${new2x2Mode === '2x2' ? 'ON' : 'OFF'}`);
+        Logger.debug(`📐 Sub-sampling 2x2: ${new2x2Mode === '2x2' ? 'ON' : 'OFF'}`);
         // SUBSAMPLEMODE_NONE = 1, SUBSAMPLEMODE_2X2 = 2
         client.setSubSampleMode(new2x2Mode === '2x2' ? 2 : 1).then(() => {
-          console.log('✅ Sub-sampling mode updated in Octane');
+          Logger.debug('✅ Sub-sampling mode updated in Octane');
         }).catch(err => {
-          console.error('❌ Failed to set sub-sampling mode:', err);
+          Logger.error('❌ Failed to set sub-sampling mode:', err);
           setState(prev => ({ ...prev, subSampling: state.subSampling }));
         });
         break;
       case 'subsample-4x4':
         const new4x4Mode = state.subSampling === '4x4' ? 'none' : '4x4';
         setState(prev => ({ ...prev, subSampling: new4x4Mode }));
-        console.log(`📐 Sub-sampling 4x4: ${new4x4Mode === '4x4' ? 'ON' : 'OFF'}`);
+        Logger.debug(`📐 Sub-sampling 4x4: ${new4x4Mode === '4x4' ? 'ON' : 'OFF'}`);
         // SUBSAMPLEMODE_NONE = 1, SUBSAMPLEMODE_4X4 = 4
         client.setSubSampleMode(new4x4Mode === '4x4' ? 4 : 1).then(() => {
-          console.log('✅ Sub-sampling mode updated in Octane');
+          Logger.debug('✅ Sub-sampling mode updated in Octane');
         }).catch(err => {
-          console.error('❌ Failed to set sub-sampling mode:', err);
+          Logger.error('❌ Failed to set sub-sampling mode:', err);
           setState(prev => ({ ...prev, subSampling: state.subSampling }));
         });
         break;
       case 'decal-wireframe':
         setState(prev => ({ ...prev, decalWireframe: !prev.decalWireframe }));
-        console.log(`🟡 Decal wireframe: ${!state.decalWireframe ? 'ON' : 'OFF'} (UI only - no gRPC API available)`);
+        Logger.debug(`🟡 Decal wireframe: ${!state.decalWireframe ? 'ON' : 'OFF'} (UI only - no gRPC API available)`);
         // NOTE: No gRPC API method exists for this feature in apirender_pb2_grpc.py
         // Feature exists in Octane SE manual but not exposed through LiveLink API
         // UI state tracked for future implementation when API becomes available
         break;
       case 'render-priority':
         setState(prev => ({ ...prev, showRenderPriorityMenu: !prev.showRenderPriorityMenu }));
-        console.log('⚙️ Render priority menu:', !state.showRenderPriorityMenu ? 'OPEN' : 'CLOSED');
+        Logger.debug('⚙️ Render priority menu:', !state.showRenderPriorityMenu ? 'OPEN' : 'CLOSED');
         break;
 
       // Output Controls
       case 'copy-clipboard':
-        console.log('📋 Copy render to clipboard');
+        Logger.debug('📋 Copy render to clipboard');
         if (onCopyToClipboard) {
           onCopyToClipboard();
         } else {
-          console.warn('⚠️ onCopyToClipboard handler not provided');
+          Logger.warn('⚠️ onCopyToClipboard handler not provided');
         }
         break;
       case 'save-render':
-        console.log('💾 Save render to disk');
+        Logger.debug('💾 Save render to disk');
         if (onSaveRender) {
           onSaveRender();
         } else {
-          console.warn('⚠️ onSaveRender handler not provided');
+          Logger.warn('⚠️ onSaveRender handler not provided');
         }
         break;
       case 'export-passes':
-        console.log('📤 Export render passes');
+        Logger.debug('📤 Export render passes');
         if (onExportPasses) {
           onExportPasses();
         } else {
-          console.warn('⚠️ onExportPasses handler not provided');
+          Logger.warn('⚠️ onExportPasses handler not provided');
         }
         break;
       case 'background-image':
-        console.log('Set background image');
+        Logger.debug('Set background image');
         // TODO: Show file dialog for background image
         break;
 
@@ -578,11 +579,11 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
       case 'viewport-resolution-lock':
         const newResLockState = !state.viewportResolutionLock;
         setState(prev => ({ ...prev, viewportResolutionLock: newResLockState }));
-        console.log(`🔒 Viewport resolution lock: ${newResLockState ? 'ON' : 'OFF'}`);
+        Logger.debug(`🔒 Viewport resolution lock: ${newResLockState ? 'ON' : 'OFF'}`);
         client.setViewportResolutionLock(newResLockState).then(() => {
-          console.log('✅ Viewport resolution lock updated in Octane');
+          Logger.debug('✅ Viewport resolution lock updated in Octane');
         }).catch(err => {
-          console.error('❌ Failed to set viewport resolution lock:', err);
+          Logger.error('❌ Failed to set viewport resolution lock:', err);
           // Revert UI state on error
           setState(prev => ({ ...prev, viewportResolutionLock: !newResLockState }));
         });
@@ -590,7 +591,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
       case 'lock-viewport':
         const newLockState = !state.viewportLocked;
         setState(prev => ({ ...prev, viewportLocked: newLockState }));
-        console.log(`🔒 Viewport lock: ${newLockState ? 'ON' : 'OFF'}`);
+        Logger.debug(`🔒 Viewport lock: ${newLockState ? 'ON' : 'OFF'}`);
         if (onViewportLockChange) {
           onViewportLockChange(newLockState);
         }
@@ -602,7 +603,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
           ...prev,
           objectControlMode: prev.objectControlMode === 'world' ? 'local' : 'world'
         }));
-        console.log(`Object control alignment: ${state.objectControlMode === 'world' ? 'local' : 'world'}`);
+        Logger.debug(`Object control alignment: ${state.objectControlMode === 'world' ? 'local' : 'world'}`);
         // TODO: API call to set object control alignment
         break;
       case 'translate-gizmo':
@@ -616,12 +617,12 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
         break;
       case 'world-coordinate':
         setState(prev => ({ ...prev, worldCoordinateDisplay: !prev.worldCoordinateDisplay }));
-        console.log(`World coordinate display: ${!state.worldCoordinateDisplay ? 'ON' : 'OFF'}`);
+        Logger.debug(`World coordinate display: ${!state.worldCoordinateDisplay ? 'ON' : 'OFF'}`);
         onToggleWorldCoord?.();
         break;
 
       default:
-        console.warn(`Unknown toolbar action: ${actionId}`);
+        Logger.warn(`Unknown toolbar action: ${actionId}`);
     }
   }, [client, state.worldCoordinateDisplay, onRecenterView, onCopyToClipboard, onSaveRender, onExportPasses, onViewportLockChange, onPickingModeChange, onToggleWorldCoord]);
 
@@ -631,7 +632,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
       ...prev,
       currentPickingMode: newMode
     }));
-    console.log(`🎯 Picking mode: ${newMode}`);
+    Logger.debug(`🎯 Picking mode: ${newMode}`);
     
     // Notify parent component of picking mode change
     if (onPickingModeChange) {
@@ -644,7 +645,7 @@ export const RenderToolbar = React.memo(function RenderToolbar({ className = '',
       ...prev,
       activeGizmo: prev.activeGizmo === gizmo ? 'none' : gizmo
     }));
-    console.log(`Active gizmo: ${state.activeGizmo === gizmo ? 'none' : gizmo}`);
+    Logger.debug(`Active gizmo: ${state.activeGizmo === gizmo ? 'none' : gizmo}`);
     // TODO: API calls for gizmos
   };
 

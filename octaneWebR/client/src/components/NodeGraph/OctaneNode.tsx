@@ -3,6 +3,7 @@
  * Matches the visual style and behavior of octaneWeb's NodeGraphEditor
  */
 
+import { Logger } from '../../utils/Logger';
 import { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { SceneNode } from '../../services/OctaneClient';
@@ -145,7 +146,7 @@ export const OctaneNode = memo((props: OctaneNodeProps) => {
     if (onContextMenu) {
       event.preventDefault();
       event.stopPropagation();
-      console.log('🖱️ [OctaneNode] Context menu triggered for node:', id);
+      Logger.debug('🖱️ [OctaneNode] Context menu triggered for node:', id);
       onContextMenu(event, id);
     }
   };

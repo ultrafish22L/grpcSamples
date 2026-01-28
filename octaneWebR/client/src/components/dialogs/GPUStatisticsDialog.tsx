@@ -4,6 +4,7 @@
  * Invoked by right-clicking on render progress indicator or GPU quick information bar
  */
 
+import { Logger } from '../../utils/Logger';
 import React, { useState, useEffect } from 'react';
 import { useOctane } from '../../hooks/useOctane';
 
@@ -69,7 +70,7 @@ function GPUStatisticsDialog({ isOpen, onClose, position }: GPUStatisticsDialogP
         
         // Get device count
         const deviceCount = await client.getDeviceCount();
-        console.log(`📊 Found ${deviceCount} GPU device(s)`);
+        Logger.debug(`📊 Found ${deviceCount} GPU device(s)`);
         
         // Fetch statistics for each device
         const deviceStats: DeviceStatistics[] = [];
@@ -121,7 +122,7 @@ function GPUStatisticsDialog({ isOpen, onClose, position }: GPUStatisticsDialogP
         
         setDevices(deviceStats);
       } catch (error: any) {
-        console.error('❌ Failed to fetch GPU statistics:', error.message);
+        Logger.error('❌ Failed to fetch GPU statistics:', error.message);
       } finally {
         setLoading(false);
       }

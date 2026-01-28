@@ -3,6 +3,7 @@
  * Based on Octane SE Manual - The Render Viewport > Export Render Passes button
  */
 
+import { Logger } from '../../utils/Logger';
 import { useState, useEffect } from 'react';
 import { useOctane } from '../../hooks/useOctane';
 
@@ -50,21 +51,21 @@ export function ExportPassesDialog({ isOpen, onClose }: ExportPassesDialogProps)
     setErrorMessage('');
 
     try {
-      console.log(`📤 Exporting render passes to: ${outputDirectory}`);
-      console.log(`📄 Filename prefix: ${filenamePrefix}`);
-      console.log(`🖼️ Format: ${format}`);
+      Logger.debug(`📤 Exporting render passes to: ${outputDirectory}`);
+      Logger.debug(`📄 Filename prefix: ${filenamePrefix}`);
+      Logger.debug(`🖼️ Format: ${format}`);
       
       // Call Octane API to export all passes
       const success = await client.exportRenderPasses(outputDirectory, filenamePrefix, format);
       
       if (success) {
-        console.log('✅ Render passes exported successfully');
+        Logger.debug('✅ Render passes exported successfully');
         onClose();
       } else {
         setErrorMessage('Failed to export passes. Check console for details.');
       }
     } catch (error: any) {
-      console.error('❌ Error exporting passes:', error);
+      Logger.error('❌ Error exporting passes:', error);
       setErrorMessage(error.message || 'Unknown error occurred');
     } finally {
       setExporting(false);
