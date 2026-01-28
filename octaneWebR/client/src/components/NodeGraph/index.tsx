@@ -1694,6 +1694,8 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
               : '#666';
           }}
           style={{
+            width: 220,
+            height: 160,
             background: '#454545',
             border: '2px solid rgba(200, 180, 80, 0.8)',
             borderRadius: 4,
@@ -1705,8 +1707,6 @@ const NodeGraphEditorInner = React.memo(function NodeGraphEditorInner({
           pannable={true}
           zoomable={false}
           nodeStrokeWidth={3}
-          width={220}
-          height={160}
         />
       </ReactFlow>
       </div>
