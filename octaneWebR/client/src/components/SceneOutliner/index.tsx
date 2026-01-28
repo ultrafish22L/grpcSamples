@@ -754,7 +754,13 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
           onClick={handleExpandAll}
           disabled={loading || !connected || sceneTree.length === 0}
         >
-          ⊞
+          <img 
+            src="/icons/UNCOLLAPSE NODES window.png" 
+            alt="Expand all" 
+            width={16} 
+            height={16}
+            style={{ filter: loading || !connected || sceneTree.length === 0 ? 'opacity(0.4)' : 'none' }}
+          />
         </button>
         <button 
           className="outliner-btn" 
@@ -763,7 +769,13 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
           onClick={handleCollapseAll}
           disabled={loading || !connected || sceneTree.length === 0}
         >
-          ⊟
+          <img 
+            src="/icons/COLLAPSE NODES window.png" 
+            alt="Collapse all" 
+            width={16} 
+            height={16}
+            style={{ filter: loading || !connected || sceneTree.length === 0 ? 'opacity(0.4)' : 'none' }}
+          />
         </button>
         <button 
           className="outliner-btn refresh-tree-btn" 
@@ -772,7 +784,16 @@ export const SceneOutliner = React.memo(function SceneOutliner({ selectedNode, o
           onClick={loadSceneTree}
           disabled={loading || !connected}
         >
-          {loading ? '⟳' : '🔄'}
+          <img 
+            src="/icons/RELOAD general.png" 
+            alt="Refresh" 
+            width={16} 
+            height={16}
+            style={{ 
+              filter: loading || !connected ? 'opacity(0.4)' : 'none',
+              animation: loading ? 'spin 1s linear infinite' : 'none'
+            }}
+          />
         </button>
       </div>
       
