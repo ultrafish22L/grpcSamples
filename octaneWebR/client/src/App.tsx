@@ -416,9 +416,18 @@ function AppContent() {
                 <h3>Node graph editor</h3>
               </div>
               
-              {/* Node Graph Toolbar & Tabs Row */}
-              <div className="node-graph-toolbar-tabs-row">
-                {/* Node Graph Toolbar - Figure 10 vertical buttons, now horizontal at top */}
+              {/* Node Graph Tabs */}
+              <div className="node-graph-tabs">
+                <button 
+                  className="node-graph-tab active" 
+                  title="Scene node graph"
+                >
+                  Scene
+                </button>
+              </div>
+              
+              <div className="node-graph-container">
+                {/* Node Graph Toolbar - Figure 10 vertical buttons, docked left */}
                 <NodeGraphToolbar
                   gridVisible={gridVisible}
                   setGridVisible={setGridVisible}
@@ -426,19 +435,6 @@ function AppContent() {
                   setSnapToGrid={setSnapToGrid}
                   onRecenterView={recenterViewCallback || undefined}
                 />
-                
-                {/* Node Graph Tabs */}
-                <div className="node-graph-tabs">
-                  <button 
-                    className="node-graph-tab active" 
-                    title="Scene node graph"
-                  >
-                    Scene
-                  </button>
-                </div>
-              </div>
-              
-              <div className="node-graph-container">
                 <NodeGraphEditor 
                   sceneTree={sceneTree} 
                   selectedNode={selectedNode}
