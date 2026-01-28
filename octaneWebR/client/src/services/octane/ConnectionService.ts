@@ -117,11 +117,11 @@ export class ConnectionService extends BaseService {
       };
       
       this.ws.onclose = () => {
-        Logger.network('WebSocket disconnected');
+        Logger.debug('WebSocket disconnected');
         // Attempt reconnection after configured delay
         setTimeout(() => {
           if (this.connected) {
-            Logger.network('Reconnecting WebSocket...');
+            Logger.debug('Reconnecting WebSocket...');
             this.connectWebSocket();
           }
         }, RECONNECT_DELAY_MS);

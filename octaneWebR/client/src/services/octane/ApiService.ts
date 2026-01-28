@@ -101,7 +101,7 @@ export class ApiService extends BaseService {
    */
   async checkServerHealth(): Promise<boolean> {
     const healthUrl = `${this.serverUrl}/api/health`;
-    Logger.network('Fetching health check:', healthUrl);
+    Logger.debug('Fetching health check:', healthUrl);
     
     try {
       const healthResponse = await fetch(healthUrl, {
@@ -118,7 +118,7 @@ export class ApiService extends BaseService {
       }
       
       const healthData = await healthResponse.json();
-      Logger.success('Server health check passed:', healthData);
+      Logger.debug('Server health check passed:', healthData);
       return true;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
